@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/tv_card_elevation"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:foreground="@drawable/selector_vod"
+    android:stateListAnimator="@animator/tv_hero_focus">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/ibox_surface_variant"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/Vod.Grid.Large" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/site"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/image"
+        android:layout_alignTop="@id/image"
+        android:layout_margin="8dp"
+        android:background="@drawable/shape_vod_site"
+        android:ellipsize="end"
+        android:maxWidth="148dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:singleLine="true"
+        android:textColor="@color/ibox_player_text_primary"
+        android:textSize="@dimen/ibox_text_supporting"
+        android:visibility="gone"
+        tools:text="豆瓣热播"
+        tools:visibility="visible" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/remark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/image"
+        android:layout_above="@id/name"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_vod_remark"
+        android:ellipsize="end"
+        android:maxWidth="160dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:singleLine="true"
+        android:textColor="@color/ibox_player_text_primary"
+        android:textSize="@dimen/ibox_text_supporting"
+        tools:text="8.6" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        style="@style/Widget.IBox.PosterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_vod_name_height"
+        android:layout_alignStart="@id/image"
+        android:layout_alignEnd="@id/image"
+        android:layout_alignBottom="@id/image"
+        android:background="@drawable/bg_home_vod_name"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        tools:text="消失的人" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignStart="@id/image"
+        android:layout_alignEnd="@id/image"
+        android:layout_alignBottom="@id/image"
+        android:max="100"
+        android:progressBackgroundTint="@color/ibox_glass_outline"
+        android:progressTint="?attr/colorPrimary"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/selector_download_row"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="116dp"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/poster"
+        android:layout_width="56dp"
+        android:layout_height="84dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.IBox.DownloadPoster" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Section"
+            tools:text="庆余年第二季" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/episode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Body"
+            tools:text="第 12 集" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting"
+            tools:text="线路：高清线路" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_weight="1"
+                android:max="100"
+                app:indicatorColor="?attr/colorPrimary"
+                app:trackColor="@color/ibox_surface_variant" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/progressText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="80dp"
+                android:textAlignment="viewEnd"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting"
+                tools:text="42% · 128 MB" />
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/ibox_text_supporting"
+            tools:text="下载中" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pause"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/download_pause"
+            app:icon="@drawable/ic_msr_pause"
+            app:iconTint="@color/ibox_text_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/resume"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/download_resume"
+            android:visibility="gone"
+            app:icon="@drawable/ic_msr_play_arrow"
+            app:iconTint="@color/ibox_text_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retry"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/download_retry"
+            android:visibility="gone"
+            app:icon="@drawable/ic_msr_restart_alt"
+            app:iconTint="@color/ibox_text_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/play"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/download_play"
+            android:visibility="gone"
+            app:icon="@drawable/ic_msr_play_arrow"
+            app:iconTint="?attr/colorPrimary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:contentDescription="@string/download_delete"
+            app:icon="@drawable/ic_msr_delete"
+            app:iconTint="@color/ibox_error" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

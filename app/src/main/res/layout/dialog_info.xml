@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.imedia.box.ui.custom.MaxHeightNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    app:maxHeight="560dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/ibox_dialog_content_padding">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/diagnostics_title"
+            android:textAppearance="@style/TextAppearance.IBox.DialogTitle"
+            android:textColor="?attr/colorOnSurface" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mediaTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Body"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/ibox_text_body" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
+            android:fontFamily="monospace"
+            android:lineSpacingExtra="4dp"
+            android:textColor="?attr/colorOnSurface"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/ibox_text_supporting" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/eventsGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnostics_events"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/ibox_text_body"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="2dp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/ibox_text_supporting" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/urlGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnostics_address"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/ibox_text_body"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="middle"
+                android:maxLines="3"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/ibox_text_supporting" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/share"
+                style="@style/Widget.IBox.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:text="@string/diagnostics_share" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/copy"
+                style="@style/Widget.IBox.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_marginStart="4dp"
+                android:text="@string/diagnostics_copy" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</com.imedia.box.ui.custom.MaxHeightNestedScrollView>

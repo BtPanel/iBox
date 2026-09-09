@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text"
+    style="@style/Widget.IBox.Episode"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/ibox_episode_height"
+    android:layout_margin="@dimen/ibox_space_1"
+    android:focusable="true"
+    tools:text="20" />

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="@string/library_title"
+                android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tabs"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                app:checkedButton="@id/historyTab"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/historyTab"
+                    style="@style/Widget.IBox.Button"
+                    android:layout_width="132dp"
+                    android:layout_height="48dp"
+                    android:nextFocusDown="@id/keyword"
+                    android:text="@string/library_history"
+                    app:icon="@drawable/ic_msr_history" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/keepTab"
+                    style="@style/Widget.IBox.Button"
+                    android:layout_width="132dp"
+                    android:layout_height="48dp"
+                    android:nextFocusDown="@id/keyword"
+                    android:text="@string/library_keep"
+                    app:icon="@drawable/ic_msr_favorite" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sync"
+                style="@style/Widget.IBox.Button"
+                android:layout_width="112dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:nextFocusDown="@id/sort"
+                android:text="@string/library_sync"
+                app:icon="@drawable/ic_msr_refresh" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/manage"
+                style="@style/Widget.IBox.Button"
+                android:layout_width="112dp"
+                android:layout_height="48dp"
+                android:nextFocusDown="@id/sort"
+                android:text="@string/library_manage"
+                app:icon="@drawable/ic_msr_delete" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.IBox.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/ibox_text_secondary"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_msr_search"
+                app:startIconTint="@color/ibox_text_secondary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/keyword"
+                    style="@style/Widget.IBox.TextInputEditText.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords|textAutoCorrect"
+                    android:maxLength="80"
+                    android:nextFocusDown="@id/recycler"
+                    android:singleLine="true"
+                    android:textColor="@color/ibox_text_primary"
+                    android:textColorHint="@color/ibox_text_secondary"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sort"
+                style="@style/Widget.IBox.Button"
+                android:layout_width="112dp"
+                android:layout_height="48dp"
+                android:nextFocusDown="@id/recycler"
+                android:text="@string/library_sort"
+                app:icon="@drawable/ic_msr_sort" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.imedia.box.ui.custom.ProgressLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingStart="48dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="32dp" />
+    </com.imedia.box.ui.custom.ProgressLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,98 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">iBox</string>
+
+    <!-- Home -->
+    <string name="home_vod">点播</string>
+    <string name="home_live">直播</string>
+    <string name="home_search">搜索</string>
+    <string name="home_keep">收藏</string>
+    <string name="home_push">推送</string>
+    <string name="home_setting">设置</string>
+    <string name="home_history">历史</string>
+    <string name="home_recommend">更新推荐</string>
+    <string name="home_quick">快捷入口</string>
+    <string name="home_tab">主页</string>
+    <string name="home_config">配置</string>
+    <string name="home_route">线路</string>
+    <string name="mine_subscription">订阅管理</string>
+    <string name="repository_vod_title">订阅管理</string>
+    <string name="repository_live_title">直播源管理</string>
+    <string name="repository_add">添加订阅</string>
+    <string name="repository_vod">点播</string>
+    <string name="repository_live">直播</string>
+    <string name="repository_edit">编辑订阅</string>
+    <string name="repository_vod_empty">暂无点播订阅</string>
+    <string name="repository_live_empty">暂无直播订阅</string>
+    <string name="repository_delete_message">删除此订阅及其本地历史？</string>
+    <string name="repository_selected">已选中</string>
+    <string name="setting_vod_auto_fallback_line">点播失败自动换解析/线路</string>
+    <string name="setting_vod_auto_fallback_source">点播失败自动跨站换源</string>
+    <string name="setting_live_auto_fallback_line">直播失败自动换线路</string>
+    <string name="setting_wall_blur">壁纸虚化</string>
+    <string name="theme_color_amber">琥珀黄</string>
+    <string name="theme_color_blue">海蓝</string>
+    <string name="theme_color_cyan">青色</string>
+    <string name="theme_color_green">绿色</string>
+    <string name="theme_color_red">红色</string>
+    <string name="theme_color_selected">当前主题色</string>
+    <string name="theme_color_orange">橙色</string>
+    <string name="theme_color_fresh">清新绿</string>
+    <string name="theme_color_pink">樱花粉</string>
+    <string name="theme_color_festive">中国红</string>
+    <string name="theme_color_default">默认</string>
+    <string name="setting_focus_color">选中框颜色</string>
+    <string name="focus_color_white">白色</string>
+    <string name="detail_fullscreen">全屏</string>
+    <string name="setting_boot_enabled">开机启动</string>
+    <string name="detail_lines_title">线路 · %1$d条</string>
+    <string name="detail_quality_title">画质</string>
+    <string name="detail_episodes_title">选集 · 共%1$d集</string>
+    <string name="detail_episodes_current_title">选集 · 共%1$d集 · 当前%2$s</string>
+    <string name="detail_episode_number">第%1$s集</string>
+    <string name="detail_playback_status">%1$s · %2$s · %3$s / %4$s</string>
+    <string name="detail_playback_ready">%1$s · %2$s</string>
+    <string name="home_history_empty">暂无观看历史</string>
+    <string name="home_keep_empty">暂无收藏内容</string>
+    <string-array name="select_boot_start">
+        <item>点播</item>
+        <item>直播</item>
+        <item>历史</item>
+    </string-array>
+    <string name="library_title">影视库</string>
+    <string name="library_history">观看历史</string>
+    <string name="library_keep">我的收藏</string>
+    <string name="library_history_search_hint">搜索片名、集数或来源</string>
+    <string name="library_sort">排序</string>
+    <string name="library_sync">同步</string>
+    <string name="library_manage">管理</string>
+    <string name="library_done">完成</string>
+    <string name="timer_5">5 分钟</string>
+    <string name="timer_15">15 分钟</string>
+    <string name="timer_30">30 分钟</string>
+    <string name="timer_60">60 分钟</string>
+    <string name="timer_delay">增加 5 分钟</string>
+    <string name="timer_cancel">取消定时</string>
+    <string name="timer_minutes_suffix">分钟</string>
+    <string name="timer_start">开始</string>
+    <string name="timer_invalid">请输入 1-1440 分钟</string>
+    <string name="timer_description">到达设定时间后自动暂停播放</string>
+    <string name="timer_minutes_hint">自定义分钟数</string>
+    <string name="timer_remaining">剩余时间</string>
+    <string name="push_tools_title">投屏与播放</string>
+    <string name="push_tools_description">可输入媒体链接、读取剪贴板，或选择本地视频直接播放。</string>
+    <string name="push_link_hint">媒体播放链接</string>
+    <string name="push_play_link">播放链接</string>
+    <string name="push_choose_file">本地视频</string>
+
+    <!-- Collect -->
+    <string name="collect_result">“<xliff:g name="name">%s</xliff:g>”的搜索结果</string>
+
+    <!-- Push -->
+    <string name="push_clip">剪贴板</string>
+    <string name="push_info">使用手机扫描二维码，或于浏览器访问地址\n<xliff:g name="name">%s</xliff:g></string>
+    <string name="push_pairing_code">配对码：%s</string>
+
+    <string name="setting_section_source">片源与外观</string>
+    <string name="setting_section_general">播放与通用</string>
+</resources>

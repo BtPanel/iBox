@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ibox_surface_container"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/ic_msr_arrow_back"
+        app:navigationIconTint="@color/ibox_text_primary"
+        app:title="@string/offline_library"
+        app:titleTextAppearance="@style/TextAppearance.IBox.Toolbar">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/downloads"
+            style="@style/Widget.IBox.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/download_manager"
+            app:icon="@drawable/ic_msr_download" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:text="@string/offline_library_empty"
+            android:textAppearance="@style/TextAppearance.IBox.Body"
+            app:drawableTopCompat="@drawable/ic_msr_download" />
+    </FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

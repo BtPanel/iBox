@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/repositoryItem"
+    style="@style/Widget.IBox.RepositoryItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/ibox_space_1"
+        android:duplicateParentState="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.IBox.ItemTitle"
+        android:textColor="@color/ibox_text_primary"
+        app:layout_constraintEnd_toStartOf="@id/selected"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/edit"
+        app:layout_constraintTop_toTopOf="@id/edit" />
+
+    <HorizontalScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_1"
+        android:layout_marginEnd="@dimen/ibox_space_1"
+        android:duplicateParentState="true"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:breakStrategy="simple"
+            android:duplicateParentState="true"
+            android:hyphenationFrequency="none"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.IBox.Address"
+            android:textColor="@color/ibox_text_secondary" />
+
+    </HorizontalScrollView>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/selected"
+        style="@style/Widget.IBox.IconButton"
+        android:layout_width="@dimen/ibox_touch_target"
+        android:layout_height="@dimen/ibox_touch_target"
+        android:contentDescription="@string/setting_choose"
+        android:src="@drawable/ic_msr_radio_button_unchecked"
+        android:tooltipText="@string/setting_choose"
+        app:layout_constraintEnd_toStartOf="@id/edit"
+        app:layout_constraintTop_toTopOf="@id/edit"
+        app:tint="@color/selector_repository_select_icon" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/edit"
+        style="@style/Widget.IBox.IconButton"
+        android:layout_width="@dimen/ibox_touch_target"
+        android:layout_height="@dimen/ibox_touch_target"
+        android:contentDescription="@string/repository_edit"
+        android:src="@drawable/ic_msr_edit"
+        android:tooltipText="@string/repository_edit"
+        app:layout_constraintEnd_toStartOf="@id/delete"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/delete"
+        style="@style/Widget.IBox.IconButton"
+        android:layout_width="@dimen/ibox_touch_target"
+        android:layout_height="@dimen/ibox_touch_target"
+        android:contentDescription="@string/menu_delete"
+        android:src="@drawable/ic_msr_delete"
+        android:tooltipText="@string/menu_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/ibox_error" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

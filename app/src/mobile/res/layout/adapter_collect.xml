@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="2dp"
+    android:layout_marginVertical="2dp"
+    android:background="@drawable/bg_search_source"
+    android:ellipsize="marquee"
+    android:gravity="center"
+    android:minHeight="42dp"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="6dp"
+    android:singleLine="true"
+    android:textColor="@color/selector_search_source_text"
+    android:textSize="@dimen/ibox_text_supporting"
+    tools:text="泥巴" />

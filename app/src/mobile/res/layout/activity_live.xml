@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:keepScreenOn="true">
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/video"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/player"
+            style="@style/Player.Live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:surface_type="none" />
+
+        <include
+            android:id="@+id/widget"
+            layout="@layout/view_widget_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/control"
+            layout="@layout/view_control_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/progress"
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/channelSummary"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/shape_live_summary"
+        android:clipToOutline="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/video">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/summaryNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:textColor="@color/ibox_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="031" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/summaryName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/ibox_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="江苏卫视" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/summaryNow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/ibox_text_secondary"
+                android:textSize="@dimen/ibox_text_supporting"
+                tools:text="正在播放：新闻眼" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/summaryNext"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/summaryLine"
+            style="@style/Widget.IBox.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginStart="6dp"
+            android:minWidth="88dp"
+            android:textColor="@color/ibox_text_primary"
+            android:textSize="@dimen/ibox_text_supporting"
+            tools:text="线路 2/2" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/summarySearch"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_home_action"
+            android:contentDescription="@string/live_channel_search"
+            android:padding="10dp"
+            android:src="@drawable/ic_msr_search"
+            android:tooltipText="@string/live_channel_search"
+            app:tint="@color/ibox_text_primary" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/summaryCast"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_home_action"
+            android:contentDescription="@string/cast_control"
+            android:padding="10dp"
+            android:src="@drawable/ic_msr_cast"
+            android:tooltipText="@string/cast_control"
+            app:tint="@color/ibox_text_primary" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/summaryConfig"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_home_action"
+            android:contentDescription="@string/repository_live_title"
+            android:padding="10dp"
+            android:src="@drawable/ic_msr_settings"
+            android:tooltipText="@string/repository_live_title"
+            app:tint="@color/ibox_text_primary" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_live_browser"
+        android:clipToOutline="true"
+        android:orientation="vertical"
+        android:padding="6dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/channelSummary">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sourcePicker"
+            style="@style/Widget.IBox.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/setting_live"
+            android:textColor="@color/ibox_text_primary"
+            android:textSize="@dimen/ibox_text_supporting"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:icon="@drawable/ic_msr_folder"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="18dp"
+            app:iconTint="@color/ibox_text_secondary" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/browser"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/group"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingEnd="4dp"
+                tools:itemCount="5"
+                tools:listitem="@layout/adapter_group" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/ibox_glass_divider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/channel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="4dp"
+                tools:itemCount="8"
+                tools:listitem="@layout/adapter_channel" />
+
+            <View
+                android:id="@+id/lineDivider"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/ibox_glass_divider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lineList"
+                android:layout_width="72dp"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="4dp"
+                tools:itemCount="3"
+                tools:listitem="@layout/adapter_line" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/epgData"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="4dp"
+                android:visibility="gone"
+                tools:itemCount="5"
+                tools:listitem="@layout/adapter_epg_data" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/epgEmpty"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="@string/live_epg_empty"
+                android:textColor="@color/ibox_text_secondary"
+                android:textSize="@dimen/ibox_text_body"
+                android:visibility="gone" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <include
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/ibox_navigation_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/view_app_navigation" />
+
+    <LinearLayout
+        android:id="@+id/sourceState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/bg_live_source_state"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_msr_database" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/sourceTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textColor="@color/ibox_text_primary"
+                    tools:text="暂无直播源" />
+
+                <TextView
+                    android:id="@+id/sourceMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="@color/ibox_text_secondary"
+                    tools:text="添加订阅链接，或选择本地 M3U/TXT 文件" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sourceAdd"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="18dp"
+            android:text="@string/live_source_add"
+            android:textSize="@dimen/ibox_text_body"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_msr_add"
+            app:iconGravity="textStart" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sourceManage"
+                style="@style/Widget.IBox.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:text="@string/repository_live_title"
+                android:textSize="@dimen/ibox_text_supporting"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/ic_msr_folder"
+                app:iconGravity="textStart"
+                app:iconPadding="6dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sourceFile"
+                style="@style/Widget.IBox.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:text="@string/live_source_file_short"
+                android:textSize="@dimen/ibox_text_supporting"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/ic_msr_folder"
+                app:iconGravity="textStart"
+                app:iconPadding="6dp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sourceRetry"
+            style="@style/Widget.IBox.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/live_source_retry"
+            android:visibility="gone"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_msr_refresh"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

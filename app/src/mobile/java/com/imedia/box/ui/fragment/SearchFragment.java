@@ -1,0 +1,285 @@
+package com.imedia.box.ui.fragment;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.viewbinding.ViewBinding;
+
+import com.imedia.box.App;
+import com.imedia.box.Product;
+import com.imedia.box.R;
+import com.imedia.box.api.config.VodConfig;
+import com.imedia.box.bean.Word;
+import com.imedia.box.databinding.FragmentSearchBinding;
+import com.imedia.box.impl.Callback;
+import com.imedia.box.setting.Setting;
+import com.imedia.box.ui.adapter.RecordAdapter;
+import com.imedia.box.ui.adapter.WordAdapter;
+import com.imedia.box.ui.base.BaseFragment;
+import com.imedia.box.ui.custom.CustomTextListener;
+import com.imedia.box.ui.dialog.SiteDialog;
+import com.imedia.box.utils.Util;
+import com.github.catvod.net.OkHttp;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.common.net.HttpHeaders;
+import com.imedia.box.ui.custom.IBoxAlertDialogBuilder;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
+public class SearchFragment extends BaseFragment implements MenuProvider, WordAdapter.OnClickListener, RecordAdapter.OnClickListener {
+
+    private static final long SUGGEST_DEBOUNCE_MS = 250;
+
+    private FragmentSearchBinding mBinding;
+    private RecordAdapter mRecordAdapter;
+    private WordAdapter mWordAdapter;
+    private Call mWordCall;
+    private int wordRequestId;
+    private String pendingWord = "";
+    private final Runnable requestWord = () -> requestWord(pendingWord);
+    private boolean allSources = true;
+
+    public static SearchFragment newInstance(String keyword) {
+        Bundle args = new Bundle();
+        args.putString("keyword", keyword);
+        SearchFragment fragment = new SearchFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private String getKeyword() {
+        return getArguments().getString("keyword");
+    }
+
+    private boolean empty() {
+        return mBinding.keyword.getText().toString().trim().isEmpty();
+    }
+
+    @Override
+    protected ViewBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return mBinding = FragmentSearchBinding.inflate(getLayoutInflater());
+    }
+
+    @Override
+    protected void initMenu() {
+        if (isHidden()) return;
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        activity.setSupportActionBar(mBinding.toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+        activity.setTitle("");
+    }
+
+    @Override
+    protected void initView() {
+        mBinding.keywordClear.setOnClickListener(v -> {
+            mBinding.keyword.setText("");
+            Util.showKeyboard(mBinding.keyword);
+        });
+        mBinding.keyword.addTextChangedListener(new CustomTextListener() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mBinding.keywordClear.setVisibility(s.length() == 0 ? android.view.View.GONE : android.view.View.VISIBLE);
+            }
+        });
+        mBinding.scopeCurrent.setText(getString(R.string.search_scope_current, VodConfig.get().getHome().getName()));
+        mBinding.scopeCurrent.setEnabled(VodConfig.get().getHome().isSearchable());
+        setRecyclerView();
+        checkKeyword();
+        search();
+    }
+
+    private void setRecyclerView() {
+        mBinding.wordRecycler.setItemAnimator(null);
+        mBinding.wordRecycler.setHasFixedSize(false);
+        mBinding.wordRecycler.setAdapter(mWordAdapter = new WordAdapter(this));
+        mBinding.wordRecycler.setLayoutManager(new GridLayoutManager(getContext(), Product.isTabletLayout(requireContext()) ? 3 : 2));
+        mBinding.recordRecycler.setHasFixedSize(false);
+        mBinding.recordRecycler.setAdapter(mRecordAdapter = new RecordAdapter(this));
+        mBinding.recordRecycler.setLayoutManager(new FlexboxLayoutManager(getContext(), FlexDirection.ROW));
+        Product.applySettingsWidth(mBinding.content, requireContext());
+    }
+
+    @Override
+    protected void initEvent() {
+        mBinding.scope.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) allSources = checkedId == R.id.scopeAll;
+        });
+        mBinding.historyClear.setOnClickListener(view -> clearHistory());
+        mBinding.keyword.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) search();
+            return true;
+        });
+        mBinding.keyword.addTextChangedListener(new CustomTextListener() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                getWord(s.toString());
+            }
+        });
+        getParentFragmentManager().setFragmentResultListener("result", getViewLifecycleOwner(), (requestKey, bundle) -> {
+            if (bundle.getBoolean("edit", false)) Util.showKeyboard(mBinding.keyword);
+        });
+    }
+
+    private void checkKeyword() {
+        boolean visible = requireActivity().getSupportFragmentManager().findFragmentByTag(CollectFragment.class.getSimpleName()) != null;
+        if (TextUtils.isEmpty(getKeyword()) && !visible) Util.showKeyboard(mBinding.keyword);
+        setKeyword(getKeyword());
+        getWord(getKeyword());
+    }
+
+    private void setKeyword(String text) {
+        mBinding.keyword.setText(text);
+        mBinding.keyword.setSelection(text.length());
+    }
+
+    private void search() {
+        if (empty()) return;
+        String keyword = mBinding.keyword.getText().toString().trim();
+        App.post(() -> mRecordAdapter.add(keyword), 250);
+        Util.hideKeyboard(mBinding.keyword);
+        collect(keyword);
+    }
+
+    private void collect(String keyword) {
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        String collectTag = CollectFragment.class.getSimpleName();
+        if (fm.findFragmentByTag(collectTag) != null) return;
+        String searchTag = SearchFragment.class.getSimpleName();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.container, CollectFragment.newInstance(keyword, allSources), collectTag);
+        Optional.ofNullable(fm.findFragmentByTag(searchTag)).ifPresent(ft::hide);
+        ft.setReorderingAllowed(true).addToBackStack(null).commit();
+    }
+
+    private void getWord(String text) {
+        wordRequestId++;
+        App.removeCallbacks(requestWord);
+        if (mWordCall != null) mWordCall.cancel();
+        pendingWord = text;
+        if (text.isEmpty()) requestWord(text);
+        else App.post(requestWord, SUGGEST_DEBOUNCE_MS);
+    }
+
+    private void requestWord(String text) {
+        if (mBinding == null) return;
+        if (text.isEmpty()) getHot();
+        else getSuggest(text);
+    }
+
+    private void getHot() {
+        mBinding.word.setText(R.string.search_hot);
+        mWordAdapter.setRanked(true);
+        mWordAdapter.setItems(Word.objectFrom(Setting.getHot()).getData());
+        int requestId = wordRequestId;
+        mWordCall = OkHttp.newCall("https://api.web.360kan.com/v1/rank?cat=1", Map.of(HttpHeaders.REFERER, "https://www.360kan.com/rank/general"));
+        mWordCall.enqueue(getCallback(true, requestId, ""));
+    }
+
+    private void getSuggest(String text) {
+        mBinding.word.setText(R.string.search_suggest);
+        mWordAdapter.setRanked(false);
+        int requestId = wordRequestId;
+        mWordCall = OkHttp.newCall("https://suggest.video.iqiyi.com/?if=mobile&key=" + Uri.encode(text));
+        mWordCall.enqueue(getCallback(false, requestId, text));
+    }
+
+    private Callback getCallback(boolean hot, int requestId, String query) {
+        return new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String result = response.body().string();
+                if (TextUtils.isEmpty(result)) return;
+                App.post(() -> setWordAdapter(result, hot, requestId, query));
+            }
+        };
+    }
+
+    private void setWordAdapter(String result, boolean save, int requestId, String query) {
+        if (mBinding == null || mWordAdapter == null || requestId != wordRequestId) return;
+        if (!save && !TextUtils.equals(query, mBinding.keyword.getText().toString())) return;
+        mWordAdapter.setItems(Word.objectFrom(result).getData());
+        if (save) Setting.putHot(result);
+    }
+
+    private void onSite() {
+        Util.hideKeyboard(mBinding.keyword);
+        mBinding.keyword.post(() -> SiteDialog.create().search().show(this));
+    }
+
+    private void clearHistory() {
+        new IBoxAlertDialogBuilder(requireActivity())
+                .setTitle(R.string.search_history_clear_title)
+                .setNegativeButton(R.string.dialog_negative, null)
+                .setPositiveButton(R.string.search_history_clear, (dialog, which) -> mRecordAdapter.clear())
+                .show();
+    }
+
+    @Override
+    public void onItemClick(String text) {
+        setKeyword(text);
+        search();
+    }
+
+    @Override
+    public void onDataChanged(int size) {
+        if (mBinding == null) return;
+        mBinding.record.setVisibility(size == 0 ? View.GONE : View.VISIBLE);
+        mBinding.recordRecycler.setVisibility(size == 0 ? View.GONE : View.VISIBLE);
+        mBinding.recordRecycler.postDelayed(() -> {
+            if (mBinding != null) mBinding.recordRecycler.requestLayout();
+        }, 250);
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_search, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) requireActivity().getOnBackPressedDispatcher().onBackPressed();
+        if (menuItem.getItemId() == R.id.action_site) onSite();
+        return true;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (hidden) requireActivity().removeMenuProvider(this);
+        else initMenu();
+    }
+
+    @Override
+    public void onDestroyView() {
+        wordRequestId++;
+        App.removeCallbacks(requestWord);
+        if (mWordCall != null) mWordCall.cancel();
+        mWordCall = null;
+        if (isAdded()) requireActivity().removeMenuProvider(this);
+        mBinding = null;
+        super.onDestroyView();
+    }
+}

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/ibox_space_5">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/webdav_title"
+            android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_1"
+            android:text="@string/webdav_description"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/endpointLayout"
+            style="@style/Widget.IBox.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_4"
+            android:hint="@string/webdav_endpoint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/endpoint"
+                style="@style/Widget.IBox.TextInputEditText.Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:maxLines="2"
+                android:textColor="@color/ibox_text_primary"
+                android:textColorHint="@color/ibox_text_secondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.IBox.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_3"
+            android:hint="@string/webdav_username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                style="@style/Widget.IBox.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/ibox_text_primary"
+                android:textColorHint="@color/ibox_text_secondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.IBox.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_3"
+            android:hint="@string/webdav_password"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                style="@style/Widget.IBox.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/ibox_text_primary"
+                android:textColorHint="@color/ibox_text_secondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_4"
+            android:text="@string/webdav_sync_content"
+            android:textAppearance="@style/TextAppearance.IBox.Section" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/favorites"
+                style="@style/Widget.IBox.CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_weight="1"
+                android:text="@string/webdav_favorites"
+                android:textColor="@color/ibox_text_primary" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/history"
+                style="@style/Widget.IBox.CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_weight="1"
+                android:text="@string/webdav_history"
+                android:textColor="@color/ibox_text_primary" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/progress"
+                style="@style/Widget.IBox.CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_weight="1"
+                android:text="@string/webdav_progress"
+                android:textColor="@color/ibox_text_primary" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/subscriptions"
+                style="@style/Widget.IBox.CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_weight="1"
+                android:text="@string/webdav_subscriptions"
+                android:textColor="@color/ibox_text_primary" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/settings"
+            style="@style/Widget.IBox.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:text="@string/webdav_settings"
+            android:textColor="@color/ibox_text_primary" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_2"
+            android:text="@string/webdav_conflict_rule"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_4"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressIndicator"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:visibility="gone"
+                app:indicatorSize="24dp"
+                app:trackThickness="2dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ibox_space_2"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/merge"
+                style="@style/Widget.IBox.Button.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:text="@string/webdav_merge" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_2"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/download"
+                style="@style/Widget.IBox.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:text="@string/webdav_download" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/upload"
+                style="@style/Widget.IBox.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_marginStart="@dimen/ibox_space_1"
+                android:text="@string/webdav_upload" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

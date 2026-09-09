@@ -1,0 +1,192 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- App -->
+    <string name="app_keep">我的收藏</string>
+    <string name="app_history">最近观看</string>
+
+    <!-- Nav -->
+    <string name="nav_vod">点播</string>
+    <string name="nav_home">首页</string>
+    <string name="nav_live">直播</string>
+    <string name="nav_library">收藏</string>
+    <string name="nav_mine">我的</string>
+    <string name="nav_setting">设置</string>
+    <string name="mine_common">常用功能</string>
+    <string name="mine_connect">电视互联</string>
+    <string name="mine_scan">扫码连接</string>
+    <string name="mine_more">设置与更多</string>
+    <string name="mine_version">版本 %1$s</string>
+    <string name="mine_subscription">订阅管理</string>
+    <string name="mine_search_threads">搜索线程</string>
+    <string name="mine_wallpaper">换张壁纸</string>
+    <string name="mine_wallpaper_random">订阅随机壁纸</string>
+    <string name="mine_wallpaper_unavailable">当前点播订阅没有提供网络壁纸</string>
+    <string name="mine_wallpaper_summary">由当前订阅提供随机壁纸，每次都可能不同</string>
+    <string name="mine_wallpaper_blur">壁纸虚化</string>
+    <string name="mine_wallpaper_random_action">随机壁纸</string>
+    <string name="mine_wallpaper_gallery">从相册</string>
+    <string name="mine_wallpaper_builtin">内置壁纸</string>
+    <string name="mine_wallpaper_history">壁纸历史</string>
+    <string name="mine_wallpaper_save">保存到相册</string>
+    <string name="mine_wallpaper_reset">重置壁纸</string>
+    <string name="mine_wallpaper_save_success">壁纸已保存到相册</string>
+    <string name="mine_wallpaper_save_fail">壁纸保存失败</string>
+    <string name="mine_wallpaper_save_empty">当前没有可保存的壁纸</string>
+    <string name="mine_theme_mode">主题模式</string>
+    <string name="mine_local_video">本地视频</string>
+    <string name="mine_play_link">播放链接</string>
+    <string name="mine_tv_control">电视控制</string>
+    <string name="mine_use_mode">使用模式</string>
+    <string name="mine_phone_mode">手机模式</string>
+    <string name="mine_official_channel">官方频道</string>
+    <string name="mine_about">关于</string>
+    <string name="mine_threads_value">%1$d 线程</string>
+    <string name="setting_auto_fallback_line">失败自动换解析/线路</string>
+    <string name="setting_auto_fallback_source">失败自动跨站换源</string>
+    <string name="setting_config_notice">订阅通知</string>
+    <string name="home_search_hint">搜索电影 / 剧集 / 演员</string>
+    <string name="search_page_hint">搜索影片、剧集</string>
+    <string name="home_current_source">当前内容源</string>
+    <string name="home_continue">继续观看</string>
+    <string name="home_continue_hint">从上次位置继续</string>
+    <string name="home_last_watched">上次看到：%1$s</string>
+    <string name="home_filter">筛选内容</string>
+    <string name="home_open_link">打开播放链接</string>
+    <string name="home_back_top">返回顶部</string>
+    <string name="repository_vod_title">订阅管理</string>
+    <string name="repository_live_title">直播源管理</string>
+    <string name="live_source_file_short">本地频道列表</string>
+    <string name="repository_add">添加订阅</string>
+    <string name="repository_vod">点播</string>
+    <string name="repository_live">直播</string>
+    <string name="repository_edit">编辑订阅</string>
+    <string name="repository_vod_empty">暂无点播订阅</string>
+    <string name="repository_live_empty">暂无直播订阅</string>
+    <string name="repository_delete_message">删除此订阅及其本地历史？</string>
+    <string name="settings_section_sources">订阅与壁纸</string>
+    <string name="settings_section_appearance">通用与外观</string>
+    <string name="settings_section_playback">播放与弹幕</string>
+    <string name="settings_section_data">网络与存储</string>
+    <string name="settings_section_about">关于</string>
+    <string name="settings_player_summary">播放内核、解码、画面与缓存</string>
+    <string name="settings_danmaku_summary">弹幕来源、加载与显示行为</string>
+    <string name="settings_backup_summary">导出内容源、历史和设置</string>
+    <string name="settings_restore_summary">从本地备份恢复数据</string>
+    <string name="settings_version_summary">当前安装版本</string>
+    <string name="setting_hide_navigation">隐藏底部菜单</string>
+    <string name="setting_boot_auto_start">启动页面</string>
+    <string name="setting_layout_mode">界面布局</string>
+    <string name="setting_layout_mode_summary">根据手机、平板和窗口宽度自动适配</string>
+    <string name="setting_search_threads">搜索线程</string>
+    <string name="setting_threads_value">%1$d 线程</string>
+
+    <!-- Menu -->
+    <string name="menu_sync">同步</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_site">站点</string>
+    <string name="menu_reset">重置</string>
+
+    <!-- Vod -->
+    <string name="vod_home">推荐</string>
+    <string name="home_content">首页内容</string>
+    <string name="home_content_summary">选择推荐、观看历史或收藏</string>
+    <string name="home_empty_history">暂无观看历史</string>
+    <string name="home_empty_keep">暂无收藏内容</string>
+    <string-array name="select_home_content">
+        <item>推荐</item>
+        <item>历史</item>
+        <item>收藏</item>
+    </string-array>
+
+    <string-array name="select_layout_mode">
+        <item>自动</item>
+        <item>手机</item>
+        <item>平板</item>
+    </string-array>
+
+    <!-- Detail -->
+    <string name="detail_flag">线路</string>
+    <string name="detail_episode">选集</string>
+    <string name="detail_quality">画质</string>
+    <string name="detail_summary_title">简介</string>
+    <string name="detail_search">快搜“<xliff:g name="name">%s</xliff:g>”</string>
+    <string name="detail_sources">同名片源</string>
+
+    <!-- Device -->
+    <string name="device_select">选择装置</string>
+    <string name="device_offline">装置已离线</string>
+    <string name="device_scan">请扫描 iBox 二维码进行绑定</string>
+
+    <!-- Cast -->
+    <string name="cast_searching">正在搜索同一网络中的设备…</string>
+    <string name="cast_connecting_device">正在连接 %1$s…</string>
+    <string name="cast_empty">暂未发现可用设备</string>
+    <string name="cast_retry">重新搜索</string>
+    <string name="cast_scan_code">扫描二维码</string>
+    <string name="cast_refresh">刷新设备</string>
+    <string name="cast_device_dlna">DLNA 播放设备</string>
+    <string name="cast_device_app">iBox 设备</string>
+    <string name="cast_control">投屏控制</string>
+    <string name="cast_connected_to">正在投放到 %1$s</string>
+    <string name="cast_connecting">正在连接</string>
+    <string name="cast_disconnecting">正在断开</string>
+    <string name="cast_playing">正在设备上播放</string>
+    <string name="cast_paused">已暂停</string>
+    <string name="cast_stopped">已停止</string>
+    <string name="cast_live">直播</string>
+    <string name="cast_play">播放</string>
+    <string name="cast_pause">暂停</string>
+    <string name="cast_seek_back">后退 10 秒</string>
+    <string name="cast_seek_forward">前进 10 秒</string>
+    <string name="cast_device_volume">设备音量</string>
+    <string name="cast_volume_value">%1$d%%</string>
+    <string name="cast_disconnect">断开投屏</string>
+
+    <!-- Control -->
+    <string name="control_speed">倍速</string>
+    <string name="control_scale">缩放</string>
+    <string name="control_track">轨道</string>
+    <string name="control_other">其它</string>
+
+    <!-- Dialog -->
+    <string name="dialog_delete_record">删除全部纪录？</string>
+    <string name="dialog_delete_keep">收藏纪录将会全部删除。</string>
+    <string name="dialog_delete_history">观看纪录将会全部删除。</string>
+
+    <!-- Timer -->
+    <string name="timer_5">5 分钟</string>
+    <string name="timer_15">15 分钟</string>
+    <string name="timer_30">30 分钟</string>
+    <string name="timer_60">1 小时</string>
+    <string name="timer_delay">延长 5 分钟</string>
+    <string name="timer_cancel">取消定时器</string>
+    <string name="timer_custom">自定义时间</string>
+    <string name="timer_minutes_suffix">分钟</string>
+    <string name="timer_start">开始</string>
+    <string name="timer_invalid">请输入 1–1440 分钟</string>
+    <string name="timer_description">到达设定时间后自动暂停播放</string>
+    <string name="timer_quick">快捷定时</string>
+    <string name="timer_minutes_hint">输入分钟数</string>
+    <string name="timer_remaining">剩余时间</string>
+
+    <!-- Hint -->
+    <string name="shortcut"> 已于主萤幕新增捷径。</string>
+
+    <string-array name="select_background">
+        <item>关</item>
+        <item>开</item>
+        <item>画中画</item>
+    </string-array>
+
+    <string-array name="select_wallpaper">
+        <item>系统默认</item>
+        <item>雾青</item>
+        <item>暮蓝</item>
+        <item>晨雾</item>
+    </string-array>
+
+    <string name="sheet_select_source">选择片源</string>
+    <string name="sheet_select_live">选择直播源</string>
+    <string name="sheet_config_history">接口记录</string>
+</resources>

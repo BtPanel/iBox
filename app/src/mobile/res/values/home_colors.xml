@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ibox_home_scrim">@color/ibox_surface_container</color>
+    <color name="ibox_home_navigation_surface">@color/ibox_surface</color>
+</resources>

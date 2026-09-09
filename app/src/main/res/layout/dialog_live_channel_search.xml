@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/ibox_space_5">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/live_channel_search"
+        android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.IBox.TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_4"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/ibox_text_secondary"
+        app:hintEnabled="false"
+        app:startIconDrawable="@drawable/ic_msr_search"
+        app:startIconTint="@color/ibox_text_secondary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/keyword"
+            style="@style/Widget.IBox.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/live_channel_search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_marginTop="@dimen/ibox_space_3">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/ibox_space_2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/live_channel_search_empty"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting"
+            android:visibility="gone" />
+    </FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

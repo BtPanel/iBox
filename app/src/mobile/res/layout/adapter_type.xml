@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/ibox_touch_target"
+    android:layout_marginStart="@dimen/ibox_space_1"
+    android:layout_marginEnd="@dimen/ibox_space_1"
+    android:background="@drawable/bg_ibox_chip"
+    android:gravity="center"
+    android:includeFontPadding="false"
+    android:minWidth="@dimen/ibox_touch_target"
+    android:paddingStart="@dimen/ibox_space_3"
+    android:paddingEnd="@dimen/ibox_space_3"
+    android:textColor="@color/selector_ibox_text"
+    android:textAppearance="@style/TextAppearance.IBox.Body"
+    tools:text="電影" />

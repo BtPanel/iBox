@@ -1,0 +1,904 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- App -->
+    <string name="app_name">iBox</string>
+    <string name="version_label">v%1$s</string>
+
+    <!-- Live -->
+    <string name="live_pass">密码</string>
+    <string name="live_refresh">刷新</string>
+    <string name="live_line">线路 <xliff:g name="name">%s</xliff:g></string>
+    <string name="live_source_empty_title">暂无直播源</string>
+    <string name="live_source_empty_message">添加直播源地址，或选择本地 M3U、M3U8、TXT、JSON 频道列表。</string>
+    <string name="live_source_channels_title">没有可播放的频道</string>
+    <string name="live_source_channels_message">直播源已读取，但没有找到有效频道。请检查列表格式或更换直播源。</string>
+    <string name="live_source_failed_title">直播源加载失败</string>
+    <string name="live_source_add">添加直播源</string>
+    <string name="live_source_file">选择本地频道列表</string>
+    <string name="live_channel_list">频道列表</string>
+    <string name="live_channel_search">搜索频道</string>
+    <string name="live_channel_search_hint">频道名称或台号</string>
+    <string name="live_channel_search_empty">没有匹配的频道</string>
+    <string name="live_recent">最近观看</string>
+    <string name="live_unavailable">已失效</string>
+    <string name="live_epg">节目单</string>
+    <string name="live_epg_now">正在播放</string>
+    <string name="live_epg_replay">回看</string>
+    <string name="live_epg_replay_unavailable">目前頻道來源不支援回看</string>
+    <string name="live_catchup_seek_unavailable">目前回看來源不支援快進或拖動</string>
+    <string name="live_epg_reminder_action">设置提醒</string>
+    <string name="live_epg_reminder_enabled">已设置提醒</string>
+    <string name="live_epg_reminder_added">已为“%1$s”设置提醒</string>
+    <string name="live_epg_reminder_removed">已取消“%1$s”的提醒</string>
+    <string name="live_epg_reminder_channel">节目提醒</string>
+    <string name="live_epg_reminder_notification">“%1$s”即将开始</string>
+    <string name="live_epg_reminder_detail">%1$s · %2$s 开始</string>
+    <string name="live_source_retry">重试</string>
+    <string name="live_line_count">%1$d线</string>
+    <string name="live_epg_empty">暂无节目信息</string>
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
+    <string name="day_after_tomorrow">後天</string>
+    <string name="live_source_favorite">我的收藏</string>
+    <string name="live_source_favorite_empty">暫無收藏頻道</string>
+    <string name="live_program_guide_vertical">節\n目\n單</string>
+    <string name="live_channel_group_vertical">頻\n道\n組</string>
+
+    <!-- Detail -->
+    <string name="detail_title"><xliff:g name="title">%1$s</xliff:g>：<xliff:g name="site">%2$s</xliff:g></string>
+    <string name="detail_site">站源：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_year">年份：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_area">地区：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_type">类型：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_director">导演：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_actor">演员：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_content">简介：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_desc">简介</string>
+
+    <!-- Keep -->
+    <string name="keep">收藏</string>
+    <string name="keep_add">已加入收藏</string>
+    <string name="keep_del">已取消收藏</string>
+    <string name="keep_search_hint">搜索片名或来源</string>
+    <string name="keep_sort">收藏排序</string>
+    <string name="keep_sort_current">排序：%1$s</string>
+    <string name="keep_sort_recent">最近收藏</string>
+    <string name="keep_sort_name">片名</string>
+    <string name="keep_sort_source">来源</string>
+    <string-array name="keep_sort_options">
+        <item>@string/keep_sort_recent</item>
+        <item>@string/keep_sort_name</item>
+        <item>@string/keep_sort_source</item>
+    </string-array>
+
+    <!-- Play -->
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="play_op">片头</string>
+    <string name="play_ed">片尾</string>
+    <string name="play_exo">EXO</string>
+    <string name="play_mpv">MPV</string>
+    <string name="play_other">其它</string>
+    <string name="play_next">下集</string>
+    <string name="play_prev">上集</string>
+    <string name="play_stop">停止</string>
+    <string name="play_repeat">循环</string>
+    <string name="play_forward">→</string>
+    <string name="play_backward">←</string>
+    <string name="play_speed">倍速</string>
+    <string name="play_speed_hint">倍速 <xliff:g name="speed">%1$s</xliff:g></string>
+    <string name="play_reset">刷新</string>
+    <string name="play_replay">重播</string>
+    <string name="play_decode">硬解</string>
+    <string name="play_timer">定时</string>
+    <string name="play_edition">标题</string>
+    <string name="play_chapter">章节</string>
+    <string name="play_scale">原始</string>
+    <string name="play_config">配置</string>
+    <string name="play_change">换源</string>
+    <string name="play_invert">反转</string>
+    <string name="play_across">跨类</string>
+    <string name="play_reverse">倒序</string>
+    <string name="play_sort_ascending">正序</string>
+    <string name="play_sort_descending">倒序</string>
+    <string name="play_sort_current">排列：<xliff:g name="order">%1$s</xliff:g></string>
+    <string name="play_sequence_current">播放：<xliff:g name="order">%1$s</xliff:g></string>
+    <string name="play_all_episodes">全部</string>
+    <string name="play_track_text">字幕</string>
+    <string name="play_track_audio">音轨</string>
+    <string name="play_track_video">视轨</string>
+    <string name="play_forward_hint">已切换正序播放</string>
+    <string name="play_backward_hint">已切换倒序播放</string>
+    <string name="play_ready">准备播放：<xliff:g name="name">%s</xliff:g></string>
+    <string name="play_switch_flag">正在切换线路至「<xliff:g name="name">%s</xliff:g>」</string>
+    <string name="play_switch_site">正在切换站源至「<xliff:g name="name">%s</xliff:g>」</string>
+    <string name="play_switch_parse">正在切换解析至「<xliff:g name="name">%s</xliff:g>」</string>
+
+    <!-- Playback Setting -->
+    <string name="setting_tab_offset">偏移</string>
+    <string name="setting_effect_basic">基础</string>
+    <string name="setting_effect_scene">场景</string>
+    <string name="setting_effect_custom">自定义</string>
+    <string name="setting_preset_original">原始</string>
+
+    <!-- Speed Setting -->
+    <string name="speed_setting">倍速设置</string>
+    <string name="speed_setting_reset">重置</string>
+    <string name="speed_setting_current">播放速度</string>
+    <string name="speed_setting_long_press">长按倍速</string>
+    <string name="speed_setting_quick">快速选择</string>
+    <string name="speed_setting_skip_silence">跳过无声片段</string>
+
+    <!-- Audio Setting -->
+    <string name="audio_setting">音质设置</string>
+    <string name="audio_effect_compare">比较</string>
+    <string name="audio_effect_reset">重置</string>
+    <string name="audio_effect_tab_preset">效果</string>
+    <string name="audio_effect_tab_equalizer">调整</string>
+    <string name="audio_effect_tab_advanced">进阶</string>
+    <string name="audio_offset">音轨偏移</string>
+    <string name="audio_effect_category_tone">音色</string>
+    <string name="audio_effect_category_genre">曲风</string>
+    <string name="audio_effect_natural">自然</string>
+    <string name="audio_effect_vocal">人声</string>
+    <string name="audio_effect_cinema">影院</string>
+    <string name="audio_effect_bass">低音</string>
+    <string name="audio_effect_treble">高音</string>
+    <string name="audio_effect_pop">流行</string>
+    <string name="audio_effect_rock">摇滚</string>
+    <string name="audio_effect_dance">舞曲</string>
+    <string name="audio_effect_electronic">电音</string>
+    <string name="audio_effect_hiphop">嘻哈</string>
+    <string name="audio_effect_jazz">爵士</string>
+    <string name="audio_effect_classical">古典</string>
+    <string name="audio_effect_custom">自定义</string>
+    <string name="audio_effect_stability">音量稳定</string>
+    <string name="audio_effect_stability_summary">缩小影片内的大小声差距</string>
+    <string name="audio_effect_boost">音量增益</string>
+    <string name="audio_effect_dialogue">语音增强</string>
+    <string name="audio_effect_balance">声道平衡</string>
+    <string name="audio_effect_headroom">前级衰减</string>
+    <string name="audio_effect_loudness">响度平衡</string>
+    <string name="audio_effect_loudness_summary">平衡不同影片的平均音量</string>
+    <string name="audio_effect_center_gain">中置声道增益</string>
+    <string name="audio_channel_mode">声道模式</string>
+    <string name="audio_channel_auto">自动</string>
+    <string name="audio_channel_stereo">立体</string>
+    <string name="audio_channel_mono">单声</string>
+    <string name="audio_channel_reverse">反转</string>
+    <string name="audio_effect_balance_center">中央</string>
+    <string name="audio_effect_balance_left">左 %1$d%%</string>
+    <string name="audio_effect_balance_right">右 %1$d%%</string>
+
+    <!-- Video Setting -->
+    <string name="video_setting">画质设置</string>
+    <string name="video_effect_compare">比较</string>
+    <string name="video_effect_reset">重置</string>
+    <string name="video_effect_tab_preset">效果</string>
+    <string name="video_effect_tab_adjust">调整</string>
+    <string name="video_effect_category_boost">增强</string>
+    <string name="video_effect_category_tone">风格</string>
+    <string name="video_effect_natural">自然</string>
+    <string name="video_effect_vivid">臻彩</string>
+    <string name="video_effect_clear">清晰</string>
+    <string name="video_effect_bright">明亮</string>
+    <string name="video_effect_cinema">影院</string>
+    <string name="video_effect_soft">柔和</string>
+    <string name="video_effect_warm">暖色</string>
+    <string name="video_effect_cool">冷色</string>
+    <string name="video_effect_comfort">护眼</string>
+    <string name="video_effect_anime">动画</string>
+    <string name="video_effect_sport">运动</string>
+    <string name="video_effect_game">游戏</string>
+    <string name="video_effect_custom">自定义</string>
+    <string name="video_effect_saturation">饱和度</string>
+    <string name="video_effect_contrast">对比度</string>
+    <string name="video_effect_brightness">亮度</string>
+    <string name="video_effect_gamma">伽马</string>
+    <string name="video_effect_hue">色相</string>
+    <string name="video_effect_temperature">色温</string>
+    <string name="video_effect_sharpness">锐利度</string>
+    <string name="video_effect_shadow">阴影提亮</string>
+
+    <!-- Subtitle Setting -->
+    <string name="subtitle_setting">字幕设置</string>
+    <string name="subtitle_search_api_title">Assrt</string>
+    <string name="subtitle_search_token_hint">Token</string>
+    <string name="subtitle_reset">重置</string>
+    <string name="subtitle_tab_appearance">外观</string>
+    <string name="subtitle_tab_adjust">调整</string>
+    <string name="subtitle_tab_advanced">进阶</string>
+    <string name="subtitle_offset">字幕偏移</string>
+    <string name="subtitle_size">大小</string>
+    <string name="subtitle_position">位置</string>
+    <string name="subtitle_style_source">样式来源</string>
+    <string name="subtitle_style_original">原始</string>
+    <string name="subtitle_style_system">系统</string>
+    <string name="subtitle_style_custom">自定义</string>
+    <string name="subtitle_system_setting">系统字幕设置</string>
+    <string name="subtitle_text_color">文字颜色</string>
+    <string name="subtitle_text_opacity">文字透明度</string>
+    <string name="subtitle_edge_style">边框样式</string>
+    <string name="subtitle_edge_none">无</string>
+    <string name="subtitle_edge_outline">描边</string>
+    <string name="subtitle_edge_shadow">阴影</string>
+    <string name="subtitle_edge_color">边框颜色</string>
+    <string name="subtitle_edge_opacity">边框透明度</string>
+    <string name="subtitle_edge_width">边框粗细</string>
+    <string name="subtitle_shadow_strength">阴影强度</string>
+    <string name="subtitle_background">背景</string>
+    <string name="subtitle_background_opacity">背景透明度</string>
+    <string name="subtitle_secondary_track">双字幕</string>
+    <string name="subtitle_secondary_off">关闭</string>
+    <string name="subtitle_secondary_auto">自动</string>
+    <string name="subtitle_secondary_select">指定</string>
+    <string name="subtitle_secondary_track_select">副字幕</string>
+    <string name="subtitle_secondary_position">副字幕位置</string>
+    <string name="subtitle_color_white">白色</string>
+    <string name="subtitle_color_yellow">黄色</string>
+    <string name="subtitle_color_cyan">青色</string>
+    <string name="subtitle_color_green">绿色</string>
+    <string name="subtitle_color_orange">橙色</string>
+    <string name="subtitle_color_pink">粉色</string>
+    <string name="subtitle_color_red">红色</string>
+    <string name="subtitle_color_blue">蓝色</string>
+    <string name="subtitle_color_black">黑色</string>
+    <string name="subtitle_color_gray">灰色</string>
+    <string name="subtitle_color_transparent">透明</string>
+    <string name="subtitle_background_dim">半透明黑色</string>
+
+    <!-- Danmaku Setting -->
+    <string name="danmaku">弹幕</string>
+    <string name="danmaku_select">选择弹幕</string>
+    <string name="danmaku_setting">弹幕设置</string>
+    <string name="danmaku_text_size">字体缩放</string>
+    <string name="danmaku_transparency">透明度</string>
+    <string name="danmaku_text_bold">粗体</string>
+    <string name="danmaku_style_mode">字体效果</string>
+    <string name="danmaku_style_none">无</string>
+    <string name="danmaku_style_shadow">阴影</string>
+    <string name="danmaku_style_stroke">描边</string>
+    <string name="danmaku_style_projection">投影</string>
+    <string name="danmaku_shadow_transparency">阴影透明度</string>
+    <string name="danmaku_stroke_width">描边宽度</string>
+    <string name="danmaku_projection_offset_x">投影水平偏移</string>
+    <string name="danmaku_projection_offset_y">投影垂直偏移</string>
+    <string name="danmaku_projection_transparency">投影透明度</string>
+    <string name="danmaku_color_mode">颜色模式</string>
+    <string name="danmaku_color_default">原色</string>
+    <string name="danmaku_color_colorful">彩色</string>
+    <string name="danmaku_color_gradient">渐变</string>
+    <string name="danmaku_color_override_hint">弹幕原始颜色将被忽略</string>
+    <string name="danmaku_auto">自动</string>
+    <string name="danmaku_duration">滚动时间</string>
+    <string name="danmaku_fixed_duration">固定显示时间</string>
+    <string name="danmaku_time_offset">时间偏移</string>
+    <string name="danmaku_max_on_screen">最多同时显示</string>
+    <string name="danmaku_scroll_area_ratio">滚动区域</string>
+    <string name="danmaku_max_scroll_lines">最大滚动行数</string>
+    <string name="danmaku_max_top_lines">最大顶部行数</string>
+    <string name="danmaku_max_bottom_lines">最大底部行数</string>
+    <string name="danmaku_line_spacing">垂直间距</string>
+    <string name="danmaku_scroll_gap_ratio">水平间距</string>
+    <string name="danmaku_show_scroll">滚动弹幕</string>
+    <string name="danmaku_show_top">顶部固定</string>
+    <string name="danmaku_show_bottom">底部固定</string>
+    <string name="danmaku_show_reverse">反向滚动</string>
+    <string name="danmaku_show_positioned">定位弹幕</string>
+    <string name="danmaku_show_subtitle">字幕型</string>
+    <string name="danmaku_show_special">特效型</string>
+    <string name="danmaku_section_appearance">外观</string>
+    <string name="danmaku_section_display">显示</string>
+    <string name="danmaku_section_timing">时间</string>
+    <string name="danmaku_section_density">密度</string>
+    <string name="danmaku_reset">重置</string>
+    <string name="danmaku_section_source">弹幕来源</string>
+    <string name="danmaku_section_matching">自动匹配</string>
+    <string name="danmaku_api_none">未配置</string>
+    <string name="danmaku_api_custom">自定义搜索接口</string>
+    <string name="danmaku_api_config">当前内容源提供</string>
+    <string name="danmaku_api_required">当前内容源未提供弹幕云搜接口</string>
+    <string name="danmaku_empty_hint">暂无弹幕源，可在线搜索或导入本地 XML/TXT 文件</string>
+    <string name="danmaku_input_hint">发一条弹幕…</string>
+    <string name="danmaku_send">发送</string>
+    <string name="danmaku_sent">弹幕已发送</string>
+    <string name="danmaku_loaded">已加载 %1$d 条弹幕</string>
+    <string name="danmaku_empty">该弹幕源暂无可显示内容</string>
+    <string name="danmaku_load_failed">弹幕源加载失败，请更换来源</string>
+    <string name="danmaku_no_match">未自动匹配到弹幕，可手动搜索或导入本地文件</string>
+    <string name="danmaku_search_failed">自动搜索弹幕失败</string>
+    <string name="danmaku_search">搜索弹幕</string>
+    <string name="danmaku_search_entry">弹幕搜索</string>
+    <string name="detail_danmaku_action">搜索</string>
+    <string name="danmaku_search_action">搜索</string>
+    <string name="danmaku_current_playing">当前播放：%1$s</string>
+    <string name="danmaku_search_description">输入片名搜索影片和选集，选择结果后立即加载弹幕。</string>
+    <string name="danmaku_search_prompt">输入片名后点“搜索”</string>
+    <string name="danmaku_search_empty">没有找到相关弹幕，请尝试缩短片名</string>
+    <string name="detail_player">播放</string>
+    <string name="detail_cast">投屏</string>
+    <string name="playback_episode_number">第%1$s集</string>
+    <string name="playback_episode_status">%1$s · 共%2$d集</string>
+    <string name="playback_episode_status_complete">%1$s · 共%2$d集 · 完結</string>
+    <string name="playback_episode_complete">%1$s · 完結</string>
+    <string name="danmaku_searching">正在搜索当前影片的弹幕</string>
+    <string name="danmaku_no_search_source">当前影片没有可用的弹幕搜索源</string>
+
+    <!-- Parse -->
+    <string name="parse">解析</string>
+    <string name="parse_god">超级解析</string>
+    <string name="parse_from">解析来自：<xliff:g name="name">%s</xliff:g></string>
+
+    <!-- Push -->
+    <string name="push">推送</string>
+
+    <!-- Setting -->
+    <string name="setting_vod">点播</string>
+    <string name="setting_live">直播</string>
+    <string name="setting_wall">壁纸</string>
+    <string name="setting_player">播放设置</string>
+    <string name="setting_danmaku">弹幕设置</string>
+    <string name="setting_incognito">无痕模式</string>
+    <string name="setting_boot_auto_start">启动页面</string>
+    <string name="setting_none">不隐藏</string>
+    <string name="play_picture_in_picture">小窗播放</string>
+    <string name="play_toggle_orientation">横竖屏切换</string>
+    <string-array name="select_boot_start">
+        <item>关闭</item>
+        <item>点播</item>
+        <item>直播</item>
+        <item>历史</item>
+    </string-array>
+    <string name="setting_theme_color">主题色彩</string>
+    <string name="theme_color_custom">自定义主题色</string>
+    <string name="theme_color_wheel">颜色选择盘</string>
+    <string name="theme_color_brightness">明暗</string>
+    <string name="theme_color_disable">关闭主题色</string>
+    <string name="setting_theme_mode">主题模式</string>
+    <string name="setting_auto">自动</string>
+    <string name="setting_custom">自定义</string>
+    <string name="setting_size">图片尺寸</string>
+    <string name="setting_doh">DoH</string>
+    <string name="setting_github_acceleration">GitHub 加速</string>
+    <string name="setting_proxy">Proxy</string>
+    <string name="setting_cache">缓存</string>
+    <string name="storage_privacy_title">存储与隐私</string>
+    <string name="storage_temporary_cache">临时缓存</string>
+    <string name="storage_offline_downloads">离线下载</string>
+    <string name="storage_playback_history">播放历史</string>
+    <string name="storage_history_count">%1$d 条记录</string>
+    <string name="storage_auto_clean">每 7 天自动清理临时缓存</string>
+    <string name="storage_clear_cache">清理临时缓存</string>
+    <string name="storage_manage_downloads">管理离线下载</string>
+    <string name="storage_export_history">导出历史</string>
+    <string name="storage_import_history">导入历史</string>
+    <string name="storage_clear_history">清空播放历史</string>
+    <string name="storage_clear_history_confirm">这会删除本机的播放历史和观看进度。</string>
+    <string name="storage_cache_cleared">临时缓存已清理</string>
+    <string name="storage_history_cleared">播放历史已清空</string>
+    <string name="storage_history_exported">播放历史已导出</string>
+    <string name="storage_history_imported">播放历史已导入</string>
+    <string name="storage_history_transfer_failed">无法处理历史记录文件</string>
+    <string name="accessibility_title">无障碍</string>
+    <string name="accessibility_setting_summary">字号、对比度与动画</string>
+    <string name="accessibility_font_size">字号</string>
+    <string name="accessibility_font_standard">标准</string>
+    <string name="accessibility_font_large">大号</string>
+    <string name="accessibility_font_extra_large">特大</string>
+    <string name="accessibility_font_preview">菜单和说明文字预览</string>
+    <string name="accessibility_high_contrast">高对比度</string>
+    <string name="accessibility_reduce_motion">减少动画</string>
+    <string name="accessibility_search">搜索</string>
+    <string name="accessibility_delete">删除</string>
+    <string name="accessibility_display_mode">显示模式</string>
+    <string name="accessibility_vod_home">设为点播主页源</string>
+    <string name="accessibility_vod_history">点播源历史</string>
+    <string name="accessibility_live_home">设为直播主页源</string>
+    <string name="accessibility_live_history">直播源历史</string>
+    <string name="accessibility_wall_default">使用默认壁纸源</string>
+    <string name="accessibility_wall_refresh">刷新壁纸</string>
+    <string name="accessibility_keyboard_remote">遥控器输入</string>
+    <string name="accessibility_keyboard_left">光标左移</string>
+    <string name="accessibility_keyboard_right">光标右移</string>
+    <string name="accessibility_keyboard_back">退格</string>
+    <string name="accessibility_keyboard_search">执行搜索</string>
+    <string name="accessibility_keyboard_language">切换键盘</string>
+    <string name="accessibility_keyboard_home">清空输入</string>
+    <string-array name="accessibility_font_sizes">
+        <item>@string/accessibility_font_standard</item>
+        <item>@string/accessibility_font_large</item>
+        <item>@string/accessibility_font_extra_large</item>
+    </string-array>
+    <string name="setting_backup">备份</string>
+    <string name="setting_restore">恢复</string>
+    <string name="setting_webdav">WebDAV 同步</string>
+    <string name="webdav_setting_summary">在设备之间同步选定数据</string>
+    <string name="source_health_title">来源健康检查</string>
+    <string name="source_health_setting_summary">检查配置、点播源和直播源</string>
+    <string name="source_health_description">检查来源可用性，不会实际打开直播流。</string>
+    <string name="source_health_network">当前网络</string>
+    <string name="source_health_vod_config">点播配置</string>
+    <string name="source_health_vod_source">当前点播源</string>
+    <string name="source_health_live_source">当前直播源</string>
+    <string name="source_health_waiting">等待检查</string>
+    <string name="source_health_network_offline">当前没有可用网络</string>
+    <string name="source_health_network_online">网络连接可用</string>
+    <string name="source_health_network_unverified">已连接网络，但尚未验证互联网访问</string>
+    <string name="source_health_config_missing">尚未设置点播配置地址</string>
+    <string name="source_health_config_valid">配置已重新获取并成功解析</string>
+    <string name="source_health_source_missing">尚未加载点播源</string>
+    <string name="source_health_source_empty">来源已响应，但没有返回分类或内容</string>
+    <string name="source_health_source_available">返回 %1$d 个分类、%2$d 条内容</string>
+    <string name="source_health_live_missing">尚未设置直播源</string>
+    <string name="source_health_live_empty">没有找到包含有效地址的频道</string>
+    <string name="source_health_live_available">%1$d 个分组、%2$d 个频道包含地址</string>
+    <string name="source_health_error_timeout">请求超时</string>
+    <string name="source_health_error_dns">无法解析来源主机</string>
+    <string name="source_health_error_ssl">安全连接失败</string>
+    <string name="source_health_error_connect">无法连接到来源</string>
+    <string name="source_health_error_unknown">来源检查失败</string>
+    <string name="source_health_status_ok">可用</string>
+    <string name="source_health_status_warning">警告</string>
+    <string name="source_health_status_failed">失败</string>
+    <string name="source_health_status_skipped">已跳过</string>
+    <string name="source_health_elapsed">%1$d 毫秒</string>
+    <string name="source_health_detail_address">%1$s\n%2$s</string>
+    <string name="source_health_status_description">%1$s，%2$s，%3$s</string>
+    <string name="source_health_retry">重新检查</string>
+    <string name="source_health_copy">复制报告</string>
+    <string name="source_health_report_title">IBox 来源健康报告</string>
+    <string name="setting_version">版本</string>
+    <string name="setting_choose">选择</string>
+    <string name="setting_off">关</string>
+    <string name="setting_on">开</string>
+
+    <!-- Backup & Restore -->
+    <string name="restore_select">选择备份</string>
+    <string name="restore_success">恢复成功</string>
+    <string name="restore_fail">恢复失败</string>
+    <string name="backup_success">备份成功</string>
+    <string name="backup_fail">备份失败</string>
+
+    <!-- WebDAV sync -->
+    <string name="webdav_title">WebDAV 同步</string>
+    <string name="webdav_description">使用你自己的 WebDAV 文件夹，账号信息只保存在本机。</string>
+    <string name="webdav_endpoint">WebDAV 文件夹地址</string>
+    <string name="webdav_username">用户名</string>
+    <string name="webdav_password">密码或应用密码</string>
+    <string name="webdav_sync_content">同步内容</string>
+    <string name="webdav_favorites">收藏</string>
+    <string name="webdav_history">历史</string>
+    <string name="webdav_progress">播放进度</string>
+    <string name="webdav_subscriptions">订阅</string>
+    <string name="webdav_settings">设置</string>
+    <string name="webdav_conflict_rule">合并同步按记录更新时间保留较新内容；上传和下载覆盖只影响已勾选内容。</string>
+    <string name="webdav_merge">合并同步</string>
+    <string name="webdav_upload">上传覆盖</string>
+    <string name="webdav_download">下载覆盖</string>
+    <string name="webdav_syncing">正在同步…</string>
+    <string name="webdav_success">同步完成</string>
+    <string name="webdav_failure">同步失败：%1$s</string>
+    <string name="webdav_endpoint_error">请输入有效的 HTTP 或 HTTPS 地址</string>
+    <string name="webdav_selection_error">请至少选择一项同步内容</string>
+
+    <!-- Player -->
+    <string name="player">播放核心</string>
+    <string name="player_engine">播放引擎</string>
+    <string name="player_debug">调试</string>
+    <string name="player_render">渲染類型</string>
+    <string name="player_scale">缩放比例</string>
+    <string name="player_libass">字幕渲染</string>
+    <string name="player_background">后台播放</string>
+    <string name="player_audio_pass_through">音频直通</string>
+    <string name="player_audio_decode">音频软解</string>
+    <string name="player_video_decode">视频软解</string>
+    <string name="player_dolby_vision_output">杜比视界</string>
+    <string name="player_aac_track">AAC优先</string>
+    <string name="player_adblock">智能去广</string>
+    <string name="player_tunnel">隧道模式</string>
+    <string name="player_buffer">缓冲时间</string>
+    <string name="player_decode_setting">解码设置</string>
+    <string name="player_preload_setting">预载设置</string>
+    <string name="player_preload">预载</string>
+    <string name="player_preload_next">预载下集</string>
+    <string name="player_preload_threads">预载线程</string>
+    <string name="player_preload_threads_value">%1$d 条</string>
+    <string name="player_preload_size">预载容量</string>
+    <string name="player_preload_time">预载时间</string>
+    <string name="player_preload_time_value">%1$d 秒</string>
+    <string name="player_mpv_conf">mpv.conf</string>
+    <string name="player_mpv_gpu_next">gpu-next</string>
+    <string name="player_mpv_vulkan">vulkan</string>
+    <string name="player_mpv_conf_import_success">已导入 mpv.conf</string>
+    <string name="player_ua">User-Agent</string>
+
+    <!-- Danmaku -->
+    <string name="danmaku_load">弹幕加载</string>
+    <string name="danmaku_api">搜索接口</string>
+    <string name="danmaku_api_url">接口地址</string>
+    <string name="danmaku_api_source">使用内容源接口</string>
+    <string name="danmaku_api_description">GET 地址可使用 {name} 和 {episode} 占位符；不含占位符的地址将以 POST 提交 name、episode 参数。</string>
+    <string name="danmaku_auto_load">自动搜索</string>
+    <string name="danmaku_spider_first">爬虫优先</string>
+
+    <!-- Search -->
+    <string name="search_keyword">关键字…</string>
+    <string name="search_record">历史</string>
+    <string name="search_suggest">建议</string>
+    <string name="search_hot">热搜</string>
+    <string name="search_scope_all">全部源</string>
+    <string name="search_scope_current">当前源：%1$s</string>
+    <string name="search_filter_type">类型</string>
+    <string name="search_filter_year">年份</string>
+    <string name="search_filter_all_types">全部类型</string>
+    <string name="search_filter_all_years">全部年份</string>
+    <string name="search_filter_value">%1$s：%2$s</string>
+    <string name="search_filter_movie">電影</string>
+    <string name="search_filter_series">劇集</string>
+    <string name="search_filter_variety">綜藝</string>
+    <string name="search_filter_anime">動漫</string>
+    <string name="search_filter_documentary">紀錄片</string>
+    <string name="search_filter_short_drama">短劇</string>
+    <string name="search_filter_other">其他</string>
+    <string name="search_history_clear">清空历史</string>
+    <string name="search_history_clear_title">清空搜索历史？</string>
+    <string name="search_source_count">%1$d 个来源</string>
+    <string name="search_choose_source">选择来源</string>
+
+    <!-- Dialog -->
+    <string name="dialog_edit">修改</string>
+    <string name="dialog_positive">确定</string>
+    <string name="dialog_negative">取消</string>
+    <string name="dialog_select_edition">选择标题</string>
+    <string name="dialog_select_chapter">选择章节</string>
+    <string name="dialog_config_hint">请输入配置…</string>
+    <string name="dialog_config_name">请输入名称…</string>
+    <string name="dialog_config_url">请输入地址…</string>
+    <string name="repository_add_source_title">新增%1$s訂閱</string>
+    <string name="repository_edit_source_title">編輯%1$s訂閱</string>
+    <string name="repository_source_name">訂閱名稱</string>
+    <string name="repository_source_address">訂閱位址</string>
+    <string name="repository_current">目前訂閱</string>
+    <string name="repository_delete_title">刪除訂閱？</string>
+
+    <!-- Error -->
+    <string name="error_config_get">配置取得失败</string>
+    <string name="home_source_loading">正在載入來源</string>
+    <string name="home_content_loading">正在載入首頁內容</string>
+    <string name="home_load_empty">目前來源未返回首頁內容</string>
+    <string name="home_load_failed">首頁載入失敗，請重試或切換來源</string>
+    <string name="home_load_after_crash">來源異常後已暫停首頁載入，請點擊重試繼續</string>
+    <string name="home_load_retry">重試</string>
+    <string name="home_source_empty">尚未新增點播來源，新增後即可載入電影和劇集</string>
+    <string name="home_source_add">新增點播來源</string>
+    <string name="error_play_next">已经是最后一集了！</string>
+    <string name="error_play_prev">已经是第一集了！</string>
+    <string name="error_play_parse">播放地址解析失败</string>
+    <string name="error_play_drm">此设备不支持所需的 DRM scheme</string>
+    <string name="error_play_url">播放地址加载失败</string>
+    <string name="error_play_flag">暂无线路数据</string>
+    <string name="error_play_timeout">连接超时</string>
+    <string name="error_player_timeout">播放逾時</string>
+    <string name="error_player_audio_output">無法初始化音訊輸出</string>
+    <string name="play_error_retry">重试</string>
+    <string name="play_error_change_source">换源</string>
+    <string name="play_recovery_searching">正在搜索可用备用源…</string>
+    <string name="play_recovery_exhausted">未找到可播放的备用源</string>
+    <string name="history_mark_watched">标记为已看</string>
+    <string name="history_mark_unwatched">标记为未看</string>
+    <string name="history_watched">已看完</string>
+    <string name="history_progress">已看 %1$d%%</string>
+    <string name="history_remove">从记录中移除</string>
+    <string name="history_batch_delete">批量删除</string>
+    <string name="error_audio_effect_unsupported">当前播放方式不支持音质设置</string>
+    <string name="error_audio_effect_tunnel">隧道模式下不支持音质设置</string>
+    <string name="error_audio_effect_passthrough">音频直通音轨不支持音质设置</string>
+    <string name="error_audio_effect_apply">音质设置应用失败</string>
+    <string name="error_video_effect_unsupported">当前播放方式不支持画质设置</string>
+    <string name="error_video_effect_decode">画质设置需要视频硬解</string>
+    <string name="error_video_effect_drm">DRM 视频不支持画质设置</string>
+    <string name="error_video_effect_tunnel">隧道模式下不支持画质设置</string>
+    <string name="error_video_effect_dolby_vision_passthrough">杜比视界直通不支持画质设置</string>
+    <string name="error_play_tvbus">错误代码：<xliff:g name="name">%s</xliff:g></string>
+    <string name="error_detail">暂无播放数据</string>
+    <string name="error_empty">暫無內容</string>
+    <string name="empty_state_hint">可嘗試切換分類或重新整理頁面</string>
+
+    <!-- Crash -->
+    <string name="crash_info">发生意外错误\n抱歉给您带来不便</string>
+    <string name="crash_restart">重新启动</string>
+    <string name="crash_details">错误信息</string>
+    <string name="crash_details_title">错误信息</string>
+    <string name="crash_details_close">关闭</string>
+
+    <!-- Hint -->
+    <string name="copied">已复制</string>
+
+    <!-- 播放诊断 -->
+    <string name="diagnostics_title">播放诊断</string>
+    <string name="diagnostics_unknown_media">未知媒体</string>
+    <string name="diagnostics_media">媒体</string>
+    <string name="diagnostics_source">内容源</string>
+    <string name="diagnostics_line">线路</string>
+    <string name="diagnostics_play_mode">播放方式</string>
+    <string name="diagnostics_engine">播放内核</string>
+    <string name="diagnostics_decode">解码方式</string>
+    <string name="diagnostics_state">播放状态</string>
+    <string name="diagnostics_resolution">分辨率</string>
+    <string name="diagnostics_buffer">已缓冲</string>
+    <string name="diagnostics_speed">播放速度</string>
+    <string name="diagnostics_video">视频轨道</string>
+    <string name="diagnostics_audio">音频轨道</string>
+    <string name="diagnostics_subtitle">字幕轨道</string>
+    <string name="diagnostics_parser">解析器</string>
+    <string name="diagnostics_last_error">最近错误</string>
+    <string name="diagnostics_events">最近事件</string>
+    <string name="diagnostics_address">播放地址</string>
+    <string name="diagnostics_device">设备</string>
+    <string name="diagnostics_app_version">应用版本</string>
+    <string name="diagnostics_hidden_address">地址已隐藏</string>
+    <string name="diagnostics_share">分享</string>
+    <string name="diagnostics_copy">复制报告</string>
+    <string name="play_info">播放信息</string>
+    <string name="remote_title">局域网控制</string>
+    <string name="remote_description">仅允许已配对的局域网设备控制播放和管理文件，默认关闭。</string>
+    <string name="remote_enable">开启局域网控制</string>
+    <string name="remote_address">访问地址</string>
+    <string name="remote_pairing_code">配对码</string>
+    <string name="remote_connected_devices">最近连接设备</string>
+    <string name="remote_no_devices">暂无已配对设备</string>
+    <string name="remote_regenerate">更换配对码</string>
+    <string name="remote_disconnect_all">断开全部</string>
+    <string name="danmaku_send_short">发</string>
+    <string name="danmaku_filter_title">内容过滤</string>
+    <string name="danmaku_merge_duplicates">合并重复弹幕</string>
+    <string name="danmaku_max_text_length">弹幕最大字数</string>
+    <string name="danmaku_blocked_keywords">屏蔽关键词，用逗号分隔</string>
+    <string name="diagnostics_direct">直连</string>
+    <string name="diagnostics_live">直播</string>
+    <string name="diagnostics_parsing">解析中</string>
+    <string name="diagnostics_parsed">已解析</string>
+    <string name="diagnostics_event_direct">开始直连播放</string>
+    <string name="diagnostics_event_parse">开始解析播放地址</string>
+    <string name="diagnostics_event_parse_success">解析成功：%1$s</string>
+    <string name="diagnostics_event_decode">切换解码方式重试：%1$s</string>
+    <string name="diagnostics_event_line">自动切换线路：%1$s</string>
+    <string name="diagnostics_event_source">自动切换内容源：%1$s</string>
+
+    <!-- 离线下载 -->
+    <string name="download_action">视频下载</string>
+    <string name="download_short">下載</string>
+    <string name="download_manager">下载管理</string>
+    <string name="download_notification_channel">离线下载</string>
+    <string name="download_select_title">从“%1$s”下载</string>
+    <string name="download_select_all_line">全选本线路</string>
+    <string name="download_preparing">正在准备 %1$d 集…</string>
+    <string name="download_added">已加入 %1$d 集到下载队列</string>
+    <string name="download_added_partial">已加入 %1$d 集，另有 %2$d 集不支持或解析失败</string>
+    <string name="download_unsupported">无法获取真实媒体地址，依赖解析或本机代理的线路不支持离线下载</string>
+    <string name="download_filter_all">全部</string>
+    <string name="download_filter_active">下载中</string>
+    <string name="download_filter_completed">已完成</string>
+    <string name="download_filter_failed">失败</string>
+    <string name="download_summary">共 %1$d 个任务 · 已下载 %2$s</string>
+    <string name="download_empty">暂无下载任务</string>
+    <string name="download_source_line">线路：%1$s</string>
+    <string name="download_progress_value">%1$d%% · %2$s</string>
+    <string name="download_status_speed">%1$s · %2$s/s</string>
+    <string name="download_pause">暂停</string>
+    <string name="download_resume">继续</string>
+    <string name="download_retry">重试</string>
+    <string name="download_play">播放下载</string>
+    <string name="download_delete">删除</string>
+    <string name="download_delete_title">删除下载？</string>
+    <string name="download_delete_message">将删除“%1$s”的已下载数据。</string>
+    <string name="download_paused">已暂停</string>
+    <string name="download_queued">等待下载</string>
+    <string name="download_downloading">下载中</string>
+    <string name="download_completed">已完成</string>
+    <string name="download_failed">下载失败</string>
+    <string name="download_removing">正在删除</string>
+    <string name="download_restarting">正在重试</string>
+    <string name="download_waiting">等待中</string>
+    <string name="download_policy_title">下载设置</string>
+    <string name="download_wifi_only">仅使用 Wi-Fi 下载</string>
+    <string name="download_parallel_title">同时下载数量</string>
+    <string name="download_segment_threads_title">分片下载线程数</string>
+    <string name="download_segment_threads_hint">用于加速 HLS/DASH 分片视频；线程越多，占用的带宽和连接数越高。</string>
+    <string name="download_retry_title">失败后自动重试次数</string>
+    <string name="download_retry_none">关闭</string>
+    <string name="download_policy_applies_immediately">修改会立即应用到当前下载队列。</string>
+    <string name="download_network_wifi">仅 Wi-Fi</string>
+    <string name="download_network_any">任意网络</string>
+    <string name="download_policy_summary">%1$s · %2$d 个任务 · %3$d 个分片线程 · 重试 %4$d 次</string>
+    <string name="download_waiting_wifi">正在等待 Wi-Fi</string>
+    <string name="download_waiting_network">正在等待网络连接</string>
+    <string name="download_queue_downloading">正在下载 %1$d 项</string>
+    <string name="download_queue_ready">队列已就绪</string>
+    <string name="download_queue_idle">当前没有下载任务</string>
+    <string name="offline_library">离线影视库</string>
+    <string name="offline_library_summary">共 %1$d 部 · %2$d 集 · 占用 %3$s</string>
+    <string name="offline_library_item_summary">已下载 %1$d 集 · %2$s</string>
+    <string name="offline_library_empty">暂无已完成的离线影片</string>
+    <string name="offline_manage_episodes">管理集数</string>
+    <string name="offline_delete_movie_title">删除整部影片？</string>
+    <string name="offline_delete_movie_message">将删除“%1$s”已下载的全部 %2$d 集。</string>
+    <string name="offline_item_missing">该下载不存在或尚未完成</string>
+
+    <!-- UNIT -->
+    <string name="all">全部</string>
+    <string name="yes">有</string>
+    <string name="none">无</string>
+    <string name="times">倍</string>
+    <string name="lines">行</string>
+
+    <string-array name="select_decode">
+        <item>软解</item>
+        <item>硬解</item>
+    </string-array>
+
+    <string-array name="select_dolby_vision_output">
+        <item>自动</item>
+        <item>开</item>
+        <item>关</item>
+    </string-array>
+
+    <string-array name="select_size">
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+        <item>特大</item>
+    </string-array>
+
+    <string-array name="select_theme_mode">
+        <item>跟随系统</item>
+        <item>浅色</item>
+        <item>深色</item>
+    </string-array>
+
+    <string-array name="select_scale">
+        <item>原始</item>
+        <item>16:9</item>
+        <item>4:3</item>
+        <item>填充</item>
+        <item>裁剪</item>
+    </string-array>
+
+    <string-array name="audio_effect_stability_levels">
+        <item>关闭</item>
+        <item>轻微</item>
+        <item>柔和</item>
+        <item>标准</item>
+        <item>明显</item>
+        <item>强力</item>
+    </string-array>
+
+    <string-array name="select_track">
+        <item>选择音轨</item>
+        <item>选择视轨</item>
+        <item>选择字幕</item>
+    </string-array>
+
+    <string name="movie_preference">本片偏好</string>
+    <string name="movie_preference_title">本片播放偏好</string>
+    <string name="movie_preference_remember">记住本片设置</string>
+    <string name="movie_preference_engine">播放内核</string>
+    <string name="movie_preference_decode">解码方式</string>
+    <string name="movie_preference_hardware">硬件解码</string>
+    <string name="movie_preference_software">软件解码</string>
+    <string name="movie_preference_speed">播放倍速</string>
+    <string name="movie_preference_subtitle_style">字幕样式</string>
+    <string name="movie_preference_subtitle_original">原始</string>
+    <string name="movie_preference_subtitle_system">系统</string>
+    <string name="movie_preference_subtitle_custom">自定义</string>
+    <string name="movie_preference_subtitle_size">字幕大小  %1$s</string>
+    <string name="movie_preference_subtitle_position">字幕位置  %1$s</string>
+    <string name="movie_preference_restore">恢复全局设置</string>
+    <string name="live_menu_title">直播功能</string>
+    <string name="live_menu_line_category">線路選擇</string>
+    <string name="live_menu_channel">列表設定</string>
+    <string name="live_menu_playback">播放設定</string>
+    <string name="live_menu_category_manage">分類管理</string>
+    <string name="live_menu_subscription">訂閱管理</string>
+    <string name="live_menu_display">顯示設定</string>
+    <string name="live_menu_preference">偏好設定</string>
+    <string name="live_menu_manage">直播源管理</string>
+    <string name="live_menu_other">其他設定</string>
+    <string name="live_menu_more">更多管理</string>
+    <string name="live_menu_epg">節目表</string>
+    <string name="live_menu_keep">收藏</string>
+    <string name="live_menu_line">切換線路</string>
+    <string name="live_menu_play_toggle">播放暫停</string>
+    <string name="live_menu_decode">解碼方式</string>
+    <string name="live_menu_scale">畫面比例</string>
+    <string name="live_menu_info">播放資訊</string>
+    <string name="live_menu_invert">換台反轉</string>
+    <string name="live_menu_across">跨分類</string>
+    <string name="live_menu_change">自動換線</string>
+    <string name="live_menu_source_select">切源</string>
+    <string name="live_menu_boot">開機直播</string>
+    <string name="live_menu_current">目前</string>
+    <string name="live_epg_current_format">正在播放：%1$s</string>
+    <string name="live_epg_next_format">下一節目：%1$s</string>
+    <string name="live_menu_on">開啟</string>
+    <string name="live_menu_off">關閉</string>
+    <string name="live_menu_added">已收藏</string>
+    <string name="live_menu_not_added">未收藏</string>
+    <string name="live_menu_reload">重新連線</string>
+    <string name="live_menu_show_logo">台標</string>
+    <string name="live_menu_show_number">編號</string>
+    <string name="live_menu_show_epg">節目摘要</string>
+    <string name="live_menu_panel_opacity">透明度</string>
+    <string name="live_menu_reconnect">斷線重連</string>
+    <string name="live_menu_catchup">節目回看</string>
+    <string name="live_menu_timeout">逾時換源</string>
+    <string name="live_menu_timeout_seconds">%1$d秒</string>
+    <string name="live_menu_reconnect_off">關閉重連</string>
+    <string name="live_menu_reconnect_seconds">%1$d秒後重連</string>
+    <string name="live_menu_rtsp">RTSP通道</string>
+    <string name="live_menu_rtsp_tcp">TCP</string>
+    <string name="live_menu_rtsp_udp">UDP</string>
+    <string name="live_menu_timeshift_end">時移設定</string>
+    <string name="live_menu_timeshift_reload">時移結束重載</string>
+    <string name="live_menu_timeshift_live">結束返回直播</string>
+    <string name="live_menu_remember_decode">記憶解碼</string>
+    <string name="live_menu_clock">顯示時間</string>
+    <string name="live_menu_catchup_indicator">回看標識</string>
+    <string name="live_menu_network_speed">顯示網速</string>
+    <string name="live_menu_bottom_info">底部資訊</string>
+    <string name="live_menu_bottom_logo">底部台標</string>
+    <string name="live_menu_epg_title">僅節目名</string>
+    <string name="live_menu_epg_time_title">時間和節目名</string>
+    <string name="live_menu_list_density">列表密度</string>
+    <string name="live_menu_list_standard">標準</string>
+    <string name="live_menu_list_compact">緊湊</string>
+    <string name="live_menu_app_settings">應用設定</string>
+    <string name="live_menu_epg_refresh">EPG</string>
+    <string name="live_menu_epg_subscription">EPG訂閱</string>
+    <string name="live_menu_epg_cache_time">每日快取時間</string>
+    <string name="live_menu_epg_cache_hour">每天 %1$d 點</string>
+    <string name="live_epg_other_settings">其他設定</string>
+    <string name="live_epg_scan_info">掃碼輸入\n%1$s</string>
+    <string name="live_epg_cache_value">快取　　每天 %1$d 點</string>
+    <string name="live_epg_name_hint">名稱（選填）</string>
+    <string name="live_epg_url_hint">位址 / JSON</string>
+    <string name="live_epg_copy">複製</string>
+    <string name="live_epg_delete">刪除</string>
+    <string name="live_epg_activate">啟用</string>
+    <string name="live_epg_clear">清空編輯</string>
+    <string name="live_epg_headers_help">位址可填寫 {&quot;url&quot;:&quot;...&quot;,&quot;headers&quot;:{...}}</string>
+    <string name="live_epg_item">[%1$s] %2$s</string>
+    <string name="live_epg_item_active">[%1$s] %2$s　目前</string>
+    <string name="live_epg_url_required">請輸入 EPG 位址</string>
+    <string name="live_epg_saved">EPG 訂閱已儲存</string>
+    <string name="live_epg_activated">已啟用此 EPG</string>
+    <string name="live_epg_offset">EPG 時間偏移設定</string>
+    <string name="live_epg_cache_storage">EPG 快取位置</string>
+    <string name="live_epg_default_timezone">預設時區</string>
+    <string name="live_epg_offset_hour">%1$+d 小時</string>
+    <string name="live_epg_storage_internal">應用程式內部儲存</string>
+    <string name="live_epg_storage_external">外部儲存 iBox/epg</string>
+    <string name="live_epg_count">%1$d 個</string>
+    <string name="live_menu_subscription_list">訂閱列表</string>
+    <string name="live_menu_add_source">新增訂閱</string>
+    <string name="live_menu_local_list">本地列表</string>
+    <string name="live_menu_epg_default">預設源</string>
+    <string name="live_menu_epg_configured">已設定</string>
+    <string name="live_menu_supported">支援</string>
+    <string name="live_menu_unsupported">不支援</string>
+    <string name="live_epg_refresh_success">EPG 已刷新</string>
+    <string name="live_epg_refresh_failed">EPG 刷新失敗</string>
+    <string name="live_menu_scan_push">掃碼推送</string>
+    <string name="live_menu_scan_ready">掃碼或瀏覽器</string>
+    <string name="live_menu_epg_custom">自訂 EPG</string>
+    <string name="live_menu_epg_hint">EPG 位址，支援 {name}、{id}、{date}</string>
+    <string name="live_menu_headers">標識頭</string>
+    <string name="live_menu_headers_hint">JSON 格式，例如 {&quot;Referer&quot;:&quot;https://example.com&quot;}</string>
+    <string name="live_menu_headers_invalid">請輸入正確的 JSON 標識頭</string>
+    <string name="live_menu_custom">自訂</string>
+    <string name="live_menu_source_default">訂閱預設</string>
+    <string name="live_menu_channel_group">頻道分類</string>
+    <string name="live_menu_epg_update">重新整理 EPG</string>
+    <string name="live_menu_request">請求設定</string>
+    <string name="live_menu_tracks">音視訊軌</string>
+</resources>

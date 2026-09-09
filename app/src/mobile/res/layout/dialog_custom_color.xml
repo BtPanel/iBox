@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingTop="@dimen/ibox_space_2"
+    android:paddingEnd="@dimen/ibox_space_4"
+    android:paddingBottom="@dimen/ibox_space_2">
+
+    <com.imedia.box.ui.custom.ColorWheelView
+        android:id="@+id/colorWheel"
+        android:layout_width="216dp"
+        android:layout_height="216dp"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/presetRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_2"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/ibox_space_2"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/preview"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/colorCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ibox_space_3"
+            android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ibox_space_4"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/theme_color_brightness"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+    </LinearLayout>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/brightness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0.12"
+        android:valueTo="1.0"
+        app:labelBehavior="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/disable"
+            style="@style/Widget.IBox.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/theme_color_disable" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            style="@style/Widget.IBox.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/dialog_negative" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirm"
+            style="@style/Widget.IBox.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/dialog_positive" />
+    </LinearLayout>
+
+</LinearLayout>

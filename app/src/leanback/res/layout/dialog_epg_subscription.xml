@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_config"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/live_menu_epg_subscription"
+        android:textColor="@color/ibox_text_primary"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@color/ibox_text_secondary"
+                android:textSize="14sp"
+                tools:text="扫码输入\nhttp://192.168.1.2:9978" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/code"
+                android:layout_width="166dp"
+                android:layout_height="166dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/live_menu_scan_push"
+                android:scaleType="centerCrop" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/other"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_dialog_button"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/live_epg_other_settings"
+                    android:textColor="@color/selector_dialog_button_text"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/cache"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/selector_dialog_button"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="14dp"
+                    android:textColor="@color/selector_dialog_button_text"
+                    android:textSize="15sp"
+                    tools:text="缓存                         每天 8 点" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                android:paddingBottom="4dp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/help"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/selector_dialog_button"
+                    android:contentDescription="@string/live_epg_headers_help"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_epg_info"
+                    android:tint="@color/selector_dialog_button_text" />
+
+                <com.imedia.box.ui.custom.CustomEditText
+                    android:id="@+id/name"
+                    android:layout_width="110dp"
+                    android:layout_height="match_parent"
+                    android:hint="@string/live_epg_name_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textSize="15sp" />
+
+                <com.imedia.box.ui.custom.CustomEditText
+                    android:id="@+id/url"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:hint="@string/live_epg_url_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textUri"
+                    android:singleLine="true"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/clear"
+                    android:layout_width="44dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/selector_dialog_button"
+                    android:contentDescription="@string/live_epg_clear"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_msr_delete"
+                    android:tint="@color/selector_dialog_button_text" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/positive"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/selector_dialog_button"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/dialog_positive"
+                    android:textColor="@color/selector_dialog_button_text"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/type"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/selector_dialog_button"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/live_epg_type_xml"
+                    android:textColor="@color/selector_dialog_button_text"
+                    android:textSize="15sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

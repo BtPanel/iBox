@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/transparent" />
+            <stroke android:width="@dimen/ibox_focus_halo_stroke" android:color="@color/ibox_surface_container" />
+        </shape>
+    </item>
+    <item
+        android:left="@dimen/ibox_stroke_thin"
+        android:top="@dimen/ibox_stroke_thin"
+        android:right="@dimen/ibox_stroke_thin"
+        android:bottom="@dimen/ibox_stroke_thin">
+        <shape android:shape="oval">
+            <solid android:color="@color/transparent" />
+            <stroke android:width="@dimen/ibox_focus_stroke" android:color="?attr/focusFrameColor" />
+        </shape>
+    </item>
+</layer-list>

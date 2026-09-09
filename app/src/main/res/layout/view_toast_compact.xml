@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_toast_compact"
+    android:gravity="center"
+    android:maxWidth="@dimen/ibox_notification_max_width"
+    android:minHeight="@dimen/ibox_touch_target"
+    android:maxLines="3"
+    android:ellipsize="end"
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingTop="@dimen/ibox_space_3"
+    android:paddingEnd="@dimen/ibox_space_4"
+    android:paddingBottom="@dimen/ibox_space_3"
+    android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+    android:textColor="@color/ibox_player_text_primary" />

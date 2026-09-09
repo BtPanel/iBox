@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.IBox.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:minHeight">@dimen/ibox_toolbar_height</item>
+        <item name="titleTextAppearance">@style/TextAppearance.IBox.PageTitle</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.IBox.Supporting</item>
+        <item name="titleTextColor">@color/ibox_text_primary</item>
+        <item name="subtitleTextColor">@color/ibox_text_secondary</item>
+    </style>
+
+    <style name="Widget.IBox.IconButton.Base" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:minWidth">@dimen/ibox_touch_target</item>
+        <item name="android:minHeight">@dimen/ibox_touch_target</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:tint">@color/selector_ibox_icon</item>
+    </style>
+
+    <style name="Widget.IBox.IconButton" parent="Widget.IBox.IconButton.Base" />
+
+    <style name="Widget.IBox.PosterTitle" parent="">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.IBox.PosterTitle</item>
+    </style>
+
+    <style name="Widget.IBox.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/ibox_surface</item>
+        <item name="boxStrokeColor">@color/selector_ibox_input_stroke</item>
+        <item name="boxStrokeWidth">@dimen/ibox_stroke_thin</item>
+        <item name="boxStrokeWidthFocused">@dimen/ibox_focus_stroke</item>
+        <item name="counterTextColor">@color/ibox_text_secondary</item>
+        <item name="endIconTint">@color/selector_ibox_icon</item>
+        <item name="errorTextColor">@color/ibox_error</item>
+        <item name="hintTextColor">@color/selector_ibox_input_hint</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.IBox.Component</item>
+    </style>
+
+    <style name="Widget.IBox.TextInputEditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:minHeight">@dimen/ibox_input_height</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/ibox_text_primary</item>
+        <item name="android:textColorHint">@color/ibox_text_secondary</item>
+        <item name="android:textSize">@dimen/ibox_text_body</item>
+    </style>
+
+    <style name="Widget.IBox.TextInputEditText.Address" parent="Widget.IBox.TextInputEditText">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">@dimen/ibox_text_address</item>
+    </style>
+
+    <style name="Widget.IBox.TextInputEditText.Compact" parent="Widget.IBox.TextInputEditText">
+        <item name="android:minHeight">@dimen/ibox_component_height</item>
+    </style>
+
+    <style name="Widget.IBox.SettingSwitch.Base" parent="Widget.IBox.MaterialSwitch">
+        <item name="android:scaleX">1</item>
+        <item name="android:scaleY">1</item>
+        <item name="android:minHeight">@dimen/ibox_setting_row_height</item>
+        <item name="android:paddingStart">@dimen/ibox_space_3</item>
+        <item name="android:paddingEnd">@dimen/ibox_space_3</item>
+        <item name="android:textAppearance">@style/TextAppearance.IBox.ItemTitle</item>
+        <item name="android:textColor">@color/ibox_text_primary</item>
+    </style>
+
+    <style name="Widget.IBox.SettingSwitch" parent="Widget.IBox.SettingSwitch.Base" />
+
+    <style name="Widget.IBox.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:minHeight">@dimen/ibox_touch_target</item>
+        <item name="android:textAppearance">@style/TextAppearance.IBox.Body</item>
+        <item name="android:textColor">@color/ibox_text_primary</item>
+    </style>
+
+    <style name="Widget.IBox.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="android:minHeight">@dimen/ibox_touch_target</item>
+        <item name="android:textColor">@color/selector_ibox_chip_text</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipBackgroundColor">@color/selector_ibox_chip_background</item>
+        <item name="chipMinHeight">@dimen/ibox_component_height_compact</item>
+        <item name="chipStrokeColor">@color/selector_ibox_component_outline</item>
+        <item name="chipStrokeWidth">@dimen/ibox_stroke_thin</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.IBox.Component</item>
+        <item name="android:textAppearance">@style/TextAppearance.IBox.Label</item>
+    </style>
+
+    <style name="Widget.IBox.Divider" parent="">
+        <item name="android:background">@color/ibox_divider</item>
+        <item name="android:minHeight">@dimen/ibox_stroke_thin</item>
+    </style>
+
+    <style name="Widget.IBox.Card.Outlined" parent="Widget.IBox.Card">
+        <item name="cardBackgroundColor">@color/ibox_surface</item>
+        <item name="strokeColor">@color/ibox_outline_strong</item>
+        <item name="strokeWidth">@dimen/ibox_stroke_thin</item>
+    </style>
+
+    <style name="Widget.IBox.RepositoryItem" parent="">
+        <item name="android:background">@drawable/selector_ibox_repository_item</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/ibox_repository_row_min_height</item>
+        <item name="android:paddingStart">@dimen/ibox_space_4</item>
+        <item name="android:paddingTop">@dimen/ibox_space_2</item>
+        <item name="android:paddingEnd">@dimen/ibox_space_2</item>
+        <item name="android:paddingBottom">@dimen/ibox_space_2</item>
+    </style>
+
+    <style name="Widget.IBox.Episode.Base" parent="">
+        <item name="android:background">@drawable/selector_ibox_episode</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minHeight">@dimen/ibox_episode_height</item>
+        <item name="android:paddingStart">@dimen/ibox_space_3</item>
+        <item name="android:paddingEnd">@dimen/ibox_space_3</item>
+        <item name="android:textColor">@color/selector_ibox_episode_text</item>
+        <item name="android:textSize">@dimen/ibox_text_item_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="autoSizeMaxTextSize">@dimen/ibox_text_item_title</item>
+        <item name="autoSizeMinTextSize">10sp</item>
+        <item name="autoSizeStepGranularity">1sp</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+    <style name="Widget.IBox.Episode" parent="Widget.IBox.Episode.Base" />
+</resources>

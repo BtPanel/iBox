@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/ibox_space_5">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/storage_privacy_title"
+        android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_5"
+        android:text="@string/storage_temporary_cache"
+        android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/cacheSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_1"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/downloadLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_4"
+        android:text="@string/storage_offline_downloads"
+        android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/downloadSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_1"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_4"
+        android:text="@string/storage_playback_history"
+        android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/historyCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_1"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/autoClean"
+        style="@style/Widget.IBox.SettingSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_setting_row_height"
+        android:layout_marginTop="@dimen/ibox_space_4"
+        android:text="@string/storage_auto_clean" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_2"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clearCache"
+            style="@style/Widget.IBox.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_component_height"
+            android:layout_marginEnd="@dimen/ibox_space_2"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/storage_clear_cache"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/manageDownloads"
+            style="@style/Widget.IBox.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_component_height"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/storage_manage_downloads"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_2"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/exportHistory"
+            style="@style/Widget.IBox.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_component_height"
+            android:layout_marginEnd="@dimen/ibox_space_2"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/storage_export_history"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/importHistory"
+            style="@style/Widget.IBox.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_component_height"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/storage_import_history"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/clearHistory"
+        style="@style/Widget.IBox.Button.Danger"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_component_height"
+        android:layout_marginTop="@dimen/ibox_space_2"
+        android:text="@string/storage_clear_history" />
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText">
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/download_policy_title"
+        android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/wifiOnly"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_wifi_only" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_parallel_title"
+        android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/parallel"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+        <com.google.android.material.button.MaterialButton android:id="@+id/parallelOne" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="1" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/parallelTwo" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="2" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/parallelThree" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="3" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/parallelFour" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="4" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/parallelEight" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="8" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_segment_threads_title"
+        android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/segments"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+        <com.google.android.material.button.MaterialButton android:id="@+id/segmentOne" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="1" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/segmentTwo" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="2" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/segmentFour" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="4" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/segmentEight" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="8" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/segmentSixteen" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="16" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/download_segment_threads_hint"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_retry_title"
+        android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/retry"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+        <com.google.android.material.button.MaterialButton android:id="@+id/retryNone" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="@string/download_retry_none" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/retryOnce" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="1" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/retryThree" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="3" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/retryFive" style="@style/Widget.IBox.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="5" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/download_policy_applies_immediately"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

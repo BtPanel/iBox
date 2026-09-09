@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tv_home_surface">@color/ibox_surface</color>
+    <color name="tv_home_surface_strong">@color/ibox_surface_container</color>
+    <color name="tv_home_surface_focused">@color/ibox_surface_container_high</color>
+    <color name="tv_home_outline">@color/ibox_outline</color>
+    <color name="tv_home_text_secondary">@color/ibox_text_secondary</color>
+    <color name="tv_home_focus_blue">#69B4FF</color>
+    <color name="tv_home_on_focus_blue">#06233D</color>
+    <color name="tv_home_on_focus_red">#690005</color>
+    <color name="tv_home_on_focus_amber">#482000</color>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="2dp"
+    android:layout_marginVertical="2dp"
+    android:background="@drawable/shape_live"
+    android:gravity="center_vertical"
+    android:minHeight="44dp"
+    android:orientation="horizontal">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/number"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:duplicateParentState="true"
+        android:fontFeatureSettings="tnum"
+        android:gravity="end"
+        android:textColor="@color/selector_live_text"
+        android:textSize="@dimen/ibox_text_supporting"
+        tools:text="01" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:layout_width="36dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textColor="@color/selector_live_text"
+        android:textSize="@dimen/ibox_text_supporting"
+        tools:text="CNN" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="6dp"
+        android:gravity="center"
+        android:text="@string/live_unavailable"
+        android:textColor="@color/ibox_error"
+        android:textSize="@dimen/ibox_text_supporting"
+        android:visibility="gone" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lines"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:fontFeatureSettings="tnum"
+        android:gravity="end"
+        android:singleLine="true"
+        android:textColor="@color/selector_live_text"
+        android:textSize="@dimen/ibox_text_supporting"
+        android:visibility="gone"
+        tools:text="3线" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

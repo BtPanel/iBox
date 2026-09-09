@@ -1,0 +1,918 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- App -->
+    <string name="app_name">iBox</string>
+    <string name="version_label">v%1$s</string>
+
+    <!-- Live -->
+    <string name="live_pass">Pass</string>
+    <string name="live_refresh">Refresh</string>
+    <string name="live_line">Line <xliff:g name="name">%s</xliff:g></string>
+    <string name="live_source_empty_title">No live source</string>
+    <string name="live_source_empty_message">Add a source URL or choose a local M3U, M3U8, TXT, or JSON playlist.</string>
+    <string name="live_source_channels_title">No playable channels</string>
+    <string name="live_source_channels_message">The source loaded, but it did not contain any valid channels. Check the playlist format or try another source.</string>
+    <string name="live_source_failed_title">Unable to load live source</string>
+    <string name="live_source_add">Add live source</string>
+    <string name="live_source_file">Choose local playlist</string>
+    <string name="live_channel_list">Channel list</string>
+    <string name="live_channel_search">Search channels</string>
+    <string name="live_channel_search_hint">Channel name or number</string>
+    <string name="live_channel_search_empty">No matching channels</string>
+    <string name="live_recent">Recent</string>
+    <string name="live_unavailable">Unavailable</string>
+    <string name="live_epg">Program guide</string>
+    <string name="live_epg_now">On now</string>
+    <string name="live_epg_replay">Catch-up</string>
+    <string name="live_epg_replay_unavailable">Catch-up is not supported by this channel source</string>
+    <string name="live_catchup_seek_unavailable">This catch-up source does not support seeking</string>
+    <string name="live_epg_reminder_action">Set reminder</string>
+    <string name="live_epg_reminder_enabled">Reminder set</string>
+    <string name="live_epg_reminder_added">Reminder set for %1$s</string>
+    <string name="live_epg_reminder_removed">Reminder canceled for %1$s</string>
+    <string name="live_epg_reminder_channel">Program reminders</string>
+    <string name="live_epg_reminder_notification">%1$s starts soon</string>
+    <string name="live_epg_reminder_detail">%1$s · Starts at %2$s</string>
+    <string name="live_source_retry">Retry</string>
+    <string name="live_line_count">%1$d lines</string>
+    <string name="live_epg_empty">No program information</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="day_after_tomorrow">Day after</string>
+    <string name="live_source_favorite">My favorites</string>
+    <string name="live_source_favorite_empty">No favorite channels</string>
+    <string name="live_program_guide_vertical">P\nR\nO\nG</string>
+    <string name="live_channel_group_vertical">G\nR\nO\nU\nP</string>
+
+    <!-- Detail -->
+    <string name="detail_title"><xliff:g name="title">%1$s</xliff:g> : <xliff:g name="site">%2$s</xliff:g></string>
+    <string name="detail_site">Site: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_year">Year: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_area">Area: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_type">Type: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_director">Director: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_actor">Actor: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_content">Summary: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_desc">Summary</string>
+
+    <!-- Keep -->
+    <string name="keep">Keep</string>
+    <string name="keep_add">Added</string>
+    <string name="keep_del">Removed</string>
+    <string name="keep_search_hint">Search title or source</string>
+    <string name="keep_sort">Sort favorites</string>
+    <string name="keep_sort_current">Sort: %1$s</string>
+    <string name="keep_sort_recent">Recently added</string>
+    <string name="keep_sort_name">Title</string>
+    <string name="keep_sort_source">Source</string>
+    <string-array name="keep_sort_options">
+        <item>@string/keep_sort_recent</item>
+        <item>@string/keep_sort_name</item>
+        <item>@string/keep_sort_source</item>
+    </string-array>
+
+    <!-- Play -->
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="play_op">OP</string>
+    <string name="play_ed">ED</string>
+    <string name="play_exo">EXO</string>
+    <string name="play_mpv">MPV</string>
+    <string name="play_other">Other</string>
+    <string name="play_next">Next</string>
+    <string name="play_prev">Prev</string>
+    <string name="play_stop">Stop</string>
+    <string name="play_repeat">Repeat</string>
+    <string name="play_forward">→</string>
+    <string name="play_backward">←</string>
+    <string name="play_speed">Speed</string>
+    <string name="play_speed_hint">Speed <xliff:g name="speed">%1$s</xliff:g></string>
+    <string name="play_reset">Reset</string>
+    <string name="play_replay">Replay</string>
+    <string name="play_decode">Hard</string>
+    <string name="play_timer">Timer</string>
+    <string name="play_edition">Title</string>
+    <string name="play_chapter">Chapter</string>
+    <string name="play_scale">Default</string>
+    <string name="play_config">Config</string>
+    <string name="play_change">Change</string>
+    <string name="play_invert">Invert</string>
+    <string name="play_across">Across</string>
+    <string name="play_reverse">Reverse</string>
+    <string name="play_sort_ascending">Ascending</string>
+    <string name="play_sort_descending">Descending</string>
+    <string name="play_sort_current">Order: <xliff:g name="order">%1$s</xliff:g></string>
+    <string name="play_sequence_current">Playback: <xliff:g name="order">%1$s</xliff:g></string>
+    <string name="play_all_episodes">All</string>
+    <string name="play_track_text">Text</string>
+    <string name="play_track_audio">Audio</string>
+    <string name="play_track_video">Video</string>
+    <string name="play_forward_hint">Normal play switched</string>
+    <string name="play_backward_hint">Reverse play switched</string>
+    <string name="play_ready">Ready to play: <xliff:g name="name">%s</xliff:g></string>
+    <string name="play_switch_flag">Switching flag to <xliff:g name="name">%s</xliff:g></string>
+    <string name="play_switch_site">Switching site to <xliff:g name="name">%s</xliff:g></string>
+    <string name="play_switch_parse">Switching parse to <xliff:g name="name">%s</xliff:g></string>
+
+    <!-- Playback Setting -->
+    <string name="setting_tab_offset">Offset</string>
+    <string name="setting_effect_basic">Basic</string>
+    <string name="setting_effect_scene">Scene</string>
+    <string name="setting_effect_custom">Custom</string>
+    <string name="setting_preset_original">Original</string>
+
+    <!-- Speed Setting -->
+    <string name="speed_setting">Speed settings</string>
+    <string name="speed_setting_reset">Reset</string>
+    <string name="speed_setting_current">Playback speed</string>
+    <string name="speed_setting_long_press">Long press speed</string>
+    <string name="speed_setting_quick">Quick select</string>
+    <string name="speed_setting_skip_silence">Skip silence</string>
+
+    <!-- Audio Setting -->
+    <string name="audio_setting">Audio settings</string>
+    <string name="audio_effect_compare">Compare</string>
+    <string name="audio_effect_reset">Reset</string>
+    <string name="audio_effect_tab_preset">Effects</string>
+    <string name="audio_effect_tab_equalizer">Adjust</string>
+    <string name="audio_effect_tab_advanced">Advanced</string>
+    <string name="audio_offset">Audio offset</string>
+    <string name="audio_effect_category_tone">Tone</string>
+    <string name="audio_effect_category_genre">Genre</string>
+    <string name="audio_effect_natural">Natural</string>
+    <string name="audio_effect_vocal">Vocal</string>
+    <string name="audio_effect_cinema">Cinema</string>
+    <string name="audio_effect_bass">Bass</string>
+    <string name="audio_effect_treble">Treble</string>
+    <string name="audio_effect_pop">Pop</string>
+    <string name="audio_effect_rock">Rock</string>
+    <string name="audio_effect_dance">Dance</string>
+    <string name="audio_effect_electronic">Electro</string>
+    <string name="audio_effect_hiphop">Hip-hop</string>
+    <string name="audio_effect_jazz">Jazz</string>
+    <string name="audio_effect_classical">Classical</string>
+    <string name="audio_effect_custom">Custom</string>
+    <string name="audio_effect_stability">Stable volume</string>
+    <string name="audio_effect_stability_summary">Reduce volume changes within a video</string>
+    <string name="audio_effect_boost">Volume boost</string>
+    <string name="audio_effect_dialogue">Voice boost</string>
+    <string name="audio_effect_balance">Channel balance</string>
+    <string name="audio_effect_headroom">Headroom / preamp</string>
+    <string name="audio_effect_loudness">Loudness balance</string>
+    <string name="audio_effect_loudness_summary">Balance average volume across videos</string>
+    <string name="audio_effect_center_gain">Center gain</string>
+    <string name="audio_channel_mode">Channel mode</string>
+    <string name="audio_channel_auto">Auto</string>
+    <string name="audio_channel_stereo">Stereo</string>
+    <string name="audio_channel_mono">Mono</string>
+    <string name="audio_channel_reverse">Reverse</string>
+    <string name="audio_effect_balance_center">Center</string>
+    <string name="audio_effect_balance_left">L %1$d%%</string>
+    <string name="audio_effect_balance_right">R %1$d%%</string>
+
+    <!-- Video Setting -->
+    <string name="video_setting">Video settings</string>
+    <string name="video_effect_compare">Compare</string>
+    <string name="video_effect_reset">Reset</string>
+    <string name="video_effect_tab_preset">Effects</string>
+    <string name="video_effect_tab_adjust">Adjust</string>
+    <string name="video_effect_category_boost">Boost</string>
+    <string name="video_effect_category_tone">Style</string>
+    <string name="video_effect_natural">Natural</string>
+    <string name="video_effect_vivid">Vivid</string>
+    <string name="video_effect_clear">Clear</string>
+    <string name="video_effect_bright">Bright</string>
+    <string name="video_effect_cinema">Cinema</string>
+    <string name="video_effect_soft">Soft</string>
+    <string name="video_effect_warm">Warm</string>
+    <string name="video_effect_cool">Cool</string>
+    <string name="video_effect_comfort">Comfort</string>
+    <string name="video_effect_anime">Anime</string>
+    <string name="video_effect_sport">Sport</string>
+    <string name="video_effect_game">Game</string>
+    <string name="video_effect_custom">Custom</string>
+    <string name="video_effect_saturation">Saturation</string>
+    <string name="video_effect_contrast">Contrast</string>
+    <string name="video_effect_brightness">Brightness</string>
+    <string name="video_effect_gamma">Gamma</string>
+    <string name="video_effect_hue">Hue</string>
+    <string name="video_effect_temperature">Color temperature</string>
+    <string name="video_effect_sharpness">Sharpness</string>
+    <string name="video_effect_shadow">Shadow lift</string>
+
+    <!-- Subtitle Setting -->
+    <string name="subtitle_setting">Subtitle settings</string>
+    <string name="subtitle_search_api_title">Assrt</string>
+    <string name="subtitle_search_token_hint">Token</string>
+    <string name="subtitle_reset">Reset</string>
+    <string name="subtitle_tab_appearance">Appearance</string>
+    <string name="subtitle_tab_adjust">Adjust</string>
+    <string name="subtitle_tab_advanced">Advanced</string>
+    <string name="subtitle_offset">Subtitle offset</string>
+    <string name="subtitle_size">Size</string>
+    <string name="subtitle_position">Position</string>
+    <string name="subtitle_style_source">Style source</string>
+    <string name="subtitle_style_original">Original</string>
+    <string name="subtitle_style_system">System</string>
+    <string name="subtitle_style_custom">Custom</string>
+    <string name="subtitle_system_setting">System caption settings</string>
+    <string name="subtitle_text_color">Text color</string>
+    <string name="subtitle_text_opacity">Text transparency</string>
+    <string name="subtitle_edge_style">Edge style</string>
+    <string name="subtitle_edge_none">None</string>
+    <string name="subtitle_edge_outline">Outline</string>
+    <string name="subtitle_edge_shadow">Shadow</string>
+    <string name="subtitle_edge_color">Edge color</string>
+    <string name="subtitle_edge_opacity">Edge transparency</string>
+    <string name="subtitle_edge_width">Edge width</string>
+    <string name="subtitle_shadow_strength">Shadow strength</string>
+    <string name="subtitle_background">Background</string>
+    <string name="subtitle_background_opacity">Background transparency</string>
+    <string name="subtitle_secondary_track">Secondary subtitles</string>
+    <string name="subtitle_secondary_off">Off</string>
+    <string name="subtitle_secondary_auto">Auto</string>
+    <string name="subtitle_secondary_select">Select</string>
+    <string name="subtitle_secondary_track_select">Secondary subtitle</string>
+    <string name="subtitle_secondary_position">Secondary position</string>
+    <string name="subtitle_color_white">White</string>
+    <string name="subtitle_color_yellow">Yellow</string>
+    <string name="subtitle_color_cyan">Cyan</string>
+    <string name="subtitle_color_green">Green</string>
+    <string name="subtitle_color_orange">Orange</string>
+    <string name="subtitle_color_pink">Pink</string>
+    <string name="subtitle_color_red">Red</string>
+    <string name="subtitle_color_blue">Blue</string>
+    <string name="subtitle_color_black">Black</string>
+    <string name="subtitle_color_gray">Gray</string>
+    <string name="subtitle_color_transparent">Transparent</string>
+    <string name="subtitle_background_dim">Dim black</string>
+
+    <!-- Danmaku Setting -->
+    <string name="danmaku">Danmaku</string>
+    <string name="danmaku_select">Select danmaku</string>
+    <string name="danmaku_setting">Danmaku setting</string>
+    <string name="danmaku_text_size">Text scale</string>
+    <string name="danmaku_transparency">Opacity</string>
+    <string name="danmaku_text_bold">Bold</string>
+    <string name="danmaku_style_mode">Text style</string>
+    <string name="danmaku_style_none">None</string>
+    <string name="danmaku_style_shadow">Shadow</string>
+    <string name="danmaku_style_stroke">Stroke</string>
+    <string name="danmaku_style_projection">Projection</string>
+    <string name="danmaku_shadow_transparency">Shadow opacity</string>
+    <string name="danmaku_stroke_width">Stroke width</string>
+    <string name="danmaku_projection_offset_x">Projection offset X</string>
+    <string name="danmaku_projection_offset_y">Projection offset Y</string>
+    <string name="danmaku_projection_transparency">Projection opacity</string>
+    <string name="danmaku_color_mode">Color mode</string>
+    <string name="danmaku_color_default">Default</string>
+    <string name="danmaku_color_colorful">Colorful</string>
+    <string name="danmaku_color_gradient">Gradient</string>
+    <string name="danmaku_color_override_hint">Original colors will be ignored</string>
+    <string name="danmaku_auto">Auto</string>
+    <string name="danmaku_duration">Scroll duration</string>
+    <string name="danmaku_fixed_duration">Fixed duration</string>
+    <string name="danmaku_time_offset">Time offset</string>
+    <string name="danmaku_max_on_screen">Max on screen</string>
+    <string name="danmaku_scroll_area_ratio">Scroll area</string>
+    <string name="danmaku_max_scroll_lines">Max scroll rows</string>
+    <string name="danmaku_max_top_lines">Max top rows</string>
+    <string name="danmaku_max_bottom_lines">Max bottom rows</string>
+    <string name="danmaku_line_spacing">Line gap</string>
+    <string name="danmaku_scroll_gap_ratio">Row gap</string>
+    <string name="danmaku_show_scroll">Scrolling</string>
+    <string name="danmaku_show_top">Top pinned</string>
+    <string name="danmaku_show_bottom">Bottom pinned</string>
+    <string name="danmaku_show_reverse">Reverse scroll</string>
+    <string name="danmaku_show_positioned">Positioned</string>
+    <string name="danmaku_show_subtitle">Subtitle type</string>
+    <string name="danmaku_show_special">Special type</string>
+    <string name="danmaku_section_appearance">Appearance</string>
+    <string name="danmaku_section_display">Display</string>
+    <string name="danmaku_section_timing">Timing</string>
+    <string name="danmaku_section_density">Density</string>
+    <string name="danmaku_reset">Reset</string>
+    <string name="danmaku_section_source">Sources</string>
+    <string name="danmaku_section_matching">Automatic matching</string>
+    <string name="danmaku_api_none">Not configured</string>
+    <string name="danmaku_api_custom">Custom search API</string>
+    <string name="danmaku_api_config">Provided by content source</string>
+    <string name="danmaku_api_required">The current content source does not provide a danmaku cloud search API</string>
+    <string name="danmaku_empty_hint">No danmaku source. Search online or choose a local XML/TXT file.</string>
+    <string name="danmaku_input_hint">Send a danmaku…</string>
+    <string name="danmaku_send">Send</string>
+    <string name="danmaku_sent">Danmaku sent</string>
+    <string name="danmaku_loaded">%1$d danmaku loaded</string>
+    <string name="danmaku_empty">No displayable danmaku found</string>
+    <string name="danmaku_load_failed">Could not load this danmaku source</string>
+    <string name="danmaku_no_match">No matching danmaku. Try manual search or a local file.</string>
+    <string name="danmaku_search_failed">Automatic danmaku search failed</string>
+    <string name="danmaku_search">Search danmaku</string>
+    <string name="danmaku_search_entry">Danmaku search</string>
+    <string name="detail_danmaku_action">Search</string>
+    <string name="danmaku_search_action">Search</string>
+    <string name="danmaku_current_playing">Now playing: %1$s</string>
+    <string name="danmaku_search_description">Search by title, then choose a matching episode to load its danmaku.</string>
+    <string name="danmaku_search_prompt">Enter a title and tap Search</string>
+    <string name="danmaku_search_empty">No matching danmaku found. Try a shorter title.</string>
+    <string name="detail_player">Player</string>
+    <string name="detail_cast">Cast</string>
+    <string name="playback_episode_number">Episode %1$s</string>
+    <string name="playback_episode_status">%1$s · %2$d episodes</string>
+    <string name="playback_episode_status_complete">%1$s · %2$d episodes · Complete</string>
+    <string name="playback_episode_complete">%1$s · Complete</string>
+    <string name="danmaku_searching">Searching danmaku for this title</string>
+    <string name="danmaku_no_search_source">No danmaku search source is available for this title</string>
+
+    <!-- Parse -->
+    <string name="parse">Parse</string>
+    <string name="parse_god">Super</string>
+    <string name="parse_from">Parse from: <xliff:g name="name">%s</xliff:g></string>
+
+    <!-- Push -->
+    <string name="push">Push</string>
+    <string name="push_image" translatable="false">data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCADwAPADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvN7bxhffFCaRPB+oWZ8KSQX1h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g74M+K1mbfxR4fs9UYLtS5ZNlxH/ALkq4dfoDitbp7mFmtjGvNNudPbbcQtH6NjIP41518fo5NY8G+FfAFsxS88da3DaTbSQy2ULCWdwRzwFX8GNTyfBX4nfCdd/w38bf8JHoqf8yx4w/ertzkrFcDkdwAQoHcml+F9n4v8AiP8AHCLxZ4w8H3Xg6Hwxop020sZ3WSF7yaQmWWGQcOvlhVyOOcZOKaVtbkt30seofFbVo/C/gCS2s9Y07w3dXTRabp9xqUBmt/NcgLEYwDuDKGXFdhptmun6fa2qrGiwRLEFhQRoAoAwqjhRxwB0p11ZW98ipcwRXCK6yKsqBgGByGGe4PQ1PUFhRRRSGFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVhePP+RH8Rf9g64/9FNW7WD483HwN4i2RvK/9nXOI413Mx8puAO5NNbgfB/jX4kWV58A/hN8NZdQaw0u40+PVvEl1Dy0NjHI2yMdi7sPlU9XEQ/ir6Q+DPw1vPGOt6f8RfGGljTBZ262/hTwww/d6LZgAK7L/wA92ULk/wAIAHYBfFf2N/2XJtelsfiN47tWeKIRjR9LuoyN4jUIk8in+EBRsB643dMZ+6K1m0tEYwTerCiiisTYKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z</string>
+
+    <!-- Setting -->
+    <string name="setting_vod">Vod</string>
+    <string name="setting_live">Live</string>
+    <string name="setting_wall">Wallpaper</string>
+    <string name="setting_player">Player setting</string>
+    <string name="setting_danmaku">Danmaku setting</string>
+    <string name="setting_incognito">Incognito mode</string>
+    <string name="setting_boot_auto_start">Start page</string>
+    <string name="setting_none">None</string>
+    <string name="play_picture_in_picture">Picture-in-picture</string>
+    <string name="play_toggle_orientation">Switch orientation</string>
+    <string-array name="select_boot_start">
+        <item>Off</item>
+        <item>VOD</item>
+        <item>Live TV</item>
+        <item>History</item>
+    </string-array>
+    <string name="setting_theme_color">Theme color</string>
+    <string name="theme_color_custom">Custom theme color</string>
+    <string name="theme_color_wheel">Color wheel</string>
+    <string name="theme_color_brightness">Brightness</string>
+    <string name="theme_color_disable">Disable theme color</string>
+    <string name="setting_theme_mode">Theme mode</string>
+    <string name="setting_auto">Auto</string>
+    <string name="setting_custom">Custom</string>
+    <string name="setting_size">Image size</string>
+    <string name="setting_doh">DoH</string>
+    <string name="setting_github_acceleration">GitHub acceleration</string>
+    <string name="setting_proxy">Proxy</string>
+    <string name="setting_cache">Cache</string>
+    <string name="storage_privacy_title">Storage &amp; privacy</string>
+    <string name="storage_temporary_cache">Temporary cache</string>
+    <string name="storage_offline_downloads">Offline downloads</string>
+    <string name="storage_playback_history">Playback history</string>
+    <string name="storage_history_count">%1$d records</string>
+    <string name="storage_auto_clean">Clear temporary cache every 7 days</string>
+    <string name="storage_clear_cache">Clear temporary cache</string>
+    <string name="storage_manage_downloads">Manage offline downloads</string>
+    <string name="storage_export_history">Export history</string>
+    <string name="storage_import_history">Import history</string>
+    <string name="storage_clear_history">Clear playback history</string>
+    <string name="storage_clear_history_confirm">This removes playback history and progress from this device.</string>
+    <string name="storage_cache_cleared">Temporary cache cleared</string>
+    <string name="storage_history_cleared">Playback history cleared</string>
+    <string name="storage_history_exported">Playback history exported</string>
+    <string name="storage_history_imported">Playback history imported</string>
+    <string name="storage_history_transfer_failed">Could not process the history file</string>
+    <string name="accessibility_title">Accessibility</string>
+    <string name="accessibility_setting_summary">Font size, contrast and motion</string>
+    <string name="accessibility_font_size">Font size</string>
+    <string name="accessibility_font_standard">Default</string>
+    <string name="accessibility_font_large">Large</string>
+    <string name="accessibility_font_extra_large">Larger</string>
+    <string name="accessibility_font_preview">Preview text for menus and descriptions</string>
+    <string name="accessibility_high_contrast">High contrast</string>
+    <string name="accessibility_reduce_motion">Reduce motion</string>
+    <string name="accessibility_search">Search</string>
+    <string name="accessibility_delete">Delete</string>
+    <string name="accessibility_display_mode">Display mode</string>
+    <string name="accessibility_vod_home">Set VOD source as home</string>
+    <string name="accessibility_vod_history">VOD source history</string>
+    <string name="accessibility_live_home">Set live source as home</string>
+    <string name="accessibility_live_history">Live source history</string>
+    <string name="accessibility_wall_default">Use default wallpaper source</string>
+    <string name="accessibility_wall_refresh">Refresh wallpaper</string>
+    <string name="accessibility_keyboard_remote">Remote input</string>
+    <string name="accessibility_keyboard_left">Move cursor left</string>
+    <string name="accessibility_keyboard_right">Move cursor right</string>
+    <string name="accessibility_keyboard_back">Backspace</string>
+    <string name="accessibility_keyboard_search">Submit search</string>
+    <string name="accessibility_keyboard_language">Switch keyboard</string>
+    <string name="accessibility_keyboard_home">Clear input</string>
+    <string-array name="accessibility_font_sizes">
+        <item>@string/accessibility_font_standard</item>
+        <item>@string/accessibility_font_large</item>
+        <item>@string/accessibility_font_extra_large</item>
+    </string-array>
+    <string name="setting_backup">Backup</string>
+    <string name="setting_restore">Restore</string>
+    <string name="setting_webdav">WebDAV sync</string>
+    <string name="webdav_setting_summary">Sync selected data between devices</string>
+    <string name="source_health_title">Source health check</string>
+    <string name="source_health_setting_summary">Check configuration, VOD and live sources</string>
+    <string name="source_health_description">Checks source availability without opening a live stream.</string>
+    <string name="source_health_network">Network</string>
+    <string name="source_health_vod_config">VOD configuration</string>
+    <string name="source_health_vod_source">Current VOD source</string>
+    <string name="source_health_live_source">Current live source</string>
+    <string name="source_health_waiting">Waiting to check</string>
+    <string name="source_health_network_offline">No active internet connection</string>
+    <string name="source_health_network_online">Internet connection is available</string>
+    <string name="source_health_network_unverified">Connected, but internet access is not verified</string>
+    <string name="source_health_config_missing">No VOD configuration address</string>
+    <string name="source_health_config_valid">Configuration was fetched and parsed</string>
+    <string name="source_health_source_missing">No VOD source is loaded</string>
+    <string name="source_health_source_empty">The source responded with no categories or content</string>
+    <string name="source_health_source_available">%1$d categories, %2$d items returned</string>
+    <string name="source_health_live_missing">No live source is configured</string>
+    <string name="source_health_live_empty">No channel with a usable address was found</string>
+    <string name="source_health_live_available">%1$d groups, %2$d channels with addresses</string>
+    <string name="source_health_error_timeout">Request timed out</string>
+    <string name="source_health_error_dns">Source host could not be resolved</string>
+    <string name="source_health_error_ssl">Secure connection failed</string>
+    <string name="source_health_error_connect">Could not connect to the source</string>
+    <string name="source_health_error_unknown">The source check failed</string>
+    <string name="source_health_status_ok">Available</string>
+    <string name="source_health_status_warning">Warning</string>
+    <string name="source_health_status_failed">Failed</string>
+    <string name="source_health_status_skipped">Skipped</string>
+    <string name="source_health_elapsed">%1$d ms</string>
+    <string name="source_health_detail_address">%1$s\n%2$s</string>
+    <string name="source_health_status_description">%1$s, %2$s, %3$s</string>
+    <string name="source_health_retry">Check again</string>
+    <string name="source_health_copy">Copy report</string>
+    <string name="source_health_report_title">IBox source health report</string>
+    <string name="setting_version">Version</string>
+    <string name="setting_choose">Choose</string>
+    <string name="setting_off">Off</string>
+    <string name="setting_on">On</string>
+
+    <!-- Backup & Restore -->
+    <string name="restore_select">Select backup</string>
+    <string name="restore_success">Restore successful</string>
+    <string name="restore_fail">Restore failed</string>
+    <string name="backup_success">Backup successful</string>
+    <string name="backup_fail">Backup failed</string>
+
+    <!-- WebDAV sync -->
+    <string name="webdav_title">WebDAV sync</string>
+    <string name="webdav_description">Use a WebDAV folder you control. Credentials stay on this device.</string>
+    <string name="webdav_endpoint">WebDAV folder URL</string>
+    <string name="webdav_username">Username</string>
+    <string name="webdav_password">Password or app password</string>
+    <string name="webdav_sync_content">Sync content</string>
+    <string name="webdav_favorites">Favorites</string>
+    <string name="webdav_history">History</string>
+    <string name="webdav_progress">Playback progress</string>
+    <string name="webdav_subscriptions">Subscriptions</string>
+    <string name="webdav_settings">Settings</string>
+    <string name="webdav_conflict_rule">Merge keeps the newest record. Upload and download overwrite only checked content.</string>
+    <string name="webdav_merge">Merge sync</string>
+    <string name="webdav_upload">Upload overwrite</string>
+    <string name="webdav_download">Download overwrite</string>
+    <string name="webdav_syncing">Syncing…</string>
+    <string name="webdav_success">Sync complete</string>
+    <string name="webdav_failure">Sync failed: %1$s</string>
+    <string name="webdav_endpoint_error">Enter a valid HTTP or HTTPS URL</string>
+    <string name="webdav_selection_error">Select at least one content type</string>
+
+    <!-- Player -->
+    <string name="player">Player</string>
+    <string name="player_engine">Engine</string>
+    <string name="player_debug">Debug</string>
+    <string name="player_render">Render</string>
+    <string name="player_scale">Scale</string>
+    <string name="player_libass">libass</string>
+    <string name="player_background">Background play</string>
+    <string name="player_audio_pass_through">Audio passthrough</string>
+    <string name="player_audio_decode">Audio software decode</string>
+    <string name="player_video_decode">Video software decode</string>
+    <string name="player_dolby_vision_output">Dolby Vision</string>
+    <string name="player_aac_track">Prefer aac track</string>
+    <string name="player_adblock">Remove ads</string>
+    <string name="player_tunnel">Tunnel mode</string>
+    <string name="player_buffer">Buffer time</string>
+    <string name="player_decode_setting">Decode setting</string>
+    <string name="player_preload_setting">Preload setting</string>
+    <string name="player_preload">Preload</string>
+    <string name="player_preload_next">Preload next episode</string>
+    <string name="player_preload_threads">Preload threads</string>
+    <string name="player_preload_threads_value">%1$d threads</string>
+    <string name="player_preload_size">Preload size</string>
+    <string name="player_preload_time">Preload time</string>
+    <string name="player_preload_time_value">%1$d seconds</string>
+    <string name="player_mpv_conf">mpv.conf</string>
+    <string name="player_mpv_gpu_next">gpu-next</string>
+    <string name="player_mpv_vulkan">vulkan</string>
+    <string name="player_mpv_conf_import_success">Imported mpv.conf</string>
+    <string name="player_ua">User-Agent</string>
+
+    <!-- Danmaku -->
+    <string name="danmaku_load">Danmaku load</string>
+    <string name="danmaku_api">Search API</string>
+    <string name="danmaku_api_url">API URL</string>
+    <string name="danmaku_api_source">Use content source</string>
+    <string name="danmaku_api_description">Use {name} and {episode} in a GET URL. An address without placeholders will be requested with POST name and episode fields.</string>
+    <string name="danmaku_auto_load">Auto search</string>
+    <string name="danmaku_spider_first">Spider first</string>
+
+    <!-- Search -->
+    <string name="search_keyword">Keywords…</string>
+    <string name="search_record">History</string>
+    <string name="search_suggest">Suggest</string>
+    <string name="search_hot">Hot</string>
+    <string name="search_scope_all">All sources</string>
+    <string name="search_scope_current">Current: %1$s</string>
+    <string name="search_filter_type">Type</string>
+    <string name="search_filter_year">Year</string>
+    <string name="search_filter_all_types">All types</string>
+    <string name="search_filter_all_years">All years</string>
+    <string name="search_filter_value">%1$s: %2$s</string>
+    <string name="search_filter_movie">Movies</string>
+    <string name="search_filter_series">Series</string>
+    <string name="search_filter_variety">Variety</string>
+    <string name="search_filter_anime">Animation</string>
+    <string name="search_filter_documentary">Documentaries</string>
+    <string name="search_filter_short_drama">Short dramas</string>
+    <string name="search_filter_other">Other</string>
+    <string name="search_history_clear">Clear history</string>
+    <string name="search_history_clear_title">Clear search history?</string>
+    <string name="search_source_count">%1$d sources</string>
+    <string name="search_choose_source">Choose a source</string>
+
+    <!-- Dialog -->
+    <string name="dialog_edit">Edit</string>
+    <string name="dialog_positive">OK</string>
+    <string name="dialog_negative">Cancel</string>
+    <string name="dialog_select_edition">Select title</string>
+    <string name="dialog_select_chapter">Select chapter</string>
+    <string name="dialog_config_hint">Please enter the config…</string>
+    <string name="dialog_config_name">Please enter the name…</string>
+    <string name="dialog_config_url">Please enter the url…</string>
+    <string name="repository_add_source_title">Add %1$s subscription</string>
+    <string name="repository_edit_source_title">Edit %1$s subscription</string>
+    <string name="repository_source_name">Subscription name</string>
+    <string name="repository_source_address">Subscription address</string>
+    <string name="repository_current">Current subscription</string>
+    <string name="repository_delete_title">Delete subscription?</string>
+
+    <!-- Error -->
+    <string name="error_config_get">Configuration get failed</string>
+    <string name="home_source_loading">Loading source...</string>
+    <string name="home_content_loading">Loading home content...</string>
+    <string name="home_load_empty">This source returned no home content</string>
+    <string name="home_load_failed">Unable to load the home page. Check your connection or change source.</string>
+    <string name="home_load_after_crash">Home loading was paused after a source error. Tap retry to continue.</string>
+    <string name="home_load_retry">Retry</string>
+    <string name="home_source_empty">No VOD source has been added. Add a source to load movies and series.</string>
+    <string name="home_source_add">Add VOD source</string>
+    <string name="error_play_next">It\'s the last episode!</string>
+    <string name="error_play_prev">It\'s the first episode!</string>
+    <string name="error_play_parse">Unable to parse url</string>
+    <string name="error_play_drm">This device does not support the required DRM scheme</string>
+    <string name="error_play_url">Unable to load url</string>
+    <string name="error_play_flag">No flag data</string>
+    <string name="error_play_timeout">Timed out</string>
+    <string name="error_player_timeout">Playback timed out</string>
+    <string name="error_player_audio_output">Unable to initialize audio output</string>
+    <string name="play_error_retry">Retry</string>
+    <string name="play_error_change_source">Change source</string>
+    <string name="play_recovery_searching">Searching for another source…</string>
+    <string name="play_recovery_exhausted">No playable fallback source was found</string>
+    <string name="history_mark_watched">Mark as watched</string>
+    <string name="history_mark_unwatched">Mark as unwatched</string>
+    <string name="history_watched">Watched</string>
+    <string name="history_progress">%1$d%% watched</string>
+    <string name="history_remove">Remove from history</string>
+    <string name="history_batch_delete">Batch delete</string>
+    <string name="error_audio_effect_unsupported">Audio settings are unavailable for the current playback mode</string>
+    <string name="error_audio_effect_tunnel">Audio settings are unavailable in tunnel mode</string>
+    <string name="error_audio_effect_passthrough">Audio settings are unavailable for passthrough audio</string>
+    <string name="error_audio_effect_apply">Unable to apply audio settings</string>
+    <string name="error_video_effect_unsupported">Video settings are unavailable for the current playback mode</string>
+    <string name="error_video_effect_decode">Video settings require hardware video decoding</string>
+    <string name="error_video_effect_drm">Video settings are unavailable for DRM video</string>
+    <string name="error_video_effect_tunnel">Video settings are unavailable in tunnel mode</string>
+    <string name="error_video_effect_dolby_vision_passthrough">Video settings are unavailable for Dolby Vision passthrough</string>
+    <string name="error_play_tvbus">Error code: <xliff:g name="name">%s</xliff:g></string>
+    <string name="error_detail">No play data</string>
+    <string name="error_empty">No content yet</string>
+    <string name="empty_state_hint">Try changing the category or refreshing</string>
+
+    <!-- Crash -->
+    <string name="crash_info">An unexpected error occurred.\nSorry for the inconvenience.</string>
+    <string name="crash_restart">Restart app</string>
+    <string name="crash_details">Error details</string>
+    <string name="crash_details_title">Error details</string>
+    <string name="crash_details_close">Close</string>
+
+    <!-- Hint -->
+    <string name="copied">Copied</string>
+
+    <!-- Playback diagnostics -->
+    <string name="diagnostics_title">Playback diagnostics</string>
+    <string name="diagnostics_unknown_media">Unknown media</string>
+    <string name="diagnostics_media">Media</string>
+    <string name="diagnostics_source">Source</string>
+    <string name="diagnostics_line">Line</string>
+    <string name="diagnostics_play_mode">Play mode</string>
+    <string name="diagnostics_engine">Engine</string>
+    <string name="diagnostics_decode">Decode</string>
+    <string name="diagnostics_state">State</string>
+    <string name="diagnostics_resolution">Resolution</string>
+    <string name="diagnostics_buffer">Buffered</string>
+    <string name="diagnostics_speed">Speed</string>
+    <string name="diagnostics_video">Video</string>
+    <string name="diagnostics_audio">Audio</string>
+    <string name="diagnostics_subtitle">Subtitle</string>
+    <string name="diagnostics_parser">Parser</string>
+    <string name="diagnostics_last_error">Last error</string>
+    <string name="diagnostics_events">Recent events</string>
+    <string name="diagnostics_address">Playback address</string>
+    <string name="diagnostics_device">Device</string>
+    <string name="diagnostics_app_version">App</string>
+    <string name="diagnostics_hidden_address">Address hidden</string>
+    <string name="diagnostics_share">Share</string>
+    <string name="diagnostics_copy">Copy report</string>
+    <string name="play_info">Info</string>
+    <string name="remote_title">LAN control</string>
+    <string name="remote_description">Allow paired devices on the private network to control playback and manage files.</string>
+    <string name="remote_enable">Enable LAN control</string>
+    <string name="remote_address">Access address</string>
+    <string name="remote_pairing_code">Pairing code</string>
+    <string name="remote_connected_devices">Recently connected devices</string>
+    <string name="remote_no_devices">No paired devices</string>
+    <string name="remote_regenerate">New code</string>
+    <string name="remote_disconnect_all">Disconnect all</string>
+    <string name="danmaku_send_short">Send</string>
+    <string name="danmaku_filter_title">Content filtering</string>
+    <string name="danmaku_merge_duplicates">Merge repeated comments</string>
+    <string name="danmaku_max_text_length">Maximum text length</string>
+    <string name="danmaku_blocked_keywords">Blocked keywords, separated by commas</string>
+    <string name="diagnostics_direct">Direct</string>
+    <string name="diagnostics_live">Live</string>
+    <string name="diagnostics_parsing">Parsing</string>
+    <string name="diagnostics_parsed">Parsed</string>
+    <string name="diagnostics_event_direct">Direct playback started</string>
+    <string name="diagnostics_event_parse">Parsing started</string>
+    <string name="diagnostics_event_parse_success">Parsing succeeded: %1$s</string>
+    <string name="diagnostics_event_decode">Decoder retry: %1$s</string>
+    <string name="diagnostics_event_line">Automatic line switch: %1$s</string>
+    <string name="diagnostics_event_source">Automatic source switch: %1$s</string>
+
+    <!-- Offline downloads -->
+    <string name="download_action">Download</string>
+    <string name="download_short">Download</string>
+    <string name="download_manager">Downloads</string>
+    <string name="download_notification_channel">Offline downloads</string>
+    <string name="download_select_title">Download from %1$s</string>
+    <string name="download_select_all_line">Select all episodes on this line</string>
+    <string name="download_preparing">Preparing %1$d episode(s)…</string>
+    <string name="download_added">Added %1$d episode(s) to downloads</string>
+    <string name="download_added_partial">Added %1$d episode(s); %2$d unsupported or failed</string>
+    <string name="download_unsupported">No direct media address is available; parsed or local-proxy lines cannot be downloaded offline</string>
+    <string name="download_filter_all">All</string>
+    <string name="download_filter_active">Active</string>
+    <string name="download_filter_completed">Done</string>
+    <string name="download_filter_failed">Failed</string>
+    <string name="download_summary">%1$d tasks · %2$s downloaded</string>
+    <string name="download_empty">No downloads</string>
+    <string name="download_source_line">Line: %1$s</string>
+    <string name="download_progress_value">%1$d%% · %2$s</string>
+    <string name="download_status_speed">%1$s · %2$s/s</string>
+    <string name="download_pause">Pause</string>
+    <string name="download_resume">Resume</string>
+    <string name="download_retry">Retry</string>
+    <string name="download_play">Play download</string>
+    <string name="download_delete">Delete</string>
+    <string name="download_delete_title">Delete download?</string>
+    <string name="download_delete_message">Downloaded data for %1$s will be removed.</string>
+    <string name="download_paused">Paused</string>
+    <string name="download_queued">Queued</string>
+    <string name="download_downloading">Downloading</string>
+    <string name="download_completed">Completed</string>
+    <string name="download_failed">Failed</string>
+    <string name="download_removing">Removing</string>
+    <string name="download_restarting">Restarting</string>
+    <string name="download_waiting">Waiting</string>
+    <string name="download_policy_title">Download settings</string>
+    <string name="download_wifi_only">Download on Wi-Fi only</string>
+    <string name="download_parallel_title">Simultaneous downloads</string>
+    <string name="download_segment_threads_title">Segment download threads</string>
+    <string name="download_segment_threads_hint">Speeds up segmented HLS/DASH videos. Higher values use more bandwidth and connections.</string>
+    <string name="download_retry_title">Automatic retries after failure</string>
+    <string name="download_retry_none">Off</string>
+    <string name="download_policy_applies_immediately">Changes apply immediately to the current queue.</string>
+    <string name="download_network_wifi">Wi-Fi only</string>
+    <string name="download_network_any">Any network</string>
+    <string name="download_policy_summary">%1$s · %2$d tasks · %3$d segment threads · %4$d retries</string>
+    <string name="download_waiting_wifi">Waiting for Wi-Fi</string>
+    <string name="download_waiting_network">Waiting for a network connection</string>
+    <string name="download_queue_downloading">Downloading %1$d item(s)</string>
+    <string name="download_queue_ready">Queued and ready</string>
+    <string name="download_queue_idle">No active downloads</string>
+    <string name="offline_library">Offline library</string>
+    <string name="offline_library_summary">%1$d titles · %2$d episodes · %3$s</string>
+    <string name="offline_library_item_summary">%1$d episodes downloaded · %2$s</string>
+    <string name="offline_library_empty">No completed downloads</string>
+    <string name="offline_manage_episodes">Manage episodes</string>
+    <string name="offline_delete_movie_title">Delete this title?</string>
+    <string name="offline_delete_movie_message">Downloaded data for %1$s (%2$d episodes) will be removed.</string>
+    <string name="offline_item_missing">This download is missing or incomplete</string>
+
+    <!-- UNIT -->
+    <string name="all">All</string>
+    <string name="yes">Yes</string>
+    <string name="none">None</string>
+    <string name="times">times</string>
+    <string name="lines">lines</string>
+
+    <string-array name="select_decode">
+        <item>Soft</item>
+        <item>Hard</item>
+    </string-array>
+
+    <string-array name="select_dolby_vision_output">
+        <item>Auto</item>
+        <item>On</item>
+        <item>Off</item>
+    </string-array>
+
+    <string-array name="select_engine">
+        <item>EXO</item>
+        <item>MPV</item>
+    </string-array>
+
+    <string-array name="select_render">
+        <item>Surface</item>
+        <item>Texture</item>
+    </string-array>
+
+    <string-array name="select_size">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra</item>
+    </string-array>
+
+    <string-array name="select_theme_mode">
+        <item>Follow system</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="select_scale">
+        <item>Default</item>
+        <item>16:9</item>
+        <item>4:3</item>
+        <item>Fill</item>
+        <item>Zoom</item>
+    </string-array>
+
+    <string-array name="audio_effect_stability_levels">
+        <item>Off</item>
+        <item>Slight</item>
+        <item>Soft</item>
+        <item>Standard</item>
+        <item>Noticeable</item>
+        <item>Strong</item>
+    </string-array>
+
+    <string-array name="select_track">
+        <item>Select audio track</item>
+        <item>Select video track</item>
+        <item>Select subtitle track</item>
+    </string-array>
+
+    <string name="movie_preference">Title preferences</string>
+    <string name="movie_preference_title">Playback preferences for this title</string>
+    <string name="movie_preference_remember">Remember settings for this title</string>
+    <string name="movie_preference_engine">Playback engine</string>
+    <string name="movie_preference_decode">Decoding</string>
+    <string name="movie_preference_hardware">Hardware</string>
+    <string name="movie_preference_software">Software</string>
+    <string name="movie_preference_speed">Playback speed</string>
+    <string name="movie_preference_subtitle_style">Subtitle style</string>
+    <string name="movie_preference_subtitle_original">Original</string>
+    <string name="movie_preference_subtitle_system">System</string>
+    <string name="movie_preference_subtitle_custom">Custom</string>
+    <string name="movie_preference_subtitle_size">Subtitle size  %1$s</string>
+    <string name="movie_preference_subtitle_position">Subtitle position  %1$s</string>
+    <string name="movie_preference_restore">Restore global settings</string>
+    <string name="live_menu_title">Live options</string>
+    <string name="live_menu_line_category">Line selection</string>
+    <string name="live_menu_channel">List settings</string>
+    <string name="live_menu_playback">Playback settings</string>
+    <string name="live_menu_category_manage">Category management</string>
+    <string name="live_menu_subscription">Subscription management</string>
+    <string name="live_menu_display">Display settings</string>
+    <string name="live_menu_preference">Preferences</string>
+    <string name="live_menu_manage">Live source management</string>
+    <string name="live_menu_other">Other settings</string>
+    <string name="live_menu_more">More management</string>
+    <string name="live_menu_epg">Program guide</string>
+    <string name="live_menu_keep">Favorite channel</string>
+    <string name="live_menu_line">Switch line</string>
+    <string name="live_menu_play_toggle">Play / pause</string>
+    <string name="live_menu_decode">Decoding</string>
+    <string name="live_menu_scale">Aspect ratio</string>
+    <string name="live_menu_info">Playback information</string>
+    <string name="live_menu_invert">Reverse channel switching</string>
+    <string name="live_menu_across">Across groups</string>
+    <string name="live_menu_change">Auto fallback line</string>
+    <string name="live_menu_source_select">Source</string>
+    <string name="live_menu_boot">Open live TV on startup</string>
+    <string name="live_menu_current">Current</string>
+    <string name="live_epg_current_format">On now: %1$s</string>
+    <string name="live_epg_next_format">Up next: %1$s</string>
+    <string name="live_menu_on">On</string>
+    <string name="live_menu_off">Off</string>
+    <string name="live_menu_added">Added</string>
+    <string name="live_menu_not_added">Not added</string>
+    <string name="live_menu_reload">Reconnect</string>
+    <string name="live_menu_show_logo">Show channel logos</string>
+    <string name="live_menu_show_number">Show channel numbers</string>
+    <string name="live_menu_show_epg">Show program summaries</string>
+    <string name="live_menu_panel_opacity">Panel opacity</string>
+    <string name="live_menu_reconnect">Auto reconnect</string>
+    <string name="live_menu_catchup">Catch-up</string>
+    <string name="live_menu_timeout">Source timeout</string>
+    <string name="live_menu_timeout_seconds">%1$d seconds</string>
+    <string name="live_menu_reconnect_off">Reconnect off</string>
+    <string name="live_menu_reconnect_seconds">Reconnect after %1$d seconds</string>
+    <string name="live_menu_rtsp">RTSP transport</string>
+    <string name="live_menu_rtsp_tcp">TCP</string>
+    <string name="live_menu_rtsp_udp">UDP</string>
+    <string name="live_menu_timeshift_end">Timeshift ending</string>
+    <string name="live_menu_timeshift_reload">Reload at timeshift end</string>
+    <string name="live_menu_timeshift_live">Return to live</string>
+    <string name="live_menu_remember_decode">Remember decoder</string>
+    <string name="live_menu_clock">Show clock</string>
+    <string name="live_menu_catchup_indicator">Catch-up indicator</string>
+    <string name="live_menu_network_speed">Show network speed</string>
+    <string name="live_menu_bottom_info">Bottom information</string>
+    <string name="live_menu_bottom_logo">Bottom logo</string>
+    <string name="live_menu_epg_title">Program title</string>
+    <string name="live_menu_epg_time_title">Time and title</string>
+    <string name="live_menu_list_density">List density</string>
+    <string name="live_menu_list_standard">Standard</string>
+    <string name="live_menu_list_compact">Compact</string>
+    <string name="live_menu_app_settings">App settings</string>
+    <string name="live_menu_epg_refresh">EPG</string>
+    <string name="live_menu_epg_subscription">EPG subscription</string>
+    <string name="live_menu_epg_cache_time">Daily cache time</string>
+    <string name="live_menu_epg_cache_hour">Daily at %1$d:00</string>
+    <string name="live_epg_other_settings">Other settings</string>
+    <string name="live_epg_scan_info">Scan to enter\n%1$s</string>
+    <string name="live_epg_cache_value">Cache    Daily at %1$d:00</string>
+    <string name="live_epg_name_hint">Name (optional)</string>
+    <string name="live_epg_url_hint">URL / JSON</string>
+    <string name="live_epg_type_xml" translatable="false">XML</string>
+    <string name="live_epg_type_diyp" translatable="false">DIYP</string>
+    <string name="live_epg_copy">Copy</string>
+    <string name="live_epg_delete">Delete</string>
+    <string name="live_epg_activate">Activate</string>
+    <string name="live_epg_clear">Clear editor</string>
+    <string name="live_epg_headers_help">Use {&quot;url&quot;:&quot;...&quot;,&quot;headers&quot;:{...}} to add request headers</string>
+    <string name="live_epg_headers_example" translatable="false">{&quot;url&quot;:&quot;http://example.com/epg.xml&quot;,&quot;headers&quot;:{&quot;User-Agent&quot;:&quot;Mozilla/5.0&quot;}}</string>
+    <string name="live_epg_item">[%1$s] %2$s</string>
+    <string name="live_epg_item_active">[%1$s] %2$s  Active</string>
+    <string name="live_epg_url_required">Enter an EPG URL</string>
+    <string name="live_epg_saved">EPG subscription saved</string>
+    <string name="live_epg_activated">EPG subscription activated</string>
+    <string name="live_epg_offset">EPG time offset</string>
+    <string name="live_epg_cache_storage">EPG cache location</string>
+    <string name="live_epg_default_timezone">Default time zone</string>
+    <string name="live_epg_offset_hour">%1$+d hours</string>
+    <string name="live_epg_storage_internal">Internal app storage</string>
+    <string name="live_epg_storage_external">External storage iBox/epg</string>
+    <string name="live_epg_count">%1$d items</string>
+    <string name="live_menu_subscription_list">Subscriptions</string>
+    <string name="live_menu_add_source">Add subscription</string>
+    <string name="live_menu_local_list">Local playlist</string>
+    <string name="live_menu_epg_default">Default</string>
+    <string name="live_menu_epg_configured">Configured</string>
+    <string name="live_menu_supported">Supported</string>
+    <string name="live_menu_unsupported">Unavailable</string>
+    <string name="live_epg_refresh_success">EPG refreshed</string>
+    <string name="live_epg_refresh_failed">EPG refresh failed</string>
+    <string name="live_menu_scan_push">Scan to add</string>
+    <string name="live_menu_scan_ready">QR / browser</string>
+    <string name="live_menu_epg_custom">Custom EPG</string>
+    <string name="live_menu_epg_hint">EPG URL, supports {name}, {id}, and {date}</string>
+    <string name="live_menu_headers">Request headers</string>
+    <string name="live_menu_headers_hint">JSON, for example {&quot;Referer&quot;:&quot;https://example.com&quot;}</string>
+    <string name="live_menu_headers_invalid">Enter valid JSON headers</string>
+    <string name="live_menu_custom">Custom</string>
+    <string name="live_menu_source_default">Source default</string>
+    <string name="live_menu_channel_group">Channel groups</string>
+    <string name="live_menu_epg_update">Refresh EPG</string>
+    <string name="live_menu_request">Request settings</string>
+    <string name="live_menu_tracks">Track settings</string>
+</resources>

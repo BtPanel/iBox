@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/ibox_dialog_content_padding">
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_sheet_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ibox_dialog_group_spacing" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ibox_space_1"
+        android:text="@string/repository_source_name"
+        android:textAppearance="@style/TextAppearance.IBox.Label"
+        android:visibility="gone" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input"
+        style="@style/Widget.IBox.TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ibox_dialog_group_spacing"
+        android:visibility="gone"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            style="@style/Widget.IBox.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLength="40"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ibox_space_1"
+        android:text="@string/repository_source_address"
+        android:textAppearance="@style/TextAppearance.IBox.Label" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/choose"
+        style="@style/Widget.IBox.TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconContentDescription="@string/setting_choose"
+        app:endIconDrawable="@drawable/ic_msr_folder"
+        app:endIconMode="custom"
+        app:endIconTint="@color/selector_ibox_icon"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/url"
+            style="@style/Widget.IBox.TextInputEditText.Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="textUri|textNoSuggestions"
+            android:scrollHorizontally="true"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

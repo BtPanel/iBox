@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_blue">#69B4FF</color>
+    <color name="theme_blue_on_primary">#06233D</color>
+    <color name="theme_blue_container">#164B75</color>
+    <color name="theme_blue_on_container">#D8EBFF</color>
+    <color name="theme_orange">#FF8A3D</color>
+    <color name="theme_orange_on_primary">#3A1600</color>
+    <color name="theme_tencent_blue">#6E9BFF</color>
+    <color name="theme_tencent_blue_on_primary">#001A41</color>
+    <color name="theme_iqiyi_green">#4CD97B</color>
+    <color name="theme_iqiyi_green_on_primary">#00210D</color>
+    <color name="theme_bili_pink">#FB8FB0</color>
+    <color name="theme_bili_pink_on_primary">#40131F</color>
+    <color name="theme_china_red">#FF6B5E</color>
+    <color name="theme_china_red_on_primary">#410002</color>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay.IBox.Dialog.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.Alert</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.30</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorError">@color/ibox_error</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.IBox.Dialog.TV</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.IBox.Dialog.TV</item>
+    </style>
+
+    <style name="ShapeAppearance.IBox.Dialog.TV" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">@dimen/ibox_dialog_radius_tv</item>
+    </style>
+
+    <style name="ShapeAppearance.IBox.BottomSheet.TV" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSizeTopLeft">@dimen/ibox_dialog_radius_tv</item>
+        <item name="cornerSizeTopRight">@dimen/ibox_dialog_radius_tv</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.BottomSheet</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.64</item>
+        <item name="android:textColorPrimary">@color/ibox_text_primary</item>
+        <item name="android:textColorSecondary">@color/ibox_text_secondary</item>
+        <item name="android:colorAccent">?attr/colorPrimary</item>
+        <item name="android:colorControlNormal">@color/ibox_text_secondary</item>
+        <item name="android:colorControlActivated">?attr/colorPrimary</item>
+        <item name="bottomSheetStyle">@style/Widget.IBox.BottomSheet</item>
+        <item name="colorSurface">@color/ibox_surface</item>
+        <item name="colorSurfaceVariant">@color/ibox_surface_variant</item>
+        <item name="colorSurfaceDim">@color/ibox_surface_container_low</item>
+        <item name="colorSurfaceBright">@color/ibox_surface_container_high</item>
+        <item name="colorSurfaceContainerLowest">@color/ibox_surface_container_low</item>
+        <item name="colorSurfaceContainerLow">@color/ibox_surface_container_low</item>
+        <item name="colorSurfaceContainer">@color/ibox_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/ibox_surface_variant</item>
+        <item name="colorSurfaceContainerHighest">@color/ibox_surface_container_high</item>
+        <item name="colorOnSurface">@color/ibox_text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/ibox_text_secondary</item>
+        <item name="colorOutline">@color/ibox_outline</item>
+        <item name="colorOutlineVariant">@color/ibox_outline</item>
+        <item name="colorError">@color/ibox_error</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.IBox.BottomSheet.TV</item>
+    </style>
+</resources>

@@ -1,0 +1,51 @@
+{
+  "manifest_version": "1.0",
+  "source_status": {
+    "status": "approved",
+    "decision_date": "2026-09-09",
+    "decision_owner": "user"
+  },
+  "profile": {
+    "name": "android-existing-project-derived",
+    "status": "unverified-platform-profile",
+    "note": "Adapted to the dimensions and resource structure already used by this repository."
+  },
+  "source_master": {
+    "file": "ibox-app-icon.svg",
+    "variant": "three-color film frame",
+    "sha256": "3E1947C2A7B627C37EA9A313F4712DBDE3D67F33EF10ED3223EF87D17E74FE26"
+  },
+  "color": {
+    "color_space": "sRGB",
+    "coral": "#F26455",
+    "cream": "#FFF0CE",
+    "depth": "#B93F3B",
+    "monochrome_source": "#000000"
+  },
+  "exports": [
+    {"file":"ibox-mark.svg","role":"transparent editable mark","format":"SVG","sha256":"686C4A58ECC2E749AFEF46A1F557B7168D44DD0F50B1BB6CF37AC16CC4CAD289"},
+    {"file":"ibox-monochrome.svg","role":"editable monochrome mark","format":"SVG","sha256":"36AA6D6C8ACE8882F7DCB8497C8AA852D0DAA4FF85CAA15AEFBD8DB4F92B059A"},
+    {"file":"ibox-tv-banner.svg","role":"editable TV banner","format":"SVG","dimensions":"320x180","sha256":"135692C6BA8F73272C36972EBF31672D233D92CEAAC2EEEF2EE53239A5AF3F74"},
+    {"file":"ibox-app-icon-1024.png","role":"full-size app icon original","format":"PNG","dimensions":"1024x1024","sha256":"8EBB05BEED278DCDBF1CA8B20D9F7F958574DFF9A7C22017221697953D04DE06"},
+    {"file":"ibox-foreground-1024.png","role":"transparent foreground original","format":"PNG","dimensions":"1024x1024","sha256":"E92EB91A7917EFA6A8140F7024036E22E58D7EEFA44663A461C806D4CAC812A2"},
+    {"file":"ibox-monochrome-1024.png","role":"transparent monochrome original","format":"PNG","dimensions":"1024x1024","sha256":"851BB0AF44A33D388CEB521A1C6DF954F25C884BC22C4A717ABBC31F61341A69"},
+    {"file":"ibox-play-store-512.png","role":"Play Store icon","format":"PNG","dimensions":"512x512","sha256":"0B1A3F3603F1DA8898F6AA798569E256A484922D81CDF26831CEE960BFBB7EA6"},
+    {"file":"ibox-tv-banner-320x180.png","role":"Android TV banner","format":"PNG","dimensions":"320x180","sha256":"B2ECBA44541400DCAA456C3C5F1F179FEF6A9EF6BFDF6D3CE2AFA055832AF8B4"},
+    {"file":"ibox-favicon.ico","role":"embedded web favicon","format":"ICO with PNG payload","dimensions":"256x256","sha256":"A6488200063ED36EB2DBE1664674BBCB8E3841FBA73DC87462F3400322203EC9"},
+    {"file":"preview.png","role":"visual QA board","format":"PNG","dimensions":"1600x900","sha256":"0AA162E769147165A09C0AA1B62B0C40346C79A2EEA55073BC9A425D063C6CBF"}
+  ],
+  "tool_context": {
+    "vector_authoring": "controlled SVG geometry",
+    "raster_export": "Java2D via Android Studio JBR",
+    "generator": "GenerateAppIconAssets.java"
+  },
+  "screens": {
+    "competitor": "not run",
+    "visual_similarity": "not run",
+    "trademark": "not run"
+  },
+  "exceptions": [
+    "No reviewed Android platform profile was supplied; compliance is not claimed.",
+    "Trademark and visual-similarity clearance remain outside this delivery."
+  ]
+}

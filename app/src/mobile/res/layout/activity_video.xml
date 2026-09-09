@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ibox_surface_container"
+    android:tag="port">
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/posterBackdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.32"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ibox_player_scrim" />
+
+    <FrameLayout
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/statusBar"
+        android:background="@color/ibox_surface_container"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/videoAmbient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.40"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/videoShade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/ibox_player_scrim_soft" />
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/player"
+            style="@style/Player.Vod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:surface_type="none" />
+
+        <include
+            android:id="@+id/widget"
+            layout="@layout/view_widget_vod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/control"
+            layout="@layout/view_control_vod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/progress"
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/video"
+        android:layout_above="@id/navigation">
+
+        <com.imedia.box.ui.custom.ProgressLayout
+            android:id="@+id/progressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fillViewport="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingBottom="24dp">
+
+                    <FrameLayout
+                        android:id="@+id/metadataCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@android:color/transparent">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:orientation="horizontal"
+                            android:padding="12dp">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/poster"
+                                    android:layout_width="112dp"
+                                    android:layout_height="168dp"
+                                    android:background="@color/ibox_surface_variant"
+                                    android:contentDescription="@null"
+                                    android:scaleType="centerCrop"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_IBox_Rounded8" />
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="12dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/name"
+                                        android:textAppearance="@style/TextAppearance.IBox.PlayerTitle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:ellipsize="end"
+                                        android:maxLines="1"
+                                        tools:text="庆余年第二季" />
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/remark"
+                                        android:textAppearance="@style/TextAppearance.IBox.PlayerAccent"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:ellipsize="end"
+                                        android:maxLines="1"
+                                        tools:text="更新至 36 集" />
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/site"
+                                        android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:ellipsize="end"
+                                        android:maxLines="1"
+                                        tools:text="站源：示例源" />
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/other"
+                                        android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:ellipsize="end"
+                                        android:maxLines="2"
+                                        tools:text="2024 · 中国大陆 · 剧情" />
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/director"
+                                        android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:ellipsize="end"
+                                        android:maxLines="2"
+                                        tools:text="导演：示例" />
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        android:id="@+id/actor"
+                                        android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:ellipsize="end"
+                                        android:maxLines="3"
+                                        tools:text="演员：示例" />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+                    </FrameLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginBottom="14dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/danmaku_search"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_danmaku_bubble"
+                                app:tint="@color/ibox_player_text_primary" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:text="@string/danmaku"
+                                android:textColor="@color/ibox_player_text_primary"
+                                android:textSize="@dimen/ibox_text_address" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/detail_player"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_msr_settings"
+                                app:tint="@color/ibox_player_text_primary" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:text="@string/nav_setting"
+                                android:textColor="@color/ibox_player_text_primary"
+                                android:textSize="@dimen/ibox_text_address" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/detail_cast"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_msr_cast"
+                                app:tint="@color/ibox_player_text_primary" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:text="@string/detail_cast"
+                                android:textColor="@color/ibox_player_text_primary"
+                                android:textSize="@dimen/ibox_text_address" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/detail_download"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_msr_download"
+                                app:tint="@color/ibox_player_text_primary" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:text="@string/download_short"
+                                android:textColor="@color/ibox_player_text_primary"
+                                android:textSize="@dimen/ibox_text_address" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/detail_flag"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/flag"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/quality_text"
+                        android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/detail_quality"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/quality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:visibility="visible" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ibox_space_3"
+                        android:layout_marginTop="@dimen/ibox_space_3"
+                        android:layout_marginEnd="@dimen/ibox_space_3"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/detail_episode" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ibox_space_2"
+                            android:gravity="center_vertical">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/reverse"
+                                style="@style/Widget.IBox.Button.Tonal"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:insetTop="6dp"
+                                android:insetBottom="6dp"
+                                android:minHeight="@dimen/ibox_touch_target"
+                                android:minWidth="0dp"
+                                android:maxLines="2"
+                                android:paddingStart="@dimen/ibox_space_2"
+                                android:paddingEnd="@dimen/ibox_space_2"
+                                android:singleLine="false"
+                                android:textSize="@dimen/ibox_text_supporting"
+                                android:visibility="gone"
+                                app:icon="@drawable/ic_msr_sort"
+                                app:iconPadding="@dimen/ibox_space_1"
+                                app:iconSize="@dimen/ibox_icon_small"
+                                tools:text="排列：正序"
+                                tools:visibility="visible" />
+
+                            <View
+                                android:layout_width="@dimen/ibox_space_2"
+                                android:layout_height="0dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/more"
+                                style="@style/Widget.IBox.Button.Tonal"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:insetTop="6dp"
+                                android:insetBottom="6dp"
+                                android:minHeight="@dimen/ibox_touch_target"
+                                android:minWidth="0dp"
+                                android:maxLines="2"
+                                android:paddingStart="@dimen/ibox_space_3"
+                                android:paddingEnd="@dimen/ibox_space_3"
+                                android:singleLine="false"
+                                android:text="@string/play_all_episodes"
+                                android:textSize="@dimen/ibox_text_supporting"
+                                android:visibility="gone"
+                                tools:visibility="visible" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/episode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="true"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="ifContentScrolls"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/content_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@android:color/transparent"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/detail_summary_title"
+                                />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/content"
+                                android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:ellipsize="end"
+                                android:lineSpacingExtra="4dp"
+                                android:maxLines="3"
+                                tools:text="影片简介内容" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/sourceTitle"
+                        android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/detail_sources"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/quick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="3"
+                        tools:listitem="@layout/adapter_quick"
+                        tools:visibility="visible" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.core.widget.NestedScrollView>
+        </com.imedia.box.ui.custom.ProgressLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_navigation_height"
+        android:layout_alignParentBottom="true"
+        layout="@layout/view_app_navigation" />
+</RelativeLayout>

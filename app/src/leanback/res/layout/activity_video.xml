@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.imedia.box.ui.custom.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/progressLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/video"
+        android:layout_width="400dp"
+        android:layout_height="224dp"
+        android:layout_margin="24dp"
+        android:background="@color/black"
+        android:defaultFocusHighlightEnabled="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:foreground="@drawable/selector_video"
+        android:nextFocusLeft="@id/video"
+        android:nextFocusRight="@id/fullscreen"
+        android:nextFocusUp="@id/video"
+        android:nextFocusDown="@id/flag">
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/player"
+            style="@style/Player.Vod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:surface_type="none" />
+
+        <include
+            android:id="@+id/widget"
+            layout="@layout/view_widget_vod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/control"
+            layout="@layout/view_control_vod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/progress"
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        android:textAppearance="@style/TextAppearance.IBox.PlayerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_toEndOf="@+id/video"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        tools:text="庆余年第二季" />
+
+    <com.imedia.box.ui.custom.ScrollableNestedScrollView
+        android:id="@+id/infoPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/name"
+        android:layout_above="@+id/row2"
+        android:layout_alignStart="@+id/name"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/selector_detail_info"
+        android:fadeScrollbars="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusUp="@id/video"
+        android:nextFocusDown="@id/content"
+        android:overScrollMode="never"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        android:scrollbarSize="2dp"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/remark"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                tools:text="更新到第二季" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/row1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/site"
+                    android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:singleLine="true"
+                    tools:text="站源：泥巴" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/year"
+                    android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:singleLine="true"
+                    tools:text="年份：2022" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/area"
+                    android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:singleLine="true"
+                    tools:text="地區：台灣" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/type"
+                    android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    tools:text="類型：科幻" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/director"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="導演：IBox" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/actor"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="演員：IBox" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/summary"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:visibility="gone"
+                tools:text="讲述主人公在命运转折中重建生活，并与身边人共同成长的故事。"
+                tools:visibility="visible" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.imedia.box.ui.custom.ScrollableNestedScrollView>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/row2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/name"
+        android:layout_alignBottom="@+id/video"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fullscreen"
+            style="@style/Widget.IBox.TV.DetailAction"
+            android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@id/video"
+            android:nextFocusRight="@id/content"
+            android:nextFocusUp="@id/infoPanel"
+            android:nextFocusDown="@id/flag"
+            android:text="@string/detail_fullscreen"
+            app:drawableStartCompat="@drawable/ic_msr_fullscreen" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/content"
+            style="@style/Widget.IBox.TV.DetailAction"
+            android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@id/fullscreen"
+            android:nextFocusRight="@id/keep"
+            android:nextFocusUp="@id/infoPanel"
+            android:nextFocusDown="@id/flag"
+            android:text="@string/detail_desc"
+            app:drawableStartCompat="@drawable/ic_msr_description" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/keep"
+            style="@style/Widget.IBox.TV.DetailAction"
+            android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@id/content"
+            android:nextFocusRight="@id/change"
+            android:nextFocusUp="@id/infoPanel"
+            android:nextFocusDown="@id/flag"
+            android:text="@string/keep"
+            app:drawableStartCompat="@drawable/ic_msr_favorite" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/change"
+            style="@style/Widget.IBox.TV.DetailAction"
+            android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@id/keep"
+            android:nextFocusRight="@id/danmakuEntry"
+            android:nextFocusUp="@id/infoPanel"
+            android:nextFocusDown="@id/flag"
+            android:text="@string/play_change"
+            app:drawableStartCompat="@drawable/ic_msr_swap_horiz" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/danmakuEntry"
+            style="@style/Widget.IBox.TV.DetailAction"
+            android:nextFocusLeft="@id/change"
+            android:nextFocusRight="@id/danmakuEntry"
+            android:nextFocusUp="@id/infoPanel"
+            android:nextFocusDown="@id/flag"
+            android:text="@string/danmaku"
+            app:drawableStartCompat="@drawable/ic_msr_subtitles" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/video"
+        android:overScrollMode="never">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/playbackStatus"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerSupporting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:paddingStart="24dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="6dp"
+                android:singleLine="true"
+                android:visibility="gone"
+                tools:text="第1集 · 12:35 / 45:20"
+                tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/detailProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="12dp"
+                android:max="1000"
+                android:progressBackgroundTint="@color/ibox_glass_divider"
+                android:progressTint="?attr/colorPrimary"
+                android:visibility="gone"
+                tools:progress="360"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/flagTitle"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:visibility="gone"
+                tools:text="线路 · 2条"
+                tools:visibility="visible" />
+
+            <androidx.leanback.widget.HorizontalGridView
+                android:id="@+id/flag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/qualityTitle"
+                android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="@string/detail_quality_title"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <androidx.leanback.widget.HorizontalGridView
+                android:id="@+id/quality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/episodeTitle"
+                    android:textAppearance="@style/TextAppearance.IBox.PlayerSection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    tools:text="选集 · 共31集 · 当前第01集"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sequence"
+                    style="@style/Widget.IBox.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/ibox_touch_target"
+                    android:layout_marginEnd="8dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="@dimen/ibox_touch_target"
+                    android:minWidth="0dp"
+                    android:nextFocusDown="@id/episode"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:visibility="gone"
+                    tools:text="播放：正序"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/reverse"
+                    style="@style/Widget.IBox.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/ibox_touch_target"
+                    android:layout_marginEnd="8dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="@dimen/ibox_touch_target"
+                    android:minWidth="0dp"
+                    android:nextFocusDown="@id/episode"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_msr_sort"
+                    app:iconPadding="6dp"
+                    app:iconSize="18dp"
+                    tools:text="排列：正序"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/more"
+                    style="@style/Widget.IBox.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/ibox_touch_target"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="@dimen/ibox_touch_target"
+                    android:minWidth="0dp"
+                    android:nextFocusDown="@id/episode"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="@string/play_all_episodes"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/episode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:visibility="gone" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</com.imedia.box.ui.custom.ProgressLayout>

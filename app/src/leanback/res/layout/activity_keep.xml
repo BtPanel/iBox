@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/keep"
+            android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.IBox.TextInputLayout"
+            android:layout_width="320dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="12dp"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/ibox_text_secondary"
+            app:hintEnabled="false"
+            app:startIconDrawable="@drawable/ic_msr_search"
+            app:startIconTint="@color/ibox_text_secondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/keyword"
+                style="@style/Widget.IBox.TextInputEditText.Compact"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/keep_search_hint"
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords|textAutoCorrect"
+                android:maxLength="80"
+                android:nextFocusDown="@id/recycler"
+                android:singleLine="true"
+                android:textColor="@color/ibox_text_primary"
+                android:textColorHint="@color/ibox_text_secondary"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sort"
+            style="@style/Widget.IBox.Button"
+            android:layout_width="180dp"
+            android:layout_height="48dp"
+            android:focusable="true"
+            android:maxLines="1"
+            android:nextFocusDown="@id/recycler"
+            app:icon="@drawable/ic_msr_sort"
+            app:iconTint="@color/ibox_text_primary" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.imedia.box.ui.custom.ProgressLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingStart="48dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="32dp" />
+
+    </com.imedia.box.ui.custom.ProgressLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

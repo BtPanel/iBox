@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ibox_dialog_width_mobile">400dp</dimen>
+    <dimen name="ibox_dialog_width_tv">720dp</dimen>
+    <dimen name="ibox_dialog_margin_mobile">16dp</dimen>
+    <dimen name="ibox_dialog_margin_tv">48dp</dimen>
+    <dimen name="ibox_side_sheet_width">480dp</dimen>
+    <dimen name="ibox_dialog_radius_mobile">16dp</dimen>
+    <dimen name="ibox_dialog_radius_tv">12dp</dimen>
+
+    <integer name="ibox_motion_fast">100</integer>
+    <integer name="ibox_motion_short">160</integer>
+    <integer name="ibox_motion_medium">240</integer>
+    <integer name="ibox_motion_long">320</integer>
+
+    <style name="Animation.IBox" parent="@android:style/Animation" />
+
+    <style name="Animation.IBox.None">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="Animation.IBox.Dialog.Alert" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/ibox_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/ibox_dialog_exit</item>
+    </style>
+
+    <style name="Animation.IBox.Dialog.BottomSheet" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/ibox_sheet_enter_bottom</item>
+        <item name="android:windowExitAnimation">@anim/ibox_sheet_exit_bottom</item>
+    </style>
+
+    <style name="Animation.IBox.Dialog.SideSheet" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/ibox_sheet_enter_end</item>
+        <item name="android:windowExitAnimation">@anim/ibox_sheet_exit_end</item>
+    </style>
+
+    <style name="Animation.IBox.Activity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/ibox_activity_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/ibox_activity_hold</item>
+        <item name="android:activityCloseEnterAnimation">@anim/ibox_activity_hold</item>
+        <item name="android:activityCloseExitAnimation">@anim/ibox_activity_exit</item>
+    </style>
+
+    <style name="ShapeAppearance.IBox.Dialog" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">@dimen/ibox_dialog_radius_mobile</item>
+    </style>
+
+    <style name="ShapeAppearance.IBox.BottomSheet" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSizeTopLeft">@dimen/ibox_dialog_radius_mobile</item>
+        <item name="cornerSizeTopRight">@dimen/ibox_dialog_radius_mobile</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ShapeAppearance.IBox.SideSheet" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSizeTopLeft">@dimen/ibox_dialog_radius_tv</item>
+        <item name="cornerSizeBottomLeft">@dimen/ibox_dialog_radius_tv</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.Alert</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.56</item>
+        <item name="colorError">@color/ibox_error</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.IBox.Dialog</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.IBox.Dialog</item>
+    </style>
+
+    <style name="Widget.IBox.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:backgroundTint">@color/ibox_surface</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.IBox.BottomSheet</item>
+    </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.BottomSheet</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.56</item>
+        <item name="bottomSheetStyle">@style/Widget.IBox.BottomSheet</item>
+        <item name="colorSurface">@color/ibox_surface</item>
+        <item name="colorOnSurface">@color/ibox_text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/ibox_text_secondary</item>
+        <item name="colorOutline">@color/ibox_outline</item>
+        <item name="colorError">@color/ibox_error</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.IBox.BottomSheet</item>
+    </style>
+
+    <style name="Widget.IBox.SideSheet" parent="Widget.Material3.SideSheet.Modal">
+        <item name="android:backgroundTint">@color/ibox_surface</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.IBox.SideSheet</item>
+    </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.SideSheet" parent="ThemeOverlay.Material3.SideSheetDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.SideSheet</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.56</item>
+        <item name="colorSurface">@color/ibox_surface</item>
+        <item name="colorOnSurface">@color/ibox_text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/ibox_text_secondary</item>
+        <item name="colorOutline">@color/ibox_outline</item>
+        <item name="colorError">@color/ibox_error</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.IBox.SideSheet</item>
+    </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.LiveSideSheet" parent="ThemeOverlay.IBox.Dialog.SideSheet">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0</item>
+    </style>
+</resources>

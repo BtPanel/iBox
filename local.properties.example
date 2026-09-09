@@ -1,0 +1,7 @@
+# Copy this file to local.properties and replace the example values.
+# Use forward slashes in Windows paths.
+sdk.dir=C:/Users/your-name/AppData/Local/Android/Sdk
+storeFile=signing/release.jks
+storePassword=replace-with-store-password
+keyAlias=release
+keyPassword=replace-with-key-password

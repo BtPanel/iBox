@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/ibox_dialog_content_padding">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_sheet_header" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/repositoryType"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_touch_target"
+        android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/vod"
+            style="@style/Widget.IBox.Button.Segment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/repository_vod" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/live"
+            style="@style/Widget.IBox.Button.Segment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/repository_live" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
+        android:layout_marginBottom="0dp">
+
+        <com.imedia.box.ui.custom.CustomRecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:padding="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:maxHeight="@dimen/ibox_repository_list_max_height" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/empty"
+            android:minHeight="@dimen/ibox_repository_empty_min_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/ibox_space_5"
+            android:paddingBottom="@dimen/ibox_space_5">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/ibox_touch_target"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_nav_source"
+                app:tint="?attr/colorOnSurfaceVariant" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/emptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_2"
+                android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

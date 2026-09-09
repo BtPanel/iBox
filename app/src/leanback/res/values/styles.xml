@@ -1,0 +1,132 @@
+<resources>
+
+    <style name="Theme.Base" parent="Theme.IBox.TV">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowAnimationStyle">@style/NoAnim</item>
+    </style>
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="windowSplashScreenBackground">@color/ibox_surface_container</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_empty</item>
+    </style>
+
+    <style name="Theme.App" parent="Theme.Base" />
+
+    <style name="Theme.DetailProbe" parent="Theme.Base">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.None</item>
+    </style>
+
+    <style name="Widget.IBox.Button" parent="Widget.IBox.Button.Base">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="backgroundTint">@color/selector_tv_button_background</item>
+        <item name="android:textColor">@color/selector_tv_button_text</item>
+        <item name="iconTint">@color/selector_tv_button_text</item>
+        <item name="strokeColor">@color/selector_tv_button_stroke</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:textSize">@dimen/ibox_text_button</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">12sp</item>
+        <item name="autoSizeMaxTextSize">@dimen/ibox_text_button</item>
+        <item name="autoSizeStepGranularity">1sp</item>
+    </style>
+
+    <style name="Widget.IBox.IconButton" parent="Widget.IBox.IconButton.Base">
+        <item name="android:background">@drawable/selector_item</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:tint">@color/selector_ibox_icon</item>
+    </style>
+
+    <style name="Widget.IBox.Button.IconOnly" parent="Widget.IBox.Button">
+        <item name="android:minWidth">@dimen/ibox_icon_action_size</item>
+        <item name="android:minHeight">@dimen/ibox_icon_action_size</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconSize">@dimen/ibox_icon_large</item>
+    </style>
+
+    <style name="Widget.IBox.SettingSwitch" parent="Widget.IBox.SettingSwitch.Base">
+        <item name="android:background">@drawable/selector_item</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="Widget.IBox.RepositoryItem" parent="">
+        <item name="android:background">@drawable/selector_ibox_repository_item</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/ibox_repository_row_min_height</item>
+        <item name="android:paddingStart">@dimen/ibox_space_4</item>
+        <item name="android:paddingTop">@dimen/ibox_space_2</item>
+        <item name="android:paddingEnd">@dimen/ibox_space_2</item>
+        <item name="android:paddingBottom">@dimen/ibox_space_2</item>
+    </style>
+
+    <style name="Theme.Crash" parent="Theme.Base">
+        <item name="android:windowBackground">@color/ibox_surface_container</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="NoAnim">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+    </style>
+
+    <style name="Shadow">
+        <item name="android:shadowColor">#B0000000</item>
+        <item name="android:shadowDx">1.5</item>
+        <item name="android:shadowDy">1.5</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="Control">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/ibox_touch_target</item>
+        <item name="android:background">@drawable/selector_chip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minHeight">@dimen/ibox_touch_target</item>
+        <item name="android:nextFocusUp">@id/exo_progress</item>
+        <item name="android:paddingStart">@dimen/ibox_space_4</item>
+        <item name="android:paddingEnd">@dimen/ibox_space_4</item>
+        <item name="android:textColor">@color/selector_ibox_episode_text</item>
+        <item name="android:textSize">@dimen/ibox_text_label</item>
+    </style>
+
+    <style name="Widget.IBox.TV.DetailAction" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/selector_item</item>
+        <item name="android:clickable">true</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/ibox_player_text_primary</item>
+        <item name="android:textSize">@dimen/ibox_text_button</item>
+    </style>
+
+</resources>

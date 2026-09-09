@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        app:elevation="0dp"
+        app:liftOnScrollColor="@android:color/transparent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:layout_marginEnd="@dimen/ibox_space_3"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/source"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/bg_home_action"
+                    android:paddingStart="@dimen/ibox_space_1"
+                    android:paddingEnd="@dimen/ibox_space_2"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/logo"
+                        android:layout_width="@dimen/ibox_space_6"
+                        android:layout_height="@dimen/ibox_space_6"
+                        android:background="?attr/colorPrimaryContainer"
+                        android:contentDescription="@string/home_current_source"
+                        android:padding="@dimen/ibox_space_2"
+                        android:src="@drawable/ic_source_placeholder"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_IBox_Circle" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ibox_space_2"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/app_name"
+                        android:textColor="@color/ibox_text_primary"
+                        android:textAppearance="@style/TextAppearance.IBox.ItemTitle" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/repository"
+                    style="@style/Widget.IBox.IconButton"
+                    android:layout_width="@dimen/ibox_icon_action_size"
+                    android:layout_height="@dimen/ibox_icon_action_size"
+                    android:layout_marginStart="@dimen/ibox_space_1"
+                    android:background="@drawable/bg_home_action"
+                    android:contentDescription="@string/mine_subscription"
+                    android:src="@drawable/ic_nav_source"
+                    android:tooltipText="@string/mine_subscription"
+                    app:tint="@color/ibox_text_primary" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/keep"
+                    style="@style/Widget.IBox.IconButton"
+                    android:layout_width="@dimen/ibox_icon_action_size"
+                    android:layout_height="@dimen/ibox_icon_action_size"
+                    android:layout_marginStart="@dimen/ibox_space_1"
+                    android:background="@drawable/bg_home_action"
+                    android:contentDescription="@string/app_keep"
+                    android:src="@drawable/ic_msr_favorite"
+                    app:tint="@color/ibox_text_primary" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/history"
+                    style="@style/Widget.IBox.IconButton"
+                    android:layout_width="@dimen/ibox_icon_action_size"
+                    android:layout_height="@dimen/ibox_icon_action_size"
+                    android:layout_marginStart="@dimen/ibox_space_1"
+                    android:background="@drawable/bg_home_action"
+                    android:contentDescription="@string/app_history"
+                    android:src="@drawable/ic_msr_history"
+                    app:tint="@color/ibox_text_primary" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ibox_touch_target"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_2"
+                android:layout_marginEnd="@dimen/ibox_space_3"
+                android:layout_marginBottom="@dimen/ibox_space_1"
+                android:background="@drawable/bg_home_search"
+                android:clickable="true"
+                android:contentDescription="@string/home_search_hint"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/ibox_space_4"
+                android:paddingEnd="@dimen/ibox_space_2">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/ibox_icon_small"
+                    android:layout_height="@dimen/ibox_icon_small"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_search"
+                    app:tint="?attr/colorPrimary" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ibox_space_2"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/home_search_hint"
+                    android:textColor="@color/ibox_text_secondary"
+                    android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linkArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                    android:layout_width="@dimen/ibox_stroke_thin"
+                    android:layout_height="@dimen/ibox_icon_small"
+                    android:layout_marginStart="@dimen/ibox_space_2"
+                    android:background="@color/ibox_glass_divider" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/linkQuick"
+                    android:layout_width="@dimen/ibox_touch_target"
+                    android:layout_height="@dimen/ibox_touch_target"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/home_open_link"
+                    android:focusable="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_msr_link"
+                    app:tint="?attr/colorPrimary" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_marginTop="@dimen/ibox_space_1"
+            android:background="@android:color/transparent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingEnd="@dimen/ibox_space_2"
+            android:visibility="invisible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/adapter_type" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.imedia.box.ui.custom.CustomViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <FrameLayout
+        android:id="@+id/libraryPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/libraryRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/ibox_space_1"
+            tools:listitem="@layout/adapter_vod" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/libraryEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/ibox_text_secondary"
+            android:textAppearance="@style/TextAppearance.IBox.Body"
+            android:visibility="gone"
+            tools:text="暂无观看记录"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/progress"
+        layout="@layout/view_home_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/emptyPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/ibox_space_6"
+        android:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/ibox_touch_target"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_marginBottom="@dimen/ibox_space_4"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_msr_movie"
+            app:tint="@color/ibox_text_secondary" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/home_load_empty"
+            android:textColor="@color/ibox_text_secondary"
+            android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/emptyRetry"
+            style="@style/Widget.IBox.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_marginTop="@dimen/ibox_space_4"
+            android:text="@string/home_load_retry" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ibox_space_4"
+        android:contentDescription="@string/home_filter"
+        android:visibility="gone"
+        app:backgroundTint="?attr/colorPrimary"
+        app:fabCustomSize="@dimen/ibox_touch_target"
+        app:elevation="0dp"
+        app:layout_anchor="@id/pager"
+        app:layout_anchorGravity="end|bottom"
+        app:layout_behavior="com.imedia.box.ui.custom.CustomFabBehavior"
+        app:srcCompat="@drawable/ic_msr_tune"
+        app:tint="?attr/colorOnPrimary"
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ibox_space_4"
+        android:contentDescription="@string/home_back_top"
+        android:tag="top"
+        android:visibility="invisible"
+        app:backgroundTint="?attr/colorPrimary"
+        app:fabCustomSize="@dimen/ibox_touch_target"
+        app:elevation="0dp"
+        app:layout_anchor="@id/pager"
+        app:layout_anchorGravity="end|bottom"
+        app:layout_behavior="com.imedia.box.ui.custom.CustomFabBehavior"
+        app:srcCompat="@drawable/ic_msr_vertical_align_top"
+        app:tint="?attr/colorOnPrimary"
+        tools:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,98 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">iBox</string>
+
+    <!-- Home -->
+    <string name="home_vod">Vod</string>
+    <string name="home_live">Live</string>
+    <string name="home_search">Search</string>
+    <string name="home_keep">Keep</string>
+    <string name="home_push">Push</string>
+    <string name="home_setting">Setting</string>
+    <string name="home_history">History</string>
+    <string name="home_recommend">Recommend</string>
+    <string name="home_quick">Quick access</string>
+    <string name="home_tab">Home</string>
+    <string name="home_config">Config</string>
+    <string name="home_route">Source</string>
+    <string name="mine_subscription">Subscription management</string>
+    <string name="repository_vod_title">Subscription management</string>
+    <string name="repository_live_title">Live source management</string>
+    <string name="repository_add">Add subscription</string>
+    <string name="repository_vod">VOD</string>
+    <string name="repository_live">Live</string>
+    <string name="repository_edit">Edit subscription</string>
+    <string name="repository_vod_empty">No VOD subscriptions</string>
+    <string name="repository_live_empty">No live sources</string>
+    <string name="repository_delete_message">Remove this subscription and its local history?</string>
+    <string name="repository_selected">Selected</string>
+    <string name="setting_vod_auto_fallback_line">Auto switch VOD parser/line on failure</string>
+    <string name="setting_vod_auto_fallback_source">Auto switch VOD source on failure</string>
+    <string name="setting_live_auto_fallback_line">Auto switch live line on failure</string>
+    <string name="setting_wall_blur">Blur wallpaper</string>
+    <string name="theme_color_amber">Amber</string>
+    <string name="theme_color_blue">Blue</string>
+    <string name="theme_color_cyan">Cyan</string>
+    <string name="theme_color_green">Green</string>
+    <string name="theme_color_red">Red</string>
+    <string name="theme_color_selected">Current theme color</string>
+    <string name="theme_color_orange">Orange</string>
+    <string name="theme_color_fresh">Fresh Green</string>
+    <string name="theme_color_pink">Sakura Pink</string>
+    <string name="theme_color_festive">Festive Red</string>
+    <string name="theme_color_default">Default</string>
+    <string name="setting_focus_color">Focus frame color</string>
+    <string name="focus_color_white">White</string>
+    <string name="detail_fullscreen">Fullscreen</string>
+    <string name="setting_boot_enabled">Launch on boot</string>
+    <string name="detail_lines_title">Sources · %1$d</string>
+    <string name="detail_quality_title">Quality</string>
+    <string name="detail_episodes_title">Episodes · %1$d</string>
+    <string name="detail_episodes_current_title">Episodes · %1$d · %2$s</string>
+    <string name="detail_episode_number">Episode %1$s</string>
+    <string name="detail_playback_status">%1$s · %2$s · %3$s / %4$s</string>
+    <string name="detail_playback_ready">%1$s · %2$s</string>
+    <string name="home_history_empty">No viewing history</string>
+    <string name="home_keep_empty">No favorites yet</string>
+    <string-array name="select_boot_start">
+        <item>VOD</item>
+        <item>Live TV</item>
+        <item>History</item>
+    </string-array>
+    <string name="library_title">Media library</string>
+    <string name="library_history">History</string>
+    <string name="library_keep">Favorites</string>
+    <string name="library_history_search_hint">Search title, episode, or source</string>
+    <string name="library_sort">Sort</string>
+    <string name="library_sync">Sync</string>
+    <string name="library_manage">Manage</string>
+    <string name="library_done">Done</string>
+    <string name="timer_5">5 min</string>
+    <string name="timer_15">15 min</string>
+    <string name="timer_30">30 min</string>
+    <string name="timer_60">60 min</string>
+    <string name="timer_delay">Add 5 minutes</string>
+    <string name="timer_cancel">Cancel timer</string>
+    <string name="timer_minutes_suffix">min</string>
+    <string name="timer_start">Start</string>
+    <string name="timer_invalid">Enter 1-1440 minutes</string>
+    <string name="timer_description">Pause playback automatically after the selected time</string>
+    <string name="timer_minutes_hint">Custom minutes</string>
+    <string name="timer_remaining">Time remaining</string>
+    <string name="push_tools_title">Cast and play</string>
+    <string name="push_tools_description">Enter a media link, use the clipboard, or choose a local video.</string>
+    <string name="push_link_hint">Media link</string>
+    <string name="push_play_link">Play link</string>
+    <string name="push_choose_file">Local video</string>
+
+    <!-- Collect -->
+    <string name="collect_result">Search results for <xliff:g name="name">%s</xliff:g></string>
+
+    <!-- Push -->
+    <string name="push_clip">Clipboard</string>
+    <string name="push_info">Scan QR Code or enter the URL in browser\n<xliff:g name="name">%s</xliff:g></string>
+    <string name="push_pairing_code">Pairing code: %s</string>
+
+    <string name="setting_section_source">Source &amp; Appearance</string>
+    <string name="setting_section_general">Playback &amp; General</string>
+</resources>

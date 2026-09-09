@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@android:color/transparent"
+        app:menu="@menu/menu_keep"
+        app:navigationIconTint="@color/ibox_text_primary"
+        app:title="@string/app_keep"
+        app:titleTextAppearance="@style/ToolbarTextAppearance" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_input"
+            app:boxBackgroundMode="none"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/ibox_text_secondary"
+            app:hintEnabled="false"
+            app:startIconDrawable="@drawable/ic_msr_search"
+            app:startIconTint="@color/ibox_text_secondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/keyword"
+                style="@style/Widget.IBox.TextInputEditText.Compact"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/keep_search_hint"
+                android:imeOptions="actionDone"
+                android:includeFontPadding="false"
+                android:inputType="textCapWords|textAutoCorrect"
+                android:maxLength="80"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:singleLine="true"
+                android:textColor="@color/ibox_text_primary"
+                android:textColorHint="@color/ibox_text_secondary"
+                android:textSize="@dimen/ibox_text_body" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sort"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/keep_sort"
+            android:tooltipText="@string/keep_sort"
+            app:icon="@drawable/ic_msr_sort"
+            app:iconTint="@color/ibox_text_primary" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.imedia.box.ui.custom.ProgressLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="4dp"
+            tools:listitem="@layout/adapter_vod" />
+
+    </com.imedia.box.ui.custom.ProgressLayout>
+
+    <include
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_navigation_height"
+        layout="@layout/view_app_navigation" />
+</androidx.appcompat.widget.LinearLayoutCompat>

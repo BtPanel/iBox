@@ -1,0 +1,92 @@
+<resources>
+
+    <style name="ShapeAppearanceOverlay_IBox_CastArtwork">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay_IBox_Circle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay_IBox_Rounded8">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.IBox.BottomSheet" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSize">@dimen/ibox_dialog_radius_mobile</item>
+    </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.Alert</item>
+    </style>
+
+    <style name="Widget.IBox.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryContainer</item>
+        <item name="android:width">76dp</item>
+        <item name="android:height">32dp</item>
+    </style>
+
+    <style name="Theme.Base" parent="Theme.IBox.Mobile">
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Activity</item>
+    </style>
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_empty</item>
+        <item name="windowSplashScreenBackground">@color/ibox_surface_container</item>
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.None</item>
+    </style>
+
+    <style name="Theme.App" parent="Theme.Base" />
+
+    <style name="Theme.DetailProbe" parent="Theme.Base">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.None</item>
+    </style>
+
+    <style name="Theme.Crash" parent="Theme.Base">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@color/ibox_surface_container</item>
+    </style>
+
+    <style name="Control">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/ibox_touch_target</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minHeight">@dimen/ibox_touch_target</item>
+        <item name="android:paddingStart">@dimen/ibox_space_2</item>
+        <item name="android:paddingEnd">@dimen/ibox_space_2</item>
+        <item name="android:textColor">@color/ibox_player_text_primary</item>
+        <item name="android:textSize">@dimen/ibox_text_label</item>
+    </style>
+
+    <style name="Widget.IBox.Button" parent="Widget.IBox.Button.Base">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minWidth">72dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">10sp</item>
+        <item name="autoSizeMaxTextSize">@dimen/ibox_text_button</item>
+        <item name="autoSizeStepGranularity">1sp</item>
+    </style>
+
+    <style name="ToolbarTextAppearance" parent="TextAppearance.IBox.PageTitle">
+        <item name="titleTextColor">@color/ibox_text_primary</item>
+    </style>
+
+</resources>

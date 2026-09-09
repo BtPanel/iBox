@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/ibox_touch_target"
+    android:background="@drawable/selector_home_category"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:minWidth="84dp"
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingEnd="@dimen/ibox_space_4"
+    android:singleLine="true"
+    android:textColor="@color/selector_home_category_text"
+    android:textAppearance="@style/TextAppearance.IBox.Body"
+    tools:text="热播电影" />

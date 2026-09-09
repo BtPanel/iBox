@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <FrameLayout
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:clickable="true"
+        android:defaultFocusHighlightEnabled="false"
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        tools:ignore="KeyboardInaccessibleWidget">
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/player"
+            style="@style/Player.Live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:surface_type="none" />
+
+        <include
+            android:id="@+id/widget"
+            layout="@layout/view_widget_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/control"
+            layout="@layout/view_control_live"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/progress"
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="14dp"
+        android:background="@drawable/shape_live_list"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.imedia.box.ui.custom.CustomLiveListView
+            android:id="@+id/group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_group" />
+
+        <com.imedia.box.ui.custom.CustomLeftRightLayout
+            android:id="@+id/channelGroupEntry"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone"
+            tools:ignore="KeyboardInaccessibleWidget">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="@string/live_channel_group_vertical"
+                android:textColor="@color/text"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@null"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_keyboard_left" />
+
+        </com.imedia.box.ui.custom.CustomLeftRightLayout>
+
+        <com.imedia.box.ui.custom.CustomLiveListView
+            android:id="@+id/channel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_channel" />
+
+        <com.imedia.box.ui.custom.CustomLeftRightLayout
+            android:id="@+id/epgGuideEntry"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            tools:ignore="KeyboardInaccessibleWidget">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="@string/live_program_guide_vertical"
+                android:textColor="@color/text"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@null"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_keyboard_right" />
+
+        </com.imedia.box.ui.custom.CustomLeftRightLayout>
+
+        <com.imedia.box.ui.custom.CustomLiveListView
+            android:id="@+id/epgDate"
+            android:layout_width="116dp"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone"
+            tools:itemCount="3"
+            tools:listitem="@layout/adapter_epg_date"
+            tools:visibility="visible" />
+
+        <com.imedia.box.ui.custom.CustomLiveListView
+            android:id="@+id/epgData"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:visibility="gone"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_epg_data"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/epgEmpty"
+            android:layout_width="360dp"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:gravity="center"
+            android:padding="48dp"
+            android:text="@string/live_epg_empty"
+            android:textColor="@color/ibox_text_secondary"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:id="@+id/sourceState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ibox_surface_container"
+        android:focusable="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="48dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_msr_database" />
+
+        <TextView
+            android:id="@+id/sourceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textColor="@color/ibox_text_primary"
+            tools:text="No live source" />
+
+        <TextView
+            android:id="@+id/sourceMessage"
+            android:layout_width="560dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="@color/ibox_text_secondary"
+            tools:text="Add a source URL or choose a local M3U/TXT playlist." />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sourceAdd"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:minWidth="168dp"
+                android:text="@string/live_source_add"
+                app:icon="@drawable/ic_msr_add" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sourceFile"
+                style="@style/Widget.IBox.Button.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:minWidth="196dp"
+                android:text="@string/live_source_file"
+                app:icon="@drawable/ic_msr_folder" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sourceRetry"
+                style="@style/Widget.IBox.Button.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:minWidth="128dp"
+                android:text="@string/live_source_retry"
+                android:visibility="gone"
+                app:icon="@drawable/ic_msr_refresh"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

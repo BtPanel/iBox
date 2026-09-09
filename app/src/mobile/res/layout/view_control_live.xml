@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bg_ibox_player_top"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/ibox_icon_action_size"
+            android:layout_height="@dimen/ibox_icon_action_size"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_msr_arrow_back" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/browserButton"
+                android:layout_width="@dimen/ibox_icon_action_size"
+                android:layout_height="@dimen/ibox_icon_action_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/live_channel_list"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_msr_live_tv"
+                android:tooltipText="@string/live_channel_list" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cast"
+                android:layout_width="@dimen/ibox_icon_action_size"
+                android:layout_height="@dimen/ibox_icon_action_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_msr_cast" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/info"
+                android:layout_width="@dimen/ibox_icon_action_size"
+                android:layout_height="@dimen/ibox_icon_action_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_msr_info" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/settings"
+                android:layout_width="@dimen/ibox_icon_action_size"
+                android:layout_height="@dimen/ibox_icon_action_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/live_menu_title"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_msr_settings"
+                android:tooltipText="@string/live_menu_title" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/keep"
+                android:layout_width="@dimen/ibox_icon_action_size"
+                android:layout_height="@dimen/ibox_icon_action_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/app_keep"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_msr_favorite"
+                android:tooltipText="@string/app_keep" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/prev"
+            android:layout_width="@dimen/ibox_icon_action_size"
+            android:layout_height="@dimen/ibox_icon_action_size"
+            android:background="@drawable/shape_control"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_msr_skip_previous" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/play"
+            android:layout_width="@dimen/ibox_icon_action_size"
+            android:layout_height="@dimen/ibox_icon_action_size"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/shape_control"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_msr_play_arrow" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/next"
+            android:layout_width="@dimen/ibox_icon_action_size"
+            android:layout_height="@dimen/ibox_icon_action_size"
+            android:background="@drawable/shape_control"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_msr_skip_next" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <include
+        android:id="@+id/right"
+        layout="@layout/view_control_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="4dp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_ibox_player_bottom"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingBottom="12dp">
+
+        <androidx.media3.ui.PlayerSeekView
+            android:id="@+id/seek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:minHeight="36dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+
+        <include
+            android:id="@+id/action"
+            layout="@layout/view_control_live_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</RelativeLayout>

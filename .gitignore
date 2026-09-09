@@ -1,0 +1,45 @@
+# Android / Gradle
+.gradle/
+.gradle-user-home/
+build/
+**/build/
+captures/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Local config and secrets
+local.properties
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+!app/src/main/assets/cacert.pem
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+.codex-*
+.superpowers/
+.worktrees/
+.zcode/
+docs/superpowers/
+
+# Generated release artifacts; icon source packages under artwork stay tracked.
+*.zip
+*.apk
+*.aab
+/Release/
+
+# Reproducible third-party source dependency (see docs bootstrap instructions)
+vendor/media3/
+
+# Generated reports
+reports/
+outputs/

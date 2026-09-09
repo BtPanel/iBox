@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#B93F3B" android:pathData="M34,32H74A8,8 0,0 1,82 40V73A8,8 0,0 1,74 81H34A8,8 0,0 1,26 73V40A8,8 0,0 1,34 32Z" />
+    <path android:fillColor="#FFF0CE" android:pathData="M34,30H74A8,8 0,0 1,82 38V71A8,8 0,0 1,74 79H34A8,8 0,0 1,26 71V38A8,8 0,0 1,34 30Z" />
+    <path android:fillColor="#F26455" android:pathData="M33,34H41A2,2 0,0 1,43 36A2,2 0,0 1,41 38H33A2,2 0,0 1,31 36A2,2 0,0 1,33 34ZM50,34H58A2,2 0,0 1,60 36A2,2 0,0 1,58 38H50A2,2 0,0 1,48 36A2,2 0,0 1,50 34ZM67,34H75A2,2 0,0 1,77 36A2,2 0,0 1,75 38H67A2,2 0,0 1,65 36A2,2 0,0 1,67 34ZM33,71H41A2,2 0,0 1,43 73A2,2 0,0 1,41 75H33A2,2 0,0 1,31 73A2,2 0,0 1,33 71ZM50,71H58A2,2 0,0 1,60 73A2,2 0,0 1,58 75H50A2,2 0,0 1,48 73A2,2 0,0 1,50 71ZM67,71H75A2,2 0,0 1,77 73A2,2 0,0 1,75 75H67A2,2 0,0 1,65 73A2,2 0,0 1,67 71ZM44,45C44,42 46.5,40.5 49.2,42L64,50.5C67,52.2 67,54.5 64,56.2L49.2,64.7C46.5,66.2 44,64.6 44,61.5Z" />
+</vector>

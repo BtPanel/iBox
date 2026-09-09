@@ -1,0 +1,112 @@
+package com.imedia.box.ui.adapter;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.imedia.box.bean.Episode;
+import com.imedia.box.databinding.AdapterEpisodeGridBinding;
+import com.imedia.box.databinding.AdapterEpisodeHoriBinding;
+import com.imedia.box.ui.base.BaseEpisodeHolder;
+import com.imedia.box.ui.base.ViewType;
+import com.imedia.box.ui.holder.EpisodeGridHolder;
+import com.imedia.box.ui.holder.EpisodeHoriHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
+
+    private final OnClickListener listener;
+    private final List<Episode> mItems;
+    private final int viewType;
+    private boolean strip;
+
+    public EpisodeAdapter(OnClickListener listener, int viewType) {
+        this(listener, viewType, new ArrayList<>());
+    }
+
+    public EpisodeAdapter(OnClickListener listener, int viewType, ArrayList<Episode> items) {
+        this.listener = listener;
+        this.viewType = viewType;
+        this.mItems = items;
+    }
+
+    public interface OnClickListener {
+
+        void onItemClick(Episode item);
+    }
+
+    public void addAll(List<Episode> items) {
+        mItems.clear();
+        mItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    /** 条上模式：chip 使用固定宽度，供详情页横向选集条使用。 */
+    public EpisodeAdapter strip() {
+        this.strip = true;
+        return this;
+    }
+
+    public int getPosition() {
+        for (int i = 0; i < mItems.size(); i++) if (mItems.get(i).isSelected()) return i;
+        return 0;
+    }
+
+    public int getPosition(Episode item) {
+        return mItems.indexOf(item);
+    }
+
+    public Episode getActivated() {
+        return mItems.get(getPosition());
+    }
+
+    public Episode getNext() {
+        int current = getPosition();
+        int max = getItemCount() - 1;
+        current = ++current > max ? max : current;
+        return mItems.get(current);
+    }
+
+    public Episode getPrev() {
+        int current = getPosition();
+        current = --current < 0 ? 0 : current;
+        return mItems.get(current);
+    }
+
+    public List<Episode> getItems() {
+        return mItems;
+    }
+
+    public boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mItems.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return viewType;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseEpisodeHolder holder, int position) {
+        holder.initView(mItems.get(position));
+    }
+
+    @NonNull
+    @Override
+    public BaseEpisodeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == ViewType.HORI) {
+            return new EpisodeHoriHolder(AdapterEpisodeHoriBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener);
+        } else {
+            return new EpisodeGridHolder(AdapterEpisodeGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener, strip);
+        }
+    }
+}
