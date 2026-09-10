@@ -34,6 +34,7 @@ public class LiveLineHealthStoreTest {
         MemoryBackend backend = new MemoryBackend();
         LiveLineHealthStore store = store(backend, NOW);
         Channel channel = channelWith("https://private/live.m3u8?token=secret$主线");
+        setLiveHome(home(channel.getGroup()));
 
         store.recordFailure(channel, 0, LiveFailureKind.NETWORK);
 
@@ -119,6 +120,24 @@ public class LiveLineHealthStoreTest {
     }
 
     @Test
+    public void ambiguousAliasHasNoHealthAndKeepsUnattemptedSourceOrder() {
+        TestGroup first = new TestGroup("First");
+        TestGroup second = new TestGroup("Second");
+        first.getChannel().add(channel("News", "001", first, "https://zero", "https://one", "https://two"));
+        second.getChannel().add(channel("News", "001", second, "https://zero", "https://one", "https://two"));
+        setLiveHome(home(first, second));
+        Channel alias = channel("News", "001", new TestGroup("Recent", false, true),
+                "https://zero", "https://one", "https://two");
+        LiveLineHealthStore store = store(new MemoryBackend(), NOW);
+
+        store.recordFailure(alias, 0, LiveFailureKind.NETWORK);
+        store.recordSuccess(alias, 2, 500);
+
+        assertTrue(store.current().isEmpty());
+        assertEquals(List.of(0, 2), store.rank(alias, Set.of(1)));
+    }
+
+    @Test
     public void ignoresUnknownVersionsAndMalformedEntries() {
         MemoryBackend backend = new MemoryBackend();
         backend.put("live_line_health_v2_test", "{\"version\":99,\"entries\":[]}");
@@ -174,6 +193,7 @@ public class LiveLineHealthStoreTest {
         MemoryBackend backend = new MemoryBackend();
         LiveLineHealthStore store = store(backend, NOW);
         Channel channel = channelWith("https://zero", "https://one", "https://two");
+        setLiveHome(home(channel.getGroup()));
         store.recordFailure(channel, 0, LiveFailureKind.NETWORK);
         store.recordSuccess(channel, 2, 1_000);
 

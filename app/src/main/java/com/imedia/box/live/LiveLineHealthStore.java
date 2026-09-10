@@ -90,9 +90,8 @@ public final class LiveLineHealthStore {
     private LiveLineKey key(Channel channel, int index) {
         if (channel == null || index < 0 || index >= channel.getUrls().size()) return null;
         LiveChannelStore.ChannelRef ref = LiveChannelStore.resolve(channel);
-        String group = ref == null ? "" : ref.group();
-        String name = ref == null ? channel.getName() : ref.channel().getName();
-        return LiveLineKey.create(sourceKey(), group, name, channel.getUrls().get(index));
+        if (ref == null) return null;
+        return LiveLineKey.create(sourceKey(), ref.group(), ref.channel().getName(), channel.getUrls().get(index));
     }
 
     private String sourceKey() {

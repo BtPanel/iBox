@@ -46,6 +46,8 @@ public interface LivePlaybackHost {
 
     void renderChannelStatus(Channel channel);
 
+    default void renderConnectionState(LiveConnectionState connectionState) { }
+
     void renderLineSelection(Channel channel, boolean show);
 
     void renderEpgSelection(EpgData data);
