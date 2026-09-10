@@ -17,6 +17,7 @@ import com.imedia.box.live.LiveChannelStore;
 import com.imedia.box.live.LiveHealthTestFixture;
 import com.imedia.box.live.LiveLineHealth;
 import com.imedia.box.live.LiveLineKey;
+import com.imedia.box.live.LiveLineHealthStore;
 import com.imedia.box.playback.PlaybackResult;
 import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.player.media.MediaItemFactory;
@@ -32,6 +33,144 @@ import com.imedia.box.bean.EpgData;
 import org.junit.Test;
 
 public class LivePlaybackControllerTest {
+
+    @Test public void stalePlayerErrorAndReadyCannotAffectRefreshedPlayback() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.resolveLatest();
+            LivePlayRequest old = h.host.latestRequest();
+            h.controller.refresh();
+            h.controller.playbackError(PlaybackFailure.timeout("old error"), old);
+            h.controller.onPlaybackReady(old);
+            assertTrue(h.scheduler.pending.isEmpty());
+            h.resolveLatest();
+            h.controller.playbackError(PlaybackFailure.source("old source"), old);
+            h.controller.onPlaybackReady(old);
+            assertEquals(0, h.channel.getIndex());
+            assertTrue(h.scheduler.pending.isEmpty());
+            assertTrue(h.health.store.current().isEmpty());
+            h.controller.onPlaybackReady(h.host.latestRequest());
+            assertEquals(1, h.scheduler.pending.size());
+        }
+    }
+
+    @Test public void stalePlayerEventsAfterAutoSwitchAndOldResolverFailureAreRejected() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.resolveLatest();
+            LivePlayRequest old = h.host.latestRequest();
+            h.controller.playbackError(PlaybackFailure.source("bad source"), old);
+            assertEquals(1, h.channel.getIndex());
+            h.resolveLatest();
+            h.controller.playbackError(PlaybackFailure.source("late failure"), old);
+            h.controller.onPlaybackReady(old);
+            Result badResult = mock(Result.class);
+            when(badResult.hasMsg()).thenReturn(true);
+            when(badResult.getMsg()).thenReturn("old resolver");
+            h.controller.onPlaybackResult(new PlaybackResult<>(old, badResult));
+            assertEquals(1, h.channel.getIndex());
+            assertEquals(2, h.host.requests.size());
+            assertTrue(h.scheduler.pending.isEmpty());
+            assertEquals(0, h.lineHealth(1).failureCount());
+        }
+    }
+
+    @Test public void sourceChangeReloadsRankingAndWritesOnlyTheNewSourcesHealth() {
+        try (Harness h = new Harness()) {
+            LiveLineHealthStore sourceB = h.health.storeForSource("source-b", () -> h.now);
+            h.health.store.recordSuccess(h.channel, 2, 100);
+            sourceB.recordSuccess(h.channel, 1, 200);
+            LivePlaybackController controller = new LivePlaybackController(h.host, new LivePlaybackState(),
+                    () -> h.source.getUrl().equals("https://source") ? h.health.store : sourceB,
+                    new LiveRecoveryPolicy(), h.scheduler, () -> h.now);
+            controller.selectChannel(h.channel);
+            assertEquals(2, h.channel.getIndex());
+            controller.onPlaybackResult(new PlaybackResult<>(h.host.latestRequest(), h.result));
+            controller.onPlaybackReady();
+            Runnable oldSuccess = h.scheduler.pending.get(0);
+            h.host.hasSession = true;
+
+            when(h.source.getUrl()).thenReturn("https://source-b");
+            controller.selectChannel(h.channel);
+            oldSuccess.run();
+
+            assertEquals(1, h.channel.getIndex());
+            controller.playbackError("source failure");
+            controller.onPlaybackResult(new PlaybackResult<>(h.host.latestRequest(), h.result));
+            controller.onPlaybackReady();
+            h.now += 30_000;
+            h.scheduler.runNext();
+            assertEquals(1, h.health.store.current().size());
+            assertEquals(1, h.lineHealth(2).successCount());
+            assertEquals(0, h.lineHealth(1).failureCount());
+            assertEquals(1, sourceB.current().get(LiveLineKey.create("source-b", "News", "News", "https://one")).failureCount());
+            assertEquals(1, sourceB.current().get(LiveLineKey.create("source-b", "News", "News", "https://zero")).successCount());
+        }
+    }
+
+    @Test public void retainingExistingSessionPreservesManualLineAndStableSuccess() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.controller.selectLine(2);
+            h.resolveLatest();
+            h.controller.onPlaybackReady();
+            h.host.hasSession = true;
+            LivePlayRequest playing = h.host.latestRequest();
+            Runnable success = h.scheduler.pending.get(0);
+
+            h.controller.selectChannel(h.channel);
+
+            assertEquals(2, h.channel.getIndex());
+            assertEquals(playing, h.host.latestRequest());
+            assertEquals(List.of(success), h.scheduler.pending);
+            h.now += 30_000;
+            h.scheduler.runNext();
+            assertEquals(1, h.lineHealth(2).successCount());
+        }
+    }
+
+    @Test public void retainingExistingSessionPreservesCatchupOnManualLine() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.controller.selectLine(2);
+            h.controller.selectEpg(h.program);
+            h.resolveLatest();
+            h.host.hasSession = true;
+            LivePlayRequest playing = h.host.latestRequest();
+
+            h.controller.selectChannel(h.channel);
+
+            assertEquals(2, h.channel.getIndex());
+            assertEquals(playing, h.host.latestRequest());
+            assertTrue(h.controller.isCatchup());
+            assertTrue(h.scheduler.pending.isEmpty());
+        }
+    }
+
+    @Test public void newControllerRetainsSavedPlayingRequestAndAcceptsItsReadyEvent() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.controller.selectLine(2);
+            h.resolveLatest();
+            h.controller.onPlaybackReady();
+            Runnable oldSuccess = h.scheduler.pending.get(0);
+            h.controller.detach();
+            assertTrue(h.scheduler.pending.isEmpty());
+            h.host.hasSession = true;
+            LivePlayRequest playing = h.host.latestRequest();
+            LivePlaybackController restored = new LivePlaybackController(h.host, h.state, h.health.store,
+                    new LiveRecoveryPolicy(), h.scheduler, () -> h.now);
+
+            restored.selectChannel(h.channel);
+            restored.onPlaybackReady(playing);
+            oldSuccess.run();
+
+            assertEquals(2, h.channel.getIndex());
+            assertEquals(playing, h.host.latestRequest());
+            assertEquals(1, h.scheduler.pending.size());
+            assertEquals(0, h.lineHealth(2).successCount());
+        }
+    }
 
     @Test public void initiallyChoosesBestHealthyLine() {
         try (Harness h = new Harness()) {
@@ -255,12 +394,13 @@ public class LivePlaybackControllerTest {
         final Channel other = channel("Other", group);
         final EpgData program = mock(EpgData.class);
         final Result result = mock(Result.class);
+        final Config source = mock(Config.class);
+        final LivePlaybackState state = new LivePlaybackState();
         final LivePlaybackController controller;
 
         Harness() {
             LiveConfig config = mock(LiveConfig.class);
             Live home = mock(Live.class);
-            Config source = mock(Config.class);
             configMock.when(LiveConfig::get).thenReturn(config);
             when(config.getHome()).thenReturn(home);
             when(config.getConfig()).thenReturn(source);
@@ -276,7 +416,7 @@ public class LivePlaybackControllerTest {
             when(program.getTitle()).thenReturn("");
             when(result.getRealUrl()).thenReturn("https://resolved");
             host.groups = groups;
-            controller = new LivePlaybackController(host, new LivePlaybackState(), health.store,
+            controller = new LivePlaybackController(host, state, health.store,
                     new LiveRecoveryPolicy(), scheduler, () -> now);
         }
 
@@ -330,6 +470,7 @@ public class LivePlaybackControllerTest {
         List<Group> groups;
         int starts;
         int statusRenders;
+        boolean hasSession;
         LiveConnectionState lastState() { return states.get(states.size() - 1); }
         LivePlayRequest latestRequest() { return requests.get(requests.size() - 1); }
         @Override public void renderConnectionState(LiveConnectionState state) { states.add(state); events.add(state.type().name()); }
@@ -338,7 +479,7 @@ public class LivePlaybackControllerTest {
         @Override public int getGroupPosition() { return 0; }
         @Override public Group getGroup(int position) { return groups.get(position); }
         @Override public boolean isPlayerLive() { return true; }
-        @Override public boolean hasPlaybackSession() { return false; }
+        @Override public boolean hasPlaybackSession() { return hasSession; }
         @Override public boolean isPlaybackServiceReady() { return true; }
         @Override public void restorePlaybackKey(String key) { }
         @Override public long getPlayerPosition() { return 0; }

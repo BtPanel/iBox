@@ -57,7 +57,10 @@ import java.util.Set;
 public class PlayerManager implements ParseCallback {
 
     private final PlayerEffectManager effects;
-    private final Runnable runnable;
+    private Runnable runnable;
+    private Object playbackRequest;
+    private Object playbackSession = new Object();
+    private Player.Listener listener = createListener(playbackSession, null);
     private final Callback callback;
     private PendingPreload pendingPreload;
     private PlayerEngine engine;
@@ -84,7 +87,7 @@ public class PlayerManager implements ParseCallback {
         this.callback = callback;
         this.decode = PlayerEngine.HARD;
         this.preferredEngine = PlayerSetting.getEngine();
-        this.runnable = this::onPlayTimeout;
+        this.runnable = () -> onPlayTimeout(null);
         this.pendingStartPositionMs = C.TIME_UNSET;
         this.engine = PlayerEngineFactory.create(decode, preferredEngine, listener);
         this.effects = new PlayerEffectManager(() -> engine);
@@ -94,6 +97,7 @@ public class PlayerManager implements ParseCallback {
     }
 
     public void release() {
+        playbackSession = new Object();
         App.removeCallbacks(runnable);
         if (player != null) player.removeListener(listener);
         if (engine != null) engine.release();
@@ -103,6 +107,10 @@ public class PlayerManager implements ParseCallback {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Object getPlaybackRequest() {
+        return playbackRequest;
     }
 
     private void setPlayer(Player player) {
@@ -489,6 +497,10 @@ public class PlayerManager implements ParseCallback {
     }
 
     public void stop() {
+        if (playbackRequest != null) {
+            playbackSession = new Object();
+            App.removeCallbacks(runnable);
+        }
         engine.stop();
         stopParse();
     }
@@ -569,9 +581,9 @@ public class PlayerManager implements ParseCallback {
         setDecode(decode == PlayerEngine.SOFT ? PlayerEngine.SOFT : PlayerEngine.HARD);
     }
 
-    private void handleDecodeError(PlaybackException e) {
+    private void handleDecodeError(PlaybackException e, Object request) {
         recordDiagnosticEvent(ResUtil.getString(R.string.diagnostics_event_decode, isHard() ? "software" : "hardware"));
-        if (++retry > 1) callback.onError(PlaybackFailure.decode(engine.getErrorMessage(e), e.errorCode));
+        if (++retry > 1) dispatchError(request, PlaybackFailure.decode(engine.getErrorMessage(e), e.errorCode));
         else retryDecode(isHard() ? PlayerEngine.SOFT : PlayerEngine.HARD, isStuckPlaying(e));
     }
 
@@ -601,11 +613,17 @@ public class PlayerManager implements ParseCallback {
         return decode == PlayerEngine.HARD;
     }
 
-    private void onPlayTimeout() {
+    private void onPlayTimeout(Object request) {
         lastError = ResUtil.getString(R.string.error_play_timeout);
         recordDiagnosticEvent(lastError);
-        callback.onError(PlaybackFailure.timeout(ResUtil.getString(R.string.error_play_timeout)));
-        stop();
+        PlaybackFailure failure = PlaybackFailure.timeout(ResUtil.getString(R.string.error_play_timeout));
+        if (request != null) {
+            stop();
+            dispatchError(request, failure);
+        } else {
+            callback.onError(failure);
+            stop();
+        }
     }
 
     private void ensureEngine(PlaySpec spec) {
@@ -630,6 +648,11 @@ public class PlayerManager implements ParseCallback {
     }
 
     public void start(PlaySpec spec, long timeout, long startPositionMs) {
+        start(spec, timeout, startPositionMs, null);
+    }
+
+    public void start(PlaySpec spec, long timeout, long startPositionMs, Object request) {
+        beginPlaybackRequest(request);
         prepareDiagnosticSession(spec == null ? null : spec.getMetadata());
         parseFrom = ResUtil.getString(R.string.diagnostics_direct);
         recordDiagnosticEvent(ResUtil.getString(R.string.diagnostics_event_direct));
@@ -643,6 +666,11 @@ public class PlayerManager implements ParseCallback {
     }
 
     public void parse(String key, Result result, boolean useParse, MediaMetadata metadata, long startPositionMs) {
+        parse(key, result, useParse, metadata, startPositionMs, null);
+    }
+
+    public void parse(String key, Result result, boolean useParse, MediaMetadata metadata, long startPositionMs, Object request) {
+        beginPlaybackRequest(request);
         stopParse();
         prepareDiagnosticSession(metadata);
         parseFrom = useParse ? ResUtil.getString(R.string.diagnostics_parsing) : ResUtil.getString(R.string.diagnostics_direct);
@@ -650,7 +678,34 @@ public class PlayerManager implements ParseCallback {
         pendingStartPositionMs = startPositionMs;
         spec = PlaySpec.fromParse(result, key, metadata);
         failedDanmakuSources.clear();
-        parseJob = ParseJob.create(this).start(result, useParse);
+        Object session = playbackSession;
+        parseJob = ParseJob.create(new ParseCallback() {
+            @Override public void onParseSuccess(Map<String, String> headers, String url, String from) {
+                if (session == playbackSession) PlayerManager.this.onParseSuccess(headers, url, from);
+            }
+            @Override public void onParseError() {
+                if (session == playbackSession) PlayerManager.this.onParseError();
+            }
+        }).start(result, useParse);
+    }
+
+    private void beginPlaybackRequest(Object request) {
+        // VOD keeps its existing callbacks. Live listeners capture the originating request.
+        if (request == null && playbackRequest == null) return;
+        App.removeCallbacks(runnable);
+        player.removeListener(listener);
+        playbackRequest = request;
+        Object session = playbackSession = new Object();
+        listener = createListener(session, request);
+        player.addListener(listener);
+        runnable = () -> {
+            if (session == playbackSession) onPlayTimeout(request);
+        };
+    }
+
+    private void dispatchError(Object request, PlaybackFailure failure) {
+        if (request == null) callback.onError(failure);
+        else callback.onError(request, failure);
     }
 
     private void stopParse() {
@@ -780,7 +835,7 @@ public class PlayerManager implements ParseCallback {
         lastError = ResUtil.getString(R.string.error_play_parse);
         recordDiagnosticEvent(lastError);
         pendingStartPositionMs = C.TIME_UNSET;
-        callback.onError(PlaybackFailure.source(ResUtil.getString(R.string.error_play_parse)));
+        dispatchError(playbackRequest, PlaybackFailure.source(ResUtil.getString(R.string.error_play_parse)));
     }
 
     private void prepareDiagnosticSession(MediaMetadata metadata) {
@@ -804,6 +859,12 @@ public class PlayerManager implements ParseCallback {
         void onMediaOptionsChanged();
 
         void onError(PlaybackFailure failure);
+
+        default void onError(Object request, PlaybackFailure failure) {
+            onError(failure);
+        }
+
+        default void onPlaybackStateChanged(Object request, int state) { }
 
         void onPlayerRebuild(Player newPlayer);
 
@@ -840,49 +901,58 @@ public class PlayerManager implements ParseCallback {
         }
     }
 
-    private final Player.Listener listener = new Player.Listener() {
+    private Player.Listener createListener(Object session, Object request) {
+        return new Player.Listener() {
 
-        @Override
-        public void onPlaybackStateChanged(int state) {
-            if (state == Player.STATE_READY || state == Player.STATE_ENDED) App.removeCallbacks(runnable);
-            if (state == Player.STATE_READY) startPreloadIfReady();
-        }
-
-        @Override
-        public void onVideoSizeChanged(@NonNull VideoSize size) {
-            videoSize = size;
-        }
-
-        @Override
-        public void onTracksChanged(@NonNull Tracks tracks) {
-            if (tracks.isEmpty() || initTrack) return;
-            setTrack(Track.find(getKey()));
-            callback.onTracksChanged();
-            initTrack = true;
-        }
-
-        @Override
-        public void onMediaChaptersChanged(@NonNull List<MediaChapter> chapters) {
-            callback.onMediaOptionsChanged();
-        }
-
-        @Override
-        public void onMediaEditionsChanged(@NonNull List<MediaEdition> editions) {
-            callback.onMediaOptionsChanged();
-        }
-
-        @Override
-        public void onPlayerError(@NonNull PlaybackException e) {
-            if (spec == null) return;
-            PlayerEngine.ErrorAction action = engine.handleError(e);
-            lastError = engine.getErrorMessage(e) + " (" + e.errorCode + ")";
-            recordDiagnosticEvent(lastError + " / " + action.name());
-            if (action != PlayerEngine.ErrorAction.RECOVERED) App.removeCallbacks(runnable);
-            switch (action) {
-                case DECODE -> handleDecodeError(e);
-                case RECOVERED -> notifyDanmakuSourceChanged();
-                case FATAL -> callback.onError(PlaybackFailure.fromErrorCode(engine.getErrorMessage(e), e.errorCode));
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                if (session != playbackSession) return;
+                if (state == Player.STATE_READY || state == Player.STATE_ENDED) App.removeCallbacks(runnable);
+                if (state == Player.STATE_READY) startPreloadIfReady();
+                if (request != null) callback.onPlaybackStateChanged(request, state);
             }
-        }
-    };
+
+            @Override
+            public void onVideoSizeChanged(@NonNull VideoSize size) {
+                if (session != playbackSession) return;
+                videoSize = size;
+            }
+
+            @Override
+            public void onTracksChanged(@NonNull Tracks tracks) {
+                if (session != playbackSession) return;
+                if (tracks.isEmpty() || initTrack) return;
+                setTrack(Track.find(getKey()));
+                callback.onTracksChanged();
+                initTrack = true;
+            }
+
+            @Override
+            public void onMediaChaptersChanged(@NonNull List<MediaChapter> chapters) {
+                if (session != playbackSession) return;
+                callback.onMediaOptionsChanged();
+            }
+
+            @Override
+            public void onMediaEditionsChanged(@NonNull List<MediaEdition> editions) {
+                if (session != playbackSession) return;
+                callback.onMediaOptionsChanged();
+            }
+
+            @Override
+            public void onPlayerError(@NonNull PlaybackException e) {
+                if (session != playbackSession) return;
+                if (spec == null) return;
+                PlayerEngine.ErrorAction action = engine.handleError(e);
+                lastError = engine.getErrorMessage(e) + " (" + e.errorCode + ")";
+                recordDiagnosticEvent(lastError + " / " + action.name());
+                if (action != PlayerEngine.ErrorAction.RECOVERED) App.removeCallbacks(runnable);
+                switch (action) {
+                    case DECODE -> handleDecodeError(e, request);
+                    case RECOVERED -> notifyDanmakuSourceChanged();
+                    case FATAL -> dispatchError(request, PlaybackFailure.fromErrorCode(engine.getErrorMessage(e), e.errorCode));
+                }
+            }
+        };
+    }
 }

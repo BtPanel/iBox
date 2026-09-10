@@ -10,14 +10,18 @@ public final class LiveHealthTestFixture implements AutoCloseable {
     public final Map<String, String> values = new HashMap<>();
 
     public LiveHealthTestFixture(LongSupplier clock) {
-        store = new LiveLineHealthStore("test", new LiveLineHealthStore.Backend() {
-            public String get(String key) { return values.getOrDefault(key, ""); }
-            public void put(String key, String value) { values.put(key, value); }
-        }, clock);
+        store = storeForSource("test", clock);
         LiveChannelStore.setBackendForTest(new LiveChannelStore.Backend() {
             public String get(String key) { return values.getOrDefault(key, ""); }
             public void put(String key, String value) { values.put(key, value); }
         });
+    }
+
+    public LiveLineHealthStore storeForSource(String source, LongSupplier clock) {
+        return new LiveLineHealthStore(source, new LiveLineHealthStore.Backend() {
+            public String get(String key) { return values.getOrDefault(key, ""); }
+            public void put(String key, String value) { values.put(key, value); }
+        }, clock);
     }
 
     @Override public void close() { LiveChannelStore.setBackendForTest(null); }

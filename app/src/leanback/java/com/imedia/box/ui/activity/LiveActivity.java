@@ -61,6 +61,7 @@ import com.imedia.box.playback.live.LivePlayRequest;
 import com.imedia.box.playback.live.LivePlaybackController;
 import com.imedia.box.playback.live.LivePlaybackHost;
 import com.imedia.box.player.extractor.Source;
+import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.player.track.TrackUtil;
 import com.imedia.box.service.PlaybackService;
 import com.imedia.box.setting.LiveSetting;
@@ -1205,6 +1206,28 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     @Override
+    protected void onError(Object request, PlaybackFailure failure) {
+        if (request instanceof LivePlayRequest liveRequest) mLive.playbackError(failure, liveRequest);
+    }
+
+    @Override
+    protected boolean usesPlaybackRequestEvents() {
+        return true;
+    }
+
+    @Override
+    protected void onPlaybackRequestStateChanged(Object request, int state) {
+        if (!(request instanceof LivePlayRequest liveRequest) || !mLive.isCurrentPlayback(liveRequest)) return;
+        if (state == Player.STATE_READY) mLive.onPlaybackReady(liveRequest);
+        onStateChanged(state);
+    }
+
+    @Override
+    protected void onPlaybackStateSynchronized(int state) {
+        onPlaybackRequestStateChanged(player().getPlaybackRequest(), state);
+    }
+
+    @Override
     protected void onReclaim() {
         mLive.refresh();
     }
@@ -1217,7 +1240,6 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
                 break;
             case Player.STATE_READY:
                 hideProgress();
-                mLive.onPlaybackReady();
                 player().reset();
                 LiveChannelStore.recordRecent(mChannel);
                 refreshRecent();
@@ -1696,6 +1718,11 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     @Override
+    public void startPlayback(Result result, long position, MediaMetadata metadata, LivePlayRequest request) {
+        startPlayer(mPlaybackKey = result.getRealUrl(), result, false, LiveSetting.getPlayTimeoutMillis(), position, metadata, request);
+    }
+
+    @Override
     public void resetPlaybackForError(String msg) {
         PlaybackReset.afterError(player());
         updateTopVisibility();
@@ -2021,6 +2048,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     protected void onDestroy() {
+        if (mLive != null) mLive.detach();
         mClock.release();
         Source.get().exit();
         App.removeCallbacks(mR0, mR1, mR2, mR3, mR4, mR5, mSeekRunnable);

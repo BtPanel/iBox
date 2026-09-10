@@ -239,6 +239,16 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         onError(failure.message());
     }
 
+    protected void onError(Object request, PlaybackFailure failure) {
+        onError(failure);
+    }
+
+    protected boolean usesPlaybackRequestEvents() {
+        return false;
+    }
+
+    protected void onPlaybackRequestStateChanged(Object request, int state) { }
+
     protected void onPlayingChanged(boolean isPlaying) {
     }
 
@@ -273,9 +283,13 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     protected void startPlayer(String key, Result result, boolean useParse, long timeout, long startPositionMs, MediaMetadata metadata) {
+        startPlayer(key, result, useParse, timeout, startPositionMs, metadata, null);
+    }
+
+    protected void startPlayer(String key, Result result, boolean useParse, long timeout, long startPositionMs, MediaMetadata metadata, Object request) {
         PlaybackFailure failure = getPlaybackFailure(result);
-        if (failure != null) onError(failure);
-        else startPlayerInternal(key, result, useParse, timeout, startPositionMs, metadata);
+        if (failure != null) onError(request, failure);
+        else startPlayerInternal(key, result, useParse, timeout, startPositionMs, metadata, request);
     }
 
     @Nullable
@@ -286,11 +300,11 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         return null;
     }
 
-    private void startPlayerInternal(String key, Result result, boolean useParse, long timeout, long startPositionMs, MediaMetadata metadata) {
+    private void startPlayerInternal(String key, Result result, boolean useParse, long timeout, long startPositionMs, MediaMetadata metadata, Object request) {
         attachPlayerView();
         updateNavigationKey(key);
-        if (result.needParse() || useParse) player().parse(key, result, useParse, metadata, startPositionMs);
-        else player().start(PlaySpec.from(result, key, metadata), timeout, startPositionMs);
+        if (result.needParse() || useParse) player().parse(key, result, useParse, metadata, startPositionMs, request);
+        else player().start(PlaySpec.from(result, key, metadata), timeout, startPositionMs, request);
     }
 
     private void bindPlaybackService() {
@@ -571,6 +585,16 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         }
 
         @Override
+        public void onError(Object request, PlaybackFailure failure) {
+            if (isBindingOwner()) PlaybackActivity.this.onError(request, failure);
+        }
+
+        @Override
+        public void onPlaybackStateChanged(Object request, int state) {
+            if (isBindingOwner()) PlaybackActivity.this.onPlaybackRequestStateChanged(request, state);
+        }
+
+        @Override
         public void onPlayerRebuild(Player player) {
             if (isOwner()) syncPlayerView(player);
         }
@@ -628,7 +652,7 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
 
     @Override
     public void onPlaybackStateChanged(int state) {
-        if (isOwner()) onStateChanged(state);
+        if (isOwner() && !usesPlaybackRequestEvents()) onStateChanged(state);
     }
 
     @Override

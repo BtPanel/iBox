@@ -44,6 +44,10 @@ public final class LiveLineHealthStore {
         }, System::currentTimeMillis);
     }
 
+    public static String currentSourceKey() {
+        return LiveChannelStore.sourceKey();
+    }
+
     LiveLineHealthStore(String sourceKey, Backend backend, LongSupplier clock) {
         this.key = "live_line_health_v2_" + (sourceKey == null ? "" : sourceKey);
         this.backend = backend;

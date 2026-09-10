@@ -36,6 +36,10 @@ public interface LivePlaybackHost {
 
     void startPlayback(Result result, long position, MediaMetadata metadata);
 
+    default void startPlayback(Result result, long position, MediaMetadata metadata, LivePlayRequest request) {
+        startPlayback(result, position, metadata);
+    }
+
     void resetPlaybackForError(String msg);
 
     void renderGroupSelection(Group group);

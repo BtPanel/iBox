@@ -64,6 +64,7 @@ import com.imedia.box.playback.live.LivePlayRequest;
 import com.imedia.box.playback.live.LivePlaybackController;
 import com.imedia.box.playback.live.LivePlaybackHost;
 import com.imedia.box.player.extractor.Source;
+import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.service.PlaybackService;
 import com.imedia.box.setting.LiveSetting;
 import com.imedia.box.ui.adapter.ChannelAdapter;
@@ -1090,6 +1091,11 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     }
 
     @Override
+    public void startPlayback(Result result, long position, MediaMetadata metadata, LivePlayRequest request) {
+        startPlayer(mPlaybackKey = result.getRealUrl(), result, false, getHome().getTimeout(), position, metadata, request);
+    }
+
+    @Override
     public void resetPlaybackForError(String msg) {
         PlaybackReset.afterError(player());
         showError(msg);
@@ -1206,6 +1212,28 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     @Override
     protected void onError(String msg) {
         mLive.playbackError(msg);
+    }
+
+    @Override
+    protected void onError(Object request, PlaybackFailure failure) {
+        if (request instanceof LivePlayRequest liveRequest) mLive.playbackError(failure, liveRequest);
+    }
+
+    @Override
+    protected boolean usesPlaybackRequestEvents() {
+        return true;
+    }
+
+    @Override
+    protected void onPlaybackRequestStateChanged(Object request, int state) {
+        if (!(request instanceof LivePlayRequest liveRequest) || !mLive.isCurrentPlayback(liveRequest)) return;
+        if (state == Player.STATE_READY) mLive.onPlaybackReady(liveRequest);
+        onStateChanged(state);
+    }
+
+    @Override
+    protected void onPlaybackStateSynchronized(int state) {
+        onPlaybackRequestStateChanged(player().getPlaybackRequest(), state);
     }
 
     @Override
@@ -1552,6 +1580,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     @Override
     protected void onDestroy() {
+        if (mLive != null) mLive.detach();
         Source.get().exit();
         App.removeCallbacks(mR1, mR2, mR3);
         super.onDestroy();

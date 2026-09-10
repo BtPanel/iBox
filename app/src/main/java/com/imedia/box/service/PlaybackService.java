@@ -512,6 +512,16 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     }
 
     @Override
+    public void onError(Object request, PlaybackFailure failure) {
+        playerCallbacks.forEach(callback -> callback.onError(request, failure));
+    }
+
+    @Override
+    public void onPlaybackStateChanged(Object request, int state) {
+        playerCallbacks.forEach(callback -> callback.onPlaybackStateChanged(request, state));
+    }
+
+    @Override
     public void onPlayerRebuild(Player newPlayer) {
         sessionPlayer.removeListener(listener);
         sessionPlayer = newPlayer;
@@ -624,6 +634,12 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
         default void onError(PlaybackFailure failure) {
             onError(failure.message());
         }
+
+        default void onError(Object request, PlaybackFailure failure) {
+            onError(failure);
+        }
+
+        default void onPlaybackStateChanged(Object request, int state) { }
 
         default void onError(String message) {
         }
