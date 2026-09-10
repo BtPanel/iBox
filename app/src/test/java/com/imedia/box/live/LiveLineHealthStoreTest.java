@@ -58,17 +58,64 @@ public class LiveLineHealthStoreTest {
     public void canonicalSourceGroupSharesHealthWithRecentAlias() {
         TestGroup sourceGroup = new TestGroup("Sports");
         Channel source = channelWith("https://one/live$A");
+        source.setGroup(sourceGroup);
         sourceGroup.getChannel().add(source);
         Live home = new Live("source", "");
         home.getGroups().add(sourceGroup);
         setLiveHome(home);
 
         Channel recentAlias = channelWith("https://one/live$A");
-        recentAlias.setGroup(new TestGroup("Recent"));
+        recentAlias.setGroup(new TestGroup("Recent", false, true));
         LiveLineHealthStore store = store(new MemoryBackend(), NOW);
         store.recordFailure(recentAlias, 0, LiveFailureKind.NETWORK);
 
         assertTrue(store.current().containsKey(LiveLineKey.create("test", "Sports", "News", "https://one/live$A")));
+    }
+
+    @Test
+    public void resolvesSameNamedRecentAliasByExactUrlsWithoutContaminatingOtherGroup() {
+        TestGroup first = new TestGroup("First");
+        TestGroup second = new TestGroup("Second");
+        Channel firstSource = channel("News", "001", first, "https://first/live$A");
+        Channel secondSource = channel("News", "001", second, "https://second/live$B");
+        first.getChannel().add(firstSource);
+        second.getChannel().add(secondSource);
+        setLiveHome(home(first, second));
+
+        Channel recentAlias = channel("News", "001", new TestGroup("Recent", false, true), "https://second/live$B");
+        LiveLineHealthStore store = store(new MemoryBackend(), NOW);
+        store.recordFailure(recentAlias, 0, LiveFailureKind.NETWORK);
+
+        assertEquals("First", LiveChannelStore.resolve(firstSource).group());
+        assertEquals("Second", LiveChannelStore.resolve(recentAlias).group());
+        assertTrue(store.current().containsKey(LiveLineKey.create("test", "Second", "News", "https://second/live$B")));
+        assertFalse(store.current().containsKey(LiveLineKey.create("test", "First", "News", "https://second/live$B")));
+    }
+
+    @Test
+    public void resolvesFavoriteAliasByExactUrls() {
+        TestGroup first = new TestGroup("First");
+        TestGroup second = new TestGroup("Second");
+        first.getChannel().add(channel("News", "001", first, "https://first/live$A"));
+        second.getChannel().add(channel("News", "001", second, "https://second/live$B"));
+        setLiveHome(home(first, second));
+
+        Channel favoriteAlias = channel("News", "001", new TestGroup("Favorite", true, false), "https://second/live$B");
+
+        assertEquals("Second", LiveChannelStore.resolve(favoriteAlias).group());
+    }
+
+    @Test
+    public void leavesAmbiguousVirtualAliasUnresolved() {
+        TestGroup first = new TestGroup("First");
+        TestGroup second = new TestGroup("Second");
+        first.getChannel().add(channel("News", "001", first, "https://same/live$A"));
+        second.getChannel().add(channel("News", "001", second, "https://same/live$A"));
+        setLiveHome(home(first, second));
+
+        Channel recentAlias = channel("News", "001", new TestGroup("Recent", false, true), "https://same/live$A");
+
+        assertEquals(null, LiveChannelStore.resolve(recentAlias));
     }
 
     @Test
@@ -88,6 +135,7 @@ public class LiveLineHealthStoreTest {
         MutableClock clock = new MutableClock(NOW - TimeUnit.DAYS.toMillis(29));
         LiveLineHealthStore store = store(backend, clock);
         Channel channel = channelWith("https://line/");
+        setLiveHome(home(channel.getGroup()));
         for (int i = 0; i < 499; i++) {
             channel.setUrls(List.of("https://line/" + i));
             store.recordSuccess(channel, 0, i);
@@ -102,6 +150,23 @@ public class LiveLineHealthStoreTest {
 
         assertEquals(500, store.current().size());
         assertFalse(store.current().containsKey(LiveLineKey.create("test", "News", "News", "https://expired")));
+    }
+
+    @Test
+    public void prunesOldestOfFiveHundredAndOneNonExpiredEntries() {
+        MutableClock clock = new MutableClock(NOW - TimeUnit.DAYS.toMillis(1));
+        LiveLineHealthStore store = store(new MemoryBackend(), clock);
+        Channel channel = channelWith("https://line/");
+        setLiveHome(home(channel.getGroup()));
+        for (int index = 0; index < 501; index++) {
+            clock.now++;
+            channel.setUrls(List.of("https://line/" + index));
+            store.recordSuccess(channel, 0, 0);
+        }
+
+        assertEquals(500, store.current().size());
+        assertFalse(store.current().containsKey(LiveLineKey.create("test", "News", "News", "https://line/0")));
+        assertTrue(store.current().containsKey(LiveLineKey.create("test", "News", "News", "https://line/500")));
     }
 
     @Test
@@ -130,9 +195,21 @@ public class LiveLineHealthStoreTest {
     }
 
     private static Channel channelWith(String... urls) {
-        TestChannel channel = new TestChannel("News", new TestGroup("News"));
+        TestChannel channel = new TestChannel("News", "", new TestGroup("News"));
         channel.setUrls(List.of(urls));
         return channel;
+    }
+
+    private static Channel channel(String name, String number, Group group, String... urls) {
+        TestChannel channel = new TestChannel(name, number, group);
+        channel.setUrls(List.of(urls));
+        return channel;
+    }
+
+    private static Live home(Group... groups) {
+        Live home = new Live("source", "");
+        home.getGroups().addAll(List.of(groups));
+        return home;
     }
 
     private static void setLiveHome(Live home) {
@@ -147,11 +224,13 @@ public class LiveLineHealthStoreTest {
 
     private static final class TestChannel extends Channel {
         private final String name;
+        private final String number;
         private Group group;
         private List<String> urls = List.of();
 
-        TestChannel(String name, Group group) {
+        TestChannel(String name, String number, Group group) {
             this.name = name;
+            this.number = number;
             this.group = group;
         }
 
@@ -162,7 +241,7 @@ public class LiveLineHealthStoreTest {
 
         @Override
         public String getNumber() {
-            return "";
+            return number;
         }
 
         @Override
@@ -188,11 +267,19 @@ public class LiveLineHealthStoreTest {
 
     private static final class TestGroup extends Group {
         private final String name;
+        private final boolean keep;
+        private final boolean recent;
         private final List<Channel> channels = new ArrayList<>();
 
         TestGroup(String name) {
+            this(name, false, false);
+        }
+
+        TestGroup(String name, boolean keep, boolean recent) {
             super(name);
             this.name = name;
+            this.keep = keep;
+            this.recent = recent;
         }
 
         @Override
@@ -207,12 +294,12 @@ public class LiveLineHealthStoreTest {
 
         @Override
         public boolean isKeep() {
-            return false;
+            return keep;
         }
 
         @Override
         public boolean isRecent() {
-            return false;
+            return recent;
         }
     }
 

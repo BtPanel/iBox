@@ -1,9 +1,9 @@
 package com.imedia.box.live;
 
 import com.github.catvod.utils.Prefers;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.annotations.SerializedName;
-import com.imedia.box.App;
 import com.imedia.box.R;
 import com.imedia.box.api.config.LiveConfig;
 import com.imedia.box.bean.Channel;
@@ -22,6 +22,20 @@ public final class LiveChannelStore {
 
     private static final int RECENT_LIMIT = 20;
     private static final long FAILURE_TTL = TimeUnit.HOURS.toMillis(24);
+    private static final Gson GSON = new Gson();
+    private static final Backend PREFERS_BACKEND = new Backend() {
+        @Override
+        public String get(String key) {
+            return Prefers.getString(key);
+        }
+
+        @Override
+        public void put(String key, String value) {
+            Prefers.put(key, value);
+        }
+    };
+
+    private static Backend backend = PREFERS_BACKEND;
 
     private LiveChannelStore() {
     }
@@ -42,7 +56,7 @@ public final class LiveChannelStore {
         items.removeIf(item -> item.group().equals(ref.group()) && item.channel().equals(ref.channel().getName()));
         items.add(0, new RecentEntry(ref.group(), ref.channel().getName()));
         if (items.size() > RECENT_LIMIT) items = new ArrayList<>(items.subList(0, RECENT_LIMIT));
-        Prefers.put(recentKey(), App.gson().toJson(items));
+        backend.put(recentKey(), GSON.toJson(items));
     }
 
     public static void markFailed(Channel channel) {
@@ -50,14 +64,14 @@ public final class LiveChannelStore {
         if (ref == null) return;
         Map<String, Long> failures = loadFailures();
         failures.put(itemKey(ref.group(), ref.channel().getName()), System.currentTimeMillis());
-        Prefers.put(failureKey(), App.gson().toJson(failures));
+        backend.put(failureKey(), GSON.toJson(failures));
     }
 
     public static void clearFailed(Channel channel) {
         ChannelRef ref = resolve(channel);
         if (ref == null) return;
         Map<String, Long> failures = loadFailures();
-        if (failures.remove(itemKey(ref.group(), ref.channel().getName())) != null) Prefers.put(failureKey(), App.gson().toJson(failures));
+        if (failures.remove(itemKey(ref.group(), ref.channel().getName())) != null) backend.put(failureKey(), GSON.toJson(failures));
     }
 
     public static boolean isFailed(Channel channel) {
@@ -67,13 +81,33 @@ public final class LiveChannelStore {
 
     static ChannelRef resolve(Channel channel) {
         if (channel == null) return null;
-        for (Group group : sourceGroups()) {
+        List<Group> groups = sourceGroups();
+        Group selected = channel.getGroup();
+        if (isDirectSourceGroup(selected, groups)) return new ChannelRef(selected.getName(), channel);
+        if (selected == null || (!selected.isKeep() && !selected.isRecent())) return null;
+        List<ChannelRef> matches = new ArrayList<>();
+        for (Group group : groups) {
             if (group.isKeep() || group.isRecent()) continue;
-            Channel found = group.getChannel().stream().filter(channel::equals).findFirst().orElse(null);
-            if (found != null) return new ChannelRef(group.getName(), found);
+            for (Channel candidate : group.getChannel()) {
+                if (sameSourceChannel(channel, candidate)) matches.add(new ChannelRef(group.getName(), candidate));
+            }
         }
-        Group group = channel.getGroup();
-        return group == null ? null : new ChannelRef(group.getName(), channel);
+        return matches.size() == 1 ? matches.get(0) : null;
+    }
+
+    static void setBackendForTest(Backend value) {
+        backend = value == null ? PREFERS_BACKEND : value;
+    }
+
+    private static boolean isDirectSourceGroup(Group selected, List<Group> groups) {
+        if (selected == null || selected.isKeep() || selected.isRecent()) return false;
+        return groups.stream().anyMatch(group -> group == selected);
+    }
+
+    private static boolean sameSourceChannel(Channel alias, Channel candidate) {
+        boolean sameName = !alias.getName().isEmpty() && alias.getName().equals(candidate.getName());
+        boolean sameNumber = !alias.getNumber().isEmpty() && alias.getNumber().equals(candidate.getNumber());
+        return (sameName || sameNumber) && alias.getUrls().equals(candidate.getUrls());
     }
 
     private static Channel find(List<Group> groups, String groupName, String channelName) {
@@ -91,7 +125,7 @@ public final class LiveChannelStore {
     private static List<RecentEntry> loadRecent() {
         try {
             Type type = TypeToken.getParameterized(List.class, RecentEntry.class).getType();
-            List<RecentEntry> result = App.gson().fromJson(Prefers.getString(recentKey()), type);
+            List<RecentEntry> result = GSON.fromJson(backend.get(recentKey()), type);
             return result == null ? Collections.emptyList() : result;
         } catch (Exception e) {
             return Collections.emptyList();
@@ -101,7 +135,7 @@ public final class LiveChannelStore {
     private static Map<String, Long> loadFailures() {
         try {
             Type type = new TypeToken<LinkedHashMap<String, Long>>() { }.getType();
-            Map<String, Long> result = App.gson().fromJson(Prefers.getString(failureKey()), type);
+            Map<String, Long> result = GSON.fromJson(backend.get(failureKey()), type);
             if (result == null) return new LinkedHashMap<>();
             long cutoff = System.currentTimeMillis() - FAILURE_TTL;
             result.entrySet().removeIf(entry -> entry.getValue() == null || entry.getValue() < cutoff);
@@ -128,6 +162,12 @@ public final class LiveChannelStore {
     }
 
     record ChannelRef(String group, Channel channel) {
+    }
+
+    interface Backend {
+        String get(String key);
+
+        void put(String key, String value);
     }
 
     private record RecentEntry(@SerializedName("group") String group, @SerializedName("channel") String channel) {
