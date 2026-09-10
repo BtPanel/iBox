@@ -571,7 +571,7 @@ public class PlayerManager implements ParseCallback {
 
     private void handleDecodeError(PlaybackException e) {
         recordDiagnosticEvent(ResUtil.getString(R.string.diagnostics_event_decode, isHard() ? "software" : "hardware"));
-        if (++retry > 1) callback.onError(engine.getErrorMessage(e));
+        if (++retry > 1) callback.onError(PlaybackFailure.decode(engine.getErrorMessage(e), e.errorCode));
         else retryDecode(isHard() ? PlayerEngine.SOFT : PlayerEngine.HARD, isStuckPlaying(e));
     }
 
@@ -604,7 +604,7 @@ public class PlayerManager implements ParseCallback {
     private void onPlayTimeout() {
         lastError = ResUtil.getString(R.string.error_play_timeout);
         recordDiagnosticEvent(lastError);
-        callback.onError(ResUtil.getString(R.string.error_play_timeout));
+        callback.onError(PlaybackFailure.timeout(ResUtil.getString(R.string.error_play_timeout)));
         stop();
     }
 
@@ -780,7 +780,7 @@ public class PlayerManager implements ParseCallback {
         lastError = ResUtil.getString(R.string.error_play_parse);
         recordDiagnosticEvent(lastError);
         pendingStartPositionMs = C.TIME_UNSET;
-        callback.onError(ResUtil.getString(R.string.error_play_parse));
+        callback.onError(PlaybackFailure.source(ResUtil.getString(R.string.error_play_parse)));
     }
 
     private void prepareDiagnosticSession(MediaMetadata metadata) {
@@ -803,7 +803,7 @@ public class PlayerManager implements ParseCallback {
 
         void onMediaOptionsChanged();
 
-        void onError(String msg);
+        void onError(PlaybackFailure failure);
 
         void onPlayerRebuild(Player newPlayer);
 
@@ -881,7 +881,7 @@ public class PlayerManager implements ParseCallback {
             switch (action) {
                 case DECODE -> handleDecodeError(e);
                 case RECOVERED -> notifyDanmakuSourceChanged();
-                case FATAL -> callback.onError(engine.getErrorMessage(e));
+                case FATAL -> callback.onError(PlaybackFailure.fromErrorCode(engine.getErrorMessage(e), e.errorCode));
             }
         }
     };

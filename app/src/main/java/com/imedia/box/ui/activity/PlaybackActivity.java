@@ -34,6 +34,7 @@ import androidx.media3.ui.danmaku.DanmakuController;
 import com.imedia.box.R;
 import com.imedia.box.bean.Result;
 import com.imedia.box.playback.PlaybackIntent;
+import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.player.PlayerManager;
 import com.imedia.box.player.media.PlaySpec;
 import com.imedia.box.service.PlaybackService;
@@ -234,6 +235,10 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     protected void onError(String msg) {
     }
 
+    protected void onError(PlaybackFailure failure) {
+        onError(failure.message());
+    }
+
     protected void onPlayingChanged(boolean isPlaying) {
     }
 
@@ -268,16 +273,16 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     protected void startPlayer(String key, Result result, boolean useParse, long timeout, long startPositionMs, MediaMetadata metadata) {
-        String error = getPlaybackError(result);
-        if (error != null) onError(error);
+        PlaybackFailure failure = getPlaybackFailure(result);
+        if (failure != null) onError(failure);
         else startPlayerInternal(key, result, useParse, timeout, startPositionMs, metadata);
     }
 
     @Nullable
-    private String getPlaybackError(Result result) {
-        if (result.hasMsg()) return result.getMsg();
-        if (result.getRealUrl().isEmpty()) return ResUtil.getString(R.string.error_play_url);
-        if (result.getDrm() != null && !FrameworkMediaDrm.isCryptoSchemeSupported(result.getDrm().getUUID())) return ResUtil.getString(R.string.error_play_drm);
+    private PlaybackFailure getPlaybackFailure(Result result) {
+        if (result.hasMsg()) return PlaybackFailure.source(result.getMsg());
+        if (result.getRealUrl().isEmpty()) return PlaybackFailure.source(ResUtil.getString(R.string.error_play_url));
+        if (result.getDrm() != null && !FrameworkMediaDrm.isCryptoSchemeSupported(result.getDrm().getUUID())) return PlaybackFailure.source(ResUtil.getString(R.string.error_play_drm));
         return null;
     }
 
@@ -561,8 +566,8 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         }
 
         @Override
-        public void onError(String msg) {
-            if (isOwner()) PlaybackActivity.this.onError(msg);
+        public void onError(PlaybackFailure failure) {
+            if (isOwner()) PlaybackActivity.this.onError(failure);
         }
 
         @Override

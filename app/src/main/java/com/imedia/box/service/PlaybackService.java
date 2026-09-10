@@ -34,6 +34,7 @@ import com.imedia.box.browse.BrowseTree;
 import com.imedia.box.event.ActionEvent;
 import com.imedia.box.event.ConfigEvent;
 import com.imedia.box.player.PlayerManager;
+import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.player.media.PlaySpec;
 import com.imedia.box.setting.SubtitleStyleOverride;
 import com.imedia.box.server.Server;
@@ -506,8 +507,8 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     }
 
     @Override
-    public void onError(String msg) {
-        playerCallbacks.forEach(callback -> callback.onError(msg));
+    public void onError(PlaybackFailure failure) {
+        playerCallbacks.forEach(callback -> callback.onError(failure));
     }
 
     @Override
@@ -620,7 +621,11 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
         default void onMediaOptionsChanged() {
         }
 
-        default void onError(String msg) {
+        default void onError(PlaybackFailure failure) {
+            onError(failure.message());
+        }
+
+        default void onError(String message) {
         }
 
         default void onPlayerRebuild(Player player) {
