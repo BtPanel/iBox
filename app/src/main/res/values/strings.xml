@@ -8,6 +8,9 @@
     <string name="live_pass">Pass</string>
     <string name="live_refresh">Refresh</string>
     <string name="live_line">Line <xliff:g name="name">%s</xliff:g></string>
+    <string name="live_connecting">Connecting to line %1$d/%2$d</string>
+    <string name="live_reconnecting">Playback interrupted. Reconnecting in %1$d seconds</string>
+    <string name="live_switching_line">Line %1$d unavailable. Switching to line %2$d/%3$d</string>
     <string name="live_source_empty_title">No live source</string>
     <string name="live_source_empty_message">Add a source URL or choose a local M3U, M3U8, TXT, or JSON playlist.</string>
     <string name="live_source_channels_title">No playable channels</string>

@@ -8,6 +8,9 @@
     <string name="live_pass">密码</string>
     <string name="live_refresh">刷新</string>
     <string name="live_line">线路 <xliff:g name="name">%s</xliff:g></string>
+    <string name="live_connecting">正在連接線路 %1$d/%2$d</string>
+    <string name="live_reconnecting">播放中斷，%1$d 秒後重新連線</string>
+    <string name="live_switching_line">線路 %1$d 無法使用，正在切換到線路 %2$d/%3$d</string>
     <string name="live_source_empty_title">暂无直播源</string>
     <string name="live_source_empty_message">添加直播源地址，或选择本地 M3U、M3U8、TXT、JSON 频道列表。</string>
     <string name="live_source_channels_title">没有可播放的频道</string>

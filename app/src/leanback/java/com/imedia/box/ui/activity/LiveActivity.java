@@ -32,6 +32,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.imedia.box.App;
 import com.imedia.box.Constant;
 import com.imedia.box.R;
+import com.imedia.box.accessibility.AppAccessibility;
 import com.imedia.box.api.LiveApi;
 import com.imedia.box.api.config.LiveConfig;
 import com.imedia.box.bean.Channel;
@@ -58,6 +59,7 @@ import com.imedia.box.playback.PlaybackAction;
 import com.imedia.box.playback.PlaybackReset;
 import com.imedia.box.playback.PlaybackResult;
 import com.imedia.box.playback.live.LivePlayRequest;
+import com.imedia.box.playback.live.LiveConnectionState;
 import com.imedia.box.playback.live.LivePlaybackController;
 import com.imedia.box.playback.live.LivePlaybackHost;
 import com.imedia.box.player.extractor.Source;
@@ -1419,6 +1421,54 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
         App.post(mR2, 0);
         hideCenter();
         hideError();
+    }
+
+    @Override
+    public void renderConnectionState(LiveConnectionState state) {
+        switch (state.type()) {
+            case CONNECTING:
+                showProgress();
+                showConnectionStatus(getString(R.string.live_connecting, state.line() + 1, state.total()));
+                break;
+            case RECONNECTING:
+                showProgress();
+                showConnectionStatus(getString(R.string.live_reconnecting, state.delaySeconds()));
+                break;
+            case SWITCHING:
+                showProgress();
+                showConnectionStatus(getString(R.string.live_switching_line, state.fromLine() + 1, state.line() + 1, state.total()));
+                break;
+            case PLAYING:
+                hideConnectionStatus();
+                hideProgress();
+                break;
+            case FAILED:
+                hideConnectionStatus();
+                break;
+        }
+    }
+
+    private void showConnectionStatus(String text) {
+        boolean wasGone = mBinding.progress.status.getVisibility() == View.GONE;
+        mBinding.progress.status.animate().cancel();
+        mBinding.progress.status.setText(text);
+        if (!wasGone) {
+            mBinding.progress.status.setVisibility(View.VISIBLE);
+            mBinding.progress.status.setAlpha(1f);
+            return;
+        }
+        mBinding.progress.status.setAlpha(0f);
+        mBinding.progress.status.setVisibility(View.VISIBLE);
+        mBinding.progress.status.animate().alpha(1f)
+                .setDuration(AppAccessibility.duration(getResources().getInteger(R.integer.ibox_motion_short)))
+                .start();
+    }
+
+    private void hideConnectionStatus() {
+        mBinding.progress.status.animate().cancel();
+        mBinding.progress.status.setText("");
+        mBinding.progress.status.setVisibility(View.GONE);
+        mBinding.progress.status.setAlpha(1f);
     }
 
     private void hideProgress() {
