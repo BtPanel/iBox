@@ -3,6 +3,7 @@ package com.imedia.box.playback.live;
 import androidx.annotation.Nullable;
 import androidx.media3.common.C;
 import androidx.media3.common.MediaMetadata;
+import androidx.media3.common.Player;
 
 import com.imedia.box.api.config.LiveConfig;
 import com.imedia.box.R;
@@ -38,13 +39,16 @@ public class LivePlaybackController {
     private final LiveRecoveryPolicy recoveryPolicy;
     private final LivePlaybackScheduler scheduler;
     private final LongSupplier clock;
-    private final Set<Integer> attemptedLines = new LinkedHashSet<>();
+    private final Set<Integer> attemptedLines;
     private long requestSequence;
     private long recoveryGeneration;
-    private long connectStartedAtMs;
-    private boolean retriedCurrent;
     private Runnable pendingRecovery;
     private Runnable stablePlayback;
+    private long stableGeneration;
+    private boolean playbackReady;
+    private boolean playbackPlaying;
+    private boolean foreground = true;
+    private boolean detached;
 
     public LivePlaybackController(LivePlaybackHost host, LivePlaybackState state) {
         this(host, state, LiveLineHealthStore::new, new LiveRecoveryPolicy(),
@@ -68,9 +72,8 @@ public class LivePlaybackController {
         this.clock = clock;
         this.healthSource = LiveLineHealthStore.currentSourceKey();
         this.healthStore = healthStoreFactory.get();
-        this.connectStartedAtMs = clock.getAsLong();
-        LivePlayRequest active = state.getActiveRequest();
-        this.requestSequence = active == null ? 0 : active.getRequestId();
+        this.requestSequence = state.getRequestSequence();
+        this.attemptedLines = state.getAttemptedLines();
     }
 
     public void reset() {
@@ -79,6 +82,7 @@ public class LivePlaybackController {
     }
 
     public void detach() {
+        detached = true;
         cancelPendingRecovery();
     }
 
@@ -96,6 +100,15 @@ public class LivePlaybackController {
         if (channel == null) return;
         bindHealthStore();
         LivePlayRequest activeRequest = state.getActiveRequest();
+        if (activeRequest != null && activeRequest.matches(channel)
+                && (state.getPendingRecovery() != null || state.getPendingRequest() != null
+                || state.getFailedCatchupRequest() != null)) {
+            state.setChannel(channel);
+            host.renderChannelSelection(channel);
+            if (!resumePendingRecovery() && state.getConnectionState() != null)
+                host.renderConnectionState(state.getConnectionState());
+            return;
+        }
         if (activeRequest != null && activeRequest == state.getPlayingRequest()
                 && activeRequest.matches(channel) && host.hasPlaybackSession()) {
             state.setChannel(channel);
@@ -153,7 +166,7 @@ public class LivePlaybackController {
     }
 
     private void handleFailure(PlaybackFailure failure, LivePlayRequest request) {
-        if (request == null || !request.matches(state.getChannel()) || pendingRecovery != null) return;
+        if (detached || request == null || !request.matches(state.getChannel()) || state.getPendingRecovery() != null) return;
         if (!Objects.equals(healthSource, LiveLineHealthStore.currentSourceKey())) return;
         if (failure == null) failure = new PlaybackFailure(PlaybackFailure.Kind.PLAYBACK, "", 0);
         if (request.isCatchup()) applyDecision(LiveRecoveryDecision.fail(), failure, request);
@@ -185,7 +198,8 @@ public class LivePlaybackController {
         if (channel == null) return;
         LivePlayRequest request = state.getActiveRequest();
         if (request != null && request.isCatchup() && request.matches(channel)) {
-            long startPositionMs = host.hasPlaybackSession() ? host.getPlayerPosition() : request.getPosition();
+            long startPositionMs = request == state.getPlayingRequest() && host.hasPlaybackSession()
+                    ? host.getPlayerPosition() : request.getPosition();
             requestPlayback(LivePlayRequest.catchup(channel, request.getCatchupData(), startPositionMs, ++requestSequence), true);
         } else {
             requestLiveInCycle();
@@ -195,6 +209,7 @@ public class LivePlaybackController {
     public void onPlaybackServiceReady() {
         host.restorePlaybackKey(state.getPlaybackKey());
         syncPlaybackMetadata();
+        if (resumePendingRecovery()) return;
         if (restorePlaybackIfNeeded()) return;
         if (state.getChannel() != null && state.getActiveRequest() == null) requestLive();
     }
@@ -281,8 +296,9 @@ public class LivePlaybackController {
 
     private void beginCycle(boolean manual, boolean chooseHealthyLine) {
         cancelPendingRecovery();
+        state.setPendingRecovery(null);
         attemptedLines.clear();
-        retriedCurrent = false;
+        state.setRetriedCurrent(false);
         Channel channel = state.getChannel();
         if (channel == null || manual || !chooseHealthyLine) return;
         List<Integer> candidates = healthStore.rank(channel, attemptedLines);
@@ -294,11 +310,43 @@ public class LivePlaybackController {
     }
 
     public void onPlaybackReady(LivePlayRequest request) {
-        if (isCurrentPlayback(request)) scheduleStablePlayback(request);
+        onPlaybackStateChanged(request, Player.STATE_READY, true);
+    }
+
+    public void onPlaybackStateChanged(LivePlayRequest request, int playbackState, boolean isPlaying) {
+        if (!isCurrentPlayback(request)) return;
+        playbackReady = playbackState == Player.STATE_READY;
+        playbackPlaying = isPlaying;
+        if (playbackReady) state.captureReady(clock.getAsLong());
+        updateStablePlayback(request);
+    }
+
+    public void onPlaybackPlayingChanged(LivePlayRequest request, boolean isPlaying) {
+        if (!isCurrentPlayback(request)) return;
+        playbackPlaying = isPlaying;
+        updateStablePlayback(request);
+    }
+
+    public void onPlaybackBackgrounded() {
+        foreground = false;
+        cancelStablePlayback();
+    }
+
+    public void onPlaybackForegrounded() { foreground = true; }
+
+    private void updateStablePlayback(LivePlayRequest request) {
+        if (playbackReady && playbackPlaying && foreground) scheduleStablePlayback(request);
+        else cancelStablePlayback();
+    }
+
+    private void cancelStablePlayback() {
+        stableGeneration++;
+        if (stablePlayback != null) scheduler.remove(stablePlayback);
+        stablePlayback = null;
     }
 
     public boolean isCurrentPlayback(LivePlayRequest request) {
-        return request != null && request == state.getPlayingRequest() && pendingRecovery == null
+        return !detached && request != null && request == state.getPlayingRequest() && state.getPendingRecovery() == null
                 && request.getRequestId() == requestSequence && request.matches(state.getChannel())
                 && Objects.equals(healthSource, LiveLineHealthStore.currentSourceKey());
     }
@@ -309,7 +357,7 @@ public class LivePlaybackController {
         cancelPendingRecovery();
         state.clearPlayback();
         attemptedLines.clear();
-        retriedCurrent = false;
+        state.setRetriedCurrent(false);
         healthSource = source;
         healthStore = healthStoreFactory.get();
     }
@@ -317,16 +365,15 @@ public class LivePlaybackController {
     private void cancelPendingRecovery() {
         recoveryGeneration++;
         if (pendingRecovery != null) scheduler.remove(pendingRecovery);
-        if (stablePlayback != null) scheduler.remove(stablePlayback);
         pendingRecovery = null;
-        stablePlayback = null;
+        cancelStablePlayback();
     }
 
     private void handleLiveFailure(PlaybackFailure failure, LivePlayRequest request) {
         LiveFailureKind kind = LiveFailureClassifier.from(failure);
         Set<Integer> excluded = new LinkedHashSet<>(attemptedLines);
         excluded.add(request.getLine());
-        LiveRecoveryDecision decision = recoveryPolicy.decide(kind, request.getLine(), retriedCurrent,
+        LiveRecoveryDecision decision = recoveryPolicy.decide(kind, request.getLine(), state.hasRetriedCurrent(),
                 healthStore.rank(request.getChannel(), excluded), LiveSetting.isReconnect(),
                 LiveSetting.isChange(), LiveSetting.getReconnectDelaySeconds() * 1000L);
         applyDecision(decision, failure, request);
@@ -340,42 +387,39 @@ public class LivePlaybackController {
         int total = channel.getUrls().size();
         switch (decision.action()) {
             case RETRY_CURRENT -> {
-                retriedCurrent = true;
-                host.renderConnectionState(LiveConnectionState.reconnecting(line, total, (int) ((decision.delayMs() + 999) / 1000)));
-                long generation = recoveryGeneration;
-                long requestId = request.getRequestId();
-                pendingRecovery = () -> {
-                    if (!isCurrent(generation, requestId) || !request.matches(state.getChannel())) return;
-                    pendingRecovery = null;
-                    requestLiveInCycle();
-                };
-                scheduler.post(pendingRecovery, decision.delayMs());
+                state.setRetriedCurrent(true);
+                state.clearPlayback();
+                state.setPendingRecovery(new LivePlaybackState.Recovery(request, clock.getAsLong() + decision.delayMs()));
+                host.stopPlaybackForRefresh();
+                resumePendingRecovery();
             }
             case SWITCH_LINE -> {
                 healthStore.recordFailure(channel, line, LiveFailureClassifier.from(failure));
                 attemptedLines.add(line);
-                retriedCurrent = false;
+                state.setRetriedCurrent(false);
                 channel.setIndex(decision.lineIndex());
-                host.renderConnectionState(LiveConnectionState.switching(line, decision.lineIndex(), total));
                 host.renderLineSelection(channel, true);
-                requestLiveInCycle();
+                requestLiveInCycle(LiveConnectionState.switching(line, decision.lineIndex(), total));
             }
             case FAIL -> {
+                long positionMs = request == state.getPlayingRequest() && host.hasPlaybackSession()
+                        ? host.getPlayerPosition() : request.getPosition();
                 if (!request.isCatchup()) {
                     healthStore.recordFailure(channel, line, LiveFailureClassifier.from(failure));
                     LiveChannelStore.markFailed(channel);
                     host.renderChannelStatus(channel);
                 }
                 state.clearPlayback();
+                if (request.isCatchup()) state.retainFailedCatchup(request, positionMs);
                 String message = failure.message().isEmpty() ? ResUtil.getString(R.string.live_unavailable) : failure.message();
-                host.renderConnectionState(LiveConnectionState.failed(message));
+                renderConnectionState(LiveConnectionState.failed(message));
                 host.resetPlaybackForError(message);
             }
         }
     }
 
     private boolean isCurrent(long generation, long requestId) {
-        return generation == recoveryGeneration && requestId == requestSequence && state.getChannel() != null
+        return !detached && generation == recoveryGeneration && requestId == requestSequence && state.getChannel() != null
                 && Objects.equals(healthSource, LiveLineHealthStore.currentSourceKey());
     }
 
@@ -384,20 +428,24 @@ public class LivePlaybackController {
     }
 
     private void scheduleStablePlayback(LivePlayRequest request) {
+        state.captureReady(clock.getAsLong());
         if (stablePlayback != null) return;
-        host.renderConnectionState(LiveConnectionState.playing(request.getLine(), request.getChannel().getUrls().size()));
-        if (request.isCatchup()) return;
+        renderConnectionState(LiveConnectionState.playing(request.getLine(), request.getChannel().getUrls().size()));
+        if (request.isCatchup() || state.isStableSuccessRecorded()) return;
         long generation = recoveryGeneration;
+        long window = stableGeneration;
         long requestId = request.getRequestId();
-        long startupMs = Math.max(0, clock.getAsLong() - connectStartedAtMs);
+        long startupMs = state.getStartupMs();
         stablePlayback = () -> {
-            if (!isCurrent(generation, requestId) || !request.matches(state.getChannel())) return;
+            if (window != stableGeneration || !isCurrent(generation, requestId)
+                    || !isCurrentPlayback(request) || !playbackReady || !playbackPlaying || !foreground) return;
             stablePlayback = null;
+            state.recordStableSuccess();
             healthStore.recordSuccess(request.getChannel(), request.getLine(), startupMs);
             LiveChannelStore.clearFailed(request.getChannel());
             host.renderChannelStatus(request.getChannel());
             attemptedLines.clear();
-            retriedCurrent = false;
+            state.setRetriedCurrent(false);
         };
         scheduler.post(stablePlayback, STABLE_PLAYBACK_DURATION_MS);
     }
@@ -427,11 +475,15 @@ public class LivePlaybackController {
     }
 
     private void requestLiveInCycle() {
+        requestLiveInCycle(null);
+    }
+
+    private void requestLiveInCycle(LiveConnectionState connection) {
         Channel channel = state.getChannel();
         if (channel == null) return;
         bindHealthStore();
         LiveConfig.get().setKeep(channel);
-        requestPlayback(LivePlayRequest.live(channel, C.TIME_UNSET, ++requestSequence), true);
+        requestPlayback(LivePlayRequest.live(channel, C.TIME_UNSET, ++requestSequence), true, connection);
     }
 
     private boolean requestCatchup(EpgData data, long startPositionMs) {
@@ -443,11 +495,18 @@ public class LivePlaybackController {
     }
 
     private void requestPlayback(LivePlayRequest request, boolean showProgress) {
+        requestPlayback(request, showProgress, null);
+    }
+
+    private void requestPlayback(LivePlayRequest request, boolean showProgress, LiveConnectionState connection) {
         cancelPendingRecovery();
         if (!host.isPlaybackServiceReady()) return;
         state.setPendingRequest(request);
-        connectStartedAtMs = clock.getAsLong();
-        host.renderConnectionState(LiveConnectionState.connecting(request.getLine(), request.getChannel().getUrls().size()));
+        state.startConnecting(clock.getAsLong());
+        playbackReady = false;
+        playbackPlaying = false;
+        renderConnectionState(connection != null ? connection
+                : LiveConnectionState.connecting(request.getLine(), request.getChannel().getUrls().size()));
         host.stopPlaybackForRefresh();
         publishPlaybackMetadata(getEpgData(request));
         host.requestUrl(request);
@@ -496,6 +555,33 @@ public class LivePlaybackController {
     private boolean cannotApply(PlaybackResult<LivePlayRequest> playback) {
         LivePlayRequest pending = state.getPendingRequest();
         LivePlayRequest request = playback.request();
-        return pending == null || !pending.matches(request) || !request.matches(state.getChannel());
+        return detached || pending == null || !pending.matches(request) || !request.matches(state.getChannel());
+    }
+
+    private boolean resumePendingRecovery() {
+        LivePlaybackState.Recovery recovery = state.getPendingRecovery();
+        if (detached || recovery == null || !recovery.request().matches(state.getChannel())) return false;
+        if (pendingRecovery != null) return true;
+        long remainingMs = Math.max(0, recovery.deadlineMs() - clock.getAsLong());
+        LivePlayRequest request = recovery.request();
+        renderConnectionState(LiveConnectionState.reconnecting(request.getLine(), request.getChannel().getUrls().size(),
+                (int) ((remainingMs + 999) / 1000)));
+        if (!host.isPlaybackServiceReady()) return true;
+        long generation = recoveryGeneration;
+        pendingRecovery = () -> {
+            if (!isCurrent(generation, request.getRequestId()) || state.getPendingRecovery() != recovery
+                    || !request.matches(state.getChannel())) return;
+            pendingRecovery = null;
+            if (!host.isPlaybackServiceReady()) return;
+            state.setPendingRecovery(null);
+            requestLiveInCycle();
+        };
+        scheduler.post(pendingRecovery, remainingMs);
+        return true;
+    }
+
+    private void renderConnectionState(LiveConnectionState connection) {
+        state.setConnectionState(connection);
+        host.renderConnectionState(connection);
     }
 }

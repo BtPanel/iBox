@@ -249,6 +249,8 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
 
     protected void onPlaybackRequestStateChanged(Object request, int state) { }
 
+    protected void onPlaybackRequestPlayingChanged(Object request, boolean isPlaying) { }
+
     protected void onPlayingChanged(boolean isPlaying) {
     }
 
@@ -592,6 +594,11 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         @Override
         public void onPlaybackStateChanged(Object request, int state) {
             if (isBindingOwner()) PlaybackActivity.this.onPlaybackRequestStateChanged(request, state);
+        }
+
+        @Override
+        public void onIsPlayingChanged(Object request, boolean isPlaying) {
+            if (isBindingOwner()) PlaybackActivity.this.onPlaybackRequestPlayingChanged(request, isPlaying);
         }
 
         @Override

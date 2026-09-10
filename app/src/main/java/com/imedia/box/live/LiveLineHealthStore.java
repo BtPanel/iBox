@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
@@ -56,10 +57,12 @@ public final class LiveLineHealthStore {
     }
 
     public Map<LiveLineKey, LiveLineHealth> current() {
+        prune();
         return Map.copyOf(entries);
     }
 
     public List<Integer> rank(Channel channel, Set<Integer> excluded) {
+        prune();
         if (channel == null) return List.of();
         Set<Integer> attempted = excluded == null ? Set.of() : excluded;
         List<Candidate> candidates = new ArrayList<>();
@@ -78,6 +81,7 @@ public final class LiveLineHealthStore {
     }
 
     public void recordFailure(Channel channel, int index, LiveFailureKind kind) {
+        prune();
         LiveLineKey lineKey = key(channel, index);
         if (lineKey == null) return;
         entries.put(lineKey, entries.getOrDefault(lineKey, LiveLineHealth.empty()).recordFailure(kind, clock.getAsLong()));
@@ -85,6 +89,7 @@ public final class LiveLineHealthStore {
     }
 
     public void recordSuccess(Channel channel, int index, long startupMs) {
+        prune();
         LiveLineKey lineKey = key(channel, index);
         if (lineKey == null) return;
         entries.put(lineKey, entries.getOrDefault(lineKey, LiveLineHealth.empty()).recordSuccess(startupMs, clock.getAsLong()));
@@ -106,7 +111,7 @@ public final class LiveLineHealthStore {
         Map<LiveLineKey, LiveLineHealth> result = new LinkedHashMap<>();
         try {
             JsonObject envelope = JsonParser.parseString(backend.get(key)).getAsJsonObject();
-            if (!envelope.has("version") || envelope.get("version").getAsInt() != VERSION) return result;
+            if (number(envelope, "version") != VERSION) return result;
             JsonArray values = envelope.has("entries") && envelope.get("entries").isJsonArray() ? envelope.getAsJsonArray("entries") : new JsonArray();
             for (JsonElement value : values) loadEntry(value, result);
         } catch (Exception ignored) {
@@ -116,21 +121,51 @@ public final class LiveLineHealthStore {
 
     private void loadEntry(JsonElement value, Map<LiveLineKey, LiveLineHealth> result) {
         try {
-            if (value == null || value.isJsonNull()) return;
-            Entry entry = GSON.fromJson(value, Entry.class);
-            if (entry == null || entry.key() == null || !valid(entry.health())) return;
-            result.put(entry.key(), entry.health());
+            JsonObject entry = value.getAsJsonObject();
+            JsonObject key = entry.getAsJsonObject("key");
+            String source = string(key, "sourceKey");
+            String group = string(key, "group");
+            String channel = string(key, "channel");
+            String digest = string(key, "urlDigest").toLowerCase(Locale.ROOT);
+            if (!source.equals(sourceKey()) || group.isEmpty() || channel.isEmpty()
+                    || !digest.matches("[0-9a-f]{64}")) return;
+            JsonObject health = entry.getAsJsonObject("health");
+            LiveLineHealth parsed = new LiveLineHealth(count(health, "successCount"), count(health, "failureCount"),
+                    count(health, "consecutiveFailures"), number(health, "lastSuccessMs"),
+                    number(health, "lastFailureMs"), number(health, "averageStartupMs"), number(health, "cooldownUntilMs"));
+            long nowMs = clock.getAsLong();
+            if (parsed.lastSuccessMs() > nowMs || parsed.lastFailureMs() > nowMs) return;
+            if (parsed.cooldownUntilMs() != 0 && (parsed.lastFailureMs() == 0
+                    || parsed.cooldownUntilMs() < parsed.lastFailureMs()
+                    || parsed.cooldownUntilMs() - parsed.lastFailureMs() > TimeUnit.HOURS.toMillis(24))) return;
+            result.put(new LiveLineKey(source, group, channel, digest), parsed);
         } catch (Exception ignored) {
         }
     }
 
-    private boolean valid(LiveLineHealth health) {
-        return health != null && health.successCount() >= 0 && health.failureCount() >= 0
-                && health.consecutiveFailures() >= 0 && health.lastSuccessMs() >= 0
-                && health.lastFailureMs() >= 0 && health.averageStartupMs() >= 0 && health.cooldownUntilMs() >= 0;
+    private static String string(JsonObject object, String field) {
+        JsonElement value = object.get(field);
+        if (value == null || !value.isJsonPrimitive() || !value.getAsJsonPrimitive().isString())
+            throw new IllegalArgumentException(field);
+        return value.getAsString();
     }
 
-    private void save() {
+    private static long number(JsonObject object, String field) {
+        JsonElement value = object.get(field);
+        if (value == null || !value.isJsonPrimitive() || !value.getAsJsonPrimitive().isNumber())
+            throw new IllegalArgumentException(field);
+        long number = value.getAsBigDecimal().longValueExact();
+        if (number < 0) throw new IllegalArgumentException(field);
+        return number;
+    }
+
+    private static int count(JsonObject object, String field) {
+        long number = number(object, field);
+        if (number > 20) throw new IllegalArgumentException(field);
+        return (int) number;
+    }
+
+    private void prune() {
         long cutoff = clock.getAsLong() - EXPIRY_MS;
         entries.entrySet().removeIf(entry -> entry.getValue().lastActivityMs() < cutoff);
         if (entries.size() > MAX_ENTRIES) {
@@ -138,6 +173,10 @@ public final class LiveLineHealthStore {
             oldest.sort(Comparator.comparingLong(entry -> entry.getValue().lastActivityMs()));
             for (int index = 0; index < oldest.size() - MAX_ENTRIES; index++) entries.remove(oldest.get(index).getKey());
         }
+    }
+
+    private void save() {
+        prune();
         List<Entry> values = entries.entrySet().stream().map(entry -> new Entry(entry.getKey(), entry.getValue())).toList();
         backend.put(key, GSON.toJson(new Envelope(VERSION, values)));
     }

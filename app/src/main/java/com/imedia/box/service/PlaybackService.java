@@ -522,6 +522,11 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     }
 
     @Override
+    public void onIsPlayingChanged(Object request, boolean isPlaying) {
+        playerCallbacks.forEach(callback -> callback.onIsPlayingChanged(request, isPlaying));
+    }
+
+    @Override
     public void onPlayerRebuild(Player newPlayer) {
         sessionPlayer.removeListener(listener);
         sessionPlayer = newPlayer;
@@ -640,6 +645,8 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
         }
 
         default void onPlaybackStateChanged(Object request, int state) { }
+
+        default void onIsPlayingChanged(Object request, boolean isPlaying) { }
 
         default void onError(String message) {
         }

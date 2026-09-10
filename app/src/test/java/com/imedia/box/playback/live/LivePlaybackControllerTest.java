@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 import androidx.media3.common.MediaMetadata;
+import androidx.media3.common.Player;
 import com.imedia.box.api.config.LiveConfig;
 import com.imedia.box.bean.Config;
 import com.imedia.box.bean.Epg;
@@ -33,6 +34,183 @@ import com.imedia.box.bean.EpgData;
 import org.junit.Test;
 
 public class LivePlaybackControllerTest {
+    @Test public void unresolvedAutoSwitchRemainsTheFinalVisibleStateAcrossRecreation() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            assertEquals(LiveConnectionState.Type.CONNECTING, h.host.lastState().type());
+            h.controller.playbackError(PlaybackFailure.source("bad source"));
+            assertEquals(LiveConnectionState.Type.SWITCHING, h.host.lastState().type());
+            assertEquals(0, h.host.lastState().fromLine());
+            assertEquals(1, h.host.lastState().line());
+            h.controller.detach();
+            LivePlaybackController restored = new LivePlaybackController(h.host, h.state, h.health.store,
+                    new LiveRecoveryPolicy(), h.scheduler, () -> h.now);
+            restored.selectChannel(h.channel);
+            assertEquals(LiveConnectionState.Type.SWITCHING, h.host.lastState().type());
+            restored.playbackError(PlaybackFailure.timeout("timeout"));
+            assertEquals(LiveConnectionState.Type.RECONNECTING, h.host.lastState().type());
+            h.now += 3_000;
+            h.scheduler.runNext();
+            assertEquals(LiveConnectionState.Type.CONNECTING, h.host.lastState().type());
+            assertEquals(1, h.host.lastState().line());
+        }
+    }
+
+    @Test public void terminalCatchupFailureKeepsProgramAndPositionForRefreshWithoutAcceptingOldEvents() {
+        for (boolean resolved : List.of(false, true)) {
+            try (Harness h = new Harness()) {
+                h.controller.selectChannel(h.channel);
+                h.controller.selectEpg(h.program);
+                h.controller.selectEpg(h.program, 42_000);
+                LivePlayRequest failed = h.host.latestRequest();
+                if (resolved) {
+                    h.resolveLatest();
+                    h.host.hasSession = true;
+                    h.host.position = 64_000;
+                }
+                h.controller.playbackError(PlaybackFailure.timeout("catchup timeout"));
+                assertTrue(h.controller.isCatchup());
+                assertFalse(h.controller.isCurrentPlayback(failed));
+                h.controller.onPlaybackReady(failed);
+                h.controller.playbackError(PlaybackFailure.source("old error"), failed);
+                h.controller.onPlaybackResult(new PlaybackResult<>(failed, h.result));
+                assertEquals(LiveConnectionState.Type.FAILED, h.host.lastState().type());
+                h.controller.refresh();
+                LivePlayRequest retried = h.host.latestRequest();
+                assertTrue(retried.isCatchup());
+                assertEquals(h.program, retried.getCatchupData());
+                assertEquals(resolved ? 64_000 : 42_000, retried.getPosition());
+                assertNotEquals(failed.getRequestId(), retried.getRequestId());
+                assertTrue(h.health.store.current().isEmpty());
+                assertTrue(h.scheduler.pending.isEmpty());
+            }
+        }
+    }
+
+    @Test public void recreationResumesRemainingRetryDelayAndPreservesExhaustedLineBudget() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.controller.playbackError(PlaybackFailure.source("line zero failed"));
+            h.resolveLatest();
+            LivePlayRequest failed = h.host.latestRequest();
+            h.host.hasSession = true; // A stopped player can still retain its media item.
+            h.controller.playbackError(PlaybackFailure.timeout("line one timeout"), failed);
+            Runnable obsoleteRetry = h.scheduler.pending.get(0);
+            h.now += 1_000;
+            h.controller.detach();
+            LivePlaybackController restored = new LivePlaybackController(h.host, h.state, h.health.store,
+                    new LiveRecoveryPolicy(), h.scheduler, () -> h.now);
+            assertFalse(restored.isCurrentPlayback(failed));
+            restored.selectChannel(h.channel);
+            restored.onPlaybackServiceReady();
+            assertEquals(2, h.host.requests.size());
+            assertEquals(LiveConnectionState.Type.RECONNECTING, h.host.lastState().type());
+            assertEquals(2, h.host.lastState().delaySeconds());
+            assertEquals(List.of(2_000L), h.scheduler.delays);
+            obsoleteRetry.run();
+            h.controller.onPlaybackReady(failed);
+            h.controller.playbackError(PlaybackFailure.source("detached error"), failed);
+            assertEquals(2, h.host.requests.size());
+            h.now += 2_000;
+            h.scheduler.runNext();
+            assertEquals(1, h.channel.getIndex());
+            restored.onPlaybackResult(new PlaybackResult<>(h.host.latestRequest(), h.result));
+            restored.playbackError(PlaybackFailure.timeout("retry exhausted"), h.host.latestRequest());
+            assertEquals(2, h.channel.getIndex());
+            assertTrue(h.scheduler.pending.isEmpty());
+            restored.playbackError(PlaybackFailure.source("last line failed"));
+            assertEquals(LiveConnectionState.Type.FAILED, h.host.lastState().type());
+            assertEquals(4, h.host.requests.size());
+            assertEquals(1, h.lineHealth(0).failureCount());
+            assertEquals(1, h.lineHealth(1).failureCount());
+        }
+    }
+
+    @Test public void recreationAfterRetryDeadlineSchedulesImmediateRemainingAttempt() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.controller.playbackError(PlaybackFailure.timeout("timeout"));
+            h.controller.detach();
+            h.now += 4_000;
+            LivePlaybackController restored = new LivePlaybackController(h.host, h.state, h.health.store,
+                    new LiveRecoveryPolicy(), h.scheduler, () -> h.now);
+            restored.onPlaybackServiceReady();
+            assertEquals(List.of(0L), h.scheduler.delays);
+            h.scheduler.runNext();
+            assertEquals(2, h.host.requests.size());
+            restored.playbackError(PlaybackFailure.timeout("retry exhausted"));
+            assertEquals(1, h.channel.getIndex());
+        }
+    }
+
+    @Test public void bufferingPauseAndBackgroundRequireANewContinuousStableWindow() {
+        for (int interruption = 0; interruption < 3; interruption++) {
+            try (Harness h = new Harness()) {
+                h.controller.selectChannel(h.channel);
+                h.resolveLatest();
+                LivePlayRequest request = h.host.latestRequest();
+                h.now += 800;
+                h.controller.onPlaybackStateChanged(request, Player.STATE_READY, true);
+                Runnable oldWindow = h.scheduler.pending.get(0);
+                h.now += 29_000;
+                if (interruption == 0) h.controller.onPlaybackStateChanged(request, Player.STATE_BUFFERING, false);
+                else if (interruption == 1) h.controller.onPlaybackPlayingChanged(request, false);
+                else h.controller.onPlaybackBackgrounded();
+                assertTrue(h.scheduler.pending.isEmpty());
+                h.now += 60_000;
+                oldWindow.run();
+                assertEquals(0, h.lineHealth(0).successCount());
+                h.controller.onPlaybackForegrounded();
+                h.controller.onPlaybackStateChanged(request, Player.STATE_READY, false);
+                assertTrue(h.scheduler.pending.isEmpty());
+                h.controller.onPlaybackPlayingChanged(request, true);
+                assertEquals(30_000L, h.scheduler.delays.get(0).longValue());
+                h.now += 30_000;
+                h.scheduler.runNext();
+                assertEquals(1, h.lineHealth(0).successCount());
+                assertEquals(800, h.lineHealth(0).averageStartupMs());
+            }
+        }
+    }
+
+    @Test public void stalePlaybackStateCannotCancelTheCurrentStableWindow() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.resolveLatest();
+            LivePlayRequest old = h.host.latestRequest();
+            h.controller.refresh();
+            h.resolveLatest();
+            h.controller.onPlaybackStateChanged(h.host.latestRequest(), Player.STATE_READY, true);
+            Runnable currentWindow = h.scheduler.pending.get(0);
+            h.controller.onPlaybackStateChanged(old, Player.STATE_BUFFERING, false);
+            h.controller.onPlaybackPlayingChanged(old, false);
+            assertEquals(List.of(currentWindow), h.scheduler.pending);
+        }
+    }
+
+    @Test public void repeatedReadyRecordsOneSuccessWithFirstStartupSampleAcrossRecreation() {
+        try (Harness h = new Harness()) {
+            h.controller.selectChannel(h.channel);
+            h.resolveLatest();
+            h.now += 800;
+            h.controller.onPlaybackReady();
+            h.now += 30_000;
+            h.scheduler.runNext();
+            h.now += 180_000;
+            h.controller.onPlaybackReady();
+            assertTrue(h.scheduler.pending.isEmpty());
+            h.controller.detach();
+            h.host.hasSession = true;
+            LivePlaybackController restored = new LivePlaybackController(h.host, h.state, h.health.store,
+                    new LiveRecoveryPolicy(), h.scheduler, () -> h.now);
+            restored.selectChannel(h.channel);
+            restored.onPlaybackReady(h.host.latestRequest());
+            assertTrue(h.scheduler.pending.isEmpty());
+            assertEquals(1, h.lineHealth(0).successCount());
+            assertEquals(800, h.lineHealth(0).averageStartupMs());
+        }
+    }
+
 
     @Test public void stalePlayerErrorAndReadyCannotAffectRefreshedPlayback() {
         try (Harness h = new Harness()) {
@@ -471,6 +649,7 @@ public class LivePlaybackControllerTest {
         int starts;
         int statusRenders;
         boolean hasSession;
+        long position;
         LiveConnectionState lastState() { return states.get(states.size() - 1); }
         LivePlayRequest latestRequest() { return requests.get(requests.size() - 1); }
         @Override public void renderConnectionState(LiveConnectionState state) { states.add(state); events.add(state.type().name()); }
@@ -482,7 +661,7 @@ public class LivePlaybackControllerTest {
         @Override public boolean hasPlaybackSession() { return hasSession; }
         @Override public boolean isPlaybackServiceReady() { return true; }
         @Override public void restorePlaybackKey(String key) { }
-        @Override public long getPlayerPosition() { return 0; }
+        @Override public long getPlayerPosition() { return position; }
         @Override public ZoneId getZoneId() { return ZoneId.of("UTC"); }
         @Override public void stopPlaybackForRefresh() { }
         @Override public void startPlayback(Result result, long position, MediaMetadata metadata) { starts++; }

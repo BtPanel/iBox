@@ -1203,8 +1203,8 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     @Override
-    protected void onError(String msg) {
-        mLive.playbackError(msg);
+    protected void onError(PlaybackFailure failure) {
+        // Only errors carrying the originating live request can affect this controller.
     }
 
     @Override
@@ -1220,13 +1220,18 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     @Override
     protected void onPlaybackRequestStateChanged(Object request, int state) {
         if (!(request instanceof LivePlayRequest liveRequest) || !mLive.isCurrentPlayback(liveRequest)) return;
-        if (state == Player.STATE_READY) mLive.onPlaybackReady(liveRequest);
+        mLive.onPlaybackStateChanged(liveRequest, state, player().isPlaying());
         onStateChanged(state);
     }
 
     @Override
     protected void onPlaybackStateSynchronized(int state) {
         onPlaybackRequestStateChanged(player().getPlaybackRequest(), state);
+    }
+
+    @Override
+    protected void onPlaybackRequestPlayingChanged(Object request, boolean isPlaying) {
+        if (request instanceof LivePlayRequest liveRequest) mLive.onPlaybackPlayingChanged(liveRequest, isPlaying);
     }
 
     @Override
@@ -2068,6 +2073,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     protected void onStart() {
+        mLive.onPlaybackForegrounded();
         super.onStart();
         mClock.stop().start();
         applyNetworkSpeedVisibility();
@@ -2075,6 +2081,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     protected void onStop() {
+        mLive.onPlaybackBackgrounded();
         super.onStop();
         App.removeCallbacks(mR5);
         if (PlayerSetting.isBackgroundOff()) mClock.stop();

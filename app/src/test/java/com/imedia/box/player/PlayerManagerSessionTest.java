@@ -20,6 +20,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManagerSessionTest {
+    @Test public void playingChangesKeepTheirRequestAndRejectObsoleteListeners() {
+        try (Harness h = new Harness()) {
+            Object old = new Object();
+            Object current = new Object();
+            h.manager.start(h.spec, 1000, 0, old);
+            Player.Listener obsolete = h.latestListener();
+            h.manager.start(h.spec, 1000, 0, current);
+            h.latestListener().onIsPlayingChanged(true);
+            h.latestListener().onIsPlayingChanged(false);
+            verify(h.callback).onIsPlayingChanged(current, true);
+            verify(h.callback).onIsPlayingChanged(current, false);
+            clearInvocations(h.callback);
+            obsolete.onIsPlayingChanged(false);
+            verifyNoInteractions(h.callback);
+        }
+    }
+
+    @Test public void stoppedVodCannotEmitTimeoutOrErrorWhileLiveUrlIsStillResolving() {
+        try (Harness h = new Harness()) {
+            h.manager.start(h.spec, 1000, 0);
+            Player.Listener vodListener = h.latestListener();
+            Runnable vodTimeout = h.timeouts.get(h.timeouts.size() - 1);
+            h.manager.stop(); // Live stops VOD before requesting its unresolved URL.
+            clearInvocations(h.callback, h.engine);
+
+            vodTimeout.run(); // Already dequeued work must also be harmless.
+            vodListener.onPlayerError(h.error);
+            vodListener.onPlaybackStateChanged(Player.STATE_READY);
+
+            verifyNoInteractions(h.callback);
+            verify(h.engine, never()).handleError(any());
+            verify(h.engine, never()).stop();
+            h.app.verify(() -> App.removeCallbacks(vodTimeout), atLeastOnce());
+            h.manager.start(h.spec, 1000, 0);
+            h.latestListener().onPlayerError(h.error);
+            verify(h.callback).onError(any(PlaybackFailure.class));
+        }
+    }
+
     @Test public void oldListenerAndTimeoutCannotEmitEventsForNewPlaybackRequest() {
         try (Harness h = new Harness()) {
             Object old = new Object();

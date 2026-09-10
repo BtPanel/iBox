@@ -497,10 +497,8 @@ public class PlayerManager implements ParseCallback {
     }
 
     public void stop() {
-        if (playbackRequest != null) {
-            playbackSession = new Object();
-            App.removeCallbacks(runnable);
-        }
+        playbackSession = new Object();
+        App.removeCallbacks(runnable);
         engine.stop();
         stopParse();
     }
@@ -690,8 +688,7 @@ public class PlayerManager implements ParseCallback {
     }
 
     private void beginPlaybackRequest(Object request) {
-        // VOD keeps its existing callbacks. Live listeners capture the originating request.
-        if (request == null && playbackRequest == null) return;
+        // Every session owns its work, including VOD's string-compatible callbacks.
         App.removeCallbacks(runnable);
         player.removeListener(listener);
         playbackRequest = request;
@@ -866,6 +863,8 @@ public class PlayerManager implements ParseCallback {
 
         default void onPlaybackStateChanged(Object request, int state) { }
 
+        default void onIsPlayingChanged(Object request, boolean isPlaying) { }
+
         void onPlayerRebuild(Player newPlayer);
 
         void onDanmakuSourceChanged(Uri uri);
@@ -903,6 +902,11 @@ public class PlayerManager implements ParseCallback {
 
     private Player.Listener createListener(Object session, Object request) {
         return new Player.Listener() {
+
+            @Override
+            public void onIsPlayingChanged(boolean isPlaying) {
+                if (session == playbackSession && request != null) callback.onIsPlayingChanged(request, isPlaying);
+            }
 
             @Override
             public void onPlaybackStateChanged(int state) {

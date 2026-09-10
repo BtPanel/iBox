@@ -9,6 +9,10 @@ import com.imedia.box.bean.Channel;
 import com.imedia.box.bean.Group;
 import com.imedia.box.bean.Live;
 import com.imedia.box.playback.live.LiveFailureKind;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import org.junit.After;
 import org.junit.Test;
@@ -23,6 +27,105 @@ import java.util.function.LongSupplier;
 public class LiveLineHealthStoreTest {
 
     private static final long NOW = TimeUnit.DAYS.toMillis(100);
+
+    @Test public void mixedPersistedEntriesKeepValidRecordsAndRejectMissingOrInvalidFields() {
+        MemoryBackend backend = new MemoryBackend();
+        Gson gson = new Gson();
+        LiveLineKey validKey = LiveLineKey.create("test", "News", "Valid", "https://valid");
+        LiveLineHealth validHealth = new LiveLineHealth(20, 20, 20, NOW - 10, NOW, 500, NOW + 120_000);
+        JsonObject valid = gson.toJsonTree(new LiveLineHealthStore.Entry(validKey, validHealth)).getAsJsonObject();
+        JsonArray values = new JsonArray();
+        values.add(valid);
+        for (String field : List.of("successCount", "failureCount", "consecutiveFailures", "lastSuccessMs",
+                "lastFailureMs", "averageStartupMs", "cooldownUntilMs")) {
+            JsonObject broken = invalidEntry(valid, field);
+            broken.getAsJsonObject("health").remove(field);
+            values.add(broken);
+        }
+        for (String field : List.of("sourceKey", "group", "channel", "urlDigest")) {
+            JsonObject broken = invalidEntry(valid, field);
+            broken.getAsJsonObject("key").remove(field);
+            values.add(broken);
+        }
+        for (String digest : List.of("", "digest", "g".repeat(64), "a".repeat(63))) {
+            JsonObject broken = invalidEntry(valid, "digest-" + digest);
+            broken.getAsJsonObject("key").addProperty("urlDigest", digest);
+            values.add(broken);
+        }
+        for (String field : List.of("successCount", "failureCount", "consecutiveFailures")) {
+            for (JsonPrimitive number : List.of(new JsonPrimitive(-1), new JsonPrimitive(21),
+                    new JsonPrimitive(1.5), new JsonPrimitive("1"), new JsonPrimitive(Double.NaN))) {
+                JsonObject broken = invalidEntry(valid, field + number);
+                broken.getAsJsonObject("health").add(field, number);
+                values.add(broken);
+            }
+        }
+        for (String field : List.of("lastSuccessMs", "lastFailureMs", "averageStartupMs", "cooldownUntilMs")) {
+            JsonObject broken = invalidEntry(valid, field + "negative");
+            broken.getAsJsonObject("health").addProperty(field, -1);
+            values.add(broken);
+            broken = invalidEntry(valid, field + "overflow");
+            broken.getAsJsonObject("health").add(field, new JsonPrimitive(new java.math.BigInteger("9223372036854775808")));
+            values.add(broken);
+        }
+        for (String field : List.of("lastSuccessMs", "lastFailureMs")) {
+            JsonObject broken = invalidEntry(valid, field + "future");
+            broken.getAsJsonObject("health").addProperty(field, NOW + 1);
+            values.add(broken);
+        }
+        JsonObject broken = invalidEntry(valid, "impossible cooldown");
+        broken.getAsJsonObject("health").addProperty("cooldownUntilMs", NOW + TimeUnit.HOURS.toMillis(24) + 1);
+        values.add(broken);
+        JsonObject envelope = new JsonObject();
+        envelope.addProperty("version", 2);
+        envelope.add("entries", values);
+        backend.put("live_line_health_v2_test", envelope.toString());
+
+        assertEquals(java.util.Map.of(validKey, validHealth), store(backend, NOW).current());
+    }
+
+    private static JsonObject invalidEntry(JsonObject valid, String name) {
+        JsonObject copy = valid.deepCopy();
+        copy.getAsJsonObject("key").addProperty("channel", "Invalid " + name);
+        return copy;
+    }
+
+    @Test public void rankingAndReadsExpireOnlyAfterTheThirtyDayBoundaryWithoutAnUpdate() {
+        MemoryBackend backend = new MemoryBackend();
+        MutableClock clock = new MutableClock(NOW);
+        LiveLineHealthStore store = store(backend, clock);
+        Channel channel = channelWith("https://zero", "https://one");
+        setLiveHome(home(channel.getGroup()));
+        store.recordSuccess(channel, 1, 300);
+        clock.now += TimeUnit.DAYS.toMillis(30);
+        assertEquals(List.of(1, 0), store.rank(channel, Set.of()));
+        assertEquals(1, store.current().size());
+        clock.now++;
+        assertEquals(List.of(0, 1), store.rank(channel, Set.of()));
+        assertTrue(store.current().isEmpty());
+        assertTrue(store(backend, clock).current().isEmpty());
+    }
+
+    @Test public void expiredLineStartsFreshBeforeEitherSuccessOrFailureUpdate() {
+        for (boolean success : List.of(false, true)) {
+            MutableClock clock = new MutableClock(NOW);
+            LiveLineHealthStore store = store(new MemoryBackend(), clock);
+            Channel channel = channelWith("https://one");
+            setLiveHome(home(channel.getGroup()));
+            store.recordSuccess(channel, 0, 20_000);
+            store.recordFailure(channel, 0, LiveFailureKind.NETWORK);
+            store.recordFailure(channel, 0, LiveFailureKind.NETWORK);
+            clock.now += TimeUnit.DAYS.toMillis(30) + 1;
+            if (success) store.recordSuccess(channel, 0, 500);
+            else store.recordFailure(channel, 0, LiveFailureKind.NETWORK);
+            LiveLineHealth health = store.current().values().iterator().next();
+            assertEquals(success ? 1 : 0, health.successCount());
+            assertEquals(success ? 0 : 1, health.failureCount());
+            assertEquals(success ? 0 : 1, health.consecutiveFailures());
+            assertEquals(success ? 500 : 0, health.averageStartupMs());
+            assertEquals(success ? 0 : clock.now + 120_000, health.cooldownUntilMs());
+        }
+    }
 
     @After
     public void resetLiveHome() {
@@ -145,7 +248,7 @@ public class LiveLineHealthStoreTest {
 
         backend.put("live_line_health_v2_test", "{\"version\":2,\"entries\":[null,{\"key\":null,\"health\":null},{\"key\":{\"sourceKey\":\"test\",\"group\":\"g\",\"channel\":\"c\",\"urlDigest\":\"d\"},\"health\":{\"successCount\":-1}},{\"key\":{\"sourceKey\":\"test\",\"group\":\"g\",\"channel\":\"c\",\"urlDigest\":\"d\"},\"health\":{\"successCount\":1,\"failureCount\":0,\"consecutiveFailures\":0,\"lastSuccessMs\":1,\"lastFailureMs\":0,\"averageStartupMs\":0,\"cooldownUntilMs\":0}}]}");
 
-        assertEquals(1, store(backend, NOW).current().size());
+        assertTrue(store(backend, NOW).current().isEmpty());
     }
 
     @Test
