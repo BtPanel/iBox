@@ -41,7 +41,10 @@ public abstract class BaseAlertDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
         applyDefaultWidth();
-        if (getDialog() != null) AppAccessibility.apply(getDialog());
+        Dialog dialog = getDialog();
+        if (dialog == null) return;
+        DialogMotion.disableListAnimations(dialog);
+        AppAccessibility.apply(dialog);
     }
 
     @Override

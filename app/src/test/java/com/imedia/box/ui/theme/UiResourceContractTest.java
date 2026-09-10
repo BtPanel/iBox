@@ -989,6 +989,120 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobilePosterBadgesUseThemeMatchedContainerPairs() throws Exception {
+        String[][] badges = {
+                {"site", "colorErrorContainer", "colorOnErrorContainer"},
+                {"remark", "colorSecondaryContainer", "colorOnSecondaryContainer"}
+        };
+        for (String[] badge : badges) {
+            String name = badge[0];
+            Document background = xml("app/src/mobile/res/drawable/shape_vod_" + name + ".xml");
+            assertEquals("@color/bg_" + name, attribute(background, "solid", "android:color"));
+
+            Element backgroundItem = (Element) xml("app/src/mobile/res/color/bg_" + name + ".xml")
+                    .getElementsByTagName("item").item(0);
+            Element textItem = (Element) xml("app/src/mobile/res/color/text_" + name + ".xml")
+                    .getElementsByTagName("item").item(0);
+            assertEquals("?attr/" + badge[1], backgroundItem.getAttribute("android:color"));
+            assertFalse("Poster badges need an opaque container over arbitrary artwork",
+                    backgroundItem.hasAttribute("android:alpha"));
+            assertEquals("?attr/" + badge[2], textItem.getAttribute("android:color"));
+
+            for (boolean night : new boolean[]{false, true}) {
+                Document[] resources = mobileColorResources(night);
+                for (var palette : palettes("mobile").entrySet()) {
+                    double ratio = contrast(
+                            resolveThemeColor(textItem.getAttribute("android:color"), palette.getValue(), resources),
+                            resolveThemeColor(backgroundItem.getAttribute("android:color"), palette.getValue(), resources));
+                    assertTrue(name + " " + palette.getKey() + " night=" + night
+                            + " contrast=" + ratio + " below 4.5:1", ratio >= 4.5);
+                }
+            }
+        }
+        assertEquals("@color/text_site", view(xml("app/src/mobile/res/layout/adapter_search.xml"),
+                "site").getAttribute("android:textColor"));
+        assertEquals("@color/text_site", view(xml("app/src/mobile/res/layout/adapter_vod.xml"),
+                "site").getAttribute("android:textColor"));
+        assertEquals("@color/text_remark", view(xml("app/src/mobile/res/layout/adapter_vod.xml"),
+                "remark").getAttribute("android:textColor"));
+    }
+
+    @Test
+    public void mobileLibraryActionsUseTheStandardToolbarForeground() throws Exception {
+        for (String name : new String[]{"ic_action_sync", "ic_action_delete"}) {
+            assertEquals(name, "?attr/colorControlNormal", xml("app/src/mobile/res/drawable/" + name + ".xml")
+                    .getDocumentElement().getAttribute("android:tint"));
+        }
+    }
+
+    @Test
+    public void liveSettingsUsesCanonicalDialogSpacingAndDisablesListAnimations() throws Exception {
+        Document layout = xml("app/src/main/res/layout/dialog_live_settings.xml");
+        assertEquals("@dimen/ibox_dialog_content_padding",
+                layout.getDocumentElement().getAttribute("android:padding"));
+        assertEquals("@style/TextAppearance.IBox.DialogTitle", attribute(layout,
+                "com.google.android.material.textview.MaterialTextView", "android:textAppearance"));
+    }
+
+    @Test
+    public void everyDialogPresentationUsesTheSameFadeMotion() throws Exception {
+        Document system = xml("app/src/main/res/values/ibox_ui_system.xml");
+        for (String style : new String[]{"Animation.IBox.Dialog.Alert",
+                "Animation.IBox.Dialog.BottomSheet", "Animation.IBox.Dialog.SideSheet"}) {
+            assertEquals(style, "@anim/ibox_dialog_enter",
+                    styleItem(system, style, "android:windowEnterAnimation"));
+            assertEquals(style, "@anim/ibox_dialog_exit",
+                    styleItem(system, style, "android:windowExitAnimation"));
+        }
+        for (String name : new String[]{"ibox_dialog_enter", "ibox_dialog_exit"}) {
+            Document motion = xml("app/src/main/res/anim/" + name + ".xml");
+            assertEquals(name + " must be a pure fade", 1, motion.getElementsByTagName("alpha").getLength());
+            assertEquals(name + " must not scale the dialog", 0, motion.getElementsByTagName("scale").getLength());
+            assertEquals(name + " must not slide the dialog", 0, motion.getElementsByTagName("translate").getLength());
+        }
+    }
+
+    @Test
+    public void everyDialogBaseDisablesNestedListChangeAnimations() throws Exception {
+        String helper = Files.readString(repoRoot().resolve(
+                "app/src/main/java/com/imedia/box/ui/dialog/DialogMotion.java"));
+        assertTrue("Dialog motion policy must cover nested RecyclerViews",
+                helper.contains("instanceof RecyclerView"));
+        assertTrue("Dialog motion policy must disable item change animations",
+                helper.contains("setItemAnimator(null)"));
+        for (String base : new String[]{"BaseAlertDialog", "BaseBottomSheetDialog", "BaseSideSheetDialog"}) {
+            String source = Files.readString(repoRoot().resolve(
+                    "app/src/main/java/com/imedia/box/ui/dialog/" + base + ".java"));
+            assertTrue(base + " must apply the shared content motion policy",
+                    source.contains("DialogMotion.disableListAnimations"));
+        }
+    }
+
+    @Test
+    public void delayedBottomSheetLayoutDoesNotDependOnFragmentResources() throws Exception {
+        String source = Files.readString(repoRoot().resolve(
+                "app/src/main/java/com/imedia/box/ui/dialog/BaseBottomSheetDialog.java"));
+        assertFalse("A delayed dialog callback can run after the Fragment is detached",
+                Pattern.compile("(?<![.\\w])getResources\\s*\\(").matcher(source).find());
+        assertTrue("Destroying the Fragment view must release its delayed dialog listener",
+                source.contains("dialog.setOnShowListener(null)"));
+    }
+
+    @Test
+    public void mobileFormerBottomSheetsUseAStableCenteredWindow() throws Exception {
+        String source = Files.readString(repoRoot().resolve(
+                "app/src/main/java/com/imedia/box/ui/dialog/BaseBottomSheetDialog.java"));
+        assertTrue("Mobile dialogs must use a centered dialog instead of BottomSheetBehavior",
+                source.contains("new AppCompatDialog(requireContext(), R.style.ThemeOverlay_IBox_Dialog_Alert)"));
+        assertTrue("Mobile dialogs must be centered before they are shown",
+                source.contains("window.setGravity(Gravity.CENTER)"));
+        assertFalse("Post-layout sheet offsets make dialogs jump when content changes",
+                source.contains("addOnLayoutChangeListener"));
+        assertFalse("Mobile dialogs must not be repositioned after drawing",
+                source.contains("offsetTopAndBottom"));
+    }
+
+    @Test
     public void documentedPaletteRolesResolveInEveryPlatformPalette() throws Exception {
         String documentation = Files.readString(repoRoot().resolve("docs/UI_DESIGN_SYSTEM.md"));
         Set<String> roles = Set.of("ibox_primary", "ibox_on_primary", "ibox_primary_container",

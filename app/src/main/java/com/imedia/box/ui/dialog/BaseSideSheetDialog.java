@@ -64,8 +64,10 @@ public abstract class BaseSideSheetDialog extends AppCompatDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AppAccessibility.apply(requireDialog());
-        FrameLayout sheet = getDialog().findViewById(com.google.android.material.R.id.m3_side_sheet);
+        Dialog dialog = requireDialog();
+        DialogMotion.disableListAnimations(dialog);
+        AppAccessibility.apply(dialog);
+        FrameLayout sheet = dialog.findViewById(com.google.android.material.R.id.m3_side_sheet);
         if (sheet == null) return;
         ViewGroup.LayoutParams params = sheet.getLayoutParams();
         params.width = getWidth();
