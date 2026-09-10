@@ -43,7 +43,6 @@ public final class LiveChannelStore {
         items.add(0, new RecentEntry(ref.group(), ref.channel().getName()));
         if (items.size() > RECENT_LIMIT) items = new ArrayList<>(items.subList(0, RECENT_LIMIT));
         Prefers.put(recentKey(), App.gson().toJson(items));
-        clearFailed(channel);
     }
 
     public static void markFailed(Channel channel) {
@@ -66,7 +65,7 @@ public final class LiveChannelStore {
         return ref != null && loadFailures().containsKey(itemKey(ref.group(), ref.channel().getName()));
     }
 
-    private static ChannelRef resolve(Channel channel) {
+    static ChannelRef resolve(Channel channel) {
         if (channel == null) return null;
         for (Group group : sourceGroups()) {
             if (group.isKeep() || group.isRecent()) continue;
@@ -120,7 +119,7 @@ public final class LiveChannelStore {
         return "live_failed_" + sourceKey();
     }
 
-    private static String sourceKey() {
+    static String sourceKey() {
         return Integer.toHexString(Objects.hash(LiveConfig.get().getHome().getName(), LiveConfig.get().getConfig().getUrl()));
     }
 
@@ -128,7 +127,7 @@ public final class LiveChannelStore {
         return group + "\n" + channel;
     }
 
-    private record ChannelRef(String group, Channel channel) {
+    record ChannelRef(String group, Channel channel) {
     }
 
     private record RecentEntry(@SerializedName("group") String group, @SerializedName("channel") String channel) {
