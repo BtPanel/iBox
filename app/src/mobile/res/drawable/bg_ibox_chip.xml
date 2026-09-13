@@ -20,7 +20,7 @@
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/transparent" />
+            <solid android:color="@color/ibox_home_control_surface" />
             <corners android:radius="@dimen/ibox_radius_small" />
         </shape>
     </item>

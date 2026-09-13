@@ -45,4 +45,5 @@ public class HomeSmokeTest {
             assertEquals(locale.toLanguageTag(), "iBoxTV", context.createConfigurationContext(configuration).getString(R.string.app_name));
         }
     }
+
 }

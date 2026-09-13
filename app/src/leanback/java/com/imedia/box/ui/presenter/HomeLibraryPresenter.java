@@ -37,7 +37,6 @@ public class HomeLibraryPresenter extends Presenter {
 
         boolean onLibraryLongClick(boolean keep);
 
-        void onLibraryFocus(String name, String pic);
     }
 
     @NonNull
@@ -82,9 +81,6 @@ public class HomeLibraryPresenter extends Presenter {
         holder.binding.remark.setVisibility(TextUtils.isEmpty(remark) ? View.GONE : View.VISIBLE);
         holder.binding.progress.setProgress(Math.max(0, progress));
         holder.binding.progress.setVisibility(progress < 0 ? View.GONE : View.VISIBLE);
-        holder.binding.getRoot().setOnFocusChangeListener((view, focused) -> {
-            if (focused) listener.onLibraryFocus(name, pic);
-        });
         ImgUtil.load(name, pic, holder.binding.image);
     }
 
@@ -93,7 +89,6 @@ public class HomeLibraryPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.binding.getRoot().setOnClickListener(null);
         holder.binding.getRoot().setOnLongClickListener(null);
-        holder.binding.getRoot().setOnFocusChangeListener(null);
         Glide.with(holder.binding.image).clear(holder.binding.image);
     }
 
