@@ -3,6 +3,7 @@ package com.imedia.box.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.view.View;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -17,6 +18,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.leanback.widget.VerticalGridView;
 
 import com.imedia.box.R;
+import com.imedia.box.setting.Setting;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +45,25 @@ public class HomeSmokeTest {
             Configuration configuration = new Configuration(context.getResources().getConfiguration());
             configuration.setLocale(locale);
             assertEquals(locale.toLanguageTag(), "iBoxTV", context.createConfigurationContext(configuration).getString(R.string.app_name));
+        }
+    }
+
+    @Test
+    public void selectedWallpaperIsNotCoveredByPosterBackdrop() {
+        int previousWall = Setting.getWall();
+        int previousType = Setting.getWallType();
+        HomeActivity activity = null;
+        try {
+            Setting.putWall(2);
+            Setting.putWallType(0);
+            Intent intent = new Intent(ApplicationProvider.getApplicationContext(), HomeActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity = (HomeActivity) InstrumentationRegistry.getInstrumentation().startActivitySync(intent);
+            assertEquals(View.GONE, activity.findViewById(R.id.backdrop).getVisibility());
+        } finally {
+            Setting.putWall(previousWall);
+            Setting.putWallType(previousType);
+            if (activity != null) activity.finish();
         }
     }
 }

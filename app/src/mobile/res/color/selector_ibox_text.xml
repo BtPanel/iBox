@@ -3,5 +3,5 @@
     <item android:color="?attr/colorOnPrimaryContainer" android:state_selected="true" />
     <item android:color="?attr/colorOnPrimaryContainer" android:state_checked="true" />
     <item android:color="?attr/colorOnPrimaryContainer" android:state_pressed="true" />
-    <item android:color="@color/ibox_text_secondary" />
+    <item android:color="@color/ibox_text_primary" />
 </selector>

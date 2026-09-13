@@ -17,7 +17,7 @@
     <color name="ibox_live_panel">#D90E1013</color>
     <color name="ibox_glass_outline">#52FFFFFF</color>
     <color name="ibox_glass_divider">#32FFFFFF</color>
-    <color name="ibox_wall_scrim">#99080F0D</color>
+    <color name="ibox_wall_scrim">#66080F0D</color>
     <color name="ibox_navigation_surface">#F717201E</color>
     <color name="ibox_navigation_item">#26FFFFFF</color>
     <color name="ibox_chip_selected">#62DAC4</color>

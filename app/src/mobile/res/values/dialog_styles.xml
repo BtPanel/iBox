@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay.IBox.Dialog.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.Alert</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.28</item>
+        <item name="colorSurface">@color/ibox_mobile_dialog_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/ibox_mobile_dialog_surface</item>
+        <item name="colorError">@color/ibox_error</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.IBox.Dialog</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.IBox.Dialog</item>
+    </style>
+</resources>

@@ -67,6 +67,162 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void wallpaperRemainsVisibleOnBothHomeScreens() throws Exception {
+        Document wall = xml("app/src/main/res/layout/view_wall.xml");
+        assertEquals("@color/ibox_wall_scrim", view(wall, "scrim").getAttribute("android:background"));
+        for (String path : new String[]{
+                "app/src/main/res/values/ibox_colors.xml",
+                "app/src/main/res/values-night/ibox_colors.xml",
+                "app/src/leanback/res/values/ibox_tv_colors.xml",
+                "app/src/leanback/res/values-night/ibox_tv_colors.xml"}) {
+            String scrim = color(xml(path), "ibox_wall_scrim");
+            int alpha = scrim.length() == 9 ? Integer.parseInt(scrim.substring(1, 3), 16) : 255;
+            assertTrue(path + " hides more than 40% of the wallpaper", alpha <= 0x66);
+        }
+        Document mobileHome = xml("app/src/mobile/res/layout/activity_home.xml");
+        Document tvHome = xml("app/src/leanback/res/layout/activity_home.xml");
+        assertEquals("@android:color/transparent", mobileHome.getDocumentElement().getAttribute("android:background"));
+        assertEquals("@android:color/transparent", tvHome.getDocumentElement().getAttribute("android:background"));
+        NodeList views = tvHome.getElementsByTagName("View");
+        for (int i = 0; i < views.getLength(); i++) {
+            assertFalse("TV home must not cover the wallpaper with another full-screen scrim",
+                    "@drawable/bg_tv_home_scrim".equals(((Element) views.item(i)).getAttribute("android:background")));
+        }
+    }
+
+    @Test
+    public void mobileHomeControlsStayReadableOverDarkOrBrightWallpaper() throws Exception {
+        for (String drawable : new String[]{"bg_home_action", "bg_ibox_chip"}) {
+            Document selector = xml("app/src/mobile/res/drawable/" + drawable + ".xml");
+            NodeList items = selector.getElementsByTagName("item");
+            Element normal = (Element) items.item(items.getLength() - 1);
+            Element solid = (Element) normal.getElementsByTagName("solid").item(0);
+            assertEquals(drawable, "@color/ibox_home_control_surface", solid.getAttribute("android:color"));
+        }
+        Document chipText = xml("app/src/mobile/res/color/selector_ibox_text.xml");
+        NodeList textItems = chipText.getElementsByTagName("item");
+        assertEquals("@color/ibox_text_primary",
+                ((Element) textItems.item(textItems.getLength() - 1)).getAttribute("android:color"));
+        for (boolean night : new boolean[]{false, true}) {
+            String path = night ? "app/src/main/res/values-night/ibox_colors.xml"
+                    : "app/src/main/res/values/ibox_colors.xml";
+            Document colors = xml(path);
+            Document home = xml(night ? "app/src/mobile/res/values-night/home_colors.xml"
+                    : "app/src/mobile/res/values/home_colors.xml");
+            for (String wallpaper : new String[]{"#000000", "#FFFFFF"}) {
+                String background = compositeColor(color(home, "ibox_home_control_surface"),
+                        compositeColor(color(colors, "ibox_wall_scrim"), wallpaper));
+                assertTrue(path + " has unreadable category text over " + wallpaper,
+                        contrast(color(colors, "ibox_text_primary"), background) >= 4.5);
+            }
+        }
+    }
+
+    @Test
+    public void mobileSearchAndNavigationBlendWithWallpaperWithoutLosingContrast() throws Exception {
+        for (String drawable : new String[]{"bg_home_search", "bg_floating_navigation"}) {
+            Document background = xml("app/src/mobile/res/drawable/" + drawable + ".xml");
+            assertEquals(drawable, "@color/ibox_home_chrome_surface",
+                    attribute(background, "solid", "android:color"));
+        }
+        assertEquals("@color/ibox_wall_chrome_surface", attribute(
+                xml("app/src/mobile/res/drawable/bg_search_input.xml"), "solid", "android:color"));
+        Document homeLayout = xml("app/src/mobile/res/layout/fragment_vod.xml");
+        Element search = view(homeLayout, "search");
+        Element hint = (Element) search.getElementsByTagName(
+                "com.google.android.material.textview.MaterialTextView").item(0);
+        assertEquals("@color/ibox_home_chrome_secondary", hint.getAttribute("android:textColor"));
+        Document navigationIcon = xml("app/src/mobile/res/color/selector_app_navigation_icon.xml");
+        NodeList iconStates = navigationIcon.getElementsByTagName("item");
+        assertEquals("@color/ibox_home_chrome_secondary",
+                ((Element) iconStates.item(iconStates.getLength() - 1)).getAttribute("android:color"));
+        for (String path : new String[]{"app/src/mobile/res/values/home_colors.xml",
+                "app/src/mobile/res/values-night/home_colors.xml"}) {
+            Document chrome = xml(path);
+            boolean night = path.contains("values-night");
+            Document palette = xml(night ? "app/src/main/res/values-night/ibox_colors.xml"
+                    : "app/src/main/res/values/ibox_colors.xml");
+            String surface = color(chrome, "ibox_home_chrome_surface");
+            int alpha = Integer.parseInt(surface.substring(1, 3), 16);
+            assertTrue(path + " home chrome is too opaque", alpha <= 0xB8);
+            for (String wallpaper : new String[]{"#000000", "#FFFFFF"}) {
+                String background = compositeColor(surface,
+                        compositeColor(color(palette, "ibox_wall_scrim"), wallpaper));
+                assertTrue(path + " has unreadable search hint or navigation icon over " + wallpaper,
+                        contrast(color(chrome, "ibox_home_chrome_secondary"), background) >= 4.5);
+            }
+        }
+    }
+
+    @Test
+    public void mobileSettingsGroupsRevealWallpaperWithoutLosingSecondaryTextContrast() throws Exception {
+        Document group = xml("app/src/mobile/res/drawable/bg_setting_group.xml");
+        assertEquals("@color/ibox_wall_chrome_surface", attribute(group, "solid", "android:color"));
+        for (boolean night : new boolean[]{false, true}) {
+            Document palette = xml(night ? "app/src/main/res/values-night/ibox_colors.xml"
+                    : "app/src/main/res/values/ibox_colors.xml");
+            Document chrome = xml(night ? "app/src/mobile/res/values-night/home_colors.xml"
+                    : "app/src/mobile/res/values/home_colors.xml");
+            int alpha = Integer.parseInt(color(chrome, "ibox_wall_chrome_surface").substring(1, 3), 16);
+            assertTrue("Settings group still hides too much wallpaper", alpha <= 0xC6);
+            for (String wallpaper : new String[]{"#000000", "#FFFFFF"}) {
+                String surface = compositeColor(color(chrome, "ibox_wall_chrome_surface"),
+                        compositeColor(color(palette, "ibox_wall_scrim"), wallpaper));
+                assertTrue("Setting labels fade over " + wallpaper,
+                        contrast(color(palette, "ibox_text_secondary"), surface) >= 4.5);
+            }
+        }
+    }
+
+    @Test
+    public void mobileDialogsUseAReadableTintedSurfaceWithoutChangingTvTheme() throws Exception {
+        String stylePath = "app/src/mobile/res/values/dialog_styles.xml";
+        assertTrue("Mobile dialogs need a mobile-only overlay", Files.isRegularFile(repoRoot().resolve(stylePath)));
+        Document styles = xml(stylePath);
+        String name = "ThemeOverlay.IBox.Dialog.Alert";
+        assertEquals("@color/ibox_mobile_dialog_surface", styleItem(styles, name, "colorSurface"));
+        assertEquals("@color/ibox_mobile_dialog_surface", styleItem(styles, name, "colorSurfaceContainerHigh"));
+        assertTrue("Dialog backdrop hides the wallpaper", Double.parseDouble(
+                styleItem(styles, name, "android:backgroundDimAmount")) <= 0.30);
+        assertEquals("?attr/colorSurface", attribute(
+                xml("app/src/mobile/res/drawable/bg_dialog_config.xml"), "solid", "android:color"));
+        Document tvStyles = xml("app/src/main/res/values/ibox_ui_system.xml");
+        assertEquals("0.56", styleItem(tvStyles, name, "android:backgroundDimAmount"));
+        for (boolean night : new boolean[]{false, true}) {
+            String colorsPath = night ? "app/src/mobile/res/values-night/dialog_colors.xml"
+                    : "app/src/mobile/res/values/dialog_colors.xml";
+            Document colors = xml(colorsPath);
+            Document palette = xml(night ? "app/src/main/res/values-night/ibox_colors.xml"
+                    : "app/src/main/res/values/ibox_colors.xml");
+            String surface = color(colors, "ibox_mobile_dialog_surface");
+            int alpha = surface.length() == 9 ? Integer.parseInt(surface.substring(1, 3), 16) : 255;
+            assertEquals(colorsPath + " shows underlying text through the dialog", 255, alpha);
+            if (!night) assertTrue("Mobile dialog must not be a white slab", luminance(surface) < 0.82);
+            for (String behind : new String[]{"#000000", "#FFFFFF"}) {
+                assertTrue(colorsPath + " has unreadable text over " + behind,
+                        contrast(color(palette, "ibox_text_secondary"), compositeColor(surface, behind)) >= 4.5);
+            }
+        }
+    }
+
+    @Test
+    public void tvHomeCategoryLabelsStayReadableOverBrightWallpaper() throws Exception {
+        Document selector = xml("app/src/leanback/res/drawable/selector_home_category.xml");
+        Element normal = tvSelectorItem(selector, false, false);
+        NodeList solids = normal.getElementsByTagName("solid");
+        assertTrue("Unfocused TV categories need a local surface over wallpaper", solids.getLength() > 0);
+        assertEquals("@color/ibox_glass_surface", ((Element) solids.item(0)).getAttribute("android:color"));
+        for (String path : new String[]{"app/src/leanback/res/values/ibox_tv_colors.xml",
+                "app/src/leanback/res/values-night/ibox_tv_colors.xml"}) {
+            Document colors = xml(path);
+            String background = compositeColor(color(colors, "ibox_glass_surface"),
+                    compositeColor(color(colors, "ibox_wall_scrim"), "#FFFFFF"));
+            assertTrue(path + " has unreadable TV categories over bright wallpaper",
+                    contrast(color(colors, "ibox_text_secondary"), background) >= 4.5);
+        }
+    }
+
+    @Test
     public void mobileThemeDefaultsToFollowingTheSystem() throws Exception {
         String setting = Files.readString(repoRoot().resolve(
                 "app/src/main/java/com/imedia/box/setting/Setting.java"));
@@ -178,10 +334,8 @@ public class UiResourceContractTest {
     public void homeAndFocusResourcesUseSemanticColors() throws Exception {
         Document home = xml("app/src/mobile/res/values/home_colors.xml");
         assertEquals("@color/ibox_surface_container", value(home, "color", "ibox_home_scrim"));
-        assertEquals("@color/ibox_surface", value(home, "color", "ibox_home_navigation_surface"));
         Document nightHome = xml("app/src/mobile/res/values-night/home_colors.xml");
         assertEquals("@color/ibox_surface_container", value(nightHome, "color", "ibox_home_scrim"));
-        assertEquals("@color/ibox_surface", value(nightHome, "color", "ibox_home_navigation_surface"));
 
         Document styles = xml("app/src/main/res/values/ibox_styles.xml");
         assertEquals("@color/ibox_text_primary", styleItem(styles, "Theme.IBox.Mobile", "focusContentColor"));
@@ -746,7 +900,8 @@ public class UiResourceContractTest {
                 "colorSurfaceContainerHigh", "colorSurfaceContainerHighest"}) {
             assertEquals(role, "@color/ibox_high_contrast_surface", highContrast.get(role));
         }
-        assertEquals("?attr/colorSurfaceContainerLow",
+        assertEquals("@color/ibox_high_contrast_surface", highContrast.get("android:windowBackground"));
+        assertEquals("@android:color/transparent",
                 xml("app/src/leanback/res/layout/activity_home.xml").getDocumentElement()
                         .getAttribute("android:background"));
         for (String path : new String[]{"app/src/main/res/values/ibox_ui_system.xml",

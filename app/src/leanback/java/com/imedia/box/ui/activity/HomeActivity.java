@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.bumptech.glide.Glide;
 import com.github.catvod.net.OkHttp;
 import com.google.common.collect.Lists;
 import com.imedia.box.App;
@@ -142,6 +144,7 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     protected void initView(Bundle savedInstanceState) {
         mClock = Clock.create(mBinding.clock).format("yyyy年MM月dd日 HH:mm:ss");
         mScroller = new CustomScroller(this);
+        updateBackdropVisibility();
         mPendingBootStartMode = savedInstanceState == null ? resolveStartMode(getIntent()) : consumeBootStartMode(getIntent());
         mBinding.progressLayout.showProgress();
         PermissionUtil.requestNotify(this);
@@ -500,6 +503,9 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             case BOOT:
                 LiveActivity.start(this);
                 break;
+            case WALL:
+                updateBackdropVisibility();
+                break;
         }
     }
 
@@ -651,16 +657,28 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         }
         mPendingBackdropName = name;
         mPendingBackdropUrl = pic;
-        App.post(mBackdropUpdater, BACKDROP_DELAY_MS);
+        if (mBinding.backdrop.getVisibility() == View.VISIBLE) App.post(mBackdropUpdater, BACKDROP_DELAY_MS);
     }
 
     private void loadBackdrop() {
-        if (TextUtils.isEmpty(mPendingBackdropUrl) || mPendingBackdropUrl.equals(mBackdropUrl)) return;
+        if (mBinding.backdrop.getVisibility() != View.VISIBLE || TextUtils.isEmpty(mPendingBackdropUrl) || mPendingBackdropUrl.equals(mBackdropUrl)) return;
         mBackdropUrl = mPendingBackdropUrl;
         mBinding.backdrop.animate().cancel();
         mBinding.backdrop.setAlpha(0.12f);
         ImgUtil.load(mPendingBackdropName, mPendingBackdropUrl, mBinding.backdrop);
         mBinding.backdrop.animate().alpha(0.38f).setDuration(AppAccessibility.duration(260)).start();
+    }
+
+    private void updateBackdropVisibility() {
+        boolean visible = Setting.getWall() == 1 && Setting.getWallType() == 0;
+        if (!visible) {
+            App.removeCallbacks(mBackdropUpdater);
+            mBinding.backdrop.animate().cancel();
+            Glide.with(mBinding.backdrop).clear(mBinding.backdrop);
+            mBackdropUrl = "";
+        }
+        mBinding.backdrop.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (visible && !TextUtils.isEmpty(mPendingBackdropUrl)) App.post(mBackdropUpdater, BACKDROP_DELAY_MS);
     }
 
     @Override
@@ -690,6 +708,7 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     @Override
     protected void onResume() {
         super.onResume();
+        updateBackdropVisibility();
         mClock.start();
     }
 

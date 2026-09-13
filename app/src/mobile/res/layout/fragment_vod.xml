@@ -133,7 +133,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/home_search_hint"
-                    android:textColor="@color/ibox_text_secondary"
+                    android:textColor="@color/ibox_home_chrome_secondary"
                     android:textAppearance="@style/TextAppearance.IBox.Body" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
