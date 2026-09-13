@@ -11,11 +11,13 @@ import com.imedia.box.R;
 import com.imedia.box.databinding.ActivitySettingPlayerBinding;
 import com.imedia.box.impl.BufferListener;
 import com.imedia.box.impl.UaListener;
+import com.imedia.box.player.track.PlaybackLanguage;
 import com.imedia.box.setting.PlayerSetting;
 import com.imedia.box.setting.Setting;
 import com.imedia.box.ui.base.BaseActivity;
 import com.imedia.box.ui.dialog.BufferDialog;
 import com.imedia.box.ui.dialog.MpvConfDialog;
+import com.imedia.box.ui.custom.IBoxAlertDialogBuilder;
 import com.imedia.box.ui.dialog.UaDialog;
 import com.imedia.box.utils.ResUtil;
 
@@ -45,6 +47,10 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
         mBinding.mpvVulkanText.setText(Setting.getSwitch(PlayerSetting.isMpvVulkan()));
         mBinding.mpvGpuNextText.setText(Setting.getSwitch(PlayerSetting.isMpvGpuNext()));
         mBinding.backgroundText.setText(Setting.getSwitch(PlayerSetting.isBackgroundOn()));
+        mBinding.autoNextText.setText(Setting.getSwitch(PlayerSetting.isAutoNextEnabled()));
+        String[] languages = PlaybackLanguage.labels(this);
+        mBinding.audioLanguageText.setText(languages[PlayerSetting.getAudioLanguageIndex()]);
+        mBinding.textLanguageText.setText(languages[PlayerSetting.getTextLanguageIndex()]);
         mBinding.scaleText.setText((scale = ResUtil.getStringArray(R.array.select_scale))[PlayerSetting.getScale()]);
     }
 
@@ -59,6 +65,9 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
         mBinding.render.setOnClickListener(this::setRender);
         mBinding.scale.setOnClickListener(this::setScale);
         mBinding.background.setOnClickListener(this::onBackground);
+        mBinding.autoNext.setOnClickListener(this::onAutoNext);
+        mBinding.audioLanguage.setOnClickListener(view -> chooseLanguage(true));
+        mBinding.textLanguage.setOnClickListener(view -> chooseLanguage(false));
         mBinding.buffer.setOnClickListener(this::onBuffer);
         mBinding.preload.setOnClickListener(this::onPreloadSetting);
         mBinding.ua.setOnClickListener(this::onUa);
@@ -127,6 +136,28 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     private void onBackground(View view) {
         PlayerSetting.putBackground(PlayerSetting.isBackgroundOn() ? 0 : 1);
         mBinding.backgroundText.setText(Setting.getSwitch(PlayerSetting.isBackgroundOn()));
+    }
+
+    private void onAutoNext(View view) {
+        PlayerSetting.putAutoNextEnabled(!PlayerSetting.isAutoNextEnabled());
+        mBinding.autoNextText.setText(Setting.getSwitch(PlayerSetting.isAutoNextEnabled()));
+    }
+
+    private void chooseLanguage(boolean audio) {
+        String[] choices = PlaybackLanguage.labels(this);
+        int current = audio ? PlayerSetting.getAudioLanguageIndex() : PlayerSetting.getTextLanguageIndex();
+        new IBoxAlertDialogBuilder(this)
+                .setTitle(audio ? R.string.player_audio_language : R.string.player_text_language)
+                .setSingleChoiceItems(choices, current, (dialog, which) -> {
+                    if (audio) {
+                        PlayerSetting.putAudioLanguageIndex(which);
+                        mBinding.audioLanguageText.setText(choices[which]);
+                    } else {
+                        PlayerSetting.putTextLanguageIndex(which);
+                        mBinding.textLanguageText.setText(choices[which]);
+                    }
+                    dialog.dismiss();
+                }).setNegativeButton(R.string.dialog_negative, null).show();
     }
 
     private void setAdblock(View view) {

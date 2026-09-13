@@ -47,7 +47,16 @@ public class TrackUtil {
     }
 
     public static int count(Tracks tracks, int type) {
-        return tracks.getGroups().stream().filter(trackGroup -> trackGroup.getType() == type).mapToInt(trackGroup -> trackGroup.length).sum();
+        int count = 0;
+        for (Tracks.Group group : tracks.getGroups()) {
+            if (group.getType() != type) continue;
+            for (int i = 0; i < group.length; i++) if (isSelectable(group, i)) count++;
+        }
+        return count;
+    }
+
+    public static boolean isSelectable(Tracks.Group group, int index) {
+        return group.isTrackSupported(index);
     }
 
     public static void reset(Player player) {
@@ -64,6 +73,7 @@ public class TrackUtil {
         for (Tracks.Group trackGroup : currentTracks.getGroups()) {
             if (trackGroup.getType() != track.getType()) continue;
             for (int i = 0; i < trackGroup.length; i++) {
+                if (!isSelectable(trackGroup, i)) continue;
                 Format format = trackGroup.getTrackFormat(i);
                 if (track.getFormat().equals(describeFormat(format))) {
                     return new TrackInfo(trackGroup, i);

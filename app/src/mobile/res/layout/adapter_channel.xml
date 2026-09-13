@@ -29,17 +29,46 @@
         android:layout_marginEnd="8dp"
         android:visibility="gone" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:duplicateParentState="true"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:textColor="@color/selector_live_text"
-        android:textSize="@dimen/ibox_text_supporting"
-        tools:text="CNN" />
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/selector_live_text"
+            android:textSize="@dimen/ibox_text_supporting"
+            tools:text="CNN" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ibox_text_secondary"
+            android:textSize="@dimen/ibox_text_supporting"
+            android:visibility="gone"
+            tools:text="正在播：新闻" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ibox_text_secondary"
+            android:textSize="@dimen/ibox_text_supporting"
+            android:visibility="gone"
+            tools:text="接下来：天气" />
+
+    </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/status"

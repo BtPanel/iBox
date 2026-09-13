@@ -17,6 +17,8 @@ public class LivePlaybackState {
     private MediaMetadata playbackMetadata;
     private String playbackKey;
     private Channel channel;
+    private Channel previousChannel;
+    private Group previousGroup;
     private Group group;
     private long connectStartedAtMs;
     private long startupMs = -1;
@@ -64,6 +66,8 @@ public class LivePlaybackState {
     public void reset() {
         clearPlayback();
         channel = null;
+        previousChannel = null;
+        previousGroup = null;
         group = null;
     }
 
@@ -87,6 +91,24 @@ public class LivePlaybackState {
 
     Channel getChannel() {
         return channel;
+    }
+
+    @Nullable
+    Channel getPreviousChannel() {
+        return previousChannel;
+    }
+
+    @Nullable
+    Group getPreviousGroup() {
+        return previousGroup;
+    }
+
+    void rememberPrevious(Channel selected) {
+        if (channel == null || channel.getGroup() == selected.getGroup()
+                && channel.getName().equals(selected.getName())
+                && channel.getUrls().equals(selected.getUrls())) return;
+        previousChannel = channel;
+        previousGroup = channel.getGroup();
     }
 
     void setChannel(Channel channel) {

@@ -3,6 +3,7 @@ package com.imedia.box.playback.live;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 
@@ -34,6 +35,64 @@ import com.imedia.box.bean.EpgData;
 import org.junit.Test;
 
 public class LivePlaybackControllerTest {
+    @Test public void previousChannelTogglesBetweenDistinctTunedChannels() {
+        try (Harness h = new Harness()) {
+            assertFalse(h.controller.returnToPreviousChannel());
+            h.controller.selectChannel(h.channel);
+            h.controller.selectLine(1);
+            h.controller.refresh();
+            assertFalse(h.controller.returnToPreviousChannel());
+
+            h.controller.selectChannel(h.other);
+            assertEquals(h.channel, h.controller.getPreviousChannel());
+            assertTrue(h.controller.returnToPreviousChannel());
+            assertEquals(h.channel, h.host.latestRequest().getChannel());
+            assertEquals(h.other, h.controller.getPreviousChannel());
+            assertTrue(h.controller.returnToPreviousChannel());
+            assertEquals(h.other, h.host.latestRequest().getChannel());
+
+            h.controller.reset();
+            assertFalse(h.controller.returnToPreviousChannel());
+        }
+    }
+
+    @Test public void previousChannelKeepsItsGroupWhenNamesAreDuplicated() {
+        try (Harness h = new Harness()) {
+            Group secondGroup = h.group("Sports");
+            Channel duplicate = h.channel("News", secondGroup);
+            Channel sports = h.channel("Sports", secondGroup);
+            when(secondGroup.getChannel()).thenReturn(List.of(duplicate, sports));
+            h.groups.add(secondGroup);
+
+            h.controller.selectGroup(h.group);
+            h.controller.selectChannel(h.channel);
+            h.controller.selectGroup(secondGroup);
+            h.controller.selectChannel(sports);
+
+            assertTrue(h.controller.returnToPreviousChannel());
+            assertSame(h.channel, h.host.latestRequest().getChannel());
+        }
+    }
+
+    @Test public void previousChannelDistinguishesIdenticalStreamsInDifferentGroups() {
+        try (Harness h = new Harness()) {
+            Group secondGroup = h.group("Favorites");
+            Channel duplicate = h.channel("News", secondGroup);
+            duplicate.setUrls(new ArrayList<>(h.channel.getUrls()));
+            when(secondGroup.getChannel()).thenReturn(List.of(duplicate));
+            h.groups.add(secondGroup);
+
+            h.controller.selectGroup(h.group);
+            h.controller.selectChannel(h.channel);
+            h.controller.selectGroup(secondGroup);
+            h.controller.selectChannel(duplicate);
+
+            assertSame(h.channel, h.controller.getPreviousChannel());
+            assertTrue(h.controller.returnToPreviousChannel());
+            assertSame(h.channel, h.host.latestRequest().getChannel());
+        }
+    }
+
     @Test public void unresolvedAutoSwitchRemainsTheFinalVisibleStateAcrossRecreation() {
         try (Harness h = new Harness()) {
             h.controller.selectChannel(h.channel);

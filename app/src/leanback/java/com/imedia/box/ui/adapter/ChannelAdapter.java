@@ -12,6 +12,7 @@ import com.imedia.box.R;
 import com.imedia.box.bean.Channel;
 import com.imedia.box.bean.EpgData;
 import com.imedia.box.databinding.AdapterChannelBinding;
+import com.imedia.box.live.LiveProgramSchedule;
 import com.imedia.box.setting.LiveSetting;
 import com.imedia.box.utils.ResUtil;
 
@@ -88,13 +89,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Channel item = mItems.get(position);
-        holder.binding.getRoot().getLayoutParams().height = ResUtil.dp2px(LiveSetting.isCompactList() ? 56 : 64);
         boolean showLogo = LiveSetting.isShowChannelLogo();
         boolean showNumber = LiveSetting.isShowChannelNumber();
-        int epgMode = LiveSetting.getChannelEpgMode();
         holder.binding.logo.setVisibility(showLogo ? View.VISIBLE : View.GONE);
         holder.binding.number.setVisibility(showNumber ? View.VISIBLE : View.GONE);
-        holder.binding.summary.setVisibility(epgMode > 0 ? View.VISIBLE : View.GONE);
         if (showLogo) item.loadLogo(holder.binding.logo);
         else Glide.with(holder.binding.logo).clear(holder.binding.logo);
         holder.binding.name.setText(item.getShow());
@@ -120,9 +118,19 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
 
     private void bindProgram(ViewHolder holder, Channel item) {
         int epgMode = LiveSetting.getChannelEpgMode();
-        EpgData program = item.getData().selected().getEpgData();
-        if (program.getTitle().isEmpty()) holder.binding.summary.setText(R.string.live_epg_empty);
-        else holder.binding.summary.setText(epgMode == 1 ? program.getTitle() : program.format());
+        LiveProgramSchedule.Snapshot schedule = LiveProgramSchedule.select(item, System.currentTimeMillis());
+        EpgData current = schedule.current();
+        EpgData next = schedule.next();
+        boolean showNext = epgMode > 0 && next != null;
+        holder.binding.summary.setVisibility(epgMode > 0 ? View.VISIBLE : View.GONE);
+        holder.binding.next.setVisibility(showNext ? View.VISIBLE : View.GONE);
+        holder.binding.getRoot().getLayoutParams().height = ResUtil.dp2px(LiveSetting.isCompactList()
+                ? showNext ? 76 : 56 : showNext ? 84 : 64);
+        holder.binding.summary.setText(current == null ? holder.itemView.getContext().getString(R.string.live_epg_empty)
+                : holder.itemView.getContext().getString(R.string.live_epg_current_format,
+                epgMode == 1 ? current.getTitle() : current.format()));
+        if (showNext) holder.binding.next.setText(holder.itemView.getContext().getString(R.string.live_epg_next_format,
+                epgMode == 1 ? next.getTitle() : next.format()));
     }
 
     private void bindSelection(ViewHolder holder, Channel item) {

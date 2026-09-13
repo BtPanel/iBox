@@ -493,6 +493,13 @@
     <string name="player_scale">Scale</string>
     <string name="player_libass">libass</string>
     <string name="player_background">Background play</string>
+    <string name="player_auto_next">Auto-play next episode</string>
+    <string name="player_audio_language">Preferred audio language</string>
+    <string name="player_text_language">Preferred subtitle language</string>
+    <string name="player_language_device">Device language</string>
+    <string name="vod_auto_next_title">Up next</string>
+    <string name="vod_auto_next_message">%1$s starts in %2$d seconds</string>
+    <string name="vod_auto_next_play_now">Play now</string>
     <string name="player_audio_pass_through">Audio passthrough</string>
     <string name="player_audio_decode">Audio software decode</string>
     <string name="player_video_decode">Video software decode</string>
@@ -834,6 +841,8 @@
     <string name="live_menu_current">Current</string>
     <string name="live_epg_current_format">On now: %1$s</string>
     <string name="live_epg_next_format">Up next: %1$s</string>
+    <string name="live_previous_channel">Previous channel</string>
+    <string name="live_previous_unavailable">No previous channel</string>
     <string name="live_menu_on">On</string>
     <string name="live_menu_off">Off</string>
     <string name="live_menu_added">Added</string>

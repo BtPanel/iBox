@@ -61,6 +61,19 @@
             android:textSize="@dimen/ibox_text_supporting"
             tools:text="18:30 ~ 19:00  精彩节目" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@color/ibox_text_secondary"
+            android:textSize="@dimen/ibox_text_supporting"
+            android:visibility="gone"
+            tools:text="19:00 ~ 19:30  下一节目" />
+
     </LinearLayout>
 
 </com.imedia.box.ui.custom.CustomLeftRightLayout>

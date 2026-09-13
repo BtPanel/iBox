@@ -27,6 +27,9 @@ public class VodPlaybackController {
     private final VodFallbackPolicy fallbackPolicy;
     private History lastHistory;
     private boolean detailLoaded;
+    private Episode autoNextFrom;
+    private Episode autoNextTo;
+    private Episode cancelledAutoNextFor;
 
     public VodPlaybackController(VodPlaybackHost host, VodPlaybackState state) {
         this.host = host;
@@ -36,6 +39,8 @@ public class VodPlaybackController {
     }
 
     public void reset() {
+        clearAutoNext();
+        cancelledAutoNextFor = null;
         clearPreload();
         state.reset();
         detailLoaded = false;
@@ -158,6 +163,8 @@ public class VodPlaybackController {
         if (!state.hasFlags()) return;
         Flag selected = resolveFlag(item);
         if (!force && selected.isSelected()) return;
+        clearAutoNext();
+        cancelledAutoNextFor = null;
         clearPreload();
         for (Flag flag : state.getFlags()) flag.setSelected(selected);
         host.renderFlagSelection(selected);
@@ -168,6 +175,8 @@ public class VodPlaybackController {
 
     public void selectEpisode(Episode item) {
         if (!state.hasFlags()) return;
+        clearAutoNext();
+        cancelledAutoNextFor = null;
         saveCurrentHistory();
         Flag selected = state.getFlag();
         for (Flag flag : state.getFlags()) flag.toggle(flag == selected, item);
@@ -224,6 +233,8 @@ public class VodPlaybackController {
     }
 
     private void switchSource(Vod item, boolean autoFallback) {
+        clearAutoNext();
+        cancelledAutoNextFor = null;
         state.setAutoFallback(autoFallback);
         saveCurrentHistory();
         clearPreload();
@@ -241,13 +252,14 @@ public class VodPlaybackController {
     }
 
     public void playbackError(String msg) {
+        clearAutoNext();
         clearPreload();
         host.resetPlaybackForError(msg);
         fallbackPolicy.playbackError();
     }
 
     public void playbackEnded() {
-        nextEpisode(true);
+        offerAutoNext(true);
     }
 
     public void playbackReady() {
@@ -257,12 +269,16 @@ public class VodPlaybackController {
     }
 
     public void replay() {
+        clearAutoNext();
+        cancelledAutoNextFor = null;
         if (state.getHistory() != null) state.getHistory().setPosition(C.TIME_UNSET);
         if (host.isPlayerEmpty()) refresh();
         else host.replay(startPositionMs());
     }
 
     public void refresh() {
+        clearAutoNext();
+        cancelledAutoNextFor = null;
         saveCurrentHistory();
         clearPreload();
         host.stopPlaybackForRefresh();
@@ -288,11 +304,13 @@ public class VodPlaybackController {
     }
 
     public void nextEpisode(boolean notify) {
+        clearAutoNext();
         if (state.getHistory() != null && state.getHistory().isRevPlay()) prevEpisode(notify, true);
         else nextEpisode(notify, false);
     }
 
     public void prevEpisode(boolean notify) {
+        clearAutoNext();
         if (state.getHistory() != null && state.getHistory().isRevPlay()) nextEpisode(notify, true);
         else prevEpisode(notify, false);
     }
@@ -338,7 +356,46 @@ public class VodPlaybackController {
     public void onTimeChanged(long time, long position, long duration) {
         History history = currentHistory();
         historyPolicy.updateProgress(history, time, position, duration);
-        if (history != null && history.getEnding() > 0 && history.getEnding() + position >= duration) nextEpisode(false);
+        if (history != null && duration > 0 && position >= 0 && history.getEnding() > 0
+                && history.getEnding() + position >= duration) offerAutoNext(false);
+    }
+
+    private void offerAutoNext(boolean notify) {
+        if (!state.hasEpisode() || !host.isAutoNextEnabled()) return;
+        Episode current = state.getEpisode();
+        if (current == autoNextFrom || current == cancelledAutoNextFor) return;
+        boolean reversed = state.getHistory() != null && state.getHistory().isRevPlay();
+        Episode next = getRelativeEpisode(reversed ? -1 : 1);
+        if (next.isSelected()) {
+            if (notify) host.showNoNext(reversed);
+            return;
+        }
+        autoNextFrom = current;
+        autoNextTo = next;
+        host.showAutoNext(next);
+    }
+
+    public void confirmAutoNext() {
+        if (autoNextTo == null) return;
+        Episode next = autoNextTo;
+        boolean valid = state.hasEpisode() && state.getEpisode() == autoNextFrom;
+        clearAutoNext();
+        if (valid) selectEpisode(next);
+    }
+
+    public void cancelAutoNext() {
+        if (autoNextTo != null) cancelledAutoNextFor = autoNextFrom;
+        clearAutoNext();
+    }
+
+    public void suspendAutoNext() {
+        clearAutoNext();
+    }
+
+    private void clearAutoNext() {
+        if (autoNextTo != null) host.hideAutoNext();
+        autoNextFrom = null;
+        autoNextTo = null;
     }
 
     public long startPositionMs() {

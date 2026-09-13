@@ -1,5 +1,7 @@
 package com.imedia.box.player.track;
 
+import com.imedia.box.setting.PlayerSetting;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +19,8 @@ public final class LangUtil {
     private static final String TAG_HANT = "zh-Hant";
 
     public static String[] getPreferredTextLanguages() {
+        String preferred = PlaybackLanguage.tag(PlayerSetting.getTextLanguageIndex());
+        if (!preferred.isEmpty()) return languagesFor(preferred);
         Locale locale = Locale.getDefault();
         String tag = locale.toLanguageTag();
         String language = locale.getLanguage();
@@ -24,8 +28,20 @@ public final class LangUtil {
         return tag.equals(language) ? unique(getChineseScript(locale), language) : unique(tag, getChineseScript(locale), language);
     }
 
-    public static int getPreferredTextLanguageScore(String languageTag) {
+    public static String[] getPreferredAudioLanguages() {
+        String preferred = PlaybackLanguage.tag(PlayerSetting.getAudioLanguageIndex());
+        if (!preferred.isEmpty()) return languagesFor(preferred);
         Locale locale = Locale.getDefault();
+        return languagesFor(locale.toLanguageTag());
+    }
+
+    private static String[] languagesFor(String tag) {
+        return unique(tag, Locale.forLanguageTag(tag).getLanguage());
+    }
+
+    public static int getPreferredTextLanguageScore(String languageTag) {
+        String chosen = PlaybackLanguage.tag(PlayerSetting.getTextLanguageIndex());
+        Locale locale = chosen.isEmpty() ? Locale.getDefault() : Locale.forLanguageTag(chosen);
         String preferred = normalize(locale.toLanguageTag());
         String language = normalize(languageTag);
         if (language.isEmpty()) return 0;

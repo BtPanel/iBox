@@ -34,6 +34,7 @@ public final class LiveSettingsDialog {
     public static final int CHANNEL_EPG = 3;
     public static final int CHANNEL_KEEP = 4;
     public static final int CHANNEL_LINE = 5;
+    public static final int CHANNEL_PREVIOUS = 6;
     public static final int PLAY_TOGGLE = 10;
     public static final int PLAY_ENGINE = 11;
     public static final int PLAY_DECODE = 12;
@@ -89,6 +90,10 @@ public final class LiveSettingsDialog {
     private static final String TAG = "live_settings";
 
     private LiveSettingsDialog() {
+    }
+
+    private static boolean isCurrentSummary(String summary, String currentLabel) {
+        return summary != null && !summary.isEmpty() && summary.equals(currentLabel);
     }
 
     public static void show(FragmentActivity activity, Listener listener) {
@@ -163,8 +168,8 @@ public final class LiveSettingsDialog {
             binding.actions.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
             binding.details.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
             binding.categories.setAdapter(categoryAdapter = new CategoryAdapter(categories(), this::selectCategory, full));
-            binding.actions.setAdapter(actionAdapter = new ActionAdapter(listener, this::onAction, this::onActionKey, !full));
-            binding.details.setAdapter(detailAdapter = new ActionAdapter(listener, this::onDetail, this::onDetailKey, !full));
+            binding.actions.setAdapter(actionAdapter = new ActionAdapter(listener, this::onAction, this::onActionKey, full));
+            binding.details.setAdapter(detailAdapter = new ActionAdapter(listener, this::onDetail, this::onDetailKey, full));
             binding.details.setVisibility(View.GONE);
             applyPanelOpacity();
             selectCategory(0, false);
@@ -177,11 +182,9 @@ public final class LiveSettingsDialog {
         private List<Category> categories() {
             if (!full) return compactCategories();
             List<Category> result = new ArrayList<>();
-            result.add(new Category(R.string.live_menu_line_category, Collections.singletonList(
-                    childAction(CHANNEL_LINE, R.string.live_menu_line, dynamicActions(LINE_BASE, listener.getLiveSettingLines(), true)))));
+            result.add(new Category(R.string.live_menu_line_category, lineActions()));
             result.add(new Category(R.string.live_menu_playback, playbackActions()));
-            result.add(new Category(R.string.live_menu_category_manage, Collections.singletonList(
-                    childAction(CHANNEL_LIST, R.string.live_menu_channel_group, dynamicActions(GROUP_BASE, listener.getLiveSettingGroups(), true)))));
+            result.add(new Category(R.string.live_menu_category_manage, groupActions()));
             result.add(new Category(R.string.live_menu_subscription, subscriptionActions()));
             result.add(new Category(R.string.live_menu_display, Arrays.asList(
                     optionAction(DISPLAY_SCALE, R.string.live_menu_scale),
@@ -224,13 +227,21 @@ public final class LiveSettingsDialog {
             return result;
         }
 
+        private List<Action> lineActions() {
+            return dynamicActions(LINE_BASE, listener.getLiveSettingLines(), true);
+        }
+
+        private List<Action> groupActions() {
+            List<Action> groups = dynamicActions(GROUP_BASE, listener.getLiveSettingGroups(), true);
+            return groups.isEmpty() ? Collections.singletonList(action(CHANNEL_LIST, R.string.live_channel_list, true)) : groups;
+        }
+
         private List<Action> subscriptionActions() {
-            List<Action> result = new ArrayList<>();
-            result.add(childAction(MANAGE_SELECT, R.string.live_menu_source_select, dynamicActions(SOURCE_BASE, listener.getLiveSettingSources(), true)));
+            List<Action> result = new ArrayList<>(dynamicActions(SOURCE_BASE, listener.getLiveSettingSources(), true));
+            if (result.isEmpty()) result.add(action(MANAGE_SELECT, R.string.live_menu_source_select, true));
             result.add(action(MANAGE_EPG_MENU, R.string.live_menu_epg_subscription, false));
-            result.add(childAction(MANAGE_REQUEST, R.string.live_menu_request, Arrays.asList(
-                    action(MANAGE_UA, R.string.player_ua, true),
-                    action(MANAGE_HEADER, R.string.live_menu_headers, true))));
+            result.add(action(MANAGE_UA, R.string.player_ua, true));
+            result.add(action(MANAGE_HEADER, R.string.live_menu_headers, true));
             result.add(action(MANAGE_SOURCE, R.string.live_menu_subscription_list, true));
             result.add(action(MANAGE_ADD, R.string.live_menu_add_source, true));
             result.add(action(MANAGE_FILE, R.string.live_menu_local_list, true));
@@ -242,6 +253,7 @@ public final class LiveSettingsDialog {
             if (!full) return new ArrayList<>(Arrays.asList(
                     action(CHANNEL_LIST, R.string.live_channel_list, true),
                     action(CHANNEL_SEARCH, R.string.live_channel_search, true),
+                    action(CHANNEL_PREVIOUS, R.string.live_previous_channel, true),
                     action(CHANNEL_LINE, R.string.live_menu_line, false),
                     action(CHANNEL_KEEP, R.string.live_menu_keep, false),
                     action(LIST_LOGO, R.string.live_menu_show_logo, false),
@@ -251,6 +263,7 @@ public final class LiveSettingsDialog {
                     optionAction(LIST_DENSITY, R.string.live_menu_list_density),
                     action(CHANNEL_LIST, R.string.live_channel_list, true),
                     action(CHANNEL_SEARCH, R.string.live_channel_search, true),
+                    action(CHANNEL_PREVIOUS, R.string.live_previous_channel, true),
                     action(CHANNEL_EPG, R.string.live_menu_epg, true),
                     action(CHANNEL_KEEP, R.string.live_menu_keep, false),
                     optionAction(LIST_LOGO, R.string.live_menu_show_logo),
@@ -327,9 +340,14 @@ public final class LiveSettingsDialog {
             }
             List<Action> actions = categoryAdapter.items.get(position).actions;
             collapseDetails(false);
-            if (binding.actions.isComputingLayout()) binding.actions.post(() -> actionAdapter.setItems(actions));
-            else actionAdapter.setItems(actions);
+            if (binding.actions.isComputingLayout()) binding.actions.post(() -> setActions(actions));
+            else setActions(actions);
             if (moveRight) focusFirst(binding.actions);
+        }
+
+        private void setActions(List<Action> actions) {
+            actionAdapter.setItems(actions);
+            ((LinearLayoutManager) binding.actions.getLayoutManager()).scrollToPositionWithOffset(0, 0);
         }
 
         private void onAction(Action action, int position) {
@@ -561,15 +579,15 @@ public final class LiveSettingsDialog {
         private final Listener listener;
         private final ActionClick click;
         private final ActionKey key;
-        private final boolean showSummaries;
+        private final boolean full;
         private List<Action> items = new ArrayList<>();
         private int selected = -1;
 
-        private ActionAdapter(Listener listener, ActionClick click, ActionKey key, boolean showSummaries) {
+        private ActionAdapter(Listener listener, ActionClick click, ActionKey key, boolean full) {
             this.listener = listener;
             this.click = click;
             this.key = key;
-            this.showSummaries = showSummaries;
+            this.full = full;
         }
 
         private void setItems(List<Action> items) {
@@ -593,16 +611,20 @@ public final class LiveSettingsDialog {
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int position) {
             Action action = items.get(position);
-            String summary = !showSummaries ? "" : action.optionIndex >= 0
-                    ? (listener.getLiveSettingOptionIndex(action.id) == action.optionIndex ? holder.itemView.getContext().getString(R.string.live_menu_current) : "")
+            String currentLabel = holder.itemView.getContext().getString(R.string.live_menu_current);
+            String summary = action.optionIndex >= 0
+                    ? (listener.getLiveSettingOptionIndex(action.id) == action.optionIndex ? currentLabel : "")
                     : (showSummary(action) ? listener.getLiveSettingSummary(action.id) : "");
+            boolean current = isCurrentSummary(summary, currentLabel);
+            boolean showText = summary != null && !summary.isEmpty() && !current;
             if (action.label == null) holder.binding.title.setText(action.title);
             else holder.binding.title.setText(action.label);
-            holder.binding.summary.setText(summary);
-            holder.binding.summary.setVisibility(summary == null || summary.isEmpty() ? View.GONE : View.VISIBLE);
+            holder.binding.summary.setText(showText ? summary : "");
+            holder.binding.summary.setVisibility(showText ? View.VISIBLE : View.GONE);
+            holder.binding.current.setVisibility(current ? View.VISIBLE : View.GONE);
             View meta = (View) holder.binding.summary.getParent();
             if (meta != holder.binding.getRoot()) {
-                meta.setVisibility(summary != null && !summary.isEmpty() ? View.VISIBLE : View.GONE);
+                meta.setVisibility(showText || current ? View.VISIBLE : View.GONE);
             }
             holder.binding.getRoot().setSelected(position == selected);
             holder.binding.getRoot().setOnClickListener(v -> {
@@ -616,7 +638,14 @@ public final class LiveSettingsDialog {
         }
 
         private boolean showSummary(Action action) {
-            if (!showSummaries || !action.children.isEmpty()) return false;
+            if (!action.children.isEmpty()) return false;
+            if (full) return action.id >= GROUP_BASE
+                    || action.id == DISPLAY_CLOCK || action.id == DISPLAY_CATCHUP_INDICATOR
+                    || action.id == DISPLAY_NETWORK || action.id == DISPLAY_BOTTOM
+                    || action.id == DISPLAY_BOTTOM_LOGO || action.id == PREFERENCE_DECODE
+                    || action.id == PREFERENCE_INVERT || action.id == PREFERENCE_ACROSS
+                    || action.id == PREFERENCE_CHANGE || action.id == PREFERENCE_BOOT
+                    || action.id == LIST_LOGO || action.id == LIST_NUMBER;
             return action.id != MANAGE_PUSH
                     && action.id != MANAGE_EPG
                     && action.id != MANAGE_EPG_CUSTOM
@@ -684,7 +713,7 @@ public final class LiveSettingsDialog {
 
         @Override
         protected int getWidth() {
-            return Math.min(ResUtil.dp2px(full ? 600 : 520), ResUtil.getScreenWidth() * (full ? 31 : 58) / 100);
+            return Math.min(ResUtil.dp2px(full ? 700 : 520), ResUtil.getScreenWidth() * (full ? 37 : 58) / 100);
         }
 
         @Override

@@ -32,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/ibox_toolbar_height"
         android:animateLayoutChanges="true"
-        android:background="@color/transparent"
+        android:background="@color/ibox_surface_container"
+        android:elevation="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/tv_page_padding_horizontal"
@@ -77,7 +78,7 @@
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="true"
+        android:clipChildren="false"
         android:clipToPadding="false">
 
         <androidx.leanback.widget.VerticalGridView

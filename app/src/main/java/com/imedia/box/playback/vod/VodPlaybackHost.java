@@ -45,6 +45,8 @@ public interface VodPlaybackHost {
 
     boolean canPreloadNext();
 
+    boolean isAutoNextEnabled();
+
     long getPlayerPosition();
 
     long getPlayerDuration();
@@ -132,6 +134,10 @@ public interface VodPlaybackHost {
     void showNoNext(boolean reversed);
 
     void showNoPrev(boolean reversed);
+
+    void showAutoNext(Episode episode);
+
+    void hideAutoNext();
 
     void finishVod();
 }

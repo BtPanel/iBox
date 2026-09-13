@@ -37,7 +37,6 @@ public class LiveSettingsDialogTest {
         Set<Integer> seen = new HashSet<>();
         for (Map.Entry<Integer, List<Integer>> entry : groups.entrySet()) {
             for (int action : entry.getValue()) {
-                if (entry.getKey() == R.string.live_menu_category_manage && action == LiveSettingsDialog.CHANNEL_LIST) continue;
                 assertTrue("duplicate action " + action, seen.add(action));
             }
         }
@@ -46,7 +45,7 @@ public class LiveSettingsDialogTest {
         assertEquals(R.string.live_menu_display, owner(groups, LiveSettingsDialog.DISPLAY_INFO));
         assertEquals(R.string.live_menu_display, owner(groups, LiveSettingsDialog.DISPLAY_SCALE));
         assertEquals(R.string.live_menu_channel, owner(groups, LiveSettingsDialog.CHANNEL_SEARCH));
-        for (int action : Arrays.asList(LiveSettingsDialog.MANAGE_SELECT,
+        for (int action : Arrays.asList(LiveSettingsDialog.SOURCE_BASE,
                 LiveSettingsDialog.MANAGE_SOURCE, LiveSettingsDialog.MANAGE_ADD,
                 LiveSettingsDialog.MANAGE_FILE, LiveSettingsDialog.MANAGE_REFRESH)) {
             assertEquals(R.string.live_menu_subscription, owner(groups, action));
@@ -68,6 +67,59 @@ public class LiveSettingsDialogTest {
         assertFalse(groups.get(R.string.live_menu_playback).contains(LiveSettingsDialog.PLAY_CATCHUP));
     }
 
+    @Test
+    public void previousChannelActionLivesInBothChannelMenus() throws Exception {
+        for (boolean tv : new boolean[]{true, false}) {
+            Map<Integer, List<Integer>> groups = groups(tv);
+            assertEquals(R.string.live_menu_channel, owner(groups, LiveSettingsDialog.CHANNEL_PREVIOUS));
+        }
+    }
+
+    @Test
+    public void onlyCurrentSummaryUsesCompactSelectionMarker() throws Exception {
+        Method marker = LiveSettingsDialog.class.getDeclaredMethod("isCurrentSummary", String.class, String.class);
+        marker.setAccessible(true);
+        assertTrue((boolean) marker.invoke(null, "当前", "当前"));
+        assertFalse((boolean) marker.invoke(null, "开启", "当前"));
+        assertFalse((boolean) marker.invoke(null, "", "当前"));
+    }
+
+    @Test
+    public void tvDirectSelectionsStayInSecondLevelWhileSwitchesOpenThirdLevel() throws Exception {
+        Map<Integer, List<Integer>> groups = tvGroups();
+        assertEquals(Arrays.asList(LiveSettingsDialog.LINE_BASE, LiveSettingsDialog.LINE_BASE + 1),
+                groups.get(R.string.live_menu_line_category));
+        assertEquals(Arrays.asList(LiveSettingsDialog.GROUP_BASE), groups.get(R.string.live_menu_category_manage));
+        assertTrue(groups.get(R.string.live_menu_subscription).contains(LiveSettingsDialog.SOURCE_BASE));
+        assertFalse(groups.get(R.string.live_menu_subscription).contains(LiveSettingsDialog.MANAGE_REQUEST));
+        for (int action : Arrays.asList(LiveSettingsDialog.DISPLAY_CLOCK,
+                LiveSettingsDialog.DISPLAY_CATCHUP_INDICATOR, LiveSettingsDialog.DISPLAY_NETWORK,
+                LiveSettingsDialog.DISPLAY_BOTTOM, LiveSettingsDialog.DISPLAY_BOTTOM_LOGO,
+                LiveSettingsDialog.PREFERENCE_DECODE, LiveSettingsDialog.PREFERENCE_INVERT,
+                LiveSettingsDialog.PREFERENCE_ACROSS, LiveSettingsDialog.PREFERENCE_CHANGE,
+                LiveSettingsDialog.PREFERENCE_BOOT, LiveSettingsDialog.LIST_LOGO,
+                LiveSettingsDialog.LIST_NUMBER)) {
+            assertTrue("switch needs off/on details " + action, hasChildren(action));
+        }
+        assertTrue(hasChildren(LiveSettingsDialog.PLAY_ENGINE));
+        assertTrue(hasChildren(LiveSettingsDialog.LIST_EPG));
+    }
+
+    private boolean hasChildren(int actionId) throws Exception {
+        for (Object category : categories(true)) {
+            Field actions = category.getClass().getDeclaredField("actions");
+            actions.setAccessible(true);
+            for (Object action : (List<?>) actions.get(category)) {
+                Field id = action.getClass().getDeclaredField("id");
+                Field children = action.getClass().getDeclaredField("children");
+                id.setAccessible(true);
+                children.setAccessible(true);
+                if (id.getInt(action) == actionId) return !((List<?>) children.get(action)).isEmpty();
+            }
+        }
+        throw new AssertionError("missing action " + actionId);
+    }
+
     private int owner(Map<Integer, List<Integer>> groups, int action) {
         for (Map.Entry<Integer, List<Integer>> entry : groups.entrySet()) {
             if (entry.getValue().contains(action)) return entry.getKey();
@@ -76,6 +128,28 @@ public class LiveSettingsDialogTest {
     }
 
     private Map<Integer, List<Integer>> tvGroups() throws Exception {
+        return groups(true);
+    }
+
+    private Map<Integer, List<Integer>> groups(boolean tv) throws Exception {
+        Map<Integer, List<Integer>> groups = new LinkedHashMap<>();
+        for (Object category : categories(tv)) {
+            Field title = category.getClass().getDeclaredField("title");
+            Field actions = category.getClass().getDeclaredField("actions");
+            title.setAccessible(true);
+            actions.setAccessible(true);
+            List<Integer> ids = new ArrayList<>();
+            for (Object action : (List<?>) actions.get(category)) {
+                Field id = action.getClass().getDeclaredField("id");
+                id.setAccessible(true);
+                ids.add(id.getInt(action));
+            }
+            groups.put(title.getInt(category), ids);
+        }
+        return groups;
+    }
+
+    private List<?> categories(boolean tv) throws Exception {
         Class<?> panelClass = Class.forName("com.imedia.box.ui.dialog.LiveSettingsDialog$Panel");
         Constructor<?> constructor = panelClass.getDeclaredConstructor(DialogLiveSettingsBinding.class,
                 LiveSettingsDialog.Listener.class, boolean.class, Runnable.class, Runnable.class,
@@ -95,25 +169,26 @@ public class LiveSettingsDialogTest {
             public List<String> getLiveSettingGroups() {
                 return Arrays.asList("News");
             }
+
+            @Override
+            public List<String> getLiveSettingLines() {
+                return Arrays.asList("Line 1", "Line 2");
+            }
+
+            @Override
+            public List<String> getLiveSettingSources() {
+                return Arrays.asList("Source 1", "Source 2");
+            }
+
+            @Override
+            public List<String> getLiveSettingOptions(int action) {
+                return Arrays.asList("Off", "On");
+            }
         };
-        Object panel = constructor.newInstance(null, listener, true, null, null, null, null);
+        Object panel = constructor.newInstance(null, listener, tv, null, null, null, null);
         Method categories = panelClass.getDeclaredMethod("categories");
         categories.setAccessible(true);
 
-        Map<Integer, List<Integer>> groups = new LinkedHashMap<>();
-        for (Object category : (List<?>) categories.invoke(panel)) {
-            Field title = category.getClass().getDeclaredField("title");
-            Field actions = category.getClass().getDeclaredField("actions");
-            title.setAccessible(true);
-            actions.setAccessible(true);
-            List<Integer> ids = new ArrayList<>();
-            for (Object action : (List<?>) actions.get(category)) {
-                Field id = action.getClass().getDeclaredField("id");
-                id.setAccessible(true);
-                ids.add(id.getInt(action));
-            }
-            groups.put(title.getInt(category), ids);
-        }
-        return groups;
+        return (List<?>) categories.invoke(panel);
     }
 }

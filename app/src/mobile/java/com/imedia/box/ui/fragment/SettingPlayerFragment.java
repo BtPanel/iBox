@@ -12,6 +12,7 @@ import com.imedia.box.R;
 import com.imedia.box.databinding.FragmentSettingPlayerBinding;
 import com.imedia.box.impl.BufferListener;
 import com.imedia.box.impl.UaListener;
+import com.imedia.box.player.track.PlaybackLanguage;
 import com.imedia.box.setting.PlayerSetting;
 import com.imedia.box.setting.Setting;
 import com.imedia.box.ui.activity.HomeActivity;
@@ -49,6 +50,10 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
         mBinding.mpvGpuNextText.setText(Setting.getSwitch(PlayerSetting.isMpvGpuNext()));
         mBinding.scaleText.setText((scale = ResUtil.getStringArray(R.array.select_scale))[PlayerSetting.getScale()]);
         mBinding.backgroundText.setText((background = ResUtil.getStringArray(R.array.select_background))[PlayerSetting.getBackground()]);
+        mBinding.autoNextText.setText(Setting.getSwitch(PlayerSetting.isAutoNextEnabled()));
+        String[] languages = PlaybackLanguage.labels(requireContext());
+        mBinding.audioLanguageText.setText(languages[PlayerSetting.getAudioLanguageIndex()]);
+        mBinding.textLanguageText.setText(languages[PlayerSetting.getTextLanguageIndex()]);
     }
 
     @Override
@@ -62,6 +67,9 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
         mBinding.render.setOnClickListener(this::setRender);
         mBinding.scale.setOnClickListener(this::onScale);
         mBinding.background.setOnClickListener(this::onBackground);
+        mBinding.autoNext.setOnClickListener(this::onAutoNext);
+        mBinding.audioLanguage.setOnClickListener(view -> chooseLanguage(true));
+        mBinding.textLanguage.setOnClickListener(view -> chooseLanguage(false));
         mBinding.buffer.setOnClickListener(this::onBuffer);
         mBinding.preload.setOnClickListener(this::onPreload);
         mBinding.ua.setOnClickListener(this::onUa);
@@ -134,6 +142,28 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
             PlayerSetting.putBackground(which);
             dialog.dismiss();
         }).show();
+    }
+
+    private void onAutoNext(View view) {
+        PlayerSetting.putAutoNextEnabled(!PlayerSetting.isAutoNextEnabled());
+        mBinding.autoNextText.setText(Setting.getSwitch(PlayerSetting.isAutoNextEnabled()));
+    }
+
+    private void chooseLanguage(boolean audio) {
+        String[] choices = PlaybackLanguage.labels(requireContext());
+        int current = audio ? PlayerSetting.getAudioLanguageIndex() : PlayerSetting.getTextLanguageIndex();
+        new IBoxAlertDialogBuilder(requireActivity())
+                .setTitle(audio ? R.string.player_audio_language : R.string.player_text_language)
+                .setSingleChoiceItems(choices, current, (dialog, which) -> {
+                    if (audio) {
+                        PlayerSetting.putAudioLanguageIndex(which);
+                        mBinding.audioLanguageText.setText(choices[which]);
+                    } else {
+                        PlayerSetting.putTextLanguageIndex(which);
+                        mBinding.textLanguageText.setText(choices[which]);
+                    }
+                    dialog.dismiss();
+                }).setNegativeButton(R.string.dialog_negative, null).show();
     }
 
     private void setAdblock(View view) {

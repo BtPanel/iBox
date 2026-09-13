@@ -36,7 +36,7 @@ public final class MpvUtil {
 
     public static MpvPlayer buildPlayer(int decode, Player.Listener listener) {
         MpvPlayer player = new MpvPlayer.Builder(App.get()).setDecode(decode).setConfig(buildConfig()).build();
-        setPreferredTextLanguages(player);
+        setPreferredLanguages(player);
         player.addListener(listener);
         return player;
     }
@@ -64,8 +64,10 @@ public final class MpvUtil {
         return builder.build();
     }
 
-    private static void setPreferredTextLanguages(MpvPlayer player) {
-        player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon().setPreferredTextLanguages(LangUtil.getPreferredTextLanguages()).build());
+    private static void setPreferredLanguages(MpvPlayer player) {
+        player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon()
+                .setPreferredAudioLanguages(LangUtil.getPreferredAudioLanguages())
+                .setPreferredTextLanguages(LangUtil.getPreferredTextLanguages()).build());
     }
 
     private static void addPreloadOptions(MpvPlayerConfig.Builder builder) {

@@ -1,6 +1,7 @@
 package com.imedia.box.setting;
 
 import com.github.catvod.utils.Prefers;
+import com.imedia.box.player.track.PlaybackLanguage;
 
 public class PlayerSetting {
 
@@ -52,6 +53,30 @@ public class PlayerSetting {
 
     public static boolean isMpvVulkan() {
         return Prefers.getBoolean("mpv_vulkan");
+    }
+
+    public static boolean isAutoNextEnabled() {
+        return Prefers.getBoolean("vod_auto_next", true);
+    }
+
+    public static void putAutoNextEnabled(boolean enabled) {
+        Prefers.put("vod_auto_next", enabled);
+    }
+
+    public static int getAudioLanguageIndex() {
+        return Math.clamp(Prefers.getInt("preferred_audio_language"), 0, PlaybackLanguage.count() - 1);
+    }
+
+    public static void putAudioLanguageIndex(int index) {
+        Prefers.put("preferred_audio_language", Math.clamp(index, 0, PlaybackLanguage.count() - 1));
+    }
+
+    public static int getTextLanguageIndex() {
+        return Math.clamp(Prefers.getInt("preferred_text_language"), 0, PlaybackLanguage.count() - 1);
+    }
+
+    public static void putTextLanguageIndex(int index) {
+        Prefers.put("preferred_text_language", Math.clamp(index, 0, PlaybackLanguage.count() - 1));
     }
 
     public static void putMpvVulkan(boolean vulkan) {

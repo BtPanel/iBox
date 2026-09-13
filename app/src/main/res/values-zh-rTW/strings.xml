@@ -492,6 +492,13 @@
     <string name="player_scale">缩放比例</string>
     <string name="player_libass">字幕渲染</string>
     <string name="player_background">后台播放</string>
+    <string name="player_auto_next">自動連播</string>
+    <string name="player_audio_language">首選音軌語言</string>
+    <string name="player_text_language">首選字幕語言</string>
+    <string name="player_language_device">跟隨裝置</string>
+    <string name="vod_auto_next_title">即將播放</string>
+    <string name="vod_auto_next_message">%1$s，%2$d 秒後播放</string>
+    <string name="vod_auto_next_play_now">立即播放</string>
     <string name="player_audio_pass_through">音频直通</string>
     <string name="player_audio_decode">音频软解</string>
     <string name="player_video_decode">视频软解</string>
@@ -823,6 +830,8 @@
     <string name="live_menu_current">目前</string>
     <string name="live_epg_current_format">正在播放：%1$s</string>
     <string name="live_epg_next_format">下一節目：%1$s</string>
+    <string name="live_previous_channel">上一頻道</string>
+    <string name="live_previous_unavailable">暫無上一頻道</string>
     <string name="live_menu_on">開啟</string>
     <string name="live_menu_off">關閉</string>
     <string name="live_menu_added">已收藏</string>

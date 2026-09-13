@@ -653,6 +653,11 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         nextLine(false);
     }
 
+    private void onPreviousChannel() {
+        if (!mLive.returnToPreviousChannel()) Notify.show(R.string.live_previous_unavailable);
+        else hideControl();
+    }
+
     private void onScale() {
         int index = LiveSetting.getScale();
         String[] array = ResUtil.getStringArray(R.array.select_scale);
@@ -715,6 +720,11 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         switch (action) {
             case LiveSettingsDialog.CHANNEL_LIST -> onChannelBrowser();
             case LiveSettingsDialog.CHANNEL_SEARCH -> onChannelSearch();
+            case LiveSettingsDialog.CHANNEL_PREVIOUS -> onPreviousChannel();
+            case LiveSettingsDialog.LIST_EPG -> {
+                LiveSetting.putShowChannelEpg(!LiveSetting.isShowChannelEpg());
+                mChannelAdapter.notifyDataSetChanged();
+            }
             case LiveSettingsDialog.CHANNEL_KEEP -> onKeep();
             case LiveSettingsDialog.CHANNEL_LINE -> onLine();
             case LiveSettingsDialog.PLAY_ENGINE -> onPlayer();
@@ -1063,12 +1073,14 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.widget.name.setMaxEms(hasTitle ? 12 : 48);
         mBinding.widget.play.setText(data.format());
         setSummary(epg);
+        mChannelAdapter.refreshProgram(mChannel);
         mLive.onEpgChanged(data);
         setWidth(epg);
     }
 
     private void onXmlParsed(boolean success) {
         if (success) refreshRecent(true);
+        if (success) mChannelAdapter.notifyDataSetChanged();
         if (mChannel != null) mViewModel.getEpg(mChannel);
     }
 

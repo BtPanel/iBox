@@ -627,6 +627,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
                 mBinding.channel.requestFocus();
             }
             case LiveSettingsDialog.CHANNEL_SEARCH -> onChannelSearch();
+            case LiveSettingsDialog.CHANNEL_PREVIOUS -> onPreviousChannel();
             case LiveSettingsDialog.CHANNEL_EPG -> {
                 showUI();
                 if (mChannel != null) showEpg(mChannel);
@@ -1020,12 +1021,14 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     private List<String> trackOptions(int type) {
         List<String> result = new ArrayList<>();
-        if (type == C.TRACK_TYPE_TEXT) result.add(getString(R.string.live_menu_off));
         DefaultTrackNameProvider provider = new DefaultTrackNameProvider(getResources());
         for (Tracks.Group group : player().getCurrentTracks().getGroups()) {
             if (group.getType() != type) continue;
-            for (int i = 0; i < group.length; i++) result.add(provider.getTrackName(group.getTrackFormat(i)));
+            for (int i = 0; i < group.length; i++) {
+                if (TrackUtil.isSelectable(group, i)) result.add(provider.getTrackName(group.getTrackFormat(i)));
+            }
         }
+        if (type == C.TRACK_TYPE_TEXT && !result.isEmpty()) result.add(0, getString(R.string.live_menu_off));
         return result;
     }
 
@@ -1033,7 +1036,11 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
         int index = type == C.TRACK_TYPE_TEXT ? 1 : 0;
         for (Tracks.Group group : player().getCurrentTracks().getGroups()) {
             if (group.getType() != type) continue;
-            for (int i = 0; i < group.length; i++, index++) if (group.isTrackSelected(i)) return index;
+            for (int i = 0; i < group.length; i++) {
+                if (!TrackUtil.isSelectable(group, i)) continue;
+                if (group.isTrackSelected(i)) return index;
+                index++;
+            }
         }
         return type == C.TRACK_TYPE_TEXT ? 0 : -1;
     }
@@ -1045,8 +1052,9 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
         DefaultTrackNameProvider provider = new DefaultTrackNameProvider(getResources());
         for (Tracks.Group group : player().getCurrentTracks().getGroups()) {
             if (group.getType() != type) continue;
-            for (int i = 0; i < group.length; i++, index++) {
-                if (!disable && index != target) continue;
+            for (int i = 0; i < group.length; i++) {
+                if (!TrackUtil.isSelectable(group, i)) continue;
+                if (!disable && index++ != target) continue;
                 Format format = group.getTrackFormat(i);
                 Track track = new Track(type, provider.getTrackName(format), TrackUtil.describeFormat(format));
                 track.setSelected(!disable);
@@ -1698,6 +1706,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     private void onXmlParsed(boolean success) {
         if (success) refreshRecent(true);
+        if (success) mChannelAdapter.notifyDataSetChanged();
         if (mChannel != null) mViewModel.getEpg(mChannel);
         if (!mEpgRefreshRequested) return;
         mEpgRefreshRequested = false;
@@ -1968,6 +1977,10 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_LAST_CHANNEL && dispatch(true)) {
+            if (event.getAction() == KeyEvent.ACTION_UP) onPreviousChannel();
+            return true;
+        }
         if (isVisible(mBinding.control.getRoot())) setR1Callback();
         if (isVisible(mBinding.control.getRoot())) mFocus2 = getCurrentFocus();
         if (mKeyDown.hasEvent(event) && service() != null) mKeyDown.onKeyDown(event);
@@ -2051,6 +2064,11 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     @Override
     public void onMenu() {
         showLiveSettings();
+    }
+
+    private void onPreviousChannel() {
+        if (!mLive.returnToPreviousChannel()) Notify.show(R.string.live_previous_unavailable);
+        else hideUI();
     }
 
     @Override

@@ -444,6 +444,26 @@ public class UiResourceContractTest {
         assertEquals("@dimen/ibox_touch_target", view(repository, "repositoryType").getAttribute("android:layout_height"));
     }
 
+    @Test
+    public void tvHomeToolbarStaysAboveScrollableArtwork() throws Exception {
+        Document home = xml("app/src/leanback/res/layout/activity_home.xml");
+        Element toolbar = view(home, "toolbar");
+        assertEquals("@color/ibox_surface_container", toolbar.getAttribute("android:background"));
+        assertEquals("1dp", toolbar.getAttribute("android:elevation"));
+    }
+
+    @Test
+    public void bothLiveChannelRowsReserveSeparateNowAndNextLines() throws Exception {
+        for (String variant : new String[]{"leanback", "mobile"}) {
+            Document row = xml("app/src/" + variant + "/res/layout/adapter_channel.xml");
+            Element now = view(row, "summary");
+            Element next = view(row, "next");
+            assertEquals("end", now.getAttribute("android:ellipsize"));
+            assertEquals("end", next.getAttribute("android:ellipsize"));
+            assertEquals("1", next.getAttribute("android:maxLines"));
+        }
+    }
+
     private static Element tvSelectorItem(Document selector, boolean selected, boolean focused) {
         NodeList items = selector.getDocumentElement().getChildNodes();
         for (int i = 0; i < items.getLength(); i++) {
@@ -1042,6 +1062,55 @@ public class UiResourceContractTest {
                 layout.getDocumentElement().getAttribute("android:padding"));
         assertEquals("@style/TextAppearance.IBox.DialogTitle", attribute(layout,
                 "com.google.android.material.textview.MaterialTextView", "android:textAppearance"));
+    }
+
+    @Test
+    public void liveSettingRowsKeepSingleLineTitlesAndACompactCurrentIndicator() throws Exception {
+        for (String[] variant : new String[][]{{"main", "15sp"}, {"leanback", "18sp"}}) {
+            Document row = xml("app/src/" + variant[0] + "/res/layout/adapter_live_setting_action.xml");
+            Element title = view(row, "title");
+            assertEquals("1", title.getAttribute("android:maxLines"));
+            assertEquals("end", title.getAttribute("android:ellipsize"));
+            assertEquals(variant[1], title.getAttribute("android:textSize"));
+            Element summary = view(row, "summary");
+            assertEquals("1", summary.getAttribute("android:maxLines"));
+            assertEquals("end", summary.getAttribute("android:ellipsize"));
+            assertEquals("@string/live_menu_current", view(row, "current")
+                    .getAttribute("android:contentDescription"));
+        }
+        Document category = xml("app/src/leanback/res/layout/adapter_live_setting_category.xml");
+        Element categoryTitle = view(category, "title");
+        assertEquals("1", categoryTitle.getAttribute("android:maxLines"));
+        assertEquals("end", categoryTitle.getAttribute("android:ellipsize"));
+        assertEquals("17sp", categoryTitle.getAttribute("android:textSize"));
+    }
+
+    @Test
+    public void bothPlayerSettingsExposeTheAutoNextChoice() throws Exception {
+        for (String path : new String[]{
+                "app/src/leanback/res/layout/activity_setting_player.xml",
+                "app/src/mobile/res/layout/fragment_setting_player.xml"}) {
+            Document layout = xml(path);
+            assertEquals("@string/player_auto_next", view(layout, "autoNextLabel")
+                    .getAttribute("android:text"));
+            view(layout, "autoNext");
+            view(layout, "autoNextText");
+        }
+    }
+
+    @Test
+    public void bothPlayerSettingsExposeIndependentAudioAndSubtitleLanguages() throws Exception {
+        for (String[] variant : new String[][]{
+                {"leanback", "activity_setting_player.xml", "16sp"},
+                {"mobile", "fragment_setting_player.xml", "@dimen/ibox_text_body"}}) {
+            Document layout = xml("app/src/" + variant[0] + "/res/layout/" + variant[1]);
+            view(layout, "audioLanguage");
+            view(layout, "textLanguage");
+            assertEquals("@string/player_audio_language", view(layout, "audioLanguageLabel").getAttribute("android:text"));
+            assertEquals("@string/player_text_language", view(layout, "textLanguageLabel").getAttribute("android:text"));
+            assertEquals(variant[2], view(layout, "audioLanguageText").getAttribute("android:textSize"));
+            assertEquals(variant[2], view(layout, "textLanguageText").getAttribute("android:textSize"));
+        }
     }
 
     @Test

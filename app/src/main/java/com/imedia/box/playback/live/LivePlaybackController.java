@@ -98,6 +98,7 @@ public class LivePlaybackController {
 
     public void selectChannel(Channel channel) {
         if (channel == null) return;
+        state.rememberPrevious(channel);
         bindHealthStore();
         LivePlayRequest activeRequest = state.getActiveRequest();
         if (activeRequest != null && activeRequest.matches(channel)
@@ -228,6 +229,35 @@ public class LivePlaybackController {
 
     public void prevChannel() {
         moveChannel(-1);
+    }
+
+    @Nullable
+    public Channel getPreviousChannel() {
+        return state.getPreviousChannel();
+    }
+
+    public boolean returnToPreviousChannel() {
+        Channel previous = state.getPreviousChannel();
+        if (previous == null) return false;
+        Group target = null;
+        Channel channel = null;
+        for (int i = 0; i < host.getGroupCount(); i++) {
+            Group group = host.getGroup(i);
+            for (Channel candidate : group.getChannel()) {
+                if (!candidate.getName().equals(previous.getName())
+                        || !candidate.getUrls().equals(previous.getUrls())) continue;
+                if (target == null || group == state.getPreviousGroup()) {
+                    target = group;
+                    channel = candidate;
+                }
+            }
+            if (group == state.getPreviousGroup() && channel != null) break;
+        }
+        if (target == null) return false;
+        target.setPosition(target.getChannel().indexOf(channel));
+        selectGroup(target);
+        selectChannel(channel.group(target));
+        return true;
     }
 
     public void nextChannel() {

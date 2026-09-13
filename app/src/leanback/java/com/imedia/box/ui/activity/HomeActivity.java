@@ -572,8 +572,11 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
 
     @Override
     public void onCategoryClick(Class item) {
-        if (mContentMode == ContentMode.VOD && mSelectedCategory != null && mSelectedCategory.getTypeId().equals(item.getTypeId())) return;
-        selectCategory(item);
+        mBinding.recycler.post(() -> {
+            if (mContentMode == ContentMode.VOD && mSelectedCategory != null
+                    && mSelectedCategory.getTypeId().equals(item.getTypeId())) return;
+            selectCategory(item);
+        });
     }
 
     @Override

@@ -105,6 +105,7 @@ import com.imedia.box.ui.dialog.OfflineDownloadDialog;
 import com.imedia.box.ui.dialog.ParseDialog;
 import com.imedia.box.ui.dialog.PlayerEngineDialog;
 import com.imedia.box.ui.dialog.MoviePlaybackPreferenceDialog;
+import com.imedia.box.ui.dialog.VodAutoNextPrompt;
 import com.imedia.box.ui.dialog.ReceiveDialog;
 import com.imedia.box.ui.dialog.SpeedSettingDialog;
 import com.imedia.box.ui.dialog.TrackDialog;
@@ -134,6 +135,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private ActivityVideoBinding mBinding;
     private VideoViewModel mViewModel;
     private VodPlaybackController mVod;
+    private VodAutoNextPrompt mAutoNextPrompt;
     private FlagAdapter mFlagAdapter;
     private EpisodeAdapter mEpisodeAdapter;
     private QualityAdapter mQualityAdapter;
@@ -565,6 +567,12 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     @Override
+    public boolean isAutoNextEnabled() {
+        return PlayerSetting.isAutoNextEnabled()
+                && getLifecycle().getCurrentState().isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED);
+    }
+
+    @Override
     public long getPlayerPosition() {
         return player().getPosition();
     }
@@ -852,6 +860,18 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     public void showNoPrev(boolean reversed) {
         Notify.show(reversed ? R.string.error_play_next : R.string.error_play_prev);
+    }
+
+    @Override
+    public void showAutoNext(Episode episode) {
+        if (mAutoNextPrompt == null) mAutoNextPrompt = new VodAutoNextPrompt(this,
+                mVod::confirmAutoNext, mVod::cancelAutoNext);
+        mAutoNextPrompt.show(episode);
+    }
+
+    @Override
+    public void hideAutoNext() {
+        if (mAutoNextPrompt != null) mAutoNextPrompt.dismiss();
     }
 
     @Override
@@ -1949,6 +1969,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     protected void onStop() {
         super.onStop();
+        mVod.suspendAutoNext();
         saveHistory(false);
         if (PlayerSetting.isBackgroundOff()) mClock.stop();
         if (!isAudioOnly()) setStop(true);
@@ -1969,6 +1990,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     @Override
     protected void onDestroy() {
+        hideAutoNext();
         mClock.release();
         saveHistory(true);
         Timer.get().reset();
