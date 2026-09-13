@@ -1,6 +1,8 @@
 package com.imedia.box.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -19,6 +21,8 @@ import com.imedia.box.R;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Locale;
+
 @RunWith(AndroidJUnit4.class)
 public class HomeSmokeTest {
 
@@ -29,6 +33,16 @@ public class HomeSmokeTest {
         InstrumentationRegistry.getInstrumentation().startActivitySync(intent);
         onView(withId(R.id.title)).check(matches(isDisplayed()));
         onView(withId(R.id.recycler)).check(matches(isAssignableFrom(VerticalGridView.class)));
-        assertEquals("iBox", ApplicationProvider.getApplicationContext().getString(R.string.app_name));
+        assertEquals("iBoxTV", ApplicationProvider.getApplicationContext().getString(R.string.app_name));
+    }
+
+    @Test
+    public void tvAppNameIsIBoxTvInChineseLocales() {
+        Context context = ApplicationProvider.getApplicationContext();
+        for (Locale locale : new Locale[]{Locale.SIMPLIFIED_CHINESE, Locale.TRADITIONAL_CHINESE}) {
+            Configuration configuration = new Configuration(context.getResources().getConfiguration());
+            configuration.setLocale(locale);
+            assertEquals(locale.toLanguageTag(), "iBoxTV", context.createConfigurationContext(configuration).getString(R.string.app_name));
+        }
     }
 }
