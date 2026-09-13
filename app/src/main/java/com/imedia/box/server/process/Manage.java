@@ -251,7 +251,9 @@ public class Manage implements Process {
         App.post(() -> {
             if (key.startsWith("live")) RefreshEvent.live();
             else if (key.equals("playerSize")) RefreshEvent.size();
-            else if (key.equals("themeColor") || key.equals("focusColor") || key.equals("fontScale") || key.equals("highContrast")) RefreshEvent.theme();
+            else if (key.equals("highContrast")) {
+                if (!Setting.applyThemeMode()) RefreshEvent.theme();
+            } else if (key.equals("themeColor") || key.equals("focusColor") || key.equals("fontScale")) RefreshEvent.theme();
             else if (key.equals("wallBlur")) ConfigEvent.wall();
             else if (key.startsWith("danmaku")) RefreshEvent.danmaku("");
             ConfigEvent.common();

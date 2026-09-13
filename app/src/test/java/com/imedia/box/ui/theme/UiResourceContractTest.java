@@ -88,6 +88,11 @@ public class UiResourceContractTest {
             assertFalse("TV home must not cover the wallpaper with another full-screen scrim",
                     "@drawable/bg_tv_home_scrim".equals(((Element) views.item(i)).getAttribute("android:background")));
         }
+        NodeList images = tvHome.getElementsByTagName("androidx.appcompat.widget.AppCompatImageView");
+        for (int i = 0; i < images.getLength(); i++) {
+            assertFalse("TV home must not layer focused posters over any selected wallpaper",
+                    "@+id/backdrop".equals(((Element) images.item(i)).getAttribute("android:id")));
+        }
     }
 
     @Test
@@ -203,6 +208,17 @@ public class UiResourceContractTest {
                         contrast(color(palette, "ibox_text_secondary"), compositeColor(surface, behind)) >= 4.5);
             }
         }
+    }
+
+    @Test
+    public void remoteHighContrastSwitchesNightModeBeforeThemeRefresh() throws Exception {
+        String manage = Files.readString(repoRoot().resolve(
+                "app/src/main/java/com/imedia/box/server/process/Manage.java"));
+        String refresh = manage.substring(manage.indexOf("private void postSettingEvent("),
+                manage.indexOf("private void saveConfig("));
+        assertTrue("Remote high contrast must update night mode before recreating the UI",
+                refresh.contains("if (key.equals(\"highContrast\")) {")
+                        && refresh.contains("if (!Setting.applyThemeMode()) RefreshEvent.theme();"));
     }
 
     @Test

@@ -8,13 +8,6 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/backdrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.28"
-        android:scaleType="centerCrop" />
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
