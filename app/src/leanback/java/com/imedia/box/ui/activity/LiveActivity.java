@@ -374,7 +374,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void onAddSource() {
-        RepositoryDialog.create().live().show(this);
+        ConfigDialog.create().live().show(this);
     }
 
     private void onChooseSourceFile() {

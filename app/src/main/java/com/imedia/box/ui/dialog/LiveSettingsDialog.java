@@ -184,6 +184,7 @@ public final class LiveSettingsDialog {
                     childAction(CHANNEL_LIST, R.string.live_menu_channel_group, dynamicActions(GROUP_BASE, listener.getLiveSettingGroups(), true)))));
             result.add(new Category(R.string.live_menu_subscription, subscriptionActions()));
             result.add(new Category(R.string.live_menu_display, Arrays.asList(
+                    optionAction(DISPLAY_SCALE, R.string.live_menu_scale),
                     optionAction(DISPLAY_CLOCK, R.string.live_menu_clock),
                     optionAction(DISPLAY_CATCHUP_INDICATOR, R.string.live_menu_catchup_indicator),
                     optionAction(DISPLAY_NETWORK, R.string.live_menu_network_speed),
@@ -196,17 +197,9 @@ public final class LiveSettingsDialog {
                     optionAction(PREFERENCE_INVERT, R.string.live_menu_invert),
                     optionAction(PREFERENCE_ACROSS, R.string.live_menu_across),
                     optionAction(PREFERENCE_CHANGE, R.string.live_menu_change),
-                    optionAction(PREFERENCE_BOOT, R.string.live_menu_boot))));
-            result.add(new Category(R.string.live_menu_channel, channelActions()));
-            result.add(new Category(R.string.live_menu_other, Arrays.asList(
-                    action(PLAY_TOGGLE, R.string.live_menu_play_toggle, false),
-                    action(MANAGE_REFRESH, R.string.live_refresh, true),
-                    action(DISPLAY_INFO, R.string.live_menu_info, true))));
-            result.add(new Category(R.string.live_menu_more, Arrays.asList(
-                    action(MANAGE_SOURCE, R.string.repository_live_title, true),
-                    action(MANAGE_ADD, R.string.live_menu_add_source, true),
-                    action(MANAGE_FILE, R.string.live_menu_local_list, true),
+                    optionAction(PREFERENCE_BOOT, R.string.live_menu_boot),
                     action(MANAGE_APP_SETTINGS, R.string.live_menu_app_settings, true))));
+            result.add(new Category(R.string.live_menu_channel, channelActions()));
             return result;
         }
 
@@ -234,8 +227,6 @@ public final class LiveSettingsDialog {
         private List<Action> subscriptionActions() {
             List<Action> result = new ArrayList<>();
             result.add(childAction(MANAGE_SELECT, R.string.live_menu_source_select, dynamicActions(SOURCE_BASE, listener.getLiveSettingSources(), true)));
-            result.add(action(MANAGE_PUSH, R.string.live_menu_scan_push, true));
-            result.add(action(CHANNEL_SEARCH, R.string.live_channel_search, true));
             result.add(action(MANAGE_EPG_MENU, R.string.live_menu_epg_subscription, false));
             result.add(childAction(MANAGE_REQUEST, R.string.live_menu_request, Arrays.asList(
                     action(MANAGE_UA, R.string.player_ua, true),
@@ -243,6 +234,7 @@ public final class LiveSettingsDialog {
             result.add(action(MANAGE_SOURCE, R.string.live_menu_subscription_list, true));
             result.add(action(MANAGE_ADD, R.string.live_menu_add_source, true));
             result.add(action(MANAGE_FILE, R.string.live_menu_local_list, true));
+            result.add(action(MANAGE_REFRESH, R.string.live_refresh, true));
             return result;
         }
 
@@ -282,9 +274,7 @@ public final class LiveSettingsDialog {
                     action(PLAY_RELOAD, R.string.live_menu_reload, true),
                     optionAction(PLAY_ENGINE, R.string.player_engine),
                     optionAction(PLAY_DECODE, R.string.live_menu_decode),
-                    optionAction(DISPLAY_SCALE, R.string.live_menu_scale),
                     optionAction(PLAY_TIMEOUT, R.string.live_menu_timeout),
-                    optionAction(PREFERENCE_CHANGE, R.string.live_menu_change),
                     optionAction(PLAY_RECONNECT, R.string.live_menu_reconnect),
                     optionAction(PLAY_RENDER, R.string.player_render),
                     optionAction(PLAY_RTSP, R.string.live_menu_rtsp),
@@ -293,7 +283,6 @@ public final class LiveSettingsDialog {
             addOptionAction(result, PLAY_AUDIO, R.string.play_track_audio);
             addOptionAction(result, PLAY_TEXT, R.string.play_track_text);
             addOptionAction(result, PLAY_VIDEO, R.string.play_track_video);
-            result.add(action(PLAY_CATCHUP, R.string.live_menu_catchup, true));
             return result;
         }
 
