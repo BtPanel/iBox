@@ -197,4 +197,8 @@
     <string name="sheet_config_history">接口記錄</string>
     <string name="cast_switch_device">切換裝置</string>
     <string name="cast_switching_device">正在切換裝置…</string>
+    <string name="cast_previous_episode">上一集</string>
+    <string name="cast_next_episode">下一集</string>
+    <string name="cast_changing_episode">正在載入劇集…</string>
+    <string name="cast_episode_unavailable">無法在電視上切換到該劇集</string>
 </resources>

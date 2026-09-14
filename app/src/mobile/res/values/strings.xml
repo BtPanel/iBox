@@ -197,4 +197,8 @@
     <string name="sheet_config_history">Config history</string>
     <string name="cast_switch_device">Switch device</string>
     <string name="cast_switching_device">Switching device…</string>
+    <string name="cast_previous_episode">Previous episode</string>
+    <string name="cast_next_episode">Next episode</string>
+    <string name="cast_changing_episode">Loading episode…</string>
+    <string name="cast_episode_unavailable">Cannot switch to this episode on the TV.</string>
 </resources>

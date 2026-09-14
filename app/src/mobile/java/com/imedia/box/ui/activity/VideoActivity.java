@@ -1078,7 +1078,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onCast() {
-        CastDialog.create(player()).image(getVodPic()).history(mHistory).show(this);
+        CastDialog.create(player()).image(getVodPic()).history(mHistory)
+                .episodes(mHistory, mEpisodeAdapter.getItems(), mEpisodeAdapter.getPosition()).show(this);
     }
 
     private void onDownload() {

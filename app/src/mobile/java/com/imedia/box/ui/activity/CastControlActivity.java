@@ -69,6 +69,8 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
         mBinding.play.setOnClickListener(v -> session.togglePlayback());
         mBinding.retry.setOnClickListener(v -> session.retry());
         mBinding.switchDevice.setOnClickListener(v -> CastDialog.switchDevice(this));
+        mBinding.previousEpisode.setOnClickListener(v -> session.previousEpisode());
+        mBinding.nextEpisode.setOnClickListener(v -> session.nextEpisode());
         mBinding.rewind.setOnClickListener(v -> seekBy(-10000));
         mBinding.forward.setOnClickListener(v -> seekBy(10000));
         mBinding.disconnect.setOnClickListener(v -> {
@@ -128,14 +130,19 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
         }
         boolean connected = state.connection() == CastConnectionHealth.Status.CONNECTED;
         mBinding.device.setText(session.getDevice().getName());
+        mBinding.videoTitle.setText(session.getVideo().name());
         mBinding.switchDevice.setEnabled(!state.switching());
-        mBinding.status.setText(state.switching() ? getString(R.string.cast_switching_device)
+        mBinding.status.setText(state.changingEpisode() ? getString(R.string.cast_changing_episode)
+                : state.switching() ? getString(R.string.cast_switching_device)
                 : state.connection() == CastConnectionHealth.Status.LOST
                 ? getString(R.string.cast_connection_lost)
                 : state.connection() == CastConnectionHealth.Status.RETRYING
                 ? getString(R.string.cast_retrying) : getStatus(state.transportState()));
         mBinding.retry.setVisibility(state.connection() == CastConnectionHealth.Status.LOST ? View.VISIBLE : View.GONE);
-        mBinding.play.setEnabled(connected && !state.switching());
+        mBinding.play.setEnabled(connected && !state.switching() && !state.changingEpisode());
+        mBinding.episodeGroup.setVisibility(state.hasPreviousEpisode() || state.hasNextEpisode() ? View.VISIBLE : View.GONE);
+        mBinding.previousEpisode.setEnabled(connected && !state.changingEpisode() && !state.switching() && state.hasPreviousEpisode());
+        mBinding.nextEpisode.setEnabled(connected && !state.changingEpisode() && !state.switching() && state.hasNextEpisode());
         mBinding.play.setIconResource(state.playing() ? R.drawable.ic_msr_pause : R.drawable.ic_msr_play_arrow);
         mBinding.play.setContentDescription(getString(state.playing() ? R.string.cast_pause : R.string.cast_play));
         updateProgress(state);
@@ -149,7 +156,7 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
         float value = Math.min(valueTo, position / 1000f);
         mBinding.elapsed.setText(formatTime(position));
         mBinding.duration.setText(duration > 0 ? formatTime(duration) : getString(R.string.cast_live));
-        boolean canSeek = duration > 0 && state.connection() == CastConnectionHealth.Status.CONNECTED && !state.switching();
+        boolean canSeek = duration > 0 && state.connection() == CastConnectionHealth.Status.CONNECTED && !state.switching() && !state.changingEpisode();
         mBinding.progress.setEnabled(canSeek);
         mBinding.rewind.setEnabled(canSeek);
         mBinding.forward.setEnabled(canSeek);
@@ -163,7 +170,7 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
     }
 
     private void updateVolume(DLNACastSession.State state) {
-        boolean canChangeVolume = state.volumeSupported() && state.connection() == CastConnectionHealth.Status.CONNECTED && !state.switching();
+        boolean canChangeVolume = state.volumeSupported() && state.connection() == CastConnectionHealth.Status.CONNECTED && !state.switching() && !state.changingEpisode();
         mBinding.volume.setEnabled(canChangeVolume);
         mBinding.volumeGroup.setAlpha(canChangeVolume ? 1f : 0.38f);
         if (!changingVolume) {

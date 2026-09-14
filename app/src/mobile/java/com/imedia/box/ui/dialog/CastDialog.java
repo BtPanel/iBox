@@ -22,10 +22,12 @@ import com.imedia.box.bean.CastVideo;
 import com.imedia.box.bean.Config;
 import com.imedia.box.bean.Device;
 import com.imedia.box.bean.History;
+import com.imedia.box.bean.Episode;
 import com.imedia.box.databinding.DialogDeviceBinding;
 import com.imedia.box.dlna.DLNACast;
 import com.imedia.box.dlna.DLNACastManager;
 import com.imedia.box.dlna.DLNACastSession;
+import com.imedia.box.dlna.CastEpisodeQueue;
 import com.imedia.box.player.PlayerManager;
 import com.imedia.box.server.Server;
 import com.imedia.box.ui.activity.CastControlActivity;
@@ -37,6 +39,7 @@ import com.imedia.box.utils.ScanTask;
 import com.github.catvod.net.OkHttp;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,6 +56,8 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     private DeviceAdapter adapter;
     private ScanTask scanTask;
     private CastVideo video;
+    private CastEpisodeQueue episodes;
+    private History history;
     private boolean connecting;
     private boolean searching;
     private boolean fm;
@@ -89,6 +94,16 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
         if (fd.startsWith("/") || fd.startsWith("file")) fd = Server.get().getFileStreamAddress(fd);
         else fd = Server.get().exposeLocalStream(fd);
         body.add("history", history.toString().replace(id, fd));
+        return this;
+    }
+
+    public CastDialog episodes(History history, List<Episode> items, int selected) {
+        if (history != null && items != null && !items.isEmpty()) {
+            List<CastEpisodeQueue.Item> queue = items.stream()
+                    .map(item -> new CastEpisodeQueue.Item(item.getName(), item.getUrl())).toList();
+            episodes = new CastEpisodeQueue(history.getSiteKey(), history.getVodFlag(), queue, selected, history.isRevPlay());
+            this.history = history.copy();
+        }
         return this;
     }
 
@@ -198,6 +213,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     private void onDlnaCasted(Device device) {
         DLNACastSession.get().start(video, device);
+        DLNACastSession.get().setEpisodes(episodes, history);
         ((CastDialog.Listener) requireActivity()).onCasted();
         CastControlActivity.start(requireActivity());
         dismiss();

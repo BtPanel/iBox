@@ -256,6 +256,35 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/episodeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/previousEpisode"
+                    style="@style/Widget.IBox.Button.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/cast_previous_episode"
+                    app:icon="@drawable/ic_msr_skip_previous" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/nextEpisode"
+                    style="@style/Widget.IBox.Button.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/cast_next_episode"
+                    app:icon="@drawable/ic_msr_skip_next" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/volumeGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
