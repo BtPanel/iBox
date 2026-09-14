@@ -76,6 +76,48 @@ public class LiveSettingsDialogTest {
     }
 
     @Test
+    public void mobileActionsAppearOnceInTheirRelevantGroups() throws Exception {
+        Map<Integer, List<Integer>> groups = groups(false);
+        assertEquals(Arrays.asList(
+                R.string.live_menu_line_category,
+                R.string.live_menu_playback,
+                R.string.live_menu_category_manage,
+                R.string.live_menu_channel,
+                R.string.live_menu_display,
+                R.string.live_menu_subscription,
+                R.string.live_menu_epg_subscription), new ArrayList<>(groups.keySet()));
+
+        Set<Integer> seen = new HashSet<>();
+        for (List<Integer> actions : groups.values()) {
+            for (int action : actions) assertTrue("duplicate action " + action, seen.add(action));
+        }
+        assertEquals(Arrays.asList(LiveSettingsDialog.LINE_BASE, LiveSettingsDialog.LINE_BASE + 1),
+                groups.get(R.string.live_menu_line_category));
+        assertEquals(Arrays.asList(LiveSettingsDialog.GROUP_BASE),
+                groups.get(R.string.live_menu_category_manage));
+        assertEquals(R.string.live_menu_display, owner(groups, LiveSettingsDialog.DISPLAY_SCALE));
+        assertEquals(R.string.live_menu_playback, owner(groups, LiveSettingsDialog.PLAY_RECONNECT));
+        assertEquals(R.string.live_menu_channel, owner(groups, LiveSettingsDialog.LIST_LOGO));
+        assertFalse(groups.get(R.string.live_menu_channel).contains(LiveSettingsDialog.LIST_EPG));
+        assertEquals(R.string.live_menu_epg_subscription, owner(groups, LiveSettingsDialog.MANAGE_EPG_MENU));
+        assertEquals(R.string.live_menu_epg_subscription, owner(groups, LiveSettingsDialog.MANAGE_EPG));
+        for (int action : Arrays.asList(LiveSettingsDialog.PLAY_RECONNECT,
+                LiveSettingsDialog.PREFERENCE_CHANGE, LiveSettingsDialog.LIST_LOGO,
+                LiveSettingsDialog.LIST_NUMBER)) {
+            assertTrue("mobile switch needs off/on details " + action, hasChildren(action, false));
+        }
+        assertFalse(hasChildren(LiveSettingsDialog.LINE_BASE, false));
+        assertFalse(hasChildren(LiveSettingsDialog.GROUP_BASE, false));
+    }
+
+    @Test
+    public void emptyMobileGroupsDoNotDuplicateChannelList() throws Exception {
+        Map<Integer, List<Integer>> groups = groups(false, false);
+        assertFalse(groups.containsKey(R.string.live_menu_category_manage));
+        assertEquals(R.string.live_menu_channel, owner(groups, LiveSettingsDialog.CHANNEL_LIST));
+    }
+
+    @Test
     public void onlyCurrentSummaryUsesCompactSelectionMarker() throws Exception {
         Method marker = LiveSettingsDialog.class.getDeclaredMethod("isCurrentSummary", String.class, String.class);
         marker.setAccessible(true);
@@ -106,7 +148,11 @@ public class LiveSettingsDialogTest {
     }
 
     private boolean hasChildren(int actionId) throws Exception {
-        for (Object category : categories(true)) {
+        return hasChildren(actionId, true);
+    }
+
+    private boolean hasChildren(int actionId, boolean tv) throws Exception {
+        for (Object category : categories(tv)) {
             Field actions = category.getClass().getDeclaredField("actions");
             actions.setAccessible(true);
             for (Object action : (List<?>) actions.get(category)) {
@@ -132,8 +178,12 @@ public class LiveSettingsDialogTest {
     }
 
     private Map<Integer, List<Integer>> groups(boolean tv) throws Exception {
+        return groups(tv, true);
+    }
+
+    private Map<Integer, List<Integer>> groups(boolean tv, boolean hasGroups) throws Exception {
         Map<Integer, List<Integer>> groups = new LinkedHashMap<>();
-        for (Object category : categories(tv)) {
+        for (Object category : categories(tv, hasGroups)) {
             Field title = category.getClass().getDeclaredField("title");
             Field actions = category.getClass().getDeclaredField("actions");
             title.setAccessible(true);
@@ -150,6 +200,10 @@ public class LiveSettingsDialogTest {
     }
 
     private List<?> categories(boolean tv) throws Exception {
+        return categories(tv, true);
+    }
+
+    private List<?> categories(boolean tv, boolean hasGroups) throws Exception {
         Class<?> panelClass = Class.forName("com.imedia.box.ui.dialog.LiveSettingsDialog$Panel");
         Constructor<?> constructor = panelClass.getDeclaredConstructor(DialogLiveSettingsBinding.class,
                 LiveSettingsDialog.Listener.class, boolean.class, Runnable.class, Runnable.class,
@@ -167,7 +221,7 @@ public class LiveSettingsDialogTest {
 
             @Override
             public List<String> getLiveSettingGroups() {
-                return Arrays.asList("News");
+                return hasGroups ? Arrays.asList("News") : List.of();
             }
 
             @Override

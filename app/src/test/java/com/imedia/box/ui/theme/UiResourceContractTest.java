@@ -19,6 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
@@ -201,13 +202,216 @@ public class UiResourceContractTest {
                     : "app/src/main/res/values/ibox_colors.xml");
             String surface = color(colors, "ibox_mobile_dialog_surface");
             int alpha = surface.length() == 9 ? Integer.parseInt(surface.substring(1, 3), 16) : 255;
-            assertEquals(colorsPath + " shows underlying text through the dialog", 255, alpha);
+            assertTrue(colorsPath + " shows underlying text through the dialog", alpha >= 0xE8);
             if (!night) assertTrue("Mobile dialog must not be a white slab", luminance(surface) < 0.82);
             for (String behind : new String[]{"#000000", "#FFFFFF"}) {
                 assertTrue(colorsPath + " has unreadable text over " + behind,
                         contrast(color(palette, "ibox_text_secondary"), compositeColor(surface, behind)) >= 4.5);
             }
         }
+    }
+
+    @Test
+    public void mobileNavigationBarHasNoTopDivider() throws Exception {
+        Document background = xml("app/src/mobile/res/drawable/bg_floating_navigation.xml");
+        assertEquals("Navigation should be a single uninterrupted surface", "shape",
+                background.getDocumentElement().getTagName());
+        assertEquals("@color/ibox_home_chrome_surface", attribute(background, "solid", "android:color"));
+    }
+
+    @Test
+    public void mobileNavigationHighlightIsInsetWithoutShrinkingTouchTargets() throws Exception {
+        Document navigation = xml("app/src/mobile/res/layout/view_app_navigation.xml");
+        Document background = xml("app/src/mobile/res/drawable/bg_app_navigation_item.xml");
+        for (String id : new String[]{"navHome", "navLive", "navLibrary", "navDownloads", "navSettings"}) {
+            Element target = view(navigation, id);
+            assertEquals("@dimen/ibox_navigation_item_height", target.getAttribute("android:layout_height"));
+            assertEquals("@drawable/bg_app_navigation_item", target.getAttribute("android:background"));
+        }
+        NodeList states = background.getElementsByTagName("item");
+        for (int i = 0; i < states.getLength(); i++) {
+            Element state = (Element) states.item(i);
+            Element inset = (Element) state.getElementsByTagName("inset").item(0);
+            assertTrue("Navigation state fills the entire touch target", inset != null);
+            assertEquals("@dimen/ibox_space_2", inset.getAttribute("android:insetLeft"));
+            assertEquals("@dimen/ibox_space_2", inset.getAttribute("android:insetRight"));
+            assertEquals("@dimen/ibox_space_1", inset.getAttribute("android:insetTop"));
+            assertEquals("@dimen/ibox_space_1", inset.getAttribute("android:insetBottom"));
+        }
+    }
+
+    @Test
+    public void mobileLiveMenuAndNestedDialogsUseNeutralReadableGlass() throws Exception {
+        assertEquals("@color/ibox_live_settings_surface", attribute(
+                xml("app/src/main/res/drawable/bg_live_settings.xml"), "solid", "android:color"));
+        Document liveStyles = xml("app/src/mobile/res/values/dialog_styles.xml");
+        assertEquals("@color/ibox_live_dialog_surface", styleItem(liveStyles,
+                "ThemeOverlay.IBox.Dialog.LiveAlert", "colorSurface"));
+        for (boolean night : new boolean[]{false, true}) {
+            Document palette = xml(night ? "app/src/main/res/values-night/ibox_colors.xml"
+                    : "app/src/main/res/values/ibox_colors.xml");
+            String glass = color(palette, "ibox_live_settings_surface");
+            String dialog = color(palette, "ibox_live_dialog_surface");
+            int alpha = Integer.parseInt(glass.substring(1, 3), 16);
+            int rgb = Integer.parseUnsignedInt(glass.substring(3), 16);
+            int red = (rgb >> 16) & 0xFF;
+            int green = (rgb >> 8) & 0xFF;
+            int blue = rgb & 0xFF;
+            assertTrue("Live menu is too opaque or exposes background labels", alpha >= 0xE0 && alpha <= 0xEF);
+            assertTrue("Live dialog surface has a color cast", Math.max(red, Math.max(green, blue))
+                    - Math.min(red, Math.min(green, blue)) <= 1);
+            assertTrue("Nested dialog exposes channel text",
+                    Integer.parseInt(dialog.substring(1, 3), 16) >= 0xF6);
+            for (String behind : new String[]{"#000000", "#FFFFFF"}) {
+                assertTrue("Live menu text loses contrast over " + behind,
+                        contrast(color(palette, "ibox_text_primary"), compositeColor(glass, behind)) >= 4.5);
+            }
+        }
+    }
+
+    @Test
+    public void selectedMobileLiveChannelAndToolbarRemainLegible() throws Exception {
+        Document text = xml("app/src/mobile/res/color/selector_live_text.xml");
+        assertEquals("?attr/colorOnPrimary", tvSelectorItem(text, true, false).getAttribute("android:color"));
+        for (boolean night : new boolean[]{false, true}) {
+            Document colors = xml(night ? "app/src/main/res/values-night/ibox_colors.xml"
+                    : "app/src/main/res/values/ibox_colors.xml");
+            assertTrue("Selected channel text loses contrast",
+                    contrast(color(colors, "ibox_on_primary"), color(colors, "ibox_primary")) >= 4.5);
+        }
+        Document live = xml("app/src/mobile/res/layout/activity_live.xml");
+        for (String id : new String[]{"summarySearch", "summaryCast", "summaryConfig"}) {
+            Element button = view(live, id);
+            assertEquals("?attr/selectableItemBackgroundBorderless", button.getAttribute("android:background"));
+            assertEquals("@dimen/ibox_touch_target", button.getAttribute("android:layout_width"));
+            assertEquals("@dimen/ibox_touch_target", button.getAttribute("android:layout_height"));
+        }
+    }
+
+    @Test
+    public void mobilePlayerInfoLeadsTheTrailingActionsAndCastHasOneVisualSize() throws Exception {
+        for (String[] screen : new String[][]{
+                {"view_control_vod.xml", "cast"},
+                {"view_control_live.xml", "browserButton"}}) {
+            Document control = xml("app/src/mobile/res/layout/" + screen[0]);
+            Element info = view(control, "info");
+            Element firstAction = view(control, screen[1]);
+            assertEquals("Info belongs inside the trailing action group", firstAction.getParentNode(), info.getParentNode());
+            assertTrue("Info must precede the other player actions",
+                    (info.compareDocumentPosition(firstAction) & Node.DOCUMENT_POSITION_FOLLOWING) != 0);
+            assertEquals("@drawable/ic_msr_cast_mobile", view(control, "cast").getAttribute("android:src"));
+            assertEquals("@dimen/ibox_icon_action_size", view(control, "cast").getAttribute("android:layout_width"));
+        }
+
+        Document live = xml("app/src/mobile/res/layout/activity_live.xml");
+        assertEquals("@drawable/ic_msr_cast_mobile", view(live, "summaryCast").getAttribute("android:src"));
+        Document detail = xml("app/src/mobile/res/layout/activity_video.xml");
+        Element detailCast = view(detail, "detail_cast");
+        Element detailIcon = (Element) detailCast.getElementsByTagName("androidx.appcompat.widget.AppCompatImageView").item(0);
+        assertEquals("@drawable/ic_msr_cast_mobile", detailIcon.getAttribute("android:src"));
+        assertEquals("20dp", detailIcon.getAttribute("android:layout_width"));
+
+        Document icon = xml("app/src/mobile/res/drawable/ic_msr_cast_mobile.xml");
+        NodeList layers = icon.getElementsByTagName("item");
+        assertEquals(2, layers.getLength());
+        assertEquals("24dp", ((Element) layers.item(0)).getAttribute("android:width"));
+        assertEquals("20dp", ((Element) layers.item(1)).getAttribute("android:width"));
+        assertEquals("@drawable/ic_msr_cast", ((Element) layers.item(1)).getAttribute("android:drawable"));
+    }
+
+    @Test
+    public void mobilePlayerVerticalIconsMatchHorizontalControlSize() throws Exception {
+        Document right = xml("app/src/mobile/res/layout/view_control_right.xml");
+        for (String player : new String[]{"view_control_vod.xml", "view_control_live.xml"}) {
+            Element horizontal = view(xml("app/src/mobile/res/layout/" + player), "info");
+            for (String id : new String[]{"lock", "rotate", "pip"}) {
+                Element vertical = view(right, id);
+                for (String attribute : new String[]{"android:layout_width", "android:layout_height", "android:padding"}) {
+                    assertEquals(player + " " + id + " " + attribute,
+                            horizontal.getAttribute(attribute), vertical.getAttribute(attribute));
+                }
+            }
+        }
+        assertEquals("@drawable/ic_msr_screen_rotation_mobile", view(right, "rotate").getAttribute("android:src"));
+        Document rotation = xml("app/src/mobile/res/drawable/ic_msr_screen_rotation_mobile.xml");
+        NodeList layers = rotation.getElementsByTagName("item");
+        assertEquals("24dp", ((Element) layers.item(0)).getAttribute("android:width"));
+        assertEquals("20dp", ((Element) layers.item(1)).getAttribute("android:width"));
+        assertEquals("@drawable/ic_msr_screen_rotation", ((Element) layers.item(1)).getAttribute("android:drawable"));
+    }
+
+    @Test
+    public void mobilePlayerDialogActionsContrastWithDayAndNightSurfaces() throws Exception {
+        for (String[] dialog : new String[][]{
+                {"mobile", "dialog_track.xml", "search", "choose", "setting"},
+                {"mobile", "dialog_danmaku.xml", "search", "choose", "setting"},
+                {"mobile", "dialog_player_engine.xml", "debug"},
+                {"main", "dialog_subtitle_search.xml", "setting"}}) {
+            Document layout = xml("app/src/" + dialog[0] + "/res/layout/" + dialog[1]);
+            for (int i = 2; i < dialog.length; i++) {
+                String tint = view(layout, dialog[i]).getAttribute("app:tint");
+                for (boolean night : new boolean[]{false, true}) {
+                    Document palette = xml("app/src/main/res/" + (night ? "values-night" : "values")
+                            + "/ibox_colors.xml");
+                    Document surfaces = xml("app/src/mobile/res/" + (night ? "values-night" : "values")
+                            + "/dialog_colors.xml");
+                    String foreground = switch (tint) {
+                        case "?attr/colorOnSurface", "@color/ibox_text_primary" -> color(palette, "ibox_text_primary");
+                        case "?attr/colorOnSurfaceVariant", "@color/ibox_text_secondary" -> color(palette, "ibox_text_secondary");
+                        default -> "#FFFFFF";
+                    };
+                    assertTrue(dialog[1] + " " + dialog[i] + " loses contrast in "
+                                    + (night ? "night" : "day") + " mode",
+                            contrast(foreground, compositeColor(
+                                    color(surfaces, "ibox_mobile_dialog_surface"), night ? "#FFFFFF" : "#000000")) >= 3.0);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void mobileDialogSurfacesAreNeutralAndReadableOverVideo() throws Exception {
+        Document dialogTheme = xml("app/src/mobile/res/values/dialog_styles.xml");
+        assertEquals("@color/ibox_mobile_dialog_surface", styleItem(dialogTheme,
+                "ThemeOverlay.IBox.Dialog.Alert", "colorSurface"));
+        for (boolean night : new boolean[]{false, true}) {
+            String qualifier = night ? "values-night" : "values";
+            String surface = color(xml("app/src/mobile/res/" + qualifier + "/dialog_colors.xml"),
+                    "ibox_mobile_dialog_surface");
+            int value = (int) Long.parseLong(surface.substring(1), 16);
+            int alpha = surface.length() == 9 ? value >>> 24 : 0xFF;
+            int red = (value >> 16) & 0xFF;
+            int green = (value >> 8) & 0xFF;
+            int blue = value & 0xFF;
+            assertTrue("Dialog surface has a green or other color cast",
+                    Math.max(red, Math.max(green, blue)) - Math.min(red, Math.min(green, blue)) <= 2);
+            assertTrue("Dialog must show a little backdrop without exposing video labels",
+                    alpha >= 0xE8 && alpha <= 0xF6);
+            Document palette = xml("app/src/main/res/" + qualifier + "/ibox_colors.xml");
+            for (String backdrop : new String[]{"#000000", "#FFFFFF", "#006B5F"}) {
+                String displayed = compositeColor(surface, backdrop);
+                assertTrue("Dialog title loses contrast over " + backdrop,
+                        contrast(color(palette, "ibox_text_primary"), displayed) >= 4.5);
+                assertTrue("Dialog supporting text loses contrast over " + backdrop,
+                        contrast(color(palette, "ibox_text_secondary"), displayed) >= 4.5);
+            }
+        }
+    }
+
+    @Test
+    public void movieFullscreenDoesNotApplyDelayedAutoRotateReset() throws Exception {
+        String video = Files.readString(repoRoot().resolve(
+                "app/src/mobile/java/com/imedia/box/ui/activity/VideoActivity.java"));
+        assertTrue("A delayed orientation reset must not override the user's fullscreen landscape",
+                video.contains("private void setOrient() {\n        if (isFullscreen()) return;"));
+    }
+
+    @Test
+    public void movieVideoSizeDoesNotOverrideFullscreenOrientation() throws Exception {
+        String video = Files.readString(repoRoot().resolve(
+                "app/src/mobile/java/com/imedia/box/ui/activity/VideoActivity.java"));
+        assertFalse("A late video-size event must not rotate fullscreen playback",
+                video.contains("checkOrientation();"));
     }
 
     @Test
@@ -618,20 +822,28 @@ public class UiResourceContractTest {
     public void tvHomeToolbarStaysAboveScrollableArtwork() throws Exception {
         Document home = xml("app/src/leanback/res/layout/activity_home.xml");
         Element toolbar = view(home, "toolbar");
-        assertEquals("@color/ibox_surface_container", toolbar.getAttribute("android:background"));
+        assertEquals("@color/black_70", toolbar.getAttribute("android:background"));
+        assertEquals("#B3000000", color(xml("app/src/main/res/values/colors.xml"), "black_70"));
         assertEquals("1dp", toolbar.getAttribute("android:elevation"));
     }
 
     @Test
-    public void bothLiveChannelRowsReserveSeparateNowAndNextLines() throws Exception {
-        for (String variant : new String[]{"leanback", "mobile"}) {
-            Document row = xml("app/src/" + variant + "/res/layout/adapter_channel.xml");
-            Element now = view(row, "summary");
-            Element next = view(row, "next");
-            assertEquals("end", now.getAttribute("android:ellipsize"));
-            assertEquals("end", next.getAttribute("android:ellipsize"));
-            assertEquals("1", next.getAttribute("android:maxLines"));
+    public void liveChannelPreviewStaysAboveTheCompactMobileList() throws Exception {
+        Document tv = xml("app/src/leanback/res/layout/adapter_channel.xml");
+        assertEquals("end", view(tv, "summary").getAttribute("android:ellipsize"));
+        assertEquals("1", view(tv, "next").getAttribute("android:maxLines"));
+
+        Document mobile = xml("app/src/mobile/res/layout/adapter_channel.xml");
+        NodeList mobileViews = mobile.getElementsByTagName("*");
+        for (int i = 0; i < mobileViews.getLength(); i++) {
+            assertFalse("Channel rows should not duplicate the program preview",
+                    "@+id/summary".equals(((Element) mobileViews.item(i)).getAttribute("android:id")));
         }
+        assertEquals("44dp", mobile.getDocumentElement().getAttribute("android:minHeight"));
+        assertEquals("@dimen/ibox_text_body", view(mobile, "name").getAttribute("android:textSize"));
+        Document live = xml("app/src/mobile/res/layout/activity_live.xml");
+        assertEquals("64dp", view(live, "channelSummary").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_text_supporting", view(live, "summaryNow").getAttribute("android:textSize"));
     }
 
     private static Element tvSelectorItem(Document selector, boolean selected, boolean focused) {
@@ -709,11 +921,42 @@ public class UiResourceContractTest {
             assertEquals("@dimen/ibox_touch_target", view(repository, id).getAttribute("android:layout_width"));
         }
         Document search = xml("app/src/mobile/res/layout/fragment_search.xml");
-        assertEquals("@dimen/ibox_touch_target", view(xml("app/src/mobile/res/layout/adapter_type.xml"), "text")
+        assertEquals("@dimen/ibox_home_row_height", view(xml("app/src/mobile/res/layout/adapter_type.xml"), "text")
                 .getAttribute("android:layout_height"));
         for (String id : new String[]{"keywordClear", "historyClear", "scopeAll", "scopeCurrent"}) {
             assertEquals(id, "@dimen/ibox_touch_target", view(search, id).getAttribute("android:layout_height"));
         }
+    }
+
+    @Test
+    public void mobileHomeChromeIsCompactAcrossScreens() throws Exception {
+        Document dimensions = xml("app/src/main/res/values/ibox_dimens.xml");
+        assertEquals("60dp", value(dimensions, "dimen", "ibox_navigation_height"));
+        assertEquals("56dp", value(dimensions, "dimen", "ibox_navigation_item_height"));
+        Document homeDimensions = xml("app/src/mobile/res/values/home_dimens.xml");
+        assertEquals("44dp", value(homeDimensions, "dimen", "ibox_home_row_height"));
+
+        Document home = xml("app/src/mobile/res/layout/fragment_vod.xml");
+        Element source = view(home, "source");
+        assertEquals("@dimen/ibox_home_row_height", ((Element) source.getParentNode()).getAttribute("android:layout_height"));
+        for (String id : new String[]{"repository", "keep", "history"}) {
+            Element action = view(home, id);
+            assertEquals("@dimen/ibox_home_row_height", action.getAttribute("android:layout_height"));
+            assertEquals("@dimen/ibox_home_row_height", action.getAttribute("android:minHeight"));
+        }
+        assertEquals("@dimen/ibox_home_row_height", view(home, "search").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_row_height", view(home, "linkQuick").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_row_height", view(home, "type").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_row_height", xml("app/src/mobile/res/layout/adapter_type.xml")
+                .getDocumentElement().getAttribute("android:layout_height"));
+
+        for (String layout : new String[]{"activity_home.xml", "activity_live.xml", "activity_video.xml",
+                "activity_library.xml", "activity_keep.xml", "activity_history.xml"}) {
+            assertEquals(layout, "@dimen/ibox_navigation_height", view(xml("app/src/mobile/res/layout/" + layout),
+                    "navigation").getAttribute("android:layout_height"));
+        }
+        assertEquals("@dimen/ibox_navigation_height", view(xml("app/src/mobile/res/layout-sw600dp/activity_video.xml"),
+                "navigation").getAttribute("android:layout_height"));
     }
 
     @Test
@@ -1219,10 +1462,24 @@ public class UiResourceContractTest {
     }
 
     @Test
-    public void mobileLibraryActionsUseTheStandardToolbarForeground() throws Exception {
-        for (String name : new String[]{"ic_action_sync", "ic_action_delete"}) {
-            assertEquals(name, "?attr/colorControlNormal", xml("app/src/mobile/res/drawable/" + name + ".xml")
-                    .getDocumentElement().getAttribute("android:tint"));
+    public void mobileLibraryActionsMatchHomeIconColorAndSize() throws Exception {
+        for (String screen : new String[]{"keep", "history"}) {
+            Document layout = xml("app/src/mobile/res/layout/activity_" + screen + ".xml");
+            Element toolbar = view(layout, "toolbar");
+            assertEquals("@menu/menu_" + screen, toolbar.getAttribute("app:menu"));
+            Document menu = xml("app/src/mobile/res/menu/menu_" + screen + ".xml");
+            assertEquals("@drawable/ic_action_sync", view(menu, "sync").getAttribute("android:icon"));
+            assertEquals("@drawable/ic_action_delete", view(menu, "delete").getAttribute("android:icon"));
+            assertEquals("@color/ibox_text_primary", view(menu, "sync").getAttribute("app:iconTint"));
+            assertEquals("@color/ibox_text_primary", view(menu, "delete").getAttribute("app:iconTint"));
+        }
+        for (String icon : new String[]{"ic_action_sync", "ic_action_delete"}) {
+            Element vector = xml("app/src/mobile/res/drawable/" + icon + ".xml").getDocumentElement();
+            assertEquals("30dp", vector.getAttribute("android:width"));
+            assertEquals("30dp", vector.getAttribute("android:height"));
+            assertEquals("960", vector.getAttribute("android:viewportWidth"));
+            assertEquals("@android:color/white", ((Element) vector.getElementsByTagName("path").item(0))
+                    .getAttribute("android:fillColor"));
         }
     }
 
@@ -1332,8 +1589,8 @@ public class UiResourceContractTest {
     public void mobileFormerBottomSheetsUseAStableCenteredWindow() throws Exception {
         String source = Files.readString(repoRoot().resolve(
                 "app/src/main/java/com/imedia/box/ui/dialog/BaseBottomSheetDialog.java"));
-        assertTrue("Mobile dialogs must use a centered dialog instead of BottomSheetBehavior",
-                source.contains("new AppCompatDialog(requireContext(), R.style.ThemeOverlay_IBox_Dialog_Alert)"));
+        assertTrue("Mobile dialogs must use a centered dialog with the activity-specific theme",
+                source.contains("new AppCompatDialog(requireContext(), IBoxAlertDialogBuilder.themeFor("));
         assertTrue("Mobile dialogs must be centered before they are shown",
                 source.contains("window.setGravity(Gravity.CENTER)"));
         assertFalse("Post-layout sheet offsets make dialogs jump when content changes",

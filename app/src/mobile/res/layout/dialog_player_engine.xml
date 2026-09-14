@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -28,7 +29,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/player_debug"
-            android:src="@drawable/ic_action_debug" />
+            android:src="@drawable/ic_action_debug"
+            app:tint="?attr/colorOnSurface" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

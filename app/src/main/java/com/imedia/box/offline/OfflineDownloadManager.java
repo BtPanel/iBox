@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -143,6 +144,19 @@ public final class OfflineDownloadManager {
             while (cursor.moveToNext()) items.add(cursor.getDownload());
         } catch (IOException ignored) {
         }
+        items.sort(Comparator.comparingLong((Download item) -> item.updateTimeMs).reversed());
+        return items;
+    }
+
+    public static List<Download> getDownloadsWithLiveProgress() {
+        return withLiveProgress(getDownloads(), get().getCurrentDownloads());
+    }
+
+    static List<Download> withLiveProgress(List<Download> indexed, List<Download> current) {
+        Map<String, Download> byId = new LinkedHashMap<>();
+        for (Download item : indexed) byId.put(item.request.id, item);
+        for (Download item : current) byId.put(item.request.id, item);
+        List<Download> items = new ArrayList<>(byId.values());
         items.sort(Comparator.comparingLong((Download item) -> item.updateTimeMs).reversed());
         return items;
     }

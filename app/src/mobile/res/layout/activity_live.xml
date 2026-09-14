@@ -60,7 +60,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/channelSummary"
         android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_height="64dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="6dp"
@@ -116,9 +116,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/ibox_text_secondary"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textColor="@color/ibox_text_primary"
                 android:textSize="@dimen/ibox_text_supporting"
                 tools:text="正在播放：新闻眼" />
 
@@ -142,33 +143,33 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/summarySearch"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="@drawable/bg_home_action"
+            android:layout_width="@dimen/ibox_touch_target"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/live_channel_search"
-            android:padding="10dp"
+            android:padding="12dp"
             android:src="@drawable/ic_msr_search"
             android:tooltipText="@string/live_channel_search"
             app:tint="@color/ibox_text_primary" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/summaryCast"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="@drawable/bg_home_action"
+            android:layout_width="@dimen/ibox_touch_target"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/cast_control"
-            android:padding="10dp"
-            android:src="@drawable/ic_msr_cast"
+            android:padding="12dp"
+            android:src="@drawable/ic_msr_cast_mobile"
             android:tooltipText="@string/cast_control"
             app:tint="@color/ibox_text_primary" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/summaryConfig"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="@drawable/bg_home_action"
+            android:layout_width="@dimen/ibox_touch_target"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/repository_live_title"
-            android:padding="10dp"
+            android:padding="12dp"
             android:src="@drawable/ic_msr_settings"
             android:tooltipText="@string/repository_live_title"
             app:tint="@color/ibox_text_primary" />

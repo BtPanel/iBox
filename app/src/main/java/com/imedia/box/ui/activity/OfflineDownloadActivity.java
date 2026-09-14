@@ -77,7 +77,7 @@ public class OfflineDownloadActivity extends BaseActivity implements OfflineDown
     }
 
     private void refresh() {
-        List<OfflineDownloadItem> all = OfflineDownloadManager.getDownloads().stream().map(OfflineDownloadItem::from).toList();
+        List<OfflineDownloadItem> all = OfflineDownloadManager.getDownloadsWithLiveProgress().stream().map(OfflineDownloadItem::from).toList();
         List<OfflineDownloadItem> visible = all.stream().filter(this::matchesFilter).toList();
         adapter.setItems(visible);
         binding.empty.setVisibility(visible.isEmpty() ? android.view.View.VISIBLE : android.view.View.GONE);

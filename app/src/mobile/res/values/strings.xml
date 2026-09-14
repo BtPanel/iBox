@@ -64,7 +64,8 @@
     <string name="repository_live_empty">No live subscriptions</string>
     <string name="repository_delete_message">Remove this subscription and its local history?</string>
     <string name="settings_section_sources">Subscriptions and wallpaper</string>
-    <string name="settings_section_appearance">General and appearance</string>
+    <string name="settings_section_general">General and privacy</string>
+    <string name="settings_section_appearance">Appearance</string>
     <string name="settings_section_playback">Playback</string>
     <string name="settings_section_data">Network and storage</string>
     <string name="settings_section_about">About</string>

@@ -23,6 +23,10 @@ public final class PlaybackOrientation {
         return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
     }
 
+    public static boolean shouldRestoreMovieDetailOnRotate(boolean portraitLayout, boolean landscapeScreen) {
+        return portraitLayout && landscapeScreen;
+    }
+
     public static int getEnterFullscreenOrientation(boolean portraitVideo) {
         if (portraitVideo) return ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT;
         return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
@@ -49,14 +53,6 @@ public final class PlaybackOrientation {
     }
 
     public static int getLandAutoRotateOrientation() {
-        return ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE;
-    }
-
-    public static int getPortraitVideoSizeOrientation() {
-        return ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT;
-    }
-
-    public static int getLandscapeVideoSizeOrientation() {
         return ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE;
     }
 

@@ -32,8 +32,8 @@
     <dimen name="ibox_toolbar_height">56dp</dimen>
     <dimen name="ibox_content_padding_horizontal">16dp</dimen>
     <dimen name="ibox_content_padding_vertical">16dp</dimen>
-    <dimen name="ibox_navigation_height">68dp</dimen>
-    <dimen name="ibox_navigation_item_height">64dp</dimen>
+    <dimen name="ibox_navigation_height">60dp</dimen>
+    <dimen name="ibox_navigation_item_height">56dp</dimen>
     <dimen name="ibox_icon_small">20dp</dimen>
     <dimen name="ibox_icon_medium">24dp</dimen>
     <dimen name="ibox_icon_large">28dp</dimen>

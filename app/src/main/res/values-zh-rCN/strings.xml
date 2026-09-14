@@ -830,6 +830,8 @@
     <string name="live_menu_current">当前</string>
     <string name="live_epg_current_format">正在播放：%1$s</string>
     <string name="live_epg_next_format">下一节目：%1$s</string>
+    <string name="live_epg_now_short">正在 %1$s</string>
+    <string name="live_epg_next_short">稍后 %1$s</string>
     <string name="live_previous_channel">上一频道</string>
     <string name="live_previous_unavailable">暂无上一频道</string>
     <string name="live_menu_on">开启</string>
@@ -890,6 +892,7 @@
     <string name="live_epg_offset_hour">%1$+d 小时</string>
     <string name="live_epg_storage_internal">应用内部存储</string>
     <string name="live_epg_storage_external">外部存储 iBox/epg</string>
+    <string name="live_epg_storage_permission_required">外部 EPG 缓存需要存储访问权限</string>
     <string name="live_epg_count">%1$d 个</string>
     <string name="live_menu_subscription_list">订阅列表</string>
     <string name="live_menu_add_source">添加订阅</string>
@@ -900,6 +903,7 @@
     <string name="live_menu_unsupported">不支持</string>
     <string name="live_epg_refresh_success">EPG 已刷新</string>
     <string name="live_epg_refresh_failed">EPG 刷新失败</string>
+    <string name="live_epg_refresh_diyp">DIYP 节目单按频道加载，无需刷新 XML</string>
     <string name="live_menu_scan_push">扫码推送</string>
     <string name="live_menu_scan_ready">扫码或浏览器</string>
     <string name="live_menu_epg_custom">自定义 EPG</string>

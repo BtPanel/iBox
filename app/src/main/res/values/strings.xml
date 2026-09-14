@@ -841,6 +841,8 @@
     <string name="live_menu_current">Current</string>
     <string name="live_epg_current_format">On now: %1$s</string>
     <string name="live_epg_next_format">Up next: %1$s</string>
+    <string name="live_epg_now_short">Now %1$s</string>
+    <string name="live_epg_next_short">Next %1$s</string>
     <string name="live_previous_channel">Previous channel</string>
     <string name="live_previous_unavailable">No previous channel</string>
     <string name="live_menu_on">On</string>
@@ -904,6 +906,7 @@
     <string name="live_epg_offset_hour">%1$+d hours</string>
     <string name="live_epg_storage_internal">Internal app storage</string>
     <string name="live_epg_storage_external">External storage iBox/epg</string>
+    <string name="live_epg_storage_permission_required">Storage access is required for external EPG cache</string>
     <string name="live_epg_count">%1$d items</string>
     <string name="live_menu_subscription_list">Subscriptions</string>
     <string name="live_menu_add_source">Add subscription</string>
@@ -914,6 +917,7 @@
     <string name="live_menu_unsupported">Unavailable</string>
     <string name="live_epg_refresh_success">EPG refreshed</string>
     <string name="live_epg_refresh_failed">EPG refresh failed</string>
+    <string name="live_epg_refresh_diyp">DIYP guide data loads per channel; XML refresh is not used</string>
     <string name="live_menu_scan_push">Scan to add</string>
     <string name="live_menu_scan_ready">QR / browser</string>
     <string name="live_menu_epg_custom">Custom EPG</string>

@@ -4,6 +4,6 @@
 
     <corners android:radius="8dp" />
 
-    <solid android:color="@color/ibox_surface_container_high" />
+    <solid android:color="@color/ibox_wall_chrome_surface" />
 
 </shape>

@@ -37,7 +37,8 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/subtitle_setting"
             android:focusable="true"
-            android:src="@drawable/ic_msr_settings" />
+            android:src="@drawable/ic_msr_settings"
+            app:tint="?attr/colorOnSurface" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

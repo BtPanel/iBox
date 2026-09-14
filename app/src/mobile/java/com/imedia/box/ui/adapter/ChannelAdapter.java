@@ -12,9 +12,6 @@ import com.imedia.box.R;
 import com.imedia.box.bean.Channel;
 import com.imedia.box.databinding.AdapterChannelBinding;
 import com.imedia.box.live.LiveChannelStore;
-import com.imedia.box.live.LiveProgramSchedule;
-import com.imedia.box.bean.EpgData;
-import com.imedia.box.setting.LiveSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +98,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         holder.binding.name.setText(item.getShow());
         holder.binding.number.setText(item.getNumber());
         holder.binding.lines.setText(holder.itemView.getResources().getString(R.string.live_line_count, item.getUrls().size()));
-        bindProgram(holder, item);
         bindStatus(holder, item);
         bindSelection(holder, item);
         holder.binding.getRoot().setOnClickListener(view -> listener.onItemClick(item));
@@ -121,25 +117,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
 
     private void bindStatus(ViewHolder holder, Channel item) {
         holder.binding.status.setVisibility(LiveChannelStore.isFailed(item) ? View.VISIBLE : View.GONE);
-    }
-
-    private void bindProgram(ViewHolder holder, Channel item) {
-        int mode = LiveSetting.getChannelEpgMode();
-        LiveProgramSchedule.Snapshot schedule = LiveProgramSchedule.select(item, System.currentTimeMillis());
-        EpgData current = schedule.current();
-        EpgData next = schedule.next();
-        holder.binding.summary.setVisibility(mode > 0 ? View.VISIBLE : View.GONE);
-        holder.binding.next.setVisibility(mode > 0 && next != null ? View.VISIBLE : View.GONE);
-        holder.binding.summary.setText(current == null ? holder.itemView.getContext().getString(R.string.live_epg_empty)
-                : holder.itemView.getContext().getString(R.string.live_epg_current_format,
-                mode == 1 ? current.getTitle() : current.format()));
-        if (mode > 0 && next != null) holder.binding.next.setText(holder.itemView.getContext().getString(R.string.live_epg_next_format,
-                mode == 1 ? next.getTitle() : next.format()));
-    }
-
-    public void refreshProgram(Channel item) {
-        int position = mItems.indexOf(item);
-        if (position >= 0) notifyItemChanged(position);
     }
 
     private void bindSelection(ViewHolder holder, Channel item) {

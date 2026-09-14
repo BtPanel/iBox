@@ -73,6 +73,8 @@
         <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.IBox.Dialog</item>
     </style>
 
+    <style name="ThemeOverlay.IBox.Dialog.LiveAlert" parent="ThemeOverlay.IBox.Dialog.Alert" />
+
     <style name="Widget.IBox.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:backgroundTint">@color/ibox_surface</item>
         <item name="shapeAppearance">@style/ShapeAppearance.IBox.BottomSheet</item>

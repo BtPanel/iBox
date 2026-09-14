@@ -1141,6 +1141,10 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             enterFullscreen();
             return;
         }
+        if (PlaybackOrientation.shouldRestoreMovieDetailOnRotate(isPort(), ResUtil.isLand(this))) {
+            exitFullscreen();
+            return;
+        }
         setRotate(!isRotate());
         setRequestedOrientation(PlaybackOrientation.getRotateOrientation(this));
     }
@@ -1482,6 +1486,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void setOrient() {
+        if (isFullscreen()) return;
         if (isPort() && isAutoRotate()) setRequestedOrientation(PlaybackOrientation.getPortAutoRotateOrientation());
         if (isLand() && isAutoRotate()) setRequestedOrientation(PlaybackOrientation.getLandAutoRotateOrientation());
     }
@@ -1688,7 +1693,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     protected void onSizeChanged(VideoSize size) {
         changeHeight();
-        checkOrientation();
     }
 
     @Override
@@ -1719,16 +1723,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     protected long startPositionMs() {
         return mVod == null ? C.TIME_UNSET : mVod.startPositionMs();
-    }
-
-    private void checkOrientation() {
-        if (isFullscreen() && !isRotate() && player().isPortrait()) {
-            setRequestedOrientation(PlaybackOrientation.getPortraitVideoSizeOrientation());
-            setRotate(true);
-        } else if (isFullscreen() && isRotate() && player().isLandscape()) {
-            setRequestedOrientation(PlaybackOrientation.getLandscapeVideoSizeOrientation());
-            setRotate(false);
-        }
     }
 
     private void changeHeight() {

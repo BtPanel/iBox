@@ -274,7 +274,7 @@
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/ic_msr_cast"
+                                android:src="@drawable/ic_msr_cast_mobile"
                                 app:tint="@color/ibox_player_text_primary" />
 
                             <com.google.android.material.textview.MaterialTextView

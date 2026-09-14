@@ -1,6 +1,9 @@
 package com.imedia.box.ui.dialog;
 
 import android.text.TextUtils;
+import android.os.Build;
+import android.os.Environment;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewbinding.ViewBinding;
@@ -17,14 +20,17 @@ import com.imedia.box.server.Server;
 import com.imedia.box.setting.LiveSetting;
 import com.imedia.box.ui.adapter.EpgSubscriptionAdapter;
 import com.imedia.box.utils.Notify;
+import com.imedia.box.utils.PermissionUtil;
 import com.imedia.box.utils.QRCode;
 import com.imedia.box.utils.ResUtil;
+import com.imedia.box.utils.Util;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class EpgSubscriptionDialog extends BaseAlertDialog implements EpgSubscriptionAdapter.Listener {
@@ -56,9 +62,11 @@ public final class EpgSubscriptionDialog extends BaseAlertDialog implements EpgS
 
     @Override
     protected void initView() {
-        Server.get().start();
-        binding.code.setImageBitmap(QRCode.getBitmap(Server.get().getAddress(4), 166, 0));
-        binding.info.setText(getString(R.string.live_epg_scan_info, Server.get().getAddress()));
+        if (Util.isLeanback()) {
+            Server.get().start();
+            binding.code.setImageBitmap(QRCode.getBitmap(Server.get().getAddress(4), 166, 0));
+            binding.info.setText(getString(R.string.live_epg_scan_info, Server.get().getAddress()));
+        }
         binding.list.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.list.setAdapter(adapter = new EpgSubscriptionAdapter(this));
         refresh();
@@ -76,7 +84,13 @@ public final class EpgSubscriptionDialog extends BaseAlertDialog implements EpgS
     }
 
     private void refresh() {
-        adapter.setItems(LiveSetting.getEpgSubscriptions());
+        List<LiveSetting.EpgSubscription> items = LiveSetting.getEpgSubscriptions();
+        adapter.setItems(items);
+        if (!Util.isLeanback()) {
+            ViewGroup.LayoutParams params = binding.list.getLayoutParams();
+            params.height = ResUtil.dp2px(Math.max(1, Math.min(3, items.size())) * 56);
+            binding.list.setLayoutParams(params);
+        }
         binding.cache.setText(getString(R.string.live_epg_cache_value, LiveSetting.getEpgCacheHour()));
     }
 
@@ -182,8 +196,22 @@ public final class EpgSubscriptionDialog extends BaseAlertDialog implements EpgS
         new IBoxAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_IBox_Dialog_Alert)
                 .setTitle(R.string.live_epg_cache_storage)
                 .setSingleChoiceItems(labels, LiveSetting.isEpgExternalCache() ? 1 : 0, (dialog, which) -> {
-                    LiveSetting.putEpgExternalCache(which == 1);
-                    dialog.dismiss();
+                    if (which == 0) {
+                        LiveSetting.putEpgExternalCache(false);
+                        dialog.dismiss();
+                        return;
+                    }
+                    PermissionUtil.requestFile(this, granted -> {
+                        if (!isAdded()) return;
+                        boolean scoped = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R;
+                        boolean allFiles = scoped && Environment.isExternalStorageManager();
+                        if (EpgStorageSelection.canUseExternal(granted, scoped, allFiles)) {
+                            LiveSetting.putEpgExternalCache(true);
+                            dialog.dismiss();
+                        } else {
+                            Notify.show(R.string.live_epg_storage_permission_required);
+                        }
+                    });
                 })
                 .show();
     }
@@ -244,7 +272,7 @@ public final class EpgSubscriptionDialog extends BaseAlertDialog implements EpgS
     @Override
     public void onStart() {
         super.onStart();
-        setWidth(0.74f);
+        if (Util.isLeanback()) setWidth(0.74f);
         EventBus.getDefault().register(this);
     }
 

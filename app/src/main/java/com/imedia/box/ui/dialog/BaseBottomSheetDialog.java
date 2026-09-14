@@ -21,6 +21,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.imedia.box.R;
 import com.imedia.box.accessibility.AppAccessibility;
+import com.imedia.box.ui.custom.IBoxAlertDialogBuilder;
 import com.imedia.box.setting.Setting;
 import com.imedia.box.utils.ResUtil;
 import com.imedia.box.utils.Util;
@@ -52,7 +53,8 @@ public abstract class BaseBottomSheetDialog extends AppCompatDialogFragment {
             bottomSheet.setOnShowListener(d -> setSheet(bottomSheet));
             dialog = bottomSheet;
         } else {
-            dialog = new AppCompatDialog(requireContext(), R.style.ThemeOverlay_IBox_Dialog_Alert);
+            dialog = new AppCompatDialog(requireContext(), IBoxAlertDialogBuilder.themeFor(
+                    requireContext(), R.style.ThemeOverlay_IBox_Dialog_Alert));
         }
         if (Setting.isReduceMotion() && dialog.getWindow() != null) dialog.getWindow().setWindowAnimations(0);
         Window window = dialog.getWindow();

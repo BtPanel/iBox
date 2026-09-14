@@ -7,11 +7,11 @@
     android:layout_margin="8dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/ibox_surface"
+    app:cardBackgroundColor="@color/ibox_wall_chrome_surface"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp"
-    app:strokeColor="@color/ibox_surface_variant"
-    app:strokeWidth="2dp">
+    app:strokeColor="@color/ibox_glass_divider"
+    app:strokeWidth="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

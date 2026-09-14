@@ -10,4 +10,9 @@
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.IBox.Dialog</item>
         <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.IBox.Dialog</item>
     </style>
+
+    <style name="ThemeOverlay.IBox.Dialog.LiveAlert" parent="ThemeOverlay.IBox.Dialog.Alert">
+        <item name="colorSurface">@color/ibox_live_dialog_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/ibox_live_dialog_surface</item>
+    </style>
 </resources>

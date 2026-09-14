@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_toolbar_height"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/ic_msr_arrow_back"
+        app:navigationIconTint="@color/ibox_text_primary"
+        app:title="@string/download_manager"
+        app:titleTextAppearance="@style/TextAppearance.IBox.Toolbar">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/policy"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/ibox_touch_target"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_gravity="end"
+            android:contentDescription="@string/download_policy_title"
+            app:icon="@drawable/ic_msr_settings" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/filters"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_touch_target"
+        android:layout_marginHorizontal="16dp"
+        app:checkedButton="@id/filterAll"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filterAll"
+            style="@style/Widget.IBox.Button.Segment"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="@string/download_filter_all"
+            android:textSize="@dimen/ibox_text_supporting"
+            app:backgroundTint="@color/selector_download_filter_background"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filterActive"
+            style="@style/Widget.IBox.Button.Segment"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="@string/download_filter_active"
+            android:textSize="@dimen/ibox_text_supporting"
+            app:backgroundTint="@color/selector_download_filter_background"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filterCompleted"
+            style="@style/Widget.IBox.Button.Segment"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="@string/download_filter_completed"
+            android:textSize="@dimen/ibox_text_supporting"
+            app:backgroundTint="@color/selector_download_filter_background"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filterFailed"
+            style="@style/Widget.IBox.Button.Segment"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_touch_target"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="@string/download_filter_failed"
+            android:textSize="@dimen/ibox_text_supporting"
+            app:backgroundTint="@color/selector_download_filter_background"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
+        android:minHeight="32dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/queueStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/policySummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/ibox_text_primary"
+            android:gravity="center"
+            android:text="@string/download_empty"
+            android:textAppearance="@style/TextAppearance.IBox.Body"
+            app:drawableTopCompat="@drawable/ic_msr_download" />
+    </FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

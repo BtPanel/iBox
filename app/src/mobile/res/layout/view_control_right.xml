@@ -23,7 +23,7 @@
         android:contentDescription="@string/play_toggle_orientation"
         android:padding="12dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_msr_screen_rotation"
+        android:src="@drawable/ic_msr_screen_rotation_mobile"
         android:tooltipText="@string/play_toggle_orientation" />
 
     <androidx.appcompat.widget.AppCompatImageView

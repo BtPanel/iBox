@@ -13,27 +13,38 @@
         android:minHeight="@dimen/ibox_touch_target"
         android:text="@string/live_menu_title"
         android:textAppearance="@style/TextAppearance.IBox.DialogTitle"
+        android:textColor="@color/ibox_text_primary"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ibox_touch_target"
-        android:layout_marginBottom="@dimen/ibox_space_2"
-        android:clipToPadding="false"
-        android:overScrollMode="never" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/actions"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:overScrollMode="never" />
+        android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categories"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/ibox_space_2"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:visibility="gone" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

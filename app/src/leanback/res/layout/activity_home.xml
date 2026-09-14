@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/ibox_toolbar_height"
         android:animateLayoutChanges="true"
-        android:background="@color/ibox_surface_container"
+        android:background="@color/black_70"
         android:elevation="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"

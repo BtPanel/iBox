@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.imedia.box.R;
 import com.imedia.box.databinding.AdapterOfflineDownloadBinding;
 import com.imedia.box.offline.DownloadSpeedTracker;
+import com.imedia.box.offline.DownloadStatusPolicy;
 import com.imedia.box.offline.OfflineDownloadItem;
 import com.imedia.box.utils.ImgUtil;
 
@@ -126,14 +127,16 @@ public class OfflineDownloadAdapter extends RecyclerView.Adapter<OfflineDownload
             Download download = item.download();
             String status = binding.getRoot().getContext().getString(statusText(item));
             long speed = speeds.getOrDefault(download.request.id, 0L);
-            if (download.state == Download.STATE_DOWNLOADING && speed > 0) {
+            if (DownloadStatusPolicy.showSpeed(binding.getRoot().getResources().getBoolean(
+                    R.bool.download_show_transfer_stats_always), download.state, speed)) {
                 status = binding.getRoot().getContext().getString(
                         R.string.download_status_speed,
                         status,
-                        Formatter.formatFileSize(binding.getRoot().getContext(), speed));
+                        Formatter.formatFileSize(binding.getRoot().getContext(),
+                                DownloadStatusPolicy.displayedSpeed(download.state, speed)));
             }
             binding.status.setText(status);
-            binding.progress.setProgressCompat(item.progress(), true);
+            binding.progress.setProgressCompat(DownloadStatusPolicy.displayedProgress(download.state, item.progress()), true);
             binding.progressText.setText(progressText(item));
             binding.pause.setVisibility(item.isActive() && !item.isPaused() ? View.VISIBLE : View.GONE);
             binding.resume.setVisibility(item.isPaused() ? View.VISIBLE : View.GONE);
@@ -151,8 +154,10 @@ public class OfflineDownloadAdapter extends RecyclerView.Adapter<OfflineDownload
         private String progressText(OfflineDownloadItem item) {
             Download download = item.download();
             String bytes = Formatter.formatFileSize(binding.getRoot().getContext(), Math.max(0, download.getBytesDownloaded()));
-            if (item.isCompleted()) return bytes;
-            return binding.getRoot().getContext().getString(R.string.download_progress_value, item.progress(), bytes);
+            if (item.isCompleted() && !binding.getRoot().getResources().getBoolean(
+                    R.bool.download_show_transfer_stats_always)) return bytes;
+            return binding.getRoot().getContext().getString(R.string.download_progress_value,
+                    DownloadStatusPolicy.displayedProgress(download.state, item.progress()), bytes);
         }
 
         private int statusText(OfflineDownloadItem item) {

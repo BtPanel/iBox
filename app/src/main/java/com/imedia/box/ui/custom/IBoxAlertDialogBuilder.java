@@ -7,17 +7,25 @@ import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.imedia.box.R;
+import com.imedia.box.ui.activity.LiveActivity;
+import com.imedia.box.utils.Util;
 
 public class IBoxAlertDialogBuilder extends MaterialAlertDialogBuilder {
 
     public IBoxAlertDialogBuilder(Context context) {
-        super(context);
+        super(context, themeFor(context, 0));
         applyOutline();
     }
 
     public IBoxAlertDialogBuilder(Context context, int overrideThemeResId) {
-        super(context, overrideThemeResId);
+        super(context, themeFor(context, overrideThemeResId));
         applyOutline();
+    }
+
+    public static int themeFor(Context context, int overrideThemeResId) {
+        return !Util.isLeanback() && context instanceof LiveActivity
+                && (overrideThemeResId == 0 || overrideThemeResId == R.style.ThemeOverlay_IBox_Dialog_Alert)
+                ? R.style.ThemeOverlay_IBox_Dialog_LiveAlert : overrideThemeResId;
     }
 
     private void applyOutline() {

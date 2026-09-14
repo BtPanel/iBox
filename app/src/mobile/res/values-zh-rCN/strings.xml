@@ -64,7 +64,8 @@
     <string name="repository_live_empty">暂无直播订阅</string>
     <string name="repository_delete_message">删除此订阅及其本地历史？</string>
     <string name="settings_section_sources">订阅与壁纸</string>
-    <string name="settings_section_appearance">通用与外观</string>
+    <string name="settings_section_general">通用与隐私</string>
+    <string name="settings_section_appearance">外观</string>
     <string name="settings_section_playback">播放与弹幕</string>
     <string name="settings_section_data">网络与存储</string>
     <string name="settings_section_about">关于</string>
