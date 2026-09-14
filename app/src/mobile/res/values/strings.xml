@@ -135,6 +135,9 @@
     <string name="cast_playing">Playing on device</string>
     <string name="cast_paused">Paused</string>
     <string name="cast_stopped">Stopped</string>
+    <string name="cast_connection_lost">Connection lost</string>
+    <string name="cast_retrying">Reconnecting</string>
+    <string name="cast_retry_playback">Retry casting</string>
     <string name="cast_live">LIVE</string>
     <string name="cast_play">Play</string>
     <string name="cast_pause">Pause</string>

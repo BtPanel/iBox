@@ -1037,6 +1037,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobileCastConnectionRetryIsAvailableInBothOrientations() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Element button = view(xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml"), "retry");
+            assertEquals(layout, "gone", button.getAttribute("android:visibility"));
+            assertEquals(layout, "@string/cast_retry_playback", button.getAttribute("android:contentDescription"));
+        }
+    }
+
+    @Test
     public void repositoryAddressProvidesAUserScrollableViewport() throws Exception {
         Element url = view(xml("app/src/mobile/res/layout/adapter_repository.xml"), "url");
         assertEquals("com.google.android.material.textview.MaterialTextView", url.getTagName());

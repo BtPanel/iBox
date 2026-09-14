@@ -135,6 +135,9 @@
     <string name="cast_playing">正在设备上播放</string>
     <string name="cast_paused">已暂停</string>
     <string name="cast_stopped">已停止</string>
+    <string name="cast_connection_lost">连接中断</string>
+    <string name="cast_retrying">正在重新连接</string>
+    <string name="cast_retry_playback">重试投屏</string>
     <string name="cast_live">直播</string>
     <string name="cast_play">播放</string>
     <string name="cast_pause">暂停</string>

@@ -79,6 +79,22 @@
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     android:textColor="@color/ibox_text_secondary" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/retry"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:contentDescription="@string/cast_retry_playback"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_msr_refresh"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="20dp"
+                    app:iconTint="?attr/colorPrimary" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>

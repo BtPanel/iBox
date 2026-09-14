@@ -28,9 +28,11 @@ import java.util.Locale;
 public class DLNACastSession {
 
     private static final long POLL_INTERVAL = 2000;
+    private static final long POLL_TIMEOUT = 5000;
 
     private final Runnable pollTask = this::poll;
     private final Runnable disconnectTask = this::finish;
+    private final CastConnectionHealth connection = new CastConnectionHealth();
 
     private RemoteService avTransport;
     private RemoteService renderingControl;
@@ -45,6 +47,8 @@ public class DLNACastSession {
     private int pollCount;
     private boolean active;
     private boolean retained;
+    private long generation;
+    private Runnable retryTask;
 
     public static DLNACastSession get() {
         return Loader.INSTANCE;
@@ -52,6 +56,8 @@ public class DLNACastSession {
 
     public void start(CastVideo video, Device device) {
         DLNACastManager manager = DLNACastManager.get();
+        generation++;
+        connection.reset();
         this.video = video;
         this.device = device;
         this.position = Math.max(0, video.position());
@@ -89,17 +95,18 @@ public class DLNACastSession {
     }
 
     public State getState() {
-        return new State(active, transportState == TransportState.PLAYING, position, duration, volume, renderingControl != null, transportState);
+        return new State(active, transportState == TransportState.PLAYING, position, duration, volume,
+                renderingControl != null, transportState, connection.status());
     }
 
     public void togglePlayback() {
-        if (!active || controlPoint == null || avTransport == null) return;
+        if (!active || connection.status() != CastConnectionHealth.Status.CONNECTED || controlPoint == null || avTransport == null) return;
         if (transportState == TransportState.PLAYING) pause();
         else play();
     }
 
     public void seekTo(long positionMs) {
-        if (!active || controlPoint == null || avTransport == null) return;
+        if (!active || connection.status() != CastConnectionHealth.Status.CONNECTED || controlPoint == null || avTransport == null) return;
         long target = Math.max(0, duration > 0 ? Math.min(positionMs, duration) : positionMs);
         position = target;
         notifyChanged();
@@ -116,7 +123,7 @@ public class DLNACastSession {
     }
 
     public void setVolume(int value) {
-        if (!active || controlPoint == null || renderingControl == null) return;
+        if (!active || connection.status() != CastConnectionHealth.Status.CONNECTED || controlPoint == null || renderingControl == null) return;
         int target = Math.max(0, Math.min(value, 100));
         volume = target;
         notifyChanged();
@@ -137,6 +144,8 @@ public class DLNACastSession {
             finish();
             return;
         }
+        generation++;
+        if (retryTask != null) App.removeCallbacks(retryTask);
         App.post(disconnectTask, 2000);
         if (controlPoint == null || avTransport == null) return;
         controlPoint.execute(new Stop(avTransport) {
@@ -150,6 +159,37 @@ public class DLNACastSession {
                 App.post(DLNACastSession.this::finish);
             }
         });
+    }
+
+    public void retry() {
+        if (!active || !connection.beginRetry()) return;
+        long attempt = ++generation;
+        notifyChanged();
+        DLNACastManager.get().search();
+        retryTask = () -> {
+            if (!active || attempt != generation) return;
+            CastVideo resume = new CastVideo(video.name(), video.url(), position, video.headers(), video.image());
+            new DLNACast(resume, () -> {
+                if (!active || attempt != generation) return;
+                DLNACastManager manager = DLNACastManager.get();
+                controlPoint = manager.getControlPoint();
+                avTransport = manager.findAVTransport(device);
+                renderingControl = manager.findRenderingControl(device);
+                if (controlPoint == null || avTransport == null) {
+                    connection.retryFailed();
+                    notifyChanged();
+                    return;
+                }
+                connection.retrySucceeded();
+                transportState = TransportState.PLAYING;
+                notifyChanged();
+            }, () -> {
+                if (!active || attempt != generation) return;
+                connection.retryFailed();
+                notifyChanged();
+            }).cast(device);
+        };
+        App.post(retryTask, 1500);
     }
 
     private void play() {
@@ -184,31 +224,60 @@ public class DLNACastSession {
 
     private void poll() {
         if (!active || controlPoint == null || avTransport == null) return;
-        controlPoint.execute(new GetPositionInfo(avTransport) {
-            @Override
-            public void received(ActionInvocation<?> invocation, PositionInfo info) {
-                position = Math.max(0, info.getTrackElapsedSeconds() * 1000);
-                duration = Math.max(0, info.getTrackDurationSeconds() * 1000);
-                notifyChanged();
-            }
+        if (connection.status() != CastConnectionHealth.Status.RETRYING) {
+            long currentGeneration = generation;
+            CastPollResult result = new CastPollResult();
+            controlPoint.execute(new GetPositionInfo(avTransport) {
+                @Override
+                public void received(ActionInvocation<?> invocation, PositionInfo info) {
+                    App.post(() -> {
+                        if (!active || currentGeneration != generation) return;
+                        position = Math.max(0, info.getTrackElapsedSeconds() * 1000);
+                        duration = Math.max(0, info.getTrackDurationSeconds() * 1000);
+                        onPollResult(result.position(true));
+                        notifyChanged();
+                    });
+                }
 
-            @Override
-            public void failure(ActionInvocation invocation, UpnpResponse response, String message) {
-            }
-        });
-        controlPoint.execute(new GetTransportInfo(avTransport) {
-            @Override
-            public void received(ActionInvocation<?> invocation, TransportInfo info) {
-                transportState = info.getCurrentTransportState();
-                notifyChanged();
-            }
+                @Override
+                public void failure(ActionInvocation invocation, UpnpResponse response, String message) {
+                    App.post(() -> {
+                        if (active && currentGeneration == generation) onPollResult(result.position(false));
+                    });
+                }
+            });
+            controlPoint.execute(new GetTransportInfo(avTransport) {
+                @Override
+                public void received(ActionInvocation<?> invocation, TransportInfo info) {
+                    App.post(() -> {
+                        if (!active || currentGeneration != generation) return;
+                        transportState = info.getCurrentTransportState();
+                        onPollResult(result.transport(true));
+                        notifyChanged();
+                    });
+                }
 
-            @Override
-            public void failure(ActionInvocation invocation, UpnpResponse response, String message) {
-            }
-        });
-        if (renderingControl != null && pollCount++ % 3 == 0) pollVolume();
+                @Override
+                public void failure(ActionInvocation invocation, UpnpResponse response, String message) {
+                    App.post(() -> {
+                        if (!active || currentGeneration != generation) return;
+                        onPollResult(result.transport(false));
+                    });
+                }
+            });
+            App.post(() -> {
+                if (active && currentGeneration == generation) onPollResult(result.timeout());
+            }, POLL_TIMEOUT);
+            if (renderingControl != null && pollCount++ % 3 == 0) pollVolume();
+        }
         App.post(pollTask, POLL_INTERVAL);
+    }
+
+    private void onPollResult(CastPollResult.Outcome outcome) {
+        CastConnectionHealth.Status before = connection.status();
+        if (outcome == CastPollResult.Outcome.ALIVE) connection.pollSucceeded();
+        if (outcome == CastPollResult.Outcome.FAILED) connection.pollFailed();
+        if (connection.status() != before) notifyChanged();
     }
 
     private void pollVolume() {
@@ -227,8 +296,11 @@ public class DLNACastSession {
 
     private synchronized void finish() {
         if (!active && !retained) return;
+        generation++;
         App.removeCallbacks(pollTask, disconnectTask);
+        if (retryTask != null) App.removeCallbacks(retryTask);
         active = false;
+        connection.reset();
         transportState = TransportState.STOPPED;
         notifyChanged();
         if (retained) {
@@ -260,7 +332,8 @@ public class DLNACastSession {
     }
 
     public record State(boolean active, boolean playing, long position, long duration, int volume,
-                        boolean volumeSupported, TransportState transportState) {
+                        boolean volumeSupported, TransportState transportState,
+                        CastConnectionHealth.Status connection) {
     }
 
     public interface Listener {
