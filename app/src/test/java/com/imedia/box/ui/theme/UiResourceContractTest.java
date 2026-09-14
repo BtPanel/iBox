@@ -1073,6 +1073,13 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void remoteAccessQrHasSharedAccessibleImage() throws Exception {
+        Element code = view(xml("app/src/main/res/layout/dialog_remote_access.xml"), "code");
+        assertEquals("@string/remote_scan_code", code.getAttribute("android:contentDescription"));
+        assertEquals("gone", code.getAttribute("android:visibility"));
+    }
+
+    @Test
     public void mobileCastResumeOnPhoneStartsHiddenInBothOrientations() throws Exception {
         for (String layout : new String[]{"layout", "layout-land"}) {
             Element button = view(xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml"), "resumeOnPhone");

@@ -655,6 +655,7 @@
     <string name="remote_description">Allow paired devices on the private network to control playback and manage files.</string>
     <string name="remote_enable">Enable LAN control</string>
     <string name="remote_address">Access address</string>
+    <string name="remote_scan_code">Scan to open LAN control</string>
     <string name="remote_pairing_code">Pairing code</string>
     <string name="remote_connected_devices">Recently connected devices</string>
     <string name="remote_no_devices">No paired devices</string>

@@ -654,6 +654,7 @@
     <string name="remote_description">仅允许已配对的局域网设备控制播放和管理文件，默认关闭。</string>
     <string name="remote_enable">开启局域网控制</string>
     <string name="remote_address">访问地址</string>
+    <string name="remote_scan_code">掃碼開啟區域網路控制</string>
     <string name="remote_pairing_code">配对码</string>
     <string name="remote_connected_devices">最近连接设备</string>
     <string name="remote_no_devices">暂无已配对设备</string>

@@ -58,6 +58,16 @@
                 android:textIsSelectable="true"
                 android:textSize="@dimen/ibox_text_body" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/code"
+                android:layout_width="216dp"
+                android:layout_height="216dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@string/remote_scan_code"
+                android:scaleType="centerInside"
+                android:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
