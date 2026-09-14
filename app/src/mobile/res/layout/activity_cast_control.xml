@@ -136,6 +136,7 @@
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/progress"
+                style="@style/Widget.Material3.Slider.Legacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-8dp"
@@ -192,6 +193,8 @@
                     android:layout_height="56dp"
                     android:contentDescription="@string/cast_seek_back"
                     app:icon="@drawable/ic_msr_replay_10"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconSize="24dp"
                     app:iconTint="@color/ibox_text_primary"
                     app:strokeColor="@color/ibox_outline" />
@@ -205,6 +208,8 @@
                     android:contentDescription="@string/cast_pause"
                     app:backgroundTint="?attr/colorPrimary"
                     app:icon="@drawable/ic_msr_pause"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconSize="34dp"
                     app:iconTint="?attr/colorOnPrimary" />
 
@@ -215,6 +220,8 @@
                     android:layout_height="56dp"
                     android:contentDescription="@string/cast_seek_forward"
                     app:icon="@drawable/ic_msr_forward_10"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconSize="24dp"
                     app:iconTint="@color/ibox_text_primary"
                     app:strokeColor="@color/ibox_outline" />
@@ -268,6 +275,7 @@
 
                     <com.google.android.material.slider.Slider
                         android:id="@+id/volume"
+                        style="@style/Widget.Material3.Slider.Legacy"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -296,6 +304,7 @@
                 android:text="@string/cast_disconnect"
                 android:textColor="@color/ibox_error"
                 app:icon="@drawable/ic_msr_stop_circle"
+                app:iconGravity="textStart"
                 app:iconTint="@color/ibox_error"
                 app:strokeColor="@color/ibox_error" />
 

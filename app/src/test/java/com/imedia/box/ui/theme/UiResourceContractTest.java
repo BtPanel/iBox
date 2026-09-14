@@ -1004,6 +1004,39 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobileCastSlidersUseCircularThumbsInBothOrientations() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Document control = xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml");
+            for (String id : new String[]{"progress", "volume"}) {
+                Element slider = view(control, id);
+                assertEquals(layout + " " + id, "@style/Widget.Material3.Slider.Legacy",
+                        slider.getAttribute("style"));
+                assertEquals(layout + " " + id, "6dp", slider.getAttribute("app:thumbRadius"));
+            }
+        }
+    }
+
+    @Test
+    public void mobileCastPlaybackIconsStayCenteredInTheirButtons() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Document control = xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml");
+            for (String id : new String[]{"rewind", "play", "forward"}) {
+                Element button = view(control, id);
+                assertEquals(layout + " " + id, "textStart", button.getAttribute("app:iconGravity"));
+                assertEquals(layout + " " + id, "0dp", button.getAttribute("app:iconPadding"));
+            }
+        }
+    }
+
+    @Test
+    public void mobileCastDisconnectIconStaysWithCenteredLabel() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Element button = view(xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml"), "disconnect");
+            assertEquals(layout, "textStart", button.getAttribute("app:iconGravity"));
+        }
+    }
+
+    @Test
     public void repositoryAddressProvidesAUserScrollableViewport() throws Exception {
         Element url = view(xml("app/src/mobile/res/layout/adapter_repository.xml"), "url");
         assertEquals("com.google.android.material.textview.MaterialTextView", url.getTagName());
