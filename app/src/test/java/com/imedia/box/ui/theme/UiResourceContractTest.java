@@ -1064,6 +1064,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobileCastEpisodeButtonsPlaceIconsOnOppositeSides() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Document control = xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml");
+            assertEquals(layout, "textStart", view(control, "previousEpisode").getAttribute("app:iconGravity"));
+            assertEquals(layout, "textEnd", view(control, "nextEpisode").getAttribute("app:iconGravity"));
+        }
+    }
+
+    @Test
     public void mobileCastResumeOnPhoneStartsHiddenInBothOrientations() throws Exception {
         for (String layout : new String[]{"layout", "layout-land"}) {
             Element button = view(xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml"), "resumeOnPhone");

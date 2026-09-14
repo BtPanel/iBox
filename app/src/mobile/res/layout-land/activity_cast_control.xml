@@ -270,7 +270,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/cast_previous_episode"
-                        app:icon="@drawable/ic_msr_skip_previous" />
+                        app:icon="@drawable/ic_msr_skip_previous"
+                        app:iconGravity="textStart" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/nextEpisode"
@@ -280,7 +281,8 @@
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:text="@string/cast_next_episode"
-                        app:icon="@drawable/ic_msr_skip_next" />
+                        app:icon="@drawable/ic_msr_skip_next"
+                        app:iconGravity="textEnd" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
