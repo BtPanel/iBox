@@ -195,4 +195,6 @@
     <string name="sheet_select_source">Select source</string>
     <string name="sheet_select_live">Select live source</string>
     <string name="sheet_config_history">Config history</string>
+    <string name="cast_switch_device">Switch device</string>
+    <string name="cast_switching_device">Switching device…</string>
 </resources>

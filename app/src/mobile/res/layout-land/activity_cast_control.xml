@@ -108,6 +108,17 @@
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/switchDevice"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/cast_switch_device"
+                    app:icon="@drawable/ic_msr_swap_horiz"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    app:iconTint="@color/ibox_text_primary" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.imageview.ShapeableImageView

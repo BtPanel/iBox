@@ -56,6 +56,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     private boolean connecting;
     private boolean searching;
     private boolean fm;
+    private boolean switchingDevice;
 
     private final Runnable finishSearch = () -> setSearching(false);
 
@@ -72,6 +73,14 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
         dialog.fm = player.isVod();
         dialog.video = CastVideo.create(player, dialog.fm ? player.getPosition() : C.TIME_UNSET);
         return dialog;
+    }
+
+    public static void switchDevice(FragmentActivity activity) {
+        if (!DLNACastSession.get().isActive()) return;
+        for (Fragment f : activity.getSupportFragmentManager().getFragments()) if (f instanceof CastDialog) return;
+        CastDialog dialog = new CastDialog();
+        dialog.switchingDevice = true;
+        dialog.show(activity.getSupportFragmentManager(), null);
     }
 
     public CastDialog history(History history) {
@@ -104,7 +113,8 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     @Override
     protected void initView() {
-        binding.scan.setVisibility(fm ? View.VISIBLE : View.GONE);
+        binding.scan.setVisibility(fm && !switchingDevice ? View.VISIBLE : View.GONE);
+        if (switchingDevice) binding.title.setText(R.string.cast_switch_device);
         DLNACastManager.get().init(requireActivity());
         DLNACastManager.get().setDeviceListener(this);
         setRecyclerView();
@@ -131,6 +141,13 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     }
 
     private void getDevice() {
+        if (switchingDevice) {
+            adapter.setItems(otherRenderers(DLNACastManager.get().getRegistered()), () -> {
+                setRecyclerVisible();
+                search();
+            });
+            return;
+        }
         adapter.setItems(Device.getAll(), () -> {
             adapter.sort(DLNACastManager.get().getRegistered(), this::setRecyclerVisible);
             if (adapter.getItemCount() == 0) onRefresh();
@@ -143,6 +160,13 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     }
 
     private void onRefresh() {
+        if (switchingDevice) {
+            adapter.clear(() -> {
+                search();
+                adapter.sort(otherRenderers(DLNACastManager.get().getRegistered()), this::setRecyclerVisible);
+            });
+            return;
+        }
         adapter.clear(() -> {
             Device.delete();
             if (fm) scanTask.start();
@@ -181,13 +205,19 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     private void onCastFailed() {
         connecting = false;
+        if (binding == null) return;
         binding.recycler.setAlpha(1f);
         setSearching(false);
     }
 
+    private java.util.List<Device> otherRenderers(java.util.List<Device> devices) {
+        Device current = DLNACastSession.get().getDevice();
+        return devices.stream().filter(item -> item.isDLNA() && !item.equals(current)).toList();
+    }
+
     @Override
     public void onDeviceAdded(Device device) {
-        adapter.sort(device, this::setRecyclerVisible);
+        if (!switchingDevice || otherRenderers(java.util.List.of(device)).size() == 1) adapter.sort(device, this::setRecyclerVisible);
     }
 
     @Override
@@ -197,7 +227,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     @Override
     public void onFind(Device device) {
-        adapter.sort(device, this::setRecyclerVisible);
+        onDeviceAdded(device);
     }
 
     @Override
@@ -227,7 +257,8 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
         binding.searchText.setText(getString(R.string.cast_connecting_device, item.getName()));
         binding.recycler.setAlpha(0.5f);
         setSearching(true);
-        if (item.isDLNA()) new DLNACast(video, () -> onDlnaCasted(item), this::onCastFailed).cast(item);
+        if (switchingDevice) DLNACastSession.get().switchTo(item, this::dismiss, this::onCastFailed);
+        else if (item.isDLNA()) new DLNACast(video, () -> onDlnaCasted(item), this::onCastFailed).cast(item);
         else OkHttp.newCall(client, item.getIp().concat("/action?do=cast"), body.build()).enqueue(this);
     }
 
@@ -239,6 +270,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding = null;
         DLNACastManager.get().setDeviceListener(null);
         DLNACastManager.get().release(requireActivity());
         App.removeCallbacks(finishSearch);

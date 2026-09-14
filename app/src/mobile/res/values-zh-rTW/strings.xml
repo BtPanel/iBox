@@ -195,4 +195,6 @@
     <string name="sheet_select_source">選擇片源</string>
     <string name="sheet_select_live">選擇直播源</string>
     <string name="sheet_config_history">接口記錄</string>
+    <string name="cast_switch_device">切換裝置</string>
+    <string name="cast_switching_device">正在切換裝置…</string>
 </resources>

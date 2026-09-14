@@ -1055,6 +1055,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobileCastDeviceSwitchIsAvailableInBothOrientations() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Element button = view(xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml"), "switchDevice");
+            assertEquals(layout, "@string/cast_switch_device", button.getAttribute("android:contentDescription"));
+            assertEquals(layout, "@drawable/ic_msr_swap_horiz", button.getAttribute("app:icon"));
+        }
+    }
+
+    @Test
     public void repositoryAddressProvidesAUserScrollableViewport() throws Exception {
         Element url = view(xml("app/src/mobile/res/layout/adapter_repository.xml"), "url");
         assertEquals("com.google.android.material.textview.MaterialTextView", url.getTagName());
