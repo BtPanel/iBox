@@ -129,6 +129,8 @@
     <string name="cast_device_dlna">DLNA playback device</string>
     <string name="cast_device_app">iBox device</string>
     <string name="cast_control">Cast controls</string>
+    <string name="cast_return_to_controls">Return to cast controls</string>
+    <string name="cast_current_device">Casting to %1$s</string>
     <string name="cast_connected_to">Casting to %1$s</string>
     <string name="cast_connecting">Connecting</string>
     <string name="cast_disconnecting">Disconnecting</string>

@@ -1046,6 +1046,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobileHomeKeepsAnInFlowCastReturnEntryAboveNavigation() throws Exception {
+        Document home = xml("app/src/mobile/res/layout/activity_home.xml");
+        Element entry = view(home, "castEntry");
+        assertEquals("gone", entry.getAttribute("android:visibility"));
+        assertEquals("@string/cast_return_to_controls", entry.getAttribute("android:contentDescription"));
+        assertEquals("1", view(home, "container").getAttribute("android:layout_weight"));
+    }
+
+    @Test
     public void repositoryAddressProvidesAUserScrollableViewport() throws Exception {
         Element url = view(xml("app/src/mobile/res/layout/adapter_repository.xml"), "url");
         assertEquals("com.google.android.material.textview.MaterialTextView", url.getTagName());

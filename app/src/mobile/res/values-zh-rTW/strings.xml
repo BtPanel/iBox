@@ -129,6 +129,8 @@
     <string name="cast_device_dlna">DLNA 播放设备</string>
     <string name="cast_device_app">iBox 裝置</string>
     <string name="cast_control">投屏控制</string>
+    <string name="cast_return_to_controls">返回投屏控制</string>
+    <string name="cast_current_device">正在投屏至 %1$s</string>
     <string name="cast_connected_to">正在投放到 %1$s</string>
     <string name="cast_connecting">正在连接</string>
     <string name="cast_disconnecting">正在断开</string>

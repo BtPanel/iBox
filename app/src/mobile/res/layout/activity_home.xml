@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/navigation" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/castEntry"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="@dimen/ibox_space_3"
+        android:layout_marginBottom="@dimen/ibox_space_1"
+        android:backgroundTint="@color/ibox_home_chrome_surface"
+        android:contentDescription="@string/cast_return_to_controls"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/cast_return_to_controls"
+        android:textColor="@color/ibox_text_primary"
+        android:visibility="gone"
+        app:icon="@drawable/ic_msr_cast_mobile"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/ibox_space_2"
+        app:iconTint="?attr/colorPrimary" />
 
     <include
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ibox_navigation_height"
-        android:layout_alignParentBottom="true"
         layout="@layout/view_app_navigation" />
 
-</RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

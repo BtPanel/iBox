@@ -25,6 +25,7 @@ import com.imedia.box.api.config.WallConfig;
 import com.imedia.box.bean.Config;
 import com.imedia.box.databinding.ActivityHomeBinding;
 import com.imedia.box.db.AppDatabase;
+import com.imedia.box.dlna.DLNACastSession;
 import com.imedia.box.event.ConfigEvent;
 import com.imedia.box.event.RefreshEvent;
 import com.imedia.box.event.ServerEvent;
@@ -56,7 +57,7 @@ import com.github.catvod.net.OkHttp;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements DLNACastSession.Listener {
 
     private static final long LIVE_CONFIG_DELAY_MS = 2000;
     private static final String STATE_POSITION = "home_position";
@@ -111,6 +112,28 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initEvent() {
+        mBinding.castEntry.setOnClickListener(view -> CastControlActivity.start(this));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DLNACastSession.get().setListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        DLNACastSession.get().setListener(null);
+        super.onPause();
+    }
+
+    @Override
+    public void onStateChanged(DLNACastSession.State state) {
+        mBinding.castEntry.setVisibility(state.active() ? View.VISIBLE : View.GONE);
+        if (state.active() && DLNACastSession.get().getDevice() != null) {
+            mBinding.castEntry.setText(getString(R.string.cast_current_device,
+                    DLNACastSession.get().getDevice().getName()));
+        }
     }
 
     private void checkAction(Intent intent) {
@@ -319,7 +342,7 @@ public class HomeActivity extends BaseActivity {
     protected void onDestroy() {
         App.removeCallbacks(mLoadLiveConfig);
         AppDatabase.backup();
-        if (!OfflineDownloadManager.hasActiveDownloads()) {
+        if (!OfflineDownloadManager.hasActiveDownloads() && !DLNACastSession.get().isActive()) {
             LiveConfig.get().clear();
             VodConfig.get().clear();
             OkHttp.get().clear();
