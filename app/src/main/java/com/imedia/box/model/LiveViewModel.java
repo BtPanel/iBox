@@ -26,7 +26,7 @@ public class LiveViewModel extends ViewModel {
 
     private final MutableLiveData<PlaybackResult<LivePlayRequest>> playback;
     private final MutableLiveData<String> error;
-    private final MutableLiveData<Boolean> xml;
+    private final MutableLiveData<XmlResult> xml;
     private final MutableLiveData<Live> live;
     private final MutableLiveData<Epg> epg;
     private final MutableLiveData<Channel> epgGuide;
@@ -34,6 +34,7 @@ public class LiveViewModel extends ViewModel {
     private final ViewModelTaskRunner<TaskType> tasks;
     private final LivePlaybackState playbackState;
     private volatile boolean xmlLoading;
+    private volatile long xmlRequestId;
     private volatile ZoneId zoneId;
 
     public LiveViewModel() {
@@ -57,8 +58,17 @@ public class LiveViewModel extends ViewModel {
         return error;
     }
 
-    public LiveData<Boolean> xml() {
+    public LiveData<XmlResult> xml() {
         return xml;
+    }
+
+    public boolean isCurrentXmlResult(XmlResult result) {
+        return result != null && result.requestId() == xmlRequestId;
+    }
+
+    public void invalidateXml() {
+        ++xmlRequestId;
+        xmlLoading = false;
     }
 
     public LiveData<Epg> epg() {
@@ -92,19 +102,40 @@ public class LiveViewModel extends ViewModel {
         }, this::handleParseError);
     }
 
-    public void parseXml(Live item) {
-        parseXml(item, false);
+    public long parseXml(Live item) {
+        return parseXml(item, false);
     }
 
-    public void parseXml(Live item, boolean forceRefresh) {
+    public long parseXml(Live item, boolean forceRefresh) {
+        long requestId = ++xmlRequestId;
         xmlLoading = true;
         execute(TaskType.XML, () -> LiveApi.parseXml(item, forceRefresh), result -> {
             xmlLoading = false;
-            xml.postValue(result);
+            xml.postValue(new XmlResult(requestId, result));
         }, error -> {
             xmlLoading = false;
-            xml.postValue(false);
+            xml.postValue(new XmlResult(requestId, false));
         });
+        return requestId;
+    }
+
+    public static final class XmlResult {
+
+        private final long requestId;
+        private final boolean success;
+
+        public XmlResult(long requestId, boolean success) {
+            this.requestId = requestId;
+            this.success = success;
+        }
+
+        public long requestId() {
+            return requestId;
+        }
+
+        public boolean success() {
+            return success;
+        }
     }
 
     public void getEpg(Channel item) {

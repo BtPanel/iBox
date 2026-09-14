@@ -57,6 +57,7 @@ import com.imedia.box.live.LiveChannelSearch;
 import com.imedia.box.live.LiveChannelStore;
 import com.imedia.box.live.LiveProgramLabel;
 import com.imedia.box.live.EpgReminder;
+import com.imedia.box.live.LiveEpgRefresh;
 import com.imedia.box.model.LiveViewModel;
 import com.imedia.box.playback.PlaybackAction;
 import com.imedia.box.playback.PlaybackOrientation;
@@ -766,11 +767,11 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     private void refreshEpg() {
         LiveSetting.EpgSubscription active = LiveSetting.getActiveEpgSubscription();
-        if (!mEpgRefresh.request(active != null && active.getType() == 1)) {
+        if (active != null && active.getType() == 1) {
             Notify.show(R.string.live_epg_refresh_diyp);
             return;
         }
-        mViewModel.parseXml(getHome(), true);
+        mEpgRefresh.request(mViewModel.parseXml(getHome(), true));
     }
 
     @Override
@@ -783,6 +784,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
             return mGroup != null && action - LiveSettingsDialog.GROUP_BASE == mGroupAdapter.indexOf(mGroup)
                     ? getString(R.string.live_menu_current) : "";
         }
+        int optionIndex = getLiveSettingOptionIndex(action);
+        if (optionIndex >= 0) return getString(optionIndex == 1 ? R.string.live_menu_on : R.string.live_menu_off);
         return switch (action) {
             case LiveSettingsDialog.CHANNEL_LINE -> mChannel == null ? "" : mChannel.getLine();
             case LiveSettingsDialog.CHANNEL_KEEP -> getString(isKept(mChannel) ? R.string.live_menu_added : R.string.live_menu_not_added);
@@ -791,10 +794,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
             case LiveSettingsDialog.PLAY_SPEED -> String.format(Locale.ROOT, "%.2fx", player().getSpeed());
             case LiveSettingsDialog.DISPLAY_SCALE -> mBinding.control.action.scale.getText().toString();
             case LiveSettingsDialog.MANAGE_SELECT -> getHome().getName();
-            case LiveSettingsDialog.PLAY_RECONNECT -> getString(LiveSetting.isReconnect() ? R.string.live_menu_on : R.string.live_menu_off);
-            case LiveSettingsDialog.PREFERENCE_CHANGE -> getString(LiveSetting.isChange() ? R.string.live_menu_on : R.string.live_menu_off);
-            case LiveSettingsDialog.LIST_LOGO -> getString(LiveSetting.isShowChannelLogo() ? R.string.live_menu_on : R.string.live_menu_off);
-            case LiveSettingsDialog.LIST_NUMBER -> getString(LiveSetting.isShowChannelNumber() ? R.string.live_menu_on : R.string.live_menu_off);
             case LiveSettingsDialog.MANAGE_EPG_MENU -> getString(R.string.live_epg_count, LiveSetting.getEpgSubscriptions().size());
             default -> "";
         };
@@ -821,12 +820,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     @Override
     public List<String> getLiveSettingOptions(int action) {
-        return switch (action) {
-            case LiveSettingsDialog.PLAY_RECONNECT, LiveSettingsDialog.PREFERENCE_CHANGE,
-                    LiveSettingsDialog.LIST_LOGO, LiveSettingsDialog.LIST_NUMBER -> List.of(
-                            getString(R.string.live_menu_off), getString(R.string.live_menu_on));
-            default -> List.of();
-        };
+        return getLiveSettingOptionIndex(action) < 0 ? List.of() : List.of(
+                getString(R.string.live_menu_off), getString(R.string.live_menu_on));
     }
 
     @Override
@@ -1194,11 +1189,13 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         setWidth(epg);
     }
 
-    private void onXmlParsed(boolean success) {
+    private void onXmlParsed(LiveViewModel.XmlResult result) {
+        if (!mViewModel.isCurrentXmlResult(result)) return;
+        boolean success = result.success();
         if (success) refreshRecent(true);
         if (success) mChannelAdapter.notifyDataSetChanged();
         if (mChannel != null) mViewModel.getEpg(mChannel);
-        int feedback = mEpgRefresh.onParsed(success);
+        int feedback = mEpgRefresh.onParsed(result.requestId(), success);
         if (feedback != 0) Notify.show(feedback);
     }
 
@@ -1460,6 +1457,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     @Override
     public void setConfig(Config config) {
+        mEpgRefresh.clear();
+        mViewModel.invalidateXml();
         if (config.isEmpty()) {
             LiveConfig.get().clear().config(config);
             player().reset();
@@ -1497,6 +1496,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     @Override
     public void setLive(Live item) {
+        mEpgRefresh.clear();
+        mViewModel.invalidateXml();
         if (item.isSelected()) item.getGroups().clear();
         LiveConfig.get().setHome(item);
         player().reset();

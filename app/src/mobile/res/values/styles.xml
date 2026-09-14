@@ -45,6 +45,10 @@
 
     <style name="Theme.App" parent="Theme.Base" />
 
+    <style name="Theme.Live" parent="Theme.App">
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.IBox.Dialog.LiveAlert</item>
+    </style>
+
     <style name="Theme.DetailProbe" parent="Theme.Base">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

@@ -1600,6 +1600,39 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void liveAlertThemeComesFromTheActivityTheme() throws Exception {
+        Document manifest = xml("app/src/mobile/AndroidManifest.xml");
+        NodeList activities = manifest.getElementsByTagName("activity");
+        boolean themed = false;
+        for (int i = 0; i < activities.getLength(); i++) {
+            Element activity = (Element) activities.item(i);
+            if (!".ui.activity.LiveActivity".equals(activity.getAttribute("android:name"))) continue;
+            themed = "@style/Theme.Live".equals(activity.getAttribute("android:theme"));
+        }
+        assertTrue("LiveActivity must declare its own dialog theme", themed);
+
+        Document styles = xml("app/src/mobile/res/values/styles.xml");
+        NodeList themes = styles.getElementsByTagName("style");
+        boolean liveAlert = false;
+        for (int i = 0; i < themes.getLength(); i++) {
+            Element theme = (Element) themes.item(i);
+            if (!"Theme.Live".equals(theme.getAttribute("name"))) continue;
+            NodeList items = theme.getElementsByTagName("item");
+            for (int j = 0; j < items.getLength(); j++) {
+                Element item = (Element) items.item(j);
+                liveAlert |= "materialAlertDialogTheme".equals(item.getAttribute("name"))
+                        && "@style/ThemeOverlay.IBox.Dialog.LiveAlert".equals(item.getTextContent().trim());
+            }
+        }
+        assertTrue("Live theme must select the live dialog overlay", liveAlert);
+
+        String builder = Files.readString(repoRoot().resolve(
+                "app/src/main/java/com/imedia/box/ui/custom/IBoxAlertDialogBuilder.java"));
+        assertFalse("Shared builder must not depend on LiveActivity", builder.contains("LiveActivity"));
+        assertTrue("Shared builder must resolve the theme attribute", builder.contains("materialAlertDialogTheme"));
+    }
+
+    @Test
     public void documentedPaletteRolesResolveInEveryPlatformPalette() throws Exception {
         String documentation = Files.readString(repoRoot().resolve("docs/UI_DESIGN_SYSTEM.md"));
         Set<String> roles = Set.of("ibox_primary", "ibox_on_primary", "ibox_primary_container",

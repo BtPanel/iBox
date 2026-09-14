@@ -54,6 +54,7 @@ import com.imedia.box.impl.PassListener;
 import com.imedia.box.live.LiveChannelSearch;
 import com.imedia.box.live.LiveChannelStore;
 import com.imedia.box.live.EpgReminder;
+import com.imedia.box.live.LiveEpgRefresh;
 import com.imedia.box.model.LiveViewModel;
 import com.imedia.box.playback.PlaybackAction;
 import com.imedia.box.playback.PlaybackReset;
@@ -137,7 +138,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     private Channel mChannel;
     private Epg mSelectedEpg;
     private String mPlaybackKey;
-    private boolean mEpgRefreshRequested;
+    private final LiveEpgRefresh mEpgRefresh = new LiveEpgRefresh();
     private long mPendingSeekTime;
     private int count;
 
@@ -1157,8 +1158,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void refreshEpg() {
-        mEpgRefreshRequested = true;
-        mViewModel.parseXml(getHome(), true);
+        mEpgRefresh.request(mViewModel.parseXml(getHome(), true));
     }
 
     private void hideUI() {
@@ -1704,13 +1704,14 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
         setWidth(epg);
     }
 
-    private void onXmlParsed(boolean success) {
+    private void onXmlParsed(LiveViewModel.XmlResult result) {
+        if (!mViewModel.isCurrentXmlResult(result)) return;
+        boolean success = result.success();
         if (success) refreshRecent(true);
         if (success) mChannelAdapter.notifyDataSetChanged();
         if (mChannel != null) mViewModel.getEpg(mChannel);
-        if (!mEpgRefreshRequested) return;
-        mEpgRefreshRequested = false;
-        Notify.show(success ? R.string.live_epg_refresh_success : R.string.live_epg_refresh_failed);
+        int feedback = mEpgRefresh.onParsed(result.requestId(), success);
+        if (feedback != 0) Notify.show(feedback);
     }
 
     private void stopPlayer() {
@@ -1853,6 +1854,8 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     public void setConfig(Config config) {
+        mEpgRefresh.clear();
+        mViewModel.invalidateXml();
         if (config.isEmpty()) {
             LiveConfig.get().clear().config(config);
             player().reset();
@@ -1890,6 +1893,8 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     public void setLive(Live item) {
+        mEpgRefresh.clear();
+        mViewModel.invalidateXml();
         if (item.isSelected()) item.getGroups().clear();
         LiveConfig.get().setHome(item);
         player().reset();

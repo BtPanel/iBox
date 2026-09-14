@@ -2,13 +2,12 @@ package com.imedia.box.ui.custom;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.imedia.box.R;
-import com.imedia.box.ui.activity.LiveActivity;
-import com.imedia.box.utils.Util;
 
 public class IBoxAlertDialogBuilder extends MaterialAlertDialogBuilder {
 
@@ -23,9 +22,13 @@ public class IBoxAlertDialogBuilder extends MaterialAlertDialogBuilder {
     }
 
     public static int themeFor(Context context, int overrideThemeResId) {
-        return !Util.isLeanback() && context instanceof LiveActivity
-                && (overrideThemeResId == 0 || overrideThemeResId == R.style.ThemeOverlay_IBox_Dialog_Alert)
-                ? R.style.ThemeOverlay_IBox_Dialog_LiveAlert : overrideThemeResId;
+        if (overrideThemeResId != 0 && overrideThemeResId != R.style.ThemeOverlay_IBox_Dialog_Alert) {
+            return overrideThemeResId;
+        }
+        TypedValue value = new TypedValue();
+        return context.getTheme().resolveAttribute(
+                com.google.android.material.R.attr.materialAlertDialogTheme, value, true)
+                && value.resourceId != 0 ? value.resourceId : overrideThemeResId;
     }
 
     private void applyOutline() {
