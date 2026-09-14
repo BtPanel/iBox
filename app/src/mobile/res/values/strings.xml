@@ -201,4 +201,5 @@
     <string name="cast_next_episode">Next episode</string>
     <string name="cast_changing_episode">Loading episode…</string>
     <string name="cast_episode_unavailable">Cannot switch to this episode on the TV.</string>
+    <string name="cast_resume_on_phone">Continue on phone</string>
 </resources>

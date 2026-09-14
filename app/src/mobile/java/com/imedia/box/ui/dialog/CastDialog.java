@@ -150,6 +150,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     }
 
     private void setRecyclerVisible() {
+        if (binding == null) return;
         boolean hasDevice = adapter.getItemCount() > 0;
         binding.recycler.setVisibility(hasDevice ? View.VISIBLE : View.GONE);
         binding.empty.setVisibility(!searching && !hasDevice ? View.VISIBLE : View.GONE);
@@ -191,6 +192,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     }
 
     private void search() {
+        if (binding == null) return;
         connecting = false;
         binding.searchText.setText(R.string.cast_searching);
         binding.recycler.setAlpha(1f);
@@ -233,11 +235,13 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     @Override
     public void onDeviceAdded(Device device) {
+        if (binding == null) return;
         if (!switchingDevice || otherRenderers(java.util.List.of(device)).size() == 1) adapter.sort(device, this::setRecyclerVisible);
     }
 
     @Override
     public void onDeviceRemoved(Device device) {
+        if (binding == null) return;
         adapter.remove(device, this::setRecyclerVisible);
     }
 

@@ -201,4 +201,5 @@
     <string name="cast_next_episode">下一集</string>
     <string name="cast_changing_episode">正在加载剧集…</string>
     <string name="cast_episode_unavailable">无法在电视上切换到该剧集</string>
+    <string name="cast_resume_on_phone">在手机继续播放</string>
 </resources>

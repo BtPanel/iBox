@@ -352,11 +352,21 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/resumeOnPhone"
+                style="@style/Widget.IBox.Button.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/cast_resume_on_phone"
+                android:visibility="gone"
+                app:icon="@drawable/ic_msr_smartphone" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/disconnect"
                 style="@style/Widget.IBox.Button.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/cast_disconnect"
                 android:textColor="@color/ibox_error"
                 app:icon="@drawable/ic_msr_stop_circle"

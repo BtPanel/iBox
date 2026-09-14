@@ -14,6 +14,7 @@ import androidx.viewbinding.ViewBinding;
 import com.imedia.box.R;
 import com.imedia.box.bean.CastVideo;
 import com.imedia.box.bean.Device;
+import com.imedia.box.bean.History;
 import com.imedia.box.databinding.ActivityCastControlBinding;
 import com.imedia.box.dlna.DLNACastSession;
 import com.imedia.box.dlna.CastConnectionHealth;
@@ -30,6 +31,7 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
 
     private ActivityCastControlBinding mBinding;
     private DLNACastSession session;
+    private History resumeHistory;
     private boolean seeking;
     private boolean changingVolume;
 
@@ -71,6 +73,13 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
         mBinding.switchDevice.setOnClickListener(v -> CastDialog.switchDevice(this));
         mBinding.previousEpisode.setOnClickListener(v -> session.previousEpisode());
         mBinding.nextEpisode.setOnClickListener(v -> session.nextEpisode());
+        mBinding.resumeOnPhone.setOnClickListener(v -> {
+            if (resumeHistory != null) return;
+            resumeHistory = session.prepareResumeOnPhone();
+            if (resumeHistory == null) return;
+            mBinding.resumeOnPhone.setEnabled(false);
+            session.disconnect();
+        });
         mBinding.rewind.setOnClickListener(v -> seekBy(-10000));
         mBinding.forward.setOnClickListener(v -> seekBy(10000));
         mBinding.disconnect.setOnClickListener(v -> {
@@ -125,13 +134,17 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
     @Override
     public void onStateChanged(DLNACastSession.State state) {
         if (!state.active()) {
+            if (resumeHistory != null) {
+                VideoActivity.cast(this, resumeHistory);
+                resumeHistory = null;
+            }
             finish();
             return;
         }
         boolean connected = state.connection() == CastConnectionHealth.Status.CONNECTED;
         mBinding.device.setText(session.getDevice().getName());
         mBinding.videoTitle.setText(session.getVideo().name());
-        mBinding.switchDevice.setEnabled(!state.switching());
+        mBinding.switchDevice.setEnabled(!state.switching() && !state.changingEpisode() && resumeHistory == null);
         mBinding.status.setText(state.changingEpisode() ? getString(R.string.cast_changing_episode)
                 : state.switching() ? getString(R.string.cast_switching_device)
                 : state.connection() == CastConnectionHealth.Status.LOST
@@ -143,6 +156,8 @@ public class CastControlActivity extends BaseActivity implements DLNACastSession
         mBinding.episodeGroup.setVisibility(state.hasPreviousEpisode() || state.hasNextEpisode() ? View.VISIBLE : View.GONE);
         mBinding.previousEpisode.setEnabled(connected && !state.changingEpisode() && !state.switching() && state.hasPreviousEpisode());
         mBinding.nextEpisode.setEnabled(connected && !state.changingEpisode() && !state.switching() && state.hasNextEpisode());
+        mBinding.resumeOnPhone.setVisibility(state.canResumeOnPhone() ? View.VISIBLE : View.GONE);
+        mBinding.resumeOnPhone.setEnabled(!state.changingEpisode() && !state.switching() && resumeHistory == null);
         mBinding.play.setIconResource(state.playing() ? R.drawable.ic_msr_pause : R.drawable.ic_msr_play_arrow);
         mBinding.play.setContentDescription(getString(state.playing() ? R.string.cast_pause : R.string.cast_play));
         updateProgress(state);

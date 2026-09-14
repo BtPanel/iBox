@@ -7,7 +7,9 @@ import com.imedia.box.bean.CastVideo;
 import com.imedia.box.bean.Device;
 import com.imedia.box.bean.History;
 import com.imedia.box.bean.Result;
+import com.imedia.box.db.AppDatabase;
 import com.imedia.box.setting.PlayerSetting;
+import com.imedia.box.setting.Setting;
 import com.imedia.box.utils.Notify;
 import com.imedia.box.utils.Task;
 
@@ -107,6 +109,24 @@ public class DLNACastSession {
         notifyChanged();
     }
 
+    public History prepareResumeOnPhone() {
+        if (!active || history == null || Setting.isIncognito()) return null;
+        saveCastProgress(true);
+        return history.copy();
+    }
+
+    private void saveCastProgress(boolean force) {
+        if (history == null || Setting.isIncognito() || position < 0 || (!force && duration <= 0)) return;
+        if (!force && !history.canScheduleSave()) return;
+        history.setPosition(duration > 0 ? Math.min(position, duration) : position);
+        if (duration > 0) history.setDuration(duration);
+        history.setCreateTime(System.currentTimeMillis());
+        history.markSaveScheduled();
+        History snapshot = history.copy();
+        if (force) snapshot.save();
+        else AppDatabase.runAsync(snapshot::save);
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -122,7 +142,8 @@ public class DLNACastSession {
     public State getState() {
         return new State(active, transportState == TransportState.PLAYING, position, duration, volume,
                 renderingControl != null, transportState, connection.status(), switching,
-                episodes != null && episodes.hasPrevious(), episodes != null && episodes.hasNext(), changingEpisode);
+                episodes != null && episodes.hasPrevious(), episodes != null && episodes.hasNext(), changingEpisode,
+                history != null && !Setting.isIncognito());
     }
 
     public void togglePlayback() {
@@ -313,7 +334,7 @@ public class DLNACastSession {
                     transportState = TransportState.PLAYING;
                     connection.reset();
                     changingEpisode = false;
-                    if (history != null) {
+                    if (history != null && !Setting.isIncognito()) {
                         history.setVodRemarks(candidate.item().name());
                         history.setEpisodeUrl(candidate.item().url());
                         history.setPosition(0);
@@ -386,6 +407,7 @@ public class DLNACastSession {
                         position = Math.max(0, info.getTrackElapsedSeconds() * 1000);
                         duration = Math.max(0, info.getTrackDurationSeconds() * 1000);
                         if (duration > 0 && position > 0) nearEnd = position >= Math.max(duration * 9 / 10, duration - 30000);
+                        saveCastProgress(false);
                         onPollResult(result.position(true));
                         notifyChanged();
                     });
@@ -460,6 +482,7 @@ public class DLNACastSession {
 
     private synchronized void finish() {
         if (!active && !retained) return;
+        saveCastProgress(true);
         generation++;
         switching = false;
         changingEpisode = false;
@@ -502,7 +525,8 @@ public class DLNACastSession {
     public record State(boolean active, boolean playing, long position, long duration, int volume,
                         boolean volumeSupported, TransportState transportState,
                         CastConnectionHealth.Status connection, boolean switching,
-                        boolean hasPreviousEpisode, boolean hasNextEpisode, boolean changingEpisode) {
+                        boolean hasPreviousEpisode, boolean hasNextEpisode, boolean changingEpisode,
+                        boolean canResumeOnPhone) {
     }
 
     public interface Listener {

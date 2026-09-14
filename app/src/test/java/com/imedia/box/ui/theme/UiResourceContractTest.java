@@ -1064,6 +1064,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void mobileCastResumeOnPhoneStartsHiddenInBothOrientations() throws Exception {
+        for (String layout : new String[]{"layout", "layout-land"}) {
+            Element button = view(xml("app/src/mobile/res/" + layout + "/activity_cast_control.xml"), "resumeOnPhone");
+            assertEquals(layout, "gone", button.getAttribute("android:visibility"));
+            assertEquals(layout, "@string/cast_resume_on_phone", button.getAttribute("android:text"));
+        }
+    }
+
+    @Test
     public void repositoryAddressProvidesAUserScrollableViewport() throws Exception {
         Element url = view(xml("app/src/mobile/res/layout/adapter_repository.xml"), "url");
         assertEquals("com.google.android.material.textview.MaterialTextView", url.getTagName());
