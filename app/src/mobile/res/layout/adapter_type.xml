@@ -10,8 +10,8 @@
     android:gravity="center"
     android:includeFontPadding="false"
     android:minWidth="@dimen/ibox_home_row_height"
-    android:paddingStart="@dimen/ibox_space_3"
-    android:paddingEnd="@dimen/ibox_space_3"
+    android:paddingStart="@dimen/ibox_home_category_padding"
+    android:paddingEnd="@dimen/ibox_home_category_padding"
     android:textColor="@color/selector_ibox_text"
     android:textAppearance="@style/TextAppearance.IBox.Body"
     tools:text="電影" />

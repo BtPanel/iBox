@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
-        <shape android:shape="rectangle">
-            <solid android:color="?attr/colorPrimaryContainer" />
-            <corners android:radius="@dimen/ibox_radius_small" />
-        </shape>
+        <inset android:insetLeft="@dimen/ibox_space_1" android:insetRight="@dimen/ibox_space_1"
+            android:insetTop="@dimen/ibox_home_category_vertical_inset" android:insetBottom="@dimen/ibox_home_category_vertical_inset">
+            <shape android:shape="rectangle">
+                <solid android:color="?attr/colorPrimaryContainer" />
+                <corners android:radius="@dimen/ibox_radius_small" />
+            </shape>
+        </inset>
     </item>
     <item android:state_checked="true">
-        <shape android:shape="rectangle">
-            <solid android:color="?attr/colorPrimaryContainer" />
-            <corners android:radius="@dimen/ibox_radius_small" />
-        </shape>
+        <inset android:insetLeft="@dimen/ibox_space_1" android:insetRight="@dimen/ibox_space_1"
+            android:insetTop="@dimen/ibox_home_category_vertical_inset" android:insetBottom="@dimen/ibox_home_category_vertical_inset">
+            <shape android:shape="rectangle">
+                <solid android:color="?attr/colorPrimaryContainer" />
+                <corners android:radius="@dimen/ibox_radius_small" />
+            </shape>
+        </inset>
     </item>
     <item android:state_pressed="true">
-        <shape android:shape="rectangle">
-            <solid android:color="?attr/colorPrimaryContainer" />
-            <corners android:radius="@dimen/ibox_radius_small" />
-        </shape>
+        <inset android:insetLeft="@dimen/ibox_space_1" android:insetRight="@dimen/ibox_space_1"
+            android:insetTop="@dimen/ibox_home_category_vertical_inset" android:insetBottom="@dimen/ibox_home_category_vertical_inset">
+            <shape android:shape="rectangle">
+                <solid android:color="?attr/colorPrimaryContainer" />
+                <corners android:radius="@dimen/ibox_radius_small" />
+            </shape>
+        </inset>
     </item>
     <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/ibox_home_control_surface" />
-            <corners android:radius="@dimen/ibox_radius_small" />
-        </shape>
+        <inset android:insetLeft="@dimen/ibox_space_1" android:insetRight="@dimen/ibox_space_1"
+            android:insetTop="@dimen/ibox_home_category_vertical_inset" android:insetBottom="@dimen/ibox_home_category_vertical_inset">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/ibox_home_control_surface" />
+                <corners android:radius="@dimen/ibox_radius_small" />
+            </shape>
+        </inset>
     </item>
 </selector>

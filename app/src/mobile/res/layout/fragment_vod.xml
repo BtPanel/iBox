@@ -177,7 +177,7 @@
             android:layout_height="@dimen/ibox_home_row_height"
             android:background="@android:color/transparent"
             android:clipChildren="false"
-            android:clipToPadding="false"
+            android:clipToPadding="true"
             android:orientation="horizontal"
             android:paddingStart="@dimen/ibox_space_2"
             android:paddingEnd="@dimen/ibox_space_2"

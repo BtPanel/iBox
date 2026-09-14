@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="ibox_home_row_height">44dp</dimen>
+    <dimen name="ibox_home_category_padding">10dp</dimen>
+    <dimen name="ibox_home_category_vertical_inset">6dp</dimen>
 </resources>

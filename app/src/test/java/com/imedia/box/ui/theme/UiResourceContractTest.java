@@ -2,6 +2,7 @@ package com.imedia.box.ui.theme;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
@@ -957,6 +958,49 @@ public class UiResourceContractTest {
         }
         assertEquals("@dimen/ibox_navigation_height", view(xml("app/src/mobile/res/layout-sw600dp/activity_video.xml"),
                 "navigation").getAttribute("android:layout_height"));
+    }
+
+    @Test
+    public void mobileHomeCategoriesStayWithinHorizontalInsetsWhileScrolling() throws Exception {
+        Element categories = view(xml("app/src/mobile/res/layout/fragment_vod.xml"), "type");
+        assertEquals("true", categories.getAttribute("android:clipToPadding"));
+        assertEquals("@dimen/ibox_space_2", categories.getAttribute("android:paddingStart"));
+        assertEquals("@dimen/ibox_space_2", categories.getAttribute("android:paddingEnd"));
+    }
+
+    @Test
+    public void mobileHomeChromePaintsCompactBackgroundsWithinFullSizeTargets() throws Exception {
+        Document home = xml("app/src/mobile/res/layout/fragment_vod.xml");
+        Element source = view(home, "source");
+        assertEquals("match_parent", source.getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_row_height", ((Element) source.getParentNode()).getAttribute("android:layout_height"));
+        for (String id : new String[]{"repository", "keep", "history", "search", "type"}) {
+            assertEquals(id, "@dimen/ibox_home_row_height", view(home, id).getAttribute("android:layout_height"));
+        }
+        Element category = xml("app/src/mobile/res/layout/adapter_type.xml").getDocumentElement();
+        assertEquals("@dimen/ibox_home_row_height", category.getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_row_height", category.getAttribute("android:minWidth"));
+        assertEquals("@dimen/ibox_home_category_padding", category.getAttribute("android:paddingStart"));
+        assertEquals("@dimen/ibox_home_category_padding", category.getAttribute("android:paddingEnd"));
+        assertEquals(6.0, dp(xml("app/src/mobile/res/values/home_dimens.xml"), "ibox_home_category_padding")
+                - dp(xml("app/src/main/res/values/ibox_dimens.xml"), "ibox_space_1"), 0.001);
+
+        for (String name : new String[]{"bg_home_action", "bg_home_search", "bg_ibox_chip"}) {
+            Document background = xml("app/src/mobile/res/drawable/" + name + ".xml");
+            NodeList items = background.getElementsByTagName("item");
+            for (int i = 0; i < items.getLength(); i++) {
+                Element inset = (Element) ((Element) items.item(i)).getElementsByTagName("inset").item(0);
+                assertNotNull(name + " item " + i + " lacks compact visual bounds", inset);
+                for (String side : new String[]{"Left", "Right", "Top", "Bottom"}) {
+                    String expected = name.equals("bg_ibox_chip") && (side.equals("Top") || side.equals("Bottom"))
+                            ? "@dimen/ibox_home_category_vertical_inset" : "@dimen/ibox_space_1";
+                    assertEquals(name + " item " + i + " " + side, expected,
+                            inset.getAttribute("android:inset" + side));
+                }
+            }
+        }
+        assertEquals(6.0, dp(xml("app/src/mobile/res/values/home_dimens.xml"),
+                "ibox_home_category_vertical_inset"), 0.001);
     }
 
     @Test
