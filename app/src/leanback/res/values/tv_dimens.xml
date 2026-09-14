@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="remote_access_qr_size">236dp</dimen>
     <dimen name="ibox_notification_max_width">560dp</dimen>
     <dimen name="ibox_notification_horizontal_margin">48dp</dimen>
     <dimen name="ibox_notification_bottom_offset">48dp</dimen>

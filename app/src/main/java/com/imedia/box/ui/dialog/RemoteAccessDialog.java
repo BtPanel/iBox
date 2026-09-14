@@ -75,7 +75,8 @@ public final class RemoteAccessDialog extends BaseAlertDialog {
         String address = Server.get().getAddress();
         binding.address.setText(address);
         String qrUrl = RemoteAccessQr.url(true, address);
-        Bitmap code = qrUrl == null ? null : QRCode.getBitmap(qrUrl, 216, 1);
+        int qrSizePixels = getResources().getDimensionPixelSize(R.dimen.remote_access_qr_size);
+        Bitmap code = qrUrl == null ? null : QRCode.getBitmapPixels(qrUrl, qrSizePixels, 1);
         binding.code.setImageBitmap(code);
         binding.code.setVisibility(code == null ? View.GONE : View.VISIBLE);
         binding.pin.setText(RemoteAccess.getPin());

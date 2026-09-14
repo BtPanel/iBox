@@ -402,7 +402,7 @@ public class UiResourceContractTest {
     @Test
     public void movieFullscreenDoesNotApplyDelayedAutoRotateReset() throws Exception {
         String video = Files.readString(repoRoot().resolve(
-                "app/src/mobile/java/com/imedia/box/ui/activity/VideoActivity.java"));
+                "app/src/mobile/java/com/imedia/box/ui/activity/VideoActivity.java")).replace("\r\n", "\n");
         assertTrue("A delayed orientation reset must not override the user's fullscreen landscape",
                 video.contains("private void setOrient() {\n        if (isFullscreen()) return;"));
     }
@@ -1077,6 +1077,39 @@ public class UiResourceContractTest {
         Element code = view(xml("app/src/main/res/layout/dialog_remote_access.xml"), "code");
         assertEquals("@string/remote_scan_code", code.getAttribute("android:contentDescription"));
         assertEquals("gone", code.getAttribute("android:visibility"));
+    }
+
+    @Test
+    public void remoteAccessQrSharesCompactRowWithVisiblePairingCode() throws Exception {
+        Document dialog = xml("app/src/main/res/layout/dialog_remote_access.xml");
+        Element code = view(dialog, "code");
+        Element pin = view(dialog, "pin");
+        Element row = (Element) code.getParentNode();
+        assertEquals("horizontal", row.getAttribute("android:orientation"));
+        assertEquals(row, pin.getParentNode().getParentNode());
+        assertEquals("@dimen/remote_access_qr_size", code.getAttribute("android:layout_width"));
+        assertEquals("@dimen/remote_access_qr_size", code.getAttribute("android:layout_height"));
+        assertTrue(Integer.parseInt(value(xml("app/src/main/res/values/ibox_ui_system.xml"),
+                "dimen", "remote_access_qr_size").replace("dp", "")) <= 136);
+    }
+
+    @Test
+    public void remoteAccessTvQrUsesTheAvailableSideColumn() throws Exception {
+        Document dialog = xml("app/src/leanback/res/layout/dialog_remote_access.xml");
+        Element code = view(dialog, "code");
+        Element row = (Element) code.getParentNode();
+        Element details = (Element) view(dialog, "pin").getParentNode();
+        assertEquals("androidx.constraintlayout.widget.ConstraintLayout", row.getTagName());
+        assertEquals("parent", code.getAttribute("app:layout_constraintTop_toTopOf"));
+        assertEquals("parent", details.getAttribute("app:layout_constraintTop_toTopOf"));
+        assertEquals("@id/code", details.getAttribute("app:layout_constraintEnd_toStartOf"));
+        assertEquals(row, details.getParentNode());
+        assertEquals(details, view(dialog, "address").getParentNode());
+        assertEquals(details, view(dialog, "devices").getParentNode());
+        assertEquals("@dimen/remote_access_qr_size", code.getAttribute("android:layout_width"));
+        int size = Integer.parseInt(value(xml("app/src/leanback/res/values/tv_dimens.xml"),
+                "dimen", "remote_access_qr_size").replace("dp", ""));
+        assertTrue(size >= 228 && size <= 244);
     }
 
     @Test

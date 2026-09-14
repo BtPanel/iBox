@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remote_title"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="@dimen/ibox_text_page_title"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/remote_description"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/ibox_text_supporting" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/enabled"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/remote_enable"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="@dimen/ibox_text_body" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/code"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/remote_address"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="@dimen/ibox_text_supporting" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:textColor="?attr/colorPrimary"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/ibox_text_body" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/remote_pairing_code"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="@dimen/ibox_text_supporting" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:fontFamily="monospace"
+                    android:gravity="center_vertical"
+                    android:letterSpacing="0.18"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textIsSelectable="true"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/remote_connected_devices"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="@dimen/ibox_text_supporting" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/devices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="@dimen/ibox_text_supporting" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/regenerate"
+                        style="@style/Widget.IBox.Button.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:text="@string/remote_regenerate" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/disconnect"
+                        style="@style/Widget.IBox.Button.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/remote_disconnect_all" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/code"
+                android:layout_width="@dimen/remote_access_qr_size"
+                android:layout_height="@dimen/remote_access_qr_size"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="41dp"
+                android:contentDescription="@string/remote_scan_code"
+                android:scaleType="centerInside"
+                android:translationY="-15dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

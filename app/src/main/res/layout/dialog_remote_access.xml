@@ -58,35 +58,53 @@
                 android:textIsSelectable="true"
                 android:textSize="@dimen/ibox_text_body" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/code"
-                android:layout_width="216dp"
-                android:layout_height="216dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
-                android:contentDescription="@string/remote_scan_code"
-                android:scaleType="centerInside"
-                android:visibility="gone" />
-
-            <com.google.android.material.textview.MaterialTextView
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/remote_pairing_code"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="@dimen/ibox_text_supporting" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/pin"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:fontFamily="monospace"
+                android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
-                android:letterSpacing="0.18"
-                android:textColor="?attr/colorOnSurface"
-                android:textIsSelectable="true"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remote_pairing_code"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="@dimen/ibox_text_supporting" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/pin"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:autoSizeMaxTextSize="28sp"
+                        android:autoSizeMinTextSize="18sp"
+                        android:autoSizeStepGranularity="1sp"
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="monospace"
+                        android:gravity="center_vertical"
+                        android:letterSpacing="0.18"
+                        android:maxLines="1"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textIsSelectable="true"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/code"
+                    android:layout_width="@dimen/remote_access_qr_size"
+                    android:layout_height="@dimen/remote_access_qr_size"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/remote_scan_code"
+                    android:scaleType="centerInside"
+                    android:visibility="gone" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"

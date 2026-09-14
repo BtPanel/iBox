@@ -14,19 +14,23 @@ import java.util.Map;
 public class QRCode {
 
     public static Bitmap getBitmap(String content, int size, int margin) {
+        return getBitmapPixels(content, ResUtil.dp2px(size), margin);
+    }
+
+    public static Bitmap getBitmapPixels(String content, int sizePixels, int margin) {
         try {
-            BitMatrix matrix = encode(content, size, margin);
+            BitMatrix matrix = encode(content, sizePixels, margin);
             return render(matrix);
         } catch (Exception e) {
             return null;
         }
     }
 
-    private static BitMatrix encode(String content, int size, int margin) throws Exception {
+    private static BitMatrix encode(String content, int sizePixels, int margin) throws Exception {
         Map<EncodeHintType, Object> hints = new EnumMap<>(EncodeHintType.class);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hints.put(EncodeHintType.MARGIN, margin);
-        return new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, ResUtil.dp2px(size), ResUtil.dp2px(size), hints);
+        return new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, sizePixels, sizePixels, hints);
     }
 
     private static Bitmap render(BitMatrix matrix) {
