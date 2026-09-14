@@ -27,7 +27,7 @@ ABI:
 
 ## 品牌与包身份
 
-产品品牌统一为 `iBox`。资源名和文件使用 `ibox_` 前缀，样式及 Java UI 组件使用 `IBox` 前缀。`com.imedia.box` 与 `com.imedia.box.tv` 仅作为 Android 稳定应用 ID 和 Java 包命名空间保留，以支持旧安装覆盖升级及数据继承；不要把包身份重新用于界面文案或新增资源命名。
+手机显示名为 `iBox`，TV 显示名为 `iBoxTV`。共用资源名和文件使用 `ibox_` 前缀，样式及 Java UI 组件使用 `IBox` 前缀。`com.imedia.box` 与 `com.imedia.box.tv` 分别作为 Android 稳定应用 ID 保留，以支持各自旧安装的覆盖升级及数据继承；不要把包身份用于界面文案。
 
 ## Gradle 模块
 

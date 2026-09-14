@@ -1,6 +1,6 @@
 # 构建与发布
 
-本文以 Windows PowerShell 为主要环境，说明从首次准备到 Debug 安装、四个 Release APK、SHA-256 和完整发布备份包的流程。当前发布基线为 `1.0 (1)`。
+本文以 Windows PowerShell 为主要环境，说明环境准备、四个签名 Release APK、校验和源码归档。源码当前版本为 `1.0 (1)`；磁盘上已有的 `Release/` 文件不自动代表当前源码，需要重新构建和校验。
 
 ## 构建矩阵
 
@@ -13,7 +13,7 @@
 | `leanback` | `arm64_v8a` | `com.imedia.box.tv` |
 | `leanback` | `armeabi_v7a` | `com.imedia.box.tv` |
 
-常见手机和较新的 TV 使用 arm64；只有明确需要 32 位兼容时才安装 armeabi-v7a 包。
+手机显示名为 `iBox`，TV 显示名为 `iBoxTV`。常见手机和较新的 TV 使用 arm64；只有明确需要 32 位兼容时才安装 armeabi-v7a 包。两个 ABI 属于相同应用 ID，不能同时安装在同一设备上。
 
 ## 环境要求
 
@@ -256,7 +256,7 @@ defaultConfig {
 
 ## Release 构建
 
-先确认正式签名配置正确，再清理旧发布产物：
+先确认 `local.properties` 指向预期的签名证书。`Release/` 中可能有以前的包；若要保留旧产物，先把它们移到明确命名的备份目录，再清理并完整构建：
 
 ```powershell
 .\gradlew.bat cleanRelease
@@ -265,7 +265,7 @@ defaultConfig {
   -PchaquopyBuildPython=$python310
 ```
 
-`assembleRelease` 构建四个变体。Gradle 会把 APK 复制到 `Release/apk/`：
+`assembleRelease` 构建四个变体。Gradle 会把 APK 复制到 `Release/apk/`。本地签名文件若只是测试密钥，产物虽为 Release 构建，也**不是可覆盖正式已发布版本的签名包**：
 
 | 文件 | 平台 | ABI |
 | --- | --- | --- |
@@ -289,13 +289,13 @@ Get-ChildItem Release/apk -Filter *.apk |
 使用 Android Build Tools 中的 `apksigner`：
 
 ```powershell
-$apksigner = "C:/Android/Sdk/build-tools/36.0.0/apksigner.bat"
+$apksigner = "C:/Path/To/Android/Sdk/build-tools/36.0.0/apksigner.bat"
 Get-ChildItem Release/apk/*.apk | ForEach-Object {
     & $apksigner verify --verbose --print-certs $_.FullName
 }
 ```
 
-检查四个 APK 的证书摘要一致，并与已发布版本一致。
+检查四个 APK 的证书摘要一致，并与已发布版本一致；`verify` 成功只说明签名有效，不证明它是正式证书。还应使用 `aapt dump badging` 或 `apkanalyzer manifest application-id` 检查包名和版本，在匹配 ABI 的设备安装、启动和播放测试。
 
 ## SHA-256 校验文件
 
@@ -313,14 +313,14 @@ Get-Content Release/SHA256SUMS.txt
 
 APK 重新构建后必须重新生成校验文件，不能沿用旧哈希。
 
-## 发布备份归档
+## 源码与产物归档
 
 发布备份包应包含：
 
 - 应用和所有本项目模块源码。
 - Gradle Wrapper、配置和文档。
 - `vendor/media3` 定制源码。
-- `Release/apk/` 下四个正式 APK。
+- 此次构建的四个 APK。
 - `Release/SHA256SUMS.txt`。
 - `artwork/app-icon/` 下的 SVG、PNG、ICO、预览、生成器和图标资产 ZIP。
 
@@ -332,46 +332,17 @@ APK 重新构建后必须重新生成校验文件，不能沿用旧哈希。
 - 日志、报告、临时文件和旧 ZIP。
 - Media3 的 `buildout/`、`out/` 等生成目录。
 
-可用临时目录制作 ZIP。下面命令不会修改仓库源码：
+使用仓库脚本按 Git 跟踪文件复制当前工作树，再单独加入本机未跟踪的 `vendor/media3` 源码、四个 APK 和 SHA-256。`SOURCE-MANIFEST.txt` 记录 HEAD、工作区变更及归档标签。归档前应先人工检查 `git diff`，避免把未提交的私人内容带入包中：
 
 ```powershell
-$version = "1.0"
-$sourceRoot = (Resolve-Path .).Path
-$releaseRoot = (Resolve-Path Release).Path
-$stageRoot = Join-Path ([IO.Path]::GetTempPath()) `
-  ("iBox-source-" + [Guid]::NewGuid().ToString("N"))
-$archivePath = Join-Path $releaseRoot "iBox-$version-release-backup.zip"
-
-New-Item -ItemType Directory -Path $stageRoot | Out-Null
-try {
-    robocopy $sourceRoot $stageRoot /E `
-      /XD .git .gradle .idea .vscode build signing logs captures buildout out `
-      /XF local.properties *.jks *.keystore *.p12 *.pem *.key *.log *.tmp |
-      Out-Null
-
-    # cacert.pem is a tracked runtime CA bundle, not a signing key.
-    Copy-Item "$sourceRoot/app/src/main/assets/cacert.pem" `
-      "$stageRoot/app/src/main/assets/cacert.pem"
-
-    if (Test-Path $archivePath) {
-        Remove-Item -LiteralPath $archivePath -Force
-    }
-    Compress-Archive -Path (Join-Path $stageRoot "*") `
-      -DestinationPath $archivePath `
-      -CompressionLevel Optimal
-}
-finally {
-    if (Test-Path $stageRoot) {
-        Remove-Item -LiteralPath $stageRoot -Recurse -Force
-    }
-}
+.\scripts\package-release.ps1 -Label "1.0-pre-audit"
 ```
 
 归档可能较大，压缩需要较长时间。生成后检查：
 
 ```powershell
-Get-Item Release/iBox-1.0-release-backup.zip | Select-Object Name, Length
-tar -tf Release/iBox-1.0-release-backup.zip | Select-String `
+Get-Item Release/iBox-1.0-pre-audit-source.zip | Select-Object Name, Length
+tar -tf Release/iBox-1.0-pre-audit-source.zip | Select-String `
   "(^|/)local.properties$|(^|/)signing/|(^|/).git/|\.jks$"
 ```
 
@@ -388,9 +359,10 @@ vendor/media3/settings.gradle.kts
 Release/apk/
 Release/SHA256SUMS.txt
 artwork/app-icon/ibox-app-icon.svg
+SOURCE-MANIFEST.txt
 ```
 
-发布备份包不得包含 `.git/`，因此不会携带旧提交、reflog 或远端信息。仓库本身是否压缩历史是独立的维护操作；完成后应以当前 `master` 的单一根提交和 `v1.0` 标签作为新基线。
+源码包不得包含 `.git/`，因此不会携带提交历史或远端信息。若先构建打包、后修复代码，旧包仍是**修复前**快照；修复完成后要重新构建、校验，并用不同标签另打源码包，不能把旧 APK 说成修复后的版本。版本号相同的不同构建应以标签及 SHA-256 区分，正式分发升级时按版本策略递增 `versionCode`。
 
 ## 自动构建
 
