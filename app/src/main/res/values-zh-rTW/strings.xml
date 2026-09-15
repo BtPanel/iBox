@@ -345,6 +345,8 @@
     <string name="setting_boot_auto_start">启动页面</string>
     <string name="setting_none">不隐藏</string>
     <string name="play_picture_in_picture">小窗播放</string>
+    <string name="floating_player_fullscreen">返回全螢幕</string>
+    <string name="floating_player_close">關閉小窗</string>
     <string name="play_toggle_orientation">横竖屏切换</string>
     <string-array name="select_boot_start">
         <item>关闭</item>

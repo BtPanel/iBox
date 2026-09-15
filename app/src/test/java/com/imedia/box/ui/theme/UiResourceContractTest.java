@@ -1089,6 +1089,46 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void customFloatingPlayerKeepsRequestedControlGroupsAndOverlayPermission() throws Exception {
+        Document layout = xml("app/src/main/res/layout/view_floating_player.xml");
+        Element controls = view(layout, "floatingControls");
+        Element settings = view(layout, "floatingSettings");
+        Element top = view(layout, "floatingTopActions");
+        Element center = view(layout, "floatingPlaybackActions");
+        Element seek = view(layout, "floatingSeek");
+
+        assertEquals(controls, settings.getParentNode());
+        assertEquals("start|top", settings.getAttribute("android:layout_gravity"));
+        assertEquals(controls, top.getParentNode());
+        assertEquals("end|top", top.getAttribute("android:gravity"));
+        assertEquals(top, view(layout, "floatingFullscreen").getParentNode());
+        assertEquals(top, view(layout, "floatingClose").getParentNode());
+        assertEquals(controls, center.getParentNode());
+        assertEquals("center", center.getAttribute("android:gravity"));
+        assertEquals(center, view(layout, "floatingPrevious").getParentNode());
+        assertEquals(center, view(layout, "floatingPlayPause").getParentNode());
+        assertEquals(center, view(layout, "floatingNext").getParentNode());
+        assertEquals(controls, seek.getParentNode());
+        assertEquals("bottom", seek.getAttribute("android:layout_gravity"));
+        assertEquals("12dp", seek.getAttribute("android:layout_marginStart"));
+        assertEquals("12dp", seek.getAttribute("android:layout_marginEnd"));
+        assertEquals("12dp", seek.getAttribute("android:layout_marginBottom"));
+        assertEquals("0dp", seek.getAttribute("android:paddingStart"));
+        assertEquals("0dp", seek.getAttribute("android:paddingEnd"));
+        assertEquals("0dp", seek.getAttribute("android:thumbOffset"));
+
+        Document manifest = xml("app/src/mobile/AndroidManifest.xml");
+        NodeList permissions = manifest.getElementsByTagName("uses-permission");
+        boolean found = false;
+        for (int i = 0; i < permissions.getLength(); i++) {
+            Element permission = (Element) permissions.item(i);
+            found |= "android.permission.SYSTEM_ALERT_WINDOW".equals(
+                    permission.getAttribute("android:name"));
+        }
+        assertTrue("Mobile manifest must request overlay permission", found);
+    }
+
+    @Test
     public void remoteAccessQrSharesCompactRowWithVisiblePairingCode() throws Exception {
         Document dialog = xml("app/src/main/res/layout/dialog_remote_access.xml");
         Element code = view(dialog, "code");

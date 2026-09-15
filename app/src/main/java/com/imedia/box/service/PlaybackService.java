@@ -2,11 +2,14 @@ package com.imedia.box.service;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Process;
+import android.hardware.display.DisplayManager;
+import android.view.Display;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +41,7 @@ import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.player.media.PlaySpec;
 import com.imedia.box.setting.SubtitleStyleOverride;
 import com.imedia.box.server.Server;
+import com.imedia.box.ui.overlay.FloatingPlayerWindow;
 import com.imedia.box.utils.Task;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
@@ -70,6 +74,7 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     private PlayerManager player;
     private String navigationKey;
     private Player sessionPlayer;
+    private FloatingPlayerWindow floatingWindow;
 
     public static boolean isRunning() {
         return running;
@@ -188,6 +193,7 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     @Override
     public void onDestroy() {
         running = false;
+        hideFloatingWindow();
         releaseSession();
         player.release();
         removeForeground();
@@ -215,7 +221,7 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     }
 
     private void tryShutdown() {
-        if (!hasNavigationCallback() && !hasMediaClient()) shutdown();
+        if (!hasNavigationCallback() && !hasMediaClient() && !isFloatingWindowShowing()) shutdown();
     }
 
     private void releaseBrowser() {
@@ -314,6 +320,29 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
 
     public void resetSessionActivity() {
         setSessionActivity(buildDefaultIntent());
+    }
+
+    public boolean showFloatingWindow(PendingIntent restoreIntent, PendingIntent settingsIntent,
+                                      int resizeMode, int displayId, int accentColor) {
+        if (floatingWindow == null || !floatingWindow.isForDisplay(displayId)) {
+            if (floatingWindow != null) floatingWindow.hide();
+            DisplayManager displayManager = getSystemService(DisplayManager.class);
+            Display display = displayManager == null ? null : displayManager.getDisplay(displayId);
+            Context windowContext = display == null ? this : createDisplayContext(display);
+            int windowDisplayId = display == null ? Display.DEFAULT_DISPLAY : displayId;
+            floatingWindow = new FloatingPlayerWindow(windowContext, windowDisplayId, this::dispatchPrev,
+                    this::dispatchNext, this::dispatchStop);
+        }
+        return floatingWindow.show(player.getPlayer(), restoreIntent, settingsIntent, resizeMode,
+                accentColor);
+    }
+
+    public boolean isFloatingWindowShowing() {
+        return floatingWindow != null && floatingWindow.isShowing();
+    }
+
+    public void hideFloatingWindow() {
+        if (floatingWindow != null) floatingWindow.hide();
     }
 
     public void setNavigationCallback(NavigationCallback navigationCallback, String key) {
@@ -532,6 +561,9 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
         sessionPlayer = newPlayer;
         sessionPlayer.addListener(listener);
         if (session != null) session.setPlayer(wrap(newPlayer));
+        if (floatingWindow != null && floatingWindow.isShowing()) {
+            floatingWindow.rebindPlayer(newPlayer);
+        }
         playerCallbacks.forEach(callback -> callback.onPlayerRebuild(newPlayer));
     }
 

@@ -44,10 +44,12 @@ import com.imedia.box.setting.Setting;
 import com.imedia.box.setting.SubtitleSetting;
 import com.imedia.box.setting.SubtitleStyleOverride;
 import com.imedia.box.ui.base.BaseActivity;
+import com.imedia.box.ui.overlay.FloatingPlaybackPolicy;
 import com.imedia.box.utils.Notify;
 import com.imedia.box.utils.ResUtil;
 import com.github.catvod.net.OkHttp;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.android.material.color.MaterialColors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -400,8 +402,23 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     private void resumePlayback() {
+        if (mService != null && mService.isFloatingWindowShowing()) mService.hideFloatingWindow();
         if (shouldReclaim()) reclaimPlayback();
         else attachPlayerView();
+    }
+
+    protected boolean showFloatingWindow(PendingIntent restoreIntent, PendingIntent settingsIntent) {
+        if (mService == null) return false;
+        int resizeMode = getPlayerView().getResizeMode();
+        detachPlayerView();
+        int displayId = getWindowManager().getDefaultDisplay().getDisplayId();
+        int accentColor = MaterialColors.getColor(this,
+                androidx.appcompat.R.attr.colorPrimary,
+                getColor(R.color.ibox_primary));
+        boolean shown = mService.showFloatingWindow(restoreIntent, settingsIntent, resizeMode,
+                displayId, accentColor);
+        if (!shown) attachPlayerView();
+        return shown;
     }
 
     private void reclaimPlayback() {
@@ -452,6 +469,8 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     private void syncPlayerView(Player player) {
+        if (mService != null && !FloatingPlaybackPolicy.shouldAttachPlayerView(
+                mService.isFloatingWindowShowing())) return;
         getPlayerView().setPlayer(player);
         applySubtitleStyle();
         syncDanmakuSource();
@@ -513,10 +532,12 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     private boolean shouldKeepServiceAlive() {
-        return mService.hasMediaClient() || mService.hasPlayerCallback();
+        return FloatingPlaybackPolicy.shouldKeepServiceAlive(mService.hasMediaClient(),
+                mService.hasPlayerCallback(), mService.isFloatingWindowShowing());
     }
 
     private void keepServiceAlive(boolean playbackOwner) {
+        if (mService.isFloatingWindowShowing()) return;
         if (playbackOwner) mService.suspend();
         mService.resetSessionActivity();
     }
@@ -704,7 +725,9 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     @Override
     protected void onStop() {
         super.onStop();
-        if (isOwner() && (isFinishing() || PlayerSetting.isBackgroundOff())) pausePlayback();
+        boolean floatingWindowShowing = mService != null && mService.isFloatingWindowShowing();
+        if (FloatingPlaybackPolicy.shouldPauseOnStop(isOwner(), isFinishing(),
+                PlayerSetting.isBackgroundOff(), floatingWindowShowing)) pausePlayback();
         if (!isInPictureInPictureMode()) detachPlayerView();
     }
 

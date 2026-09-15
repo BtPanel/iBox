@@ -2,12 +2,15 @@ package com.imedia.box.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +93,8 @@ import com.imedia.box.ui.dialog.PassDialog;
 import com.imedia.box.ui.dialog.PlayerEngineDialog;
 import com.imedia.box.ui.dialog.SpeedSettingDialog;
 import com.imedia.box.ui.dialog.TrackDialog;
+import com.imedia.box.ui.overlay.FloatingPlayerWindow;
+import com.imedia.box.ui.overlay.FloatingWindowEntryPolicy;
 import com.imedia.box.utils.Biometric;
 import com.imedia.box.utils.FileChooser;
 import com.imedia.box.utils.ImgUtil;
@@ -111,6 +116,8 @@ import java.util.Locale;
 
 public class LiveActivity extends PlaybackActivity implements CustomKeyDown.Listener, Biometric.Callback, PassListener, ConfigListener, LiveListener, GroupAdapter.OnClickListener, ChannelAdapter.OnClickListener, LineAdapter.OnClickListener, EpgDataAdapter.OnClickListener, CastDialog.Listener, InfoDialog.Listener, LivePlaybackHost, LiveSettingsDialog.Listener {
 
+    private static final String EXTRA_OPEN_FLOATING_SETTINGS = "open_floating_settings";
+
     private ActivityLiveBinding mBinding;
     private LiveViewModel mViewModel;
     private LivePlaybackController mLive;
@@ -121,6 +128,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     private EpgDataAdapter mEpgDataAdapter;
     private CustomKeyDown mKeyDown;
     private PiP mPiP;
+    private boolean mPendingFloatingWindow;
     private Runnable mR1;
     private Runnable mR2;
     private Runnable mR3;
@@ -190,8 +198,22 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getBooleanExtra(EXTRA_OPEN_FLOATING_SETTINGS, false)) {
+            mBinding.video.post(this::showLiveSettings);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        if (mPendingFloatingWindow) {
+            mPendingFloatingWindow = false;
+            FloatingWindowEntryPolicy.Action action = FloatingWindowEntryPolicy.afterPermissionScreen(
+                    FloatingPlayerWindow.canDrawOverlays(this));
+            mBinding.video.post(() -> performFloatingWindowAction(action));
+        }
         updateSystemUI();
     }
 
@@ -571,6 +593,43 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     private void onPiP() {
         if (service() == null || player().isEmpty() || !player().haveTrack(C.TRACK_TYPE_VIDEO)) return;
+        Intent permissionIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + getPackageName()));
+        boolean permissionScreenAvailable = permissionIntent.resolveActivity(getPackageManager()) != null;
+        FloatingWindowEntryPolicy.Action action = FloatingWindowEntryPolicy.onButtonPressed(
+                FloatingPlayerWindow.canDrawOverlays(this), permissionScreenAvailable);
+        if (action == FloatingWindowEntryPolicy.Action.REQUEST_PERMISSION) {
+            mPendingFloatingWindow = true;
+            try {
+                startActivity(permissionIntent);
+            } catch (RuntimeException e) {
+                mPendingFloatingWindow = false;
+                enterNativePiP();
+            }
+        } else {
+            performFloatingWindowAction(action);
+        }
+    }
+
+    private void performFloatingWindowAction(FloatingWindowEntryPolicy.Action action) {
+        if (action == FloatingWindowEntryPolicy.Action.SHOW_OVERLAY) {
+            Intent restore = new Intent(this, LiveActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent restoreIntent = PendingIntent.getActivity(this, 0, restore,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent settings = new Intent(restore).putExtra(EXTRA_OPEN_FLOATING_SETTINGS, true);
+            PendingIntent settingsIntent = PendingIntent.getActivity(this, 1, settings,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            if (showFloatingWindow(restoreIntent, settingsIntent)) {
+                moveTaskToBack(true);
+                return;
+            }
+        }
+        enterNativePiP();
+    }
+
+    private void enterNativePiP() {
+        mPiP.update(this, player().isPlaying());
         mPiP.enterManual(this, 16, 9, 0);
     }
 

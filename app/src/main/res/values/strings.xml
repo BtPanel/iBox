@@ -346,6 +346,8 @@
     <string name="setting_boot_auto_start">Start page</string>
     <string name="setting_none">None</string>
     <string name="play_picture_in_picture">Picture-in-picture</string>
+    <string name="floating_player_fullscreen">Return to fullscreen</string>
+    <string name="floating_player_close">Close floating player</string>
     <string name="play_toggle_orientation">Switch orientation</string>
     <string-array name="select_boot_start">
         <item>Off</item>
