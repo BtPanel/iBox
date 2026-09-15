@@ -1080,6 +1080,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void pictureInPictureProgressDoesNotOverlapWindowEdge() throws Exception {
+        Element progress = view(xml("app/src/mobile/res/layout/activity_video.xml"), "pipProgress");
+        assertEquals("bottom", progress.getAttribute("android:layout_gravity"));
+        assertEquals("12dp", progress.getAttribute("android:layout_marginStart"));
+        assertEquals("12dp", progress.getAttribute("android:layout_marginEnd"));
+        assertEquals("12dp", progress.getAttribute("android:layout_marginBottom"));
+    }
+
+    @Test
     public void remoteAccessQrSharesCompactRowWithVisiblePairingCode() throws Exception {
         Document dialog = xml("app/src/main/res/layout/dialog_remote_access.xml");
         Element code = view(dialog, "code");

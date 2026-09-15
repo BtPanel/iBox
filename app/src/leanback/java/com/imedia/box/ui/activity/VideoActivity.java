@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
@@ -35,6 +36,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.imedia.box.App;
 import com.imedia.box.Constant;
 import com.imedia.box.R;
+import com.imedia.box.accessibility.AppAccessibility;
 import com.imedia.box.api.SiteApi;
 import com.imedia.box.api.config.VodConfig;
 import com.imedia.box.bean.Danmaku;
@@ -292,6 +294,7 @@ public class VideoActivity extends PlaybackActivity implements VodPlaybackHost, 
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
+        disableSeekBarFocusOutline();
         mFrameParams = mBinding.video.getLayoutParams();
         mClock = Clock.create(mBinding.widget.clock);
         mKeyDown = CustomKeyDownVod.create(this);
@@ -304,6 +307,14 @@ public class VideoActivity extends PlaybackActivity implements VodPlaybackHost, 
         setViewModel();
         checkCast();
         checkId();
+    }
+
+    private void disableSeekBarFocusOutline() {
+        View timeBar = (View) getSeekView().getTimeBar();
+        AppAccessibility.excludeFocusRing(timeBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            timeBar.setDefaultFocusHighlightEnabled(false);
+        }
     }
 
     @Override

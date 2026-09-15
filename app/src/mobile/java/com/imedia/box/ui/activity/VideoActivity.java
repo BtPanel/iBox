@@ -114,6 +114,7 @@ import com.imedia.box.utils.FileChooser;
 import com.imedia.box.utils.ImgUtil;
 import com.imedia.box.utils.Notify;
 import com.imedia.box.utils.PiP;
+import com.imedia.box.utils.PiPControlState;
 import com.imedia.box.utils.ResUtil;
 import com.imedia.box.utils.Sniffer;
 import com.imedia.box.utils.Timer;
@@ -1074,6 +1075,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void onPiP() {
         if (service() == null || player().isEmpty() || !player().haveTrack(C.TRACK_TYPE_VIDEO)) return;
+        mPiP.update(this, player().isPlaying());
         mPiP.enterManual(this, player().getVideoWidth(), player().getVideoHeight(), 0);
     }
 
@@ -1701,8 +1703,18 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         if (!isOwner() || !player().isVod()) return;
         long position = player().getPosition();
         long duration = player().getDuration();
+        updatePiPProgress(position, duration);
         if (position < 0 || duration <= 0) return;
         mVod.onTimeChanged(time, position, duration);
+    }
+
+    private void updatePiPProgress(long position, long duration) {
+        if (!isInPictureInPictureMode() || position < 0 || duration <= 0) {
+            mBinding.pipProgress.setVisibility(View.GONE);
+            return;
+        }
+        mBinding.pipProgress.setProgress(PiPControlState.progress(position, duration, mBinding.pipProgress.getMax()));
+        mBinding.pipProgress.setVisibility(View.VISIBLE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1899,7 +1911,10 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         super.onUserLeaveHint();
         if (isRedirect()) return;
         if (isLock()) App.post(this::onLock, 500);
-        if (service() != null && player().haveTrack(C.TRACK_TYPE_VIDEO)) mPiP.enter(this, player().getVideoWidth(), player().getVideoHeight(), 0);
+        if (service() != null && player().haveTrack(C.TRACK_TYPE_VIDEO)) {
+            mPiP.update(this, player().isPlaying());
+            mPiP.enter(this, player().getVideoWidth(), player().getVideoHeight(), 0);
+        }
     }
 
     @Override
@@ -1913,6 +1928,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void onEnterPictureInPicture() {
         setVideoView(true);
         mBinding.video.bringToFront();
+        updatePiPProgress(player().getPosition(), player().getDuration());
+        mBinding.pipProgress.bringToFront();
         mBinding.navigation.getRoot().setVisibility(View.GONE);
         mBinding.widget.getRoot().setVisibility(View.GONE);
         mBinding.progress.getRoot().setVisibility(View.GONE);
@@ -1923,6 +1940,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void onExitPictureInPicture() {
         setVideoView(false);
+        mBinding.pipProgress.setVisibility(View.GONE);
         mBinding.widget.getRoot().setVisibility(View.VISIBLE);
         syncProgressVisibility(player().getPlaybackState());
         if (isFullscreen()) mBinding.navigation.getRoot().setVisibility(View.GONE);

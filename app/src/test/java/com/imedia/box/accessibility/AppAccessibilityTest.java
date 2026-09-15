@@ -33,4 +33,10 @@ public class AppAccessibilityTest {
         assertEquals(1.3F, AppAccessibility.resolveFontScale(0.85F, 1.3F, true, true), DELTA);
         assertEquals(1.0F, AppAccessibility.resolveFontScale(0.85F, 1.0F, true, false), DELTA);
     }
+
+    @Test
+    public void explicitlyExcludedControlDoesNotReceiveGlobalFocusRing() {
+        assertEquals(false, FocusRingPolicy.shouldDraw(true, true, false, true));
+        assertEquals(true, FocusRingPolicy.shouldDraw(true, true, false, false));
+    }
 }

@@ -46,6 +46,16 @@ public class PiP {
         return buildRemoteAction(activity, com.imedia.box.R.drawable.ic_msr_play_arrow, R.string.exo_controls_play_description, ActionEvent.PLAY);
     }
 
+    private RemoteAction getAction(Activity activity, String action, boolean play) {
+        if (ActionEvent.PREV.equals(action)) {
+            return buildRemoteAction(activity, com.imedia.box.R.drawable.ic_msr_skip_previous, R.string.exo_controls_previous_description, action);
+        }
+        if (ActionEvent.NEXT.equals(action)) {
+            return buildRemoteAction(activity, com.imedia.box.R.drawable.ic_msr_skip_next, R.string.exo_controls_next_description, action);
+        }
+        return getPlayPauseAction(activity, play);
+    }
+
     public void update(Activity activity, View view) {
         try {
             if (noPiP()) return;
@@ -62,9 +72,7 @@ public class PiP {
         try {
             if (noPiP()) return;
             List<RemoteAction> actions = new ArrayList<>();
-            actions.add(buildRemoteAction(activity, com.imedia.box.R.drawable.ic_action_audio, R.string.exo_controls_hide, ActionEvent.AUDIO));
-            actions.add(getPlayPauseAction(activity, play));
-            actions.add(buildRemoteAction(activity, com.imedia.box.R.drawable.ic_msr_skip_next, R.string.exo_controls_next_description, ActionEvent.NEXT));
+            for (String action : PiPControlState.actions(play)) actions.add(getAction(activity, action, play));
             activity.setPictureInPictureParams(builder.setActions(actions).build());
         } catch (Exception e) {
             e.printStackTrace();

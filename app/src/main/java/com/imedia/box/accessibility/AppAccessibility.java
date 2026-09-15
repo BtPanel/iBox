@@ -41,6 +41,7 @@ public final class AppAccessibility {
     private static final int TABLET_SMALLEST_WIDTH_DP = 600;
     private static final Map<View, Boolean> GENERATED_LABELS = Collections.synchronizedMap(new WeakHashMap<>());
     private static final Map<View, Boolean> PENDING_LABELS = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<View, Boolean> FOCUS_RING_EXCLUSIONS = Collections.synchronizedMap(new WeakHashMap<>());
     private static final Map<Object, FocusRingController> FOCUS_RINGS = Collections.synchronizedMap(new WeakHashMap<>());
 
     private AppAccessibility() {
@@ -131,6 +132,10 @@ public final class AppAccessibility {
         return Setting.isReduceMotion() ? 0L : duration;
     }
 
+    public static void excludeFocusRing(View view) {
+        FOCUS_RING_EXCLUSIONS.put(view, true);
+    }
+
     private static void labelTree(View view) {
         if (Setting.isReduceMotion()) view.setStateListAnimator(null);
         boolean actionable = view.isClickable() || view.isLongClickable() || (view.isFocusable() && !(view instanceof ViewGroup));
@@ -202,7 +207,8 @@ public final class AppAccessibility {
         }
 
         private void updateBounds() {
-            if (focused == null || !focused.isShown() || !focused.hasFocus() || hasFocusIndicator(focused)) {
+            if (focused == null || !FocusRingPolicy.shouldDraw(focused.isShown(), focused.hasFocus(),
+                    hasFocusIndicator(focused), FOCUS_RING_EXCLUSIONS.containsKey(focused))) {
                 ring.setBounds(0, 0, 0, 0);
                 return;
             }
