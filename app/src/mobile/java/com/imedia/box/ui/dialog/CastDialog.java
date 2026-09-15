@@ -51,8 +51,11 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     private final FormBody.Builder body;
     private final OkHttpClient client;
+    private final AsyncAttemptGuard attemptGuard;
 
     private DialogDeviceBinding binding;
+    private Call pendingCall;
+    private long pendingAttempt;
     private DeviceAdapter adapter;
     private ScanTask scanTask;
     private CastVideo video;
@@ -67,6 +70,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     public CastDialog() {
         scanTask = new ScanTask(this);
+        attemptGuard = new AsyncAttemptGuard();
         body = new FormBody.Builder();
         body.add("device", Device.get().toString());
         body.add("config", Config.vod().toString());
@@ -123,6 +127,7 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     @Override
     protected ViewBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        attemptGuard.attach();
         return binding = DialogDeviceBinding.inflate(inflater, container, false);
     }
 
@@ -208,20 +213,28 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
         setRecyclerVisible();
     }
 
-    private void onCasted() {
-        ((CastDialog.Listener) requireActivity()).onCasted();
+    private void onCasted(long attempt) {
+        if (!attemptGuard.isCurrent(attempt)) return;
+        FragmentActivity activity = getActivity();
+        if (!(activity instanceof CastDialog.Listener listener)) return;
+        listener.onCasted();
         dismiss();
     }
 
-    private void onDlnaCasted(Device device) {
+    private void onDlnaCasted(Device device, long attempt) {
+        if (!attemptGuard.isCurrent(attempt)) return;
+        FragmentActivity activity = getActivity();
+        if (!(activity instanceof CastDialog.Listener listener)) return;
         DLNACastSession.get().start(video, device);
         DLNACastSession.get().setEpisodes(episodes, history);
-        ((CastDialog.Listener) requireActivity()).onCasted();
-        CastControlActivity.start(requireActivity());
+        listener.onCasted();
+        CastControlActivity.start(activity);
         dismiss();
     }
 
-    private void onCastFailed() {
+    private void onCastFailed(long attempt) {
+        if (!attemptGuard.isCurrent(attempt)) return;
+        pendingCall = null;
         connecting = false;
         if (binding == null) return;
         binding.recycler.setAlpha(1f);
@@ -252,18 +265,27 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     @Override
     public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        if (call != pendingCall) return;
+        long attempt = pendingAttempt;
         App.post(() -> {
-            onCastFailed();
+            if (!attemptGuard.isCurrent(attempt)) return;
+            onCastFailed(attempt);
             Notify.show(e.getMessage());
         });
     }
 
     @Override
     public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (call != pendingCall) {
+            response.close();
+            return;
+        }
+        long attempt = pendingAttempt;
         try (Response res = response) {
-            if (res.body().string().equals("OK")) App.post(this::onCasted);
+            if (res.body().string().equals("OK")) App.post(() -> onCasted(attempt));
             else App.post(() -> {
-                onCastFailed();
+                if (!attemptGuard.isCurrent(attempt)) return;
+                onCastFailed(attempt);
                 Notify.show(R.string.device_offline);
             });
         }
@@ -273,13 +295,20 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
     public void onItemClick(Device item) {
         if (connecting) return;
         connecting = true;
+        long attempt = attemptGuard.next();
         App.removeCallbacks(finishSearch);
         binding.searchText.setText(getString(R.string.cast_connecting_device, item.getName()));
         binding.recycler.setAlpha(0.5f);
         setSearching(true);
-        if (switchingDevice) DLNACastSession.get().switchTo(item, this::dismiss, this::onCastFailed);
-        else if (item.isDLNA()) new DLNACast(video, () -> onDlnaCasted(item), this::onCastFailed).cast(item);
-        else OkHttp.newCall(client, item.getIp().concat("/action?do=cast"), body.build()).enqueue(this);
+        if (switchingDevice) DLNACastSession.get().switchTo(item, () -> {
+            if (attemptGuard.isCurrent(attempt)) dismiss();
+        }, () -> onCastFailed(attempt));
+        else if (item.isDLNA()) new DLNACast(video, () -> onDlnaCasted(item, attempt), () -> onCastFailed(attempt), () -> attemptGuard.isCurrent(attempt)).cast(item);
+        else {
+            pendingAttempt = attempt;
+            pendingCall = OkHttp.newCall(client, item.getIp().concat("/action?do=cast"), body.build());
+            pendingCall.enqueue(this);
+        }
     }
 
     @Override
@@ -289,12 +318,16 @@ public class CastDialog extends BaseBottomSheetDialog implements DeviceAdapter.O
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        FragmentActivity activity = getActivity();
+        attemptGuard.detach();
+        if (pendingCall != null) pendingCall.cancel();
+        pendingCall = null;
         binding = null;
         DLNACastManager.get().setDeviceListener(null);
-        DLNACastManager.get().release(requireActivity());
+        if (activity != null) DLNACastManager.get().release(activity);
         App.removeCallbacks(finishSearch);
         scanTask.stop();
+        super.onDestroyView();
     }
 
     private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {

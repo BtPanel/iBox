@@ -1,6 +1,7 @@
 package com.imedia.box.server;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Map;
 
@@ -28,6 +29,18 @@ public class RemoteAccessUrlTest {
         assertEquals("old", RemoteAccess.tokenHeader(Map.of(oldAccess, "old"), false));
         assertEquals("stream", RemoteAccess.tokenHeader(Map.of("x-ibox-stream-token", "stream"), true));
         assertEquals("old-stream", RemoteAccess.tokenHeader(Map.of(oldStream, "old-stream"), true));
+    }
+
+    @Test
+    public void managementCredentialComesOnlyFromHeader() {
+        assertEquals("header", RemoteAccess.managementCredential(Map.of("x-ibox-token", "header")));
+        assertNull(RemoteAccess.managementCredential(Map.of()));
+    }
+
+    @Test
+    public void pairingCredentialComesOnlyFromCookie() {
+        assertEquals("cookie", RemoteAccess.pairingCredential("ibox_pair=cookie"));
+        assertNull(RemoteAccess.pairingCredential(null));
     }
 
     @Test

@@ -53,16 +53,24 @@
 | 系统开机自动启动 | 由启动页控制 | 关闭 | `Setting.isBootAutoStart()` |
 | 点播失败自动换线路 | 开 | 开 | `Setting.isAutoFallbackLine()` |
 | 点播失败自动跨站换源 | 开 | 开 | `Setting.isAutoFallbackSource()` |
+| 点播自动播放下一集 | 开 | 开 | `PlayerSetting.isAutoNextEnabled()` |
+| 首选音轨语言 | 跟随设备 | 跟随设备 | `PlayerSetting.getAudioLanguageIndex()` |
+| 首选字幕语言 | 跟随设备 | 跟随设备 | `PlayerSetting.getTextLanguageIndex()` |
 | GitHub 加速 | 开 | 开 | `Setting.isGitHubAcceleration()` |
+| 旧版网页兼容 | 关 | 关 | `Setting.isLegacyWebViewCompatibility()` |
 | 配置通知 | 关 | 关 | `Setting.isConfigNoticeEnabled()` |
 | 广告地址过滤 | 开 | 开 | `Setting.isAdblock()` |
 | 搜索线程 | 5 | 5 | `Setting.getSearchThreads()` |
 | 弹幕加载 | 开 | 开 | `DanmakuSetting.isLoad()` |
+| 弹幕自动搜索 | 开 | 开 | `DanmakuSetting.isAuto()` |
+| 弹幕默认显示 | 关 | 关 | `DanmakuSetting.isShow()` |
 | 直播自动换线路 | 开 | 开 | `LiveSetting.isChange()` |
 | 直播重连延迟 | 3 秒 | 3 秒 | `LiveSetting.getReconnectDelaySeconds()` |
 | 直播播放超时 | 10 秒 | 10 秒 | `LiveSetting.getPlayTimeoutSeconds()` |
 
 修改默认值前必须考虑已有用户：SharedPreferences 已保存的值不会随代码默认值变化。只改 getter 默认值只影响从未写过该键的新用户。
+
+“旧版网页兼容”默认关闭。关闭时 WebView 禁止 HTTP/HTTPS 混合内容并拒绝证书错误；只有确实依赖旧站点的用户才应临时开启，开启后会降低网页内容的传输安全性。
 
 `theme_mode` 未保存时返回 `THEME_SYSTEM`。因此本次 `1.0` 发布中，手机端新安装会跟随系统，升级用户此前主动选择的浅色、深色或跟随系统不会被覆盖；TV 仍由 `applyThemeMode()` 强制使用深色。
 

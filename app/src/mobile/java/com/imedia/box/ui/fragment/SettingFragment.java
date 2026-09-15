@@ -146,6 +146,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.autoFallbackLineToggle.setChecked(Setting.isAutoFallbackLine());
         mBinding.autoFallbackSourceToggle.setChecked(Setting.isAutoFallbackSource());
         mBinding.githubAccelerationToggle.setChecked(Setting.isGitHubAcceleration());
+        mBinding.legacyWebViewCompatibilityToggle.setChecked(Setting.isLegacyWebViewCompatibility());
         mBinding.hideNavigationText.setText(getHiddenNavigationText());
         mBinding.bootAutoStartText.setText((bootStart = ResUtil.getStringArray(R.array.select_boot_start))[Setting.getBootStartMode()]);
         mBinding.danmakuText.setText(Setting.getSwitch(DanmakuSetting.isLoad()));
@@ -184,6 +185,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.autoFallbackLine.setOnClickListener(this::setAutoFallbackLine);
         mBinding.autoFallbackSource.setOnClickListener(this::setAutoFallbackSource);
         mBinding.githubAcceleration.setOnClickListener(this::setGitHubAcceleration);
+        mBinding.legacyWebViewCompatibility.setOnClickListener(this::setLegacyWebViewCompatibility);
         mBinding.hideNavigation.setOnClickListener(this::setNavigationHidden);
         mBinding.bootAutoStart.setOnClickListener(this::setBootAutoStart);
         mBinding.searchThreads.setOnClickListener(this::setSearchThreads);
@@ -364,6 +366,11 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     private void setGitHubAcceleration(View view) {
         Setting.putGitHubAcceleration(!Setting.isGitHubAcceleration());
         mBinding.githubAccelerationToggle.setChecked(Setting.isGitHubAcceleration());
+    }
+
+    private void setLegacyWebViewCompatibility(View view) {
+        Setting.putLegacyWebViewCompatibility(!Setting.isLegacyWebViewCompatibility());
+        mBinding.legacyWebViewCompatibilityToggle.setChecked(Setting.isLegacyWebViewCompatibility());
     }
 
     private void setNavigationHidden(View view) {

@@ -23,14 +23,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
 public class SocketHttpStreamServer implements StreamServer<SocketHttpStreamServer.Configuration> {
+
+    private static final int MAX_REQUEST_LINE_BYTES = 8 * 1024;
+    private static final int MAX_HEADER_LINE_BYTES = 8 * 1024;
+    private static final int MAX_HEADER_BYTES = 32 * 1024;
+    private static final int MAX_BODY_BYTES = 1024 * 1024;
 
     private final Configuration configuration;
     private ServerSocket serverSocket;
@@ -95,21 +97,6 @@ public class SocketHttpStreamServer implements StreamServer<SocketHttpStreamServ
             this.socket = socket;
         }
 
-        private String readLine(InputStream is) throws IOException {
-            StringBuilder sb = new StringBuilder();
-            int prev = -1;
-            int b;
-            while ((b = is.read()) != -1) {
-                if (prev == '\r' && b == '\n') {
-                    sb.deleteCharAt(sb.length() - 1);
-                    return sb.toString();
-                }
-                sb.append((char) b);
-                prev = b;
-            }
-            return sb.toString();
-        }
-
         private void writeStatusLine(OutputStream os, int code, String reason) throws IOException {
             os.write(("HTTP/1.1 " + code + " " + Objects.requireNonNullElse(reason, "") + "\r\n").getBytes(StandardCharsets.ISO_8859_1));
         }
@@ -124,22 +111,31 @@ public class SocketHttpStreamServer implements StreamServer<SocketHttpStreamServ
 
         @Override
         public void run() {
+            OutputStream os = null;
             try {
                 InputStream is = socket.getInputStream();
-                String requestLine = readLine(is);
+                os = socket.getOutputStream();
+                String requestLine = BoundedHttpInput.readLine(is, MAX_REQUEST_LINE_BYTES);
                 String[] parts = requestLine.split(" ", 3);
                 if (requestLine.isEmpty() || parts.length < 2) {
-                    socket.close();
+                    writeError(os, 400, "Bad Request");
                     return;
                 }
-                Map<String, List<String>> headers = readHeaders(is);
+                Map<String, List<String>> headers = BoundedHttpInput.readHeaders(is, MAX_HEADER_LINE_BYTES, MAX_HEADER_BYTES);
                 StreamRequestMessage requestMessage = buildRequestMessage(parts[0], parts[1], headers);
                 readBodyInto(is, requestMessage, headers);
                 StreamResponseMessage responseMessage = process(requestMessage);
-                OutputStream os = socket.getOutputStream();
                 writeResponse(os, responseMessage);
                 os.flush();
                 responseSent(responseMessage);
+            } catch (BoundedHttpInput.HttpInputException e) {
+                try {
+                    if (os != null) {
+                        writeError(os, e.statusCode(), e.statusCode() == 413 ? "Payload Too Large" : "Bad Request");
+                        os.flush();
+                    }
+                } catch (IOException ignored) {
+                }
             } catch (Exception e) {
                 responseException(e);
             } finally {
@@ -150,17 +146,6 @@ public class SocketHttpStreamServer implements StreamServer<SocketHttpStreamServ
             }
         }
 
-        private Map<String, List<String>> readHeaders(InputStream is) throws IOException {
-            Map<String, List<String>> headers = new HashMap<>();
-            String line;
-            while (!(line = readLine(is)).isEmpty()) {
-                int colon = line.indexOf(':');
-                if (colon < 0) continue;
-                headers.computeIfAbsent(line.substring(0, colon).trim().toLowerCase(Locale.ROOT), k -> new ArrayList<>()).add(line.substring(colon + 1).trim());
-            }
-            return headers;
-        }
-
         private StreamRequestMessage buildRequestMessage(String method, String rawUri, Map<String, List<String>> headers) {
             StreamRequestMessage msg = new StreamRequestMessage(UpnpRequest.Method.getByHttpName(method), URI.create(rawUri));
             msg.setConnection(new SocketConnection(socket));
@@ -168,16 +153,20 @@ public class SocketHttpStreamServer implements StreamServer<SocketHttpStreamServ
             return msg;
         }
 
-        private void readBodyInto(InputStream is, StreamRequestMessage msg, Map<String, List<String>> headers) throws IOException {
+        private void readBodyInto(InputStream is, StreamRequestMessage msg, Map<String, List<String>> headers) throws IOException, BoundedHttpInput.HttpInputException {
             List<String> length = headers.getOrDefault("content-length", List.of());
             if (length == null || length.isEmpty()) return;
-            int len = Integer.parseInt(length.get(0).trim());
-            if (len <= 0) return;
-            byte[] body = new byte[len];
-            int offset = 0, read;
-            while (offset < len && (read = is.read(body, offset, len - offset)) != -1) offset += read;
+            byte[] body = BoundedHttpInput.readBody(is, length.get(0), MAX_BODY_BYTES);
+            if (body.length == 0) return;
             if (msg.isContentTypeMissingOrText()) msg.setBodyCharacters(body);
             else msg.setBody(UpnpMessage.BodyType.BYTES, body);
+        }
+
+        private void writeError(OutputStream os, int code, String reason) throws IOException {
+            writeStatusLine(os, code, reason);
+            writeHeader(os, "Connection", "close");
+            writeHeader(os, "Content-Length", "0");
+            writeEndHeaders(os);
         }
 
         private void writeResponse(OutputStream os, StreamResponseMessage msg) throws IOException {

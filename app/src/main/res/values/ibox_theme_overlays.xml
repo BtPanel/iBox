@@ -42,6 +42,7 @@
 
     <style name="ThemeOverlay.IBox.Accessibility" />
     <style name="ThemeOverlay.IBox.Accessibility.HighContrast">
+        <item name="iboxHighContrast">true</item>
         <item name="colorPrimary">@color/ibox_high_contrast_primary</item>
         <item name="colorOnPrimary">@color/ibox_high_contrast_on_primary</item>
         <item name="colorPrimaryContainer">@color/ibox_high_contrast_primary_container</item>

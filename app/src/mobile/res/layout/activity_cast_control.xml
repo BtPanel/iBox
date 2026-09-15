@@ -82,8 +82,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/retry"
                     style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginStart="4dp"
                     android:contentDescription="@string/cast_retry_playback"
                     android:minWidth="0dp"

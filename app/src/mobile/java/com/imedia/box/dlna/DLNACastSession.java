@@ -11,6 +11,7 @@ import com.imedia.box.db.AppDatabase;
 import com.imedia.box.setting.PlayerSetting;
 import com.imedia.box.setting.Setting;
 import com.imedia.box.utils.Notify;
+import com.imedia.box.utils.AsyncSnapshotSaver;
 import com.imedia.box.utils.Task;
 
 import org.jupnp.controlpoint.ControlPoint;
@@ -36,6 +37,7 @@ public class DLNACastSession {
 
     private static final long POLL_INTERVAL = 2000;
     private static final long POLL_TIMEOUT = 5000;
+    private static final AsyncSnapshotSaver<History> HISTORY_SAVER = new AsyncSnapshotSaver<>(History::copy, History::save, AppDatabase::runAsync);
 
     private final Runnable pollTask = this::poll;
     private final Runnable disconnectTask = this::finish;
@@ -122,9 +124,7 @@ public class DLNACastSession {
         if (duration > 0) history.setDuration(duration);
         history.setCreateTime(System.currentTimeMillis());
         history.markSaveScheduled();
-        History snapshot = history.copy();
-        if (force) snapshot.save();
-        else AppDatabase.runAsync(snapshot::save);
+        HISTORY_SAVER.save(history);
     }
 
     public boolean isActive() {
@@ -340,7 +340,7 @@ public class DLNACastSession {
                         history.setPosition(0);
                         history.setDuration(0);
                         history.setCreateTime(System.currentTimeMillis());
-                        history.save();
+                        HISTORY_SAVER.save(history);
                     }
                     notifyChanged();
                 }, () -> {

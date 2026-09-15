@@ -47,6 +47,7 @@ public class CustomWebView extends WebView implements DialogInterface.OnDismissL
     private static final int MAX_URLS = 5;
 
     private final AtomicReference<ParseCallback> callbackRef = new AtomicReference<>();
+    private final WebViewSecurityPolicy securityPolicy;
     private LinkedHashSet<String> urls;
     private WebResourceResponse empty;
     private WebDialog dialog;
@@ -64,6 +65,7 @@ public class CustomWebView extends WebView implements DialogInterface.OnDismissL
 
     private CustomWebView(@NonNull Context context) {
         super(context);
+        securityPolicy = WebViewSecurityPolicy.fromLegacyCompatibility(Setting.isLegacyWebViewCompatibility());
         initSettings();
     }
 
@@ -84,7 +86,7 @@ public class CustomWebView extends WebView implements DialogInterface.OnDismissL
         setting.setUserAgentString(Setting.getUa());
         setting.setMediaPlaybackRequiresUserGesture(false);
         setting.setJavaScriptCanOpenWindowsAutomatically(false);
-        setting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        setting.setMixedContentMode(securityPolicy.allowMixedContent() ? WebSettings.MIXED_CONTENT_ALWAYS_ALLOW : WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         setWebViewClient(webViewClient());
     }
 
@@ -138,7 +140,8 @@ public class CustomWebView extends WebView implements DialogInterface.OnDismissL
             @Override
             @SuppressLint("WebViewClientOnReceivedSslError")
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
+                if (securityPolicy.proceedOnCertificateError()) handler.proceed();
+                else handler.cancel();
             }
 
             @Override

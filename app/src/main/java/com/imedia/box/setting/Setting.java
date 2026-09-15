@@ -363,6 +363,14 @@ public class Setting {
         GitHubUrl.setAccelerationEnabled(enabled);
     }
 
+    public static boolean isLegacyWebViewCompatibility() {
+        return Prefers.getBoolean("legacy_webview_compatibility", false);
+    }
+
+    public static void putLegacyWebViewCompatibility(boolean enabled) {
+        Prefers.put("legacy_webview_compatibility", enabled);
+    }
+
     public static boolean isConfigNoticeEnabled() {
         return Prefers.getBoolean("config_notice_enabled", false);
     }

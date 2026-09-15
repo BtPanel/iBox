@@ -7,7 +7,6 @@ import com.imedia.box.utils.Download;
 import com.imedia.box.utils.UrlUtil;
 import com.github.catvod.crawler.Spider;
 import com.github.catvod.crawler.SpiderNull;
-import com.github.catvod.net.OkHttp;
 import com.github.catvod.utils.Path;
 import com.github.catvod.utils.Util;
 
@@ -106,20 +105,25 @@ public class JarLoader {
 
     public void parseJar(String key, String jar) {
         if (loaders.containsKey(key) || rejected.contains(key)) return;
-        if (jar.startsWith("assets")) jar = UrlUtil.convert(jar);
         Object lock = locks.computeIfAbsent(key, k -> new Object());
         synchronized (lock) {
             if (loaders.containsKey(key) || rejected.contains(key)) return;
-            String[] texts = jar.split(";md5;");
-            String md5 = texts.length > 1 ? texts[1].trim() : "";
-            if (md5.startsWith("http")) md5 = OkHttp.string(md5).trim();
-            jar = texts[0];
-            if (!md5.isEmpty() && Util.equals(jar, md5)) {
-                load(key, Path.jar(jar));
-            } else if (jar.startsWith("http")) {
-                load(key, Download.create(jar, Path.jar(jar)).get());
-            } else if (jar.startsWith("file")) {
-                load(key, Path.local(jar));
+            JarTrustPolicy policy = JarTrustPolicy.parse(jar);
+            String location = policy.location();
+            if (location.startsWith("assets")) {
+                load(key, Path.local(UrlUtil.convert(location)));
+            } else if (location.startsWith("file")) {
+                load(key, Path.local(location));
+            } else if (policy.trustedRemote()) {
+                File target = Path.jar(location);
+                if (!policy.matches(target)) target = Download.create(location, target).maxBytes(32L * 1024 * 1024).get();
+                if (policy.matches(target)) load(key, target);
+                else {
+                    Path.clear(target);
+                    rejected.add(key);
+                }
+            } else {
+                rejected.add(key);
             }
         }
     }

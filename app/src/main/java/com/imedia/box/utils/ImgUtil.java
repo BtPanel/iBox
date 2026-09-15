@@ -25,6 +25,7 @@ import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
@@ -37,8 +38,6 @@ import com.imedia.box.impl.CustomTarget;
 import com.github.catvod.utils.Json;
 import com.google.common.net.HttpHeaders;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -46,15 +45,9 @@ import jahirfiquitiva.libs.textdrawable.TextDrawable;
 
 public class ImgUtil {
 
-    private static final int MAX_FAILED_URLS = 256;
-    private static final long FAILED_RETRY_MS = TimeUnit.MINUTES.toMillis(10);
+    private static final long AUTO_RETRY_DELAY_MS = TimeUnit.SECONDS.toMillis(2);
     private static final LruCache<String, Integer> posterColors = new LruCache<>(256);
-    private static final Map<String, Long> failed = Collections.synchronizedMap(new LinkedHashMap<>(32, 0.75f, true) {
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<String, Long> eldest) {
-            return size() > MAX_FAILED_URLS;
-        }
-    });
+    private static final ImageFailureBackoff failed = new ImageFailureBackoff();
 
     public static void logo(ImageView view) {
         try {
@@ -93,13 +86,19 @@ public class ImgUtil {
     }
 
     private static void load(String text, String url, ImageView view, boolean vod, View paletteView) {
+        load(text, url, view, vod, paletteView, false);
+    }
+
+    private static void load(String text, String url, ImageView view, boolean vod, View paletteView, boolean retry) {
         view.setScaleType(vod ? CENTER_CROP : FIT_CENTER);
         if (!vod) view.setVisibility(TextUtils.isEmpty(url) ? View.GONE : View.VISIBLE);
+        view.setTag(R.id.ibox_poster_request_url, url);
         String paletteKey = TextUtils.isEmpty(url) ? (TextUtils.isEmpty(text) ? "!" : text) : url;
         preparePosterColor(paletteView, paletteKey, text);
-        if (TextUtils.isEmpty(url) || isRecentlyFailed(url)) view.setImageDrawable(getTextDrawable(text, vod));
+        if (TextUtils.isEmpty(url) || (!retry && failed.shouldDefer(url, SystemClock.elapsedRealtime()))) view.setImageDrawable(getTextDrawable(text, vod));
         else try {
-            RequestBuilder<Drawable> builder = Glide.with(view).load(getUrl(url)).listener(getListener(text, url, view, vod, paletteView, paletteKey));
+            RequestBuilder<Drawable> builder = Glide.with(view).load(getUrl(url)).listener(getListener(text, url, view, vod, paletteView, paletteKey, retry));
+            if (retry) builder.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
             if (vod) builder.centerCrop().into(view);
             else builder.fitCenter().into(view);
         } catch (Throwable e) {
@@ -133,22 +132,31 @@ public class ImgUtil {
         return builder.buildRoundRect(text, ColorGenerator.get400(text), ResUtil.dp2px(4));
     }
 
-    private static RequestListener<Drawable> getListener(String text, String url, ImageView view, boolean vod, View paletteView, String paletteKey) {
+    private static RequestListener<Drawable> getListener(String text, String url, ImageView view, boolean vod, View paletteView, String paletteKey, boolean retry) {
         return new RequestListener<>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
                 view.setImageDrawable(getTextDrawable(text, vod));
-                failed.put(url, SystemClock.elapsedRealtime());
+                failed.recordFailure(url, SystemClock.elapsedRealtime());
+                if (!retry) scheduleRetry(text, url, view, vod, paletteView);
                 return true;
             }
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                failed.remove(url);
+                failed.recordSuccess(url);
                 extractPosterColor(resource, paletteView, paletteKey);
                 return false;
             }
         };
+    }
+
+    private static void scheduleRetry(String text, String url, ImageView view, boolean vod, View paletteView) {
+        view.postDelayed(() -> {
+            if (!ViewCompat.isAttachedToWindow(view)) return;
+            if (!url.equals(view.getTag(R.id.ibox_poster_request_url))) return;
+            load(text, url, view, vod, paletteView, true);
+        }, AUTO_RETRY_DELAY_MS);
     }
 
     private static void preparePosterColor(View view, String key, String text) {
@@ -192,13 +200,4 @@ public class ImgUtil {
         ViewCompat.setBackground(view, tinted);
     }
 
-    private static boolean isRecentlyFailed(String url) {
-        synchronized (failed) {
-            Long failedAt = failed.get(url);
-            if (failedAt == null) return false;
-            if (SystemClock.elapsedRealtime() - failedAt < FAILED_RETRY_MS) return true;
-            failed.remove(url);
-            return false;
-        }
-    }
 }

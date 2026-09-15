@@ -417,6 +417,7 @@ public class LivePlaybackController {
         int total = channel.getUrls().size();
         switch (decision.action()) {
             case RETRY_CURRENT -> {
+                healthStore.recordFailure(channel, line, LiveFailureClassifier.from(failure));
                 state.setRetriedCurrent(true);
                 state.clearPlayback();
                 state.setPendingRecovery(new LivePlaybackState.Recovery(request, clock.getAsLong() + decision.delayMs()));
@@ -602,11 +603,15 @@ public class LivePlaybackController {
             if (!isCurrent(generation, request.getRequestId()) || state.getPendingRecovery() != recovery
                     || !request.matches(state.getChannel())) return;
             pendingRecovery = null;
+            if (clock.getAsLong() < recovery.deadlineMs()) {
+                resumePendingRecovery();
+                return;
+            }
             if (!host.isPlaybackServiceReady()) return;
             state.setPendingRecovery(null);
             requestLiveInCycle();
         };
-        scheduler.post(pendingRecovery, remainingMs);
+        scheduler.post(pendingRecovery, Math.min(remainingMs, 1_000));
         return true;
     }
 

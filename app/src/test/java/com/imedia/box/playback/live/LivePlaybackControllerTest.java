@@ -165,7 +165,7 @@ public class LivePlaybackControllerTest {
             assertEquals(2, h.host.requests.size());
             assertEquals(LiveConnectionState.Type.RECONNECTING, h.host.lastState().type());
             assertEquals(2, h.host.lastState().delaySeconds());
-            assertEquals(List.of(2_000L), h.scheduler.delays);
+            assertEquals(List.of(1_000L), h.scheduler.delays);
             obsoleteRetry.run();
             h.controller.onPlaybackReady(failed);
             h.controller.playbackError(PlaybackFailure.source("detached error"), failed);
@@ -181,7 +181,7 @@ public class LivePlaybackControllerTest {
             assertEquals(LiveConnectionState.Type.FAILED, h.host.lastState().type());
             assertEquals(4, h.host.requests.size());
             assertEquals(1, h.lineHealth(0).failureCount());
-            assertEquals(1, h.lineHealth(1).failureCount());
+            assertEquals(2, h.lineHealth(1).failureCount());
         }
     }
 
@@ -438,13 +438,20 @@ public class LivePlaybackControllerTest {
             h.controller.playbackError(PlaybackFailure.timeout("timeout"));
             assertEquals(LiveConnectionState.Type.RECONNECTING, h.host.lastState().type());
             assertEquals(3, h.host.lastState().delaySeconds());
-            assertEquals(0, h.lineHealth(0).failureCount());
-            assertEquals(3_000L, h.scheduler.delays.get(0).longValue());
+            assertEquals(1, h.lineHealth(0).failureCount());
+            assertEquals(1_000L, h.scheduler.delays.get(0).longValue());
+            h.now += 1_000;
+            h.scheduler.runNext();
+            assertEquals(2, h.host.lastState().delaySeconds());
+            h.now += 1_000;
+            h.scheduler.runNext();
+            assertEquals(1, h.host.lastState().delaySeconds());
+            h.now += 1_000;
             h.scheduler.runNext();
             assertEquals(0, h.channel.getIndex());
             h.controller.playbackError(PlaybackFailure.timeout("timeout"));
             assertEquals(2, h.channel.getIndex());
-            assertEquals(1, h.lineHealth(0).failureCount());
+            assertEquals(2, h.lineHealth(0).failureCount());
             assertTrue(h.host.states.stream().anyMatch(s -> s.type() == LiveConnectionState.Type.SWITCHING && s.fromLine() == 0 && s.line() == 2));
         }
     }
@@ -494,7 +501,10 @@ public class LivePlaybackControllerTest {
             LiveChannelStore.markFailed(h.channel);
             h.controller.selectChannel(h.channel);
             h.controller.playbackError(PlaybackFailure.timeout("timeout"));
-            h.scheduler.runNext();
+            for (int i = 0; i < 3; i++) {
+                h.now += 1_000;
+                h.scheduler.runNext();
+            }
             h.resolveLatest();
             h.controller.onPlaybackReady();
             Runnable obsoleteSuccess = h.scheduler.pending.get(0);
@@ -503,6 +513,7 @@ public class LivePlaybackControllerTest {
             obsoleteSuccess.run();
             assertEquals(1, h.channel.getIndex());
             assertEquals(0, h.lineHealth(0).successCount());
+            assertEquals(2, h.lineHealth(0).failureCount());
             assertTrue(LiveChannelStore.isFailed(h.channel));
             assertTrue(h.scheduler.pending.isEmpty());
         }

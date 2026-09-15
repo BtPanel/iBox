@@ -22,6 +22,8 @@ public final class RemoteAccess {
 
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final Map<String, Long> CLIENTS = new ConcurrentHashMap<>();
+    private static final PairingSessionStore SESSIONS = new PairingSessionStore(30L * 60 * 1000);
+    private static final PinAttemptLimiter PIN_LIMITER = new PinAttemptLimiter(5, 5L * 60 * 1000);
     private static final String COOKIE = "ibox_pair";
     private static final String LEGACY_COOKIE = "i" + "media_pair";
     private static final String STREAM_TOKEN_PARAM = "stream_token";
@@ -38,7 +40,7 @@ public final class RemoteAccess {
     public static void setEnabled(boolean enabled) {
         Prefers.put("remote_access_enabled", enabled);
         if (enabled) ensureCredentials();
-        else CLIENTS.clear();
+        else clearRemoteSessions();
     }
 
     public static String getPin() {
@@ -61,11 +63,15 @@ public final class RemoteAccess {
         SecurePreferences.putString("remote_access_token", UUID.randomUUID().toString().replace("-", ""));
         SecurePreferences.putString("remote_stream_token", UUID.randomUUID().toString().replace("-", ""));
         CLIENTS.clear();
+        SESSIONS.clear();
+        PIN_LIMITER.clear();
     }
 
     public static void disconnectAll() {
         SecurePreferences.putString("remote_access_token", UUID.randomUUID().toString().replace("-", ""));
         CLIENTS.clear();
+        SESSIONS.clear();
+        PIN_LIMITER.clear();
     }
 
     public static List<String> getClients() {
@@ -97,10 +103,12 @@ public final class RemoteAccess {
     public static boolean isAuthorized(IHTTPSession session) {
         if (isLoopback(session)) return true;
         if (!isEnabled() || !isPrivateNetwork(session)) return false;
-        String token = session.getParms().get("token");
-        if (TextUtils.isEmpty(token)) token = tokenHeader(session.getHeaders(), false);
-        if (TextUtils.isEmpty(token)) token = cookieValue(session.getHeaders().get("cookie"));
-        boolean authorized = getToken().equals(token) || getPin().equals(session.getParms().get("pin"));
+        String client = session.getRemoteIpAddress();
+        String managementToken = managementCredential(session.getHeaders());
+        String pairingToken = pairingCredential(session.getHeaders().get("cookie"));
+        boolean authorized = getToken().equals(managementToken)
+                || SESSIONS.isValid(pairingToken, client, System.currentTimeMillis());
+        if (!authorized && hasPairingAttempt(session)) authorized = authorizePin(session, client);
         if (authorized) CLIENTS.put(session.getRemoteIpAddress(), System.currentTimeMillis());
         return authorized;
     }
@@ -117,11 +125,47 @@ public final class RemoteAccess {
     }
 
     public static boolean pairedWithPin(IHTTPSession session) {
-        return isEnabled() && getPin().equals(session.getParms().get("pin"));
+        return isEnabled() && hasPairingAttempt(session) && getPin().equals(session.getParms().get("pin"));
     }
 
-    public static String cookieHeader() {
-        return COOKIE + "=" + getToken() + "; Path=/; HttpOnly; SameSite=Strict; Max-Age=2592000";
+    public static String cookieHeader(IHTTPSession session) {
+        String token = SESSIONS.create(session.getRemoteIpAddress(), System.currentTimeMillis());
+        return COOKIE + "=" + token + "; Path=/; HttpOnly; SameSite=Strict; Max-Age=1800";
+    }
+
+    static String managementCredential(Map<String, String> headers) {
+        String token = tokenHeader(headers, false);
+        return empty(token) ? null : token;
+    }
+
+    static String pairingCredential(String cookies) {
+        String token = cookieValue(cookies);
+        return empty(token) ? null : token;
+    }
+
+    private static boolean empty(String value) {
+        return value == null || value.isEmpty();
+    }
+
+    static boolean hasPairingAttempt(IHTTPSession session) {
+        return session.getMethod() == fi.iki.elonen.NanoHTTPD.Method.POST && !TextUtils.isEmpty(session.getParms().get("pin"));
+    }
+
+    private static boolean authorizePin(IHTTPSession session, String client) {
+        long now = System.currentTimeMillis();
+        if (!PIN_LIMITER.isAllowed(client, now)) return false;
+        if (getPin().equals(session.getParms().get("pin"))) {
+            PIN_LIMITER.recordSuccess(client);
+            return true;
+        }
+        PIN_LIMITER.recordFailure(client, now);
+        return false;
+    }
+
+    private static void clearRemoteSessions() {
+        CLIENTS.clear();
+        SESSIONS.clear();
+        PIN_LIMITER.clear();
     }
 
     static String cookieValue(String cookies) {

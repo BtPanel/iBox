@@ -2,6 +2,7 @@
 <resources>
     <attr name="focusFrameColor" format="color" />
     <attr name="focusContentColor" format="color" />
+    <attr name="iboxHighContrast" format="boolean" />
 
     <declare-styleable name="CustomRecyclerView">
         <attr name="android:minWidth" />

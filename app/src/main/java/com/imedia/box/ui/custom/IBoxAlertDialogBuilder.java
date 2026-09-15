@@ -1,6 +1,7 @@
 package com.imedia.box.ui.custom;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
@@ -13,11 +14,13 @@ public class IBoxAlertDialogBuilder extends MaterialAlertDialogBuilder {
 
     public IBoxAlertDialogBuilder(Context context) {
         super(context, themeFor(context, 0));
+        applyAccessibilitySurface(context);
         applyOutline();
     }
 
     public IBoxAlertDialogBuilder(Context context, int overrideThemeResId) {
         super(context, themeFor(context, overrideThemeResId));
+        applyAccessibilitySurface(context);
         applyOutline();
     }
 
@@ -38,5 +41,16 @@ public class IBoxAlertDialogBuilder extends MaterialAlertDialogBuilder {
                 getClass().getSimpleName());
         ((MaterialShapeDrawable) background).setStroke(
                 getContext().getResources().getDimension(R.dimen.ibox_stroke_thin), color);
+    }
+
+    private void applyAccessibilitySurface(Context hostContext) {
+        TypedValue value = new TypedValue();
+        if (!hostContext.getTheme().resolveAttribute(R.attr.iboxHighContrast, value, true)
+                || value.data == 0) return;
+        Drawable background = getBackground();
+        if (!(background instanceof MaterialShapeDrawable)) return;
+        int color = MaterialColors.getColor(hostContext,
+                com.google.android.material.R.attr.colorSurface, getClass().getSimpleName());
+        ((MaterialShapeDrawable) background).setFillColor(ColorStateList.valueOf(color));
     }
 }

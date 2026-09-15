@@ -22,8 +22,13 @@ import org.jupnp.support.model.SeekMode;
 import org.jupnp.support.model.item.VideoItem;
 
 import java.util.Locale;
+import java.util.function.BooleanSupplier;
 
-public record DLNACast(CastVideo video, Runnable success, Runnable failure) {
+public record DLNACast(CastVideo video, Runnable success, Runnable failure, BooleanSupplier valid) {
+
+    public DLNACast(CastVideo video, Runnable success, Runnable failure) {
+        this(video, success, failure, () -> true);
+    }
 
     public void cast(Device item) {
         DLNACastManager mgr = DLNACastManager.get();
@@ -55,6 +60,7 @@ public record DLNACast(CastVideo video, Runnable success, Runnable failure) {
         return new SetAVTransportURI(service, video.url(), buildMetaData()) {
             @Override
             public void success(ActionInvocation i) {
+                if (!valid.getAsBoolean()) return;
                 control.execute(playAction(control, service));
             }
 
@@ -69,6 +75,7 @@ public record DLNACast(CastVideo video, Runnable success, Runnable failure) {
         return new Play(service) {
             @Override
             public void success(ActionInvocation i) {
+                if (!valid.getAsBoolean()) return;
                 if (video.position() > 0) control.execute(seekAction(service));
                 App.post(success);
             }
@@ -100,6 +107,7 @@ public record DLNACast(CastVideo video, Runnable success, Runnable failure) {
 
     private void notifyFailure(String message) {
         App.post(() -> {
+            if (!valid.getAsBoolean()) return;
             Notify.show(message);
             failure.run();
         });

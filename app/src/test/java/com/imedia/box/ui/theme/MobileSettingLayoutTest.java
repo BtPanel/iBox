@@ -76,7 +76,7 @@ public class MobileSettingLayoutTest {
                 Arrays.asList("incognito", "configNotice", "remoteAccess", "hideNavigation", "bootAutoStart"),
                 Arrays.asList("themeMode", "layoutMode", "themeColor", "homeContent", "size", "accessibility"),
                 Arrays.asList("player", "danmaku", "autoFallbackLine", "autoFallbackSource"),
-                Arrays.asList("githubAcceleration", "doh", "searchThreads", "sourceHealth", "cache", "webdav", "backup", "restore")), groups);
+                Arrays.asList("githubAcceleration", "legacyWebViewCompatibility", "doh", "searchThreads", "sourceHealth", "cache", "webdav", "backup", "restore")), groups);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class MobileSettingLayoutTest {
         for (String id : Arrays.asList("vod", "live", "wall", "incognito", "configNotice",
                 "remoteAccess", "hideNavigation", "bootAutoStart", "themeMode", "layoutMode",
                 "themeColor", "homeContent", "size", "accessibility", "player", "danmaku",
-                "autoFallbackLine", "autoFallbackSource", "githubAcceleration", "doh",
+                "autoFallbackLine", "autoFallbackSource", "githubAcceleration", "legacyWebViewCompatibility", "doh",
                 "searchThreads", "sourceHealth", "cache", "webdav", "backup", "restore")) {
             Element icon = (Element) byId(document, id).getElementsByTagName("androidx.appcompat.widget.AppCompatImageView").item(0);
             assertEquals(id + " icon width", "24dp", icon.getAttribute("android:layout_width"));

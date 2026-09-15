@@ -20,12 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ibox_player_scrim_soft"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/floatingSettings"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="start|top"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
@@ -46,8 +47,8 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingFullscreen"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/floating_player_fullscreen"
                 android:padding="10dp"
@@ -56,8 +57,8 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingClose"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/floating_player_close"
                 android:padding="10dp"

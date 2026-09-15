@@ -39,7 +39,7 @@ if (-not (Test-Path (Join-Path $sourceRoot 'vendor/media3/settings.gradle.kts'))
 
 New-Item -ItemType Directory -Path $stageRoot | Out-Null
 try {
-    $tracked = @(git -C $sourceRoot -c core.quotePath=false ls-files)
+    $tracked = @(git -C $sourceRoot -c core.quotePath=false ls-files --cached --others --exclude-standard)
     if ($LASTEXITCODE -ne 0) { throw 'git ls-files failed.' }
     foreach ($relative in $tracked) {
         $from = Join-Path $sourceRoot $relative

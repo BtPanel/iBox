@@ -85,12 +85,12 @@ public class Nano extends NanoHTTPD {
     private Response remoteDenied(IHTTPSession session) {
         if (!RemoteAccess.isEnabled()) return error(Response.Status.FORBIDDEN, "Remote control is disabled");
         if (!RemoteAccess.isPrivateNetwork(session)) return error(Response.Status.FORBIDDEN, "Private network only");
-        if (ServerAccessPolicy.isAssetRequest(session.getUri())) return pairPage(session.getParms().containsKey("pin"));
+        if (ServerAccessPolicy.isAssetRequest(session.getUri())) return pairPage(RemoteAccess.hasPairingAttempt(session));
         return error(Response.Status.UNAUTHORIZED, "Pairing required");
     }
 
     private Response pairIfNeeded(IHTTPSession session, Response response) {
-        if (RemoteAccess.pairedWithPin(session)) response.addHeader("Set-Cookie", RemoteAccess.cookieHeader());
+        if (RemoteAccess.pairedWithPin(session)) response.addHeader("Set-Cookie", RemoteAccess.cookieHeader(session));
         return response;
     }
 
@@ -99,7 +99,7 @@ public class Nano extends NanoHTTPD {
         String html = "<!doctype html><html lang='zh-CN'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
                 + "<title>设备配对</title><body style='font-family:sans-serif;max-width:360px;margin:18vh auto;padding:24px'>"
                 + "<h2>局域网控制配对</h2><p>请输入电视或手机设置中显示的 6 位配对码。</p>" + message
-                + "<form><input name='pin' inputmode='numeric' maxlength='6' autofocus style='font-size:24px;letter-spacing:8px;width:100%;padding:12px;box-sizing:border-box'>"
+                + "<form method='post'><input name='pin' inputmode='numeric' maxlength='6' autofocus style='font-size:24px;letter-spacing:8px;width:100%;padding:12px;box-sizing:border-box'>"
                 + "<button style='margin-top:16px;width:100%;padding:12px'>连接</button></form></body></html>";
         return newFixedLengthResponse(Response.Status.UNAUTHORIZED, MIME_HTML, html);
     }
