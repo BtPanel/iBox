@@ -52,7 +52,7 @@ java -version
 可以通过 Android Studio SDK Manager 安装，也可以用 `sdkmanager`：
 
 ```powershell
-sdkmanager "platforms;android-37" `
+sdkmanager "platforms;android-37.0" `
   "build-tools;36.0.0" `
   "ndk;29.0.14206865" `
   "cmake;3.31.6"
