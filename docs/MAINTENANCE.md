@@ -200,7 +200,7 @@ rg -n "Widget.IBox.Button|Widget.IBox.PosterTitle|ibox_text_" `
 4. 运行四变体测试、Lint、AndroidTest 编译和 Release 构建。
 5. 验证 R8、原生 ABI、Python/JS 扩展和播放器。
 
-固定 Media3 提交同时记录在 `BUILD.md` 和 CI 工作流。变更时三处一起更新。
+Media3 版本由主仓库的 `vendor/media3` 子模块提交固定。升级时先在 `iBox-media3` 提交并推送，再更新主仓库的 gitlink 和 `BUILD.md` 中的验证提交；CI 直接检出该子模块提交。
 
 ## 生成文件和清理
 
@@ -215,7 +215,7 @@ rg -n "Widget.IBox.Button|Widget.IBox.PosterTitle|ibox_text_" `
 不能当作缓存删除：
 
 - 用户下载和离线媒体。
-- `vendor/media3`，除非准备按固定提交重新下载。
+- `vendor/media3` 中的未提交改动；需要重建时使用 `git submodule update --init` 恢复固定提交。
 - Room schema 历史。
 - 签名证书唯一副本。
 - Git 未提交改动。

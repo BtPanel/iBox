@@ -1,0 +1,3 @@
+[submodule "vendor/media3"]
+	path = vendor/media3
+	url = https://github.com/BtPanel/iBox-media3.git

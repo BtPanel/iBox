@@ -43,6 +43,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'git ls-files failed.' }
     foreach ($relative in $tracked) {
         $from = Join-Path $sourceRoot $relative
+        if (Test-Path -LiteralPath $from -PathType Container) { continue }
         if (-not (Test-Path -LiteralPath $from -PathType Leaf)) {
             throw "Tracked file is missing: $relative"
         }
@@ -65,6 +66,7 @@ try {
     Copy-Item -LiteralPath $checksumPath -Destination $stageRelease
 
     $commit = git -C $sourceRoot rev-parse HEAD
+    $media3Commit = git -C (Join-Path $sourceRoot 'vendor/media3') rev-parse HEAD
     $changes = @(git -C $sourceRoot status --short)
     @(
         "Label: $Label"
@@ -72,7 +74,7 @@ try {
         "Packaged at: $(Get-Date -Format o)"
         'Working-tree changes at packaging:'
         $(if ($changes.Count) { $changes } else { '(none)' })
-        'Media3: local source snapshot (build outputs excluded)'
+        "Media3: $media3Commit (submodule source snapshot; build outputs excluded)"
         'APK checksums: Release/SHA256SUMS.txt'
     ) | Set-Content -LiteralPath (Join-Path $stageRoot 'SOURCE-MANIFEST.txt') -Encoding UTF8
 

@@ -66,13 +66,20 @@ sdkmanager --licenses
 
 ## 准备定制 Media3
 
-源码归档已包含 `vendor/media3` 时不需要下载。普通 Git 检出因 `.gitignore` 不跟踪该大型依赖，需要执行：
+`vendor/media3` 是私有 Git 子模块。首次克隆主仓库时使用：
 
 ```powershell
-New-Item -ItemType Directory -Force vendor | Out-Null
-git clone --branch release https://github.com/FongMi/media.git vendor/media3
-git -C vendor/media3 checkout 2bc207851df311340767e913931ca7b28cab1794
+git clone --recurse-submodules https://github.com/BtPanel/iBox.git
 ```
+
+已有主仓库检出执行：
+
+```powershell
+git submodule sync --recursive
+git submodule update --init --recursive
+```
+
+两个仓库都是私有仓库，命令行 Git 必须使用对 `BtPanel/iBox` 和 `BtPanel/iBox-media3` 都有读取权限的 GitHub 凭据。源码归档已经包含子模块源码快照，不需要联网初始化。
 
 验证：
 
@@ -81,7 +88,7 @@ Test-Path vendor/media3/settings.gradle.kts
 git -C vendor/media3 rev-parse HEAD
 ```
 
-第二条应输出固定提交 `2bc207851df311340767e913931ca7b28cab1794`。`settings.gradle` 会用该目录替换标准 Media3 依赖，缺失时不能正常构建播放器模块。
+第二条应输出固定提交 `162e750c5aefcd0be0a7663cfe195bce9dbbd3c8`。`settings.gradle` 会用该目录替换标准 Media3 依赖，缺失时不能正常构建播放器模块。
 
 ## local.properties
 
@@ -332,7 +339,7 @@ APK 重新构建后必须重新生成校验文件，不能沿用旧哈希。
 - 日志、报告、临时文件和旧 ZIP。
 - Media3 的 `buildout/`、`out/` 等生成目录。
 
-使用仓库脚本按 Git 跟踪文件复制当前工作树，再单独加入本机未跟踪的 `vendor/media3` 源码、四个 APK 和 SHA-256。`SOURCE-MANIFEST.txt` 记录 HEAD、工作区变更及归档标签。归档前应先人工检查 `git diff`，避免把未提交的私人内容带入包中：
+使用仓库脚本按 Git 跟踪文件复制当前工作树，再加入 `vendor/media3` 子模块源码快照、四个 APK 和 SHA-256。`SOURCE-MANIFEST.txt` 记录主仓库 HEAD、Media3 子模块 HEAD、工作区变更及归档标签。归档前应先人工检查主仓库和子模块的 `git status`，避免把未提交的私人内容带入包中：
 
 ```powershell
 .\scripts\package-release.ps1 -Label "1.0-pre-audit"
@@ -373,12 +380,13 @@ SOURCE-MANIFEST.txt
 
 Release 需要仓库 Secrets：
 
+- `MEDIA3_REPOSITORY_TOKEN`：对两个私有仓库具有只读 Contents 权限的细粒度 GitHub Token；Debug 和 Release 都需要。
 - `ANDROID_KEYSTORE_BASE64`
 - `ANDROID_KEYSTORE_PASSWORD`
 - `ANDROID_KEY_ALIAS`
 - `ANDROID_KEY_PASSWORD`
 
-CI 生成的源码不包含 `vendor/media3` 时，会按固定提交下载。
+CI 按 `.gitmodules` 中记录的固定提交检出 `vendor/media3`，不会回退到公开上游源码。
 
 ## Git 标签
 

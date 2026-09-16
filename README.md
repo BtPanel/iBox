@@ -21,7 +21,7 @@ iBox 是 Android 手机、平板和电视双端影音客户端。手机端使用
 
 ## 开发入口
 
-源码按 `app/src/main`（共用）、`app/src/mobile`（手机）和 `app/src/leanback`（电视）划分。`catvod`、`chaquo`、`quickjs` 是扩展运行模块；`vendor/media3` 是构建所需的定制播放器源码，普通 Git 检出需要按[构建文档](docs/BUILD.md)补齐。
+源码按 `app/src/main`（共用）、`app/src/mobile`（手机）和 `app/src/leanback`（电视）划分。`catvod`、`chaquo`、`quickjs` 是扩展运行模块；`vendor/media3` 是构建所需的私有定制播放器子模块。首次克隆请使用 `git clone --recurse-submodules`，现有检出按[构建文档](docs/BUILD.md)初始化子模块。
 
 环境要求为 JDK 21、Android SDK 37、Build Tools 36.0.0、NDK 29.0.14206865、CMake 3.31.6 和 Python 3.10。完成本机 `local.properties` 后，在仓库根目录执行，例如：
 

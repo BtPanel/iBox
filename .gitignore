@@ -37,9 +37,6 @@ docs/superpowers/
 *.aab
 /Release/
 
-# Reproducible third-party source dependency (see docs bootstrap instructions)
-vendor/media3/
-
 # Generated reports
 reports/
 outputs/

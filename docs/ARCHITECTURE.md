@@ -37,9 +37,9 @@ ABI:
 | `catvod` | 内容扩展接口、网络层和通用模型 |
 | `chaquo` | Python 3.10 扩展运行环境 |
 | `quickjs` | JavaScript 扩展运行环境 |
-| `vendor/media3` | 定制 Media3、MPV、FFmpeg 与弹幕组件 |
+| `vendor/media3` | 私有 Git 子模块；定制 Media3、MPV、FFmpeg 与弹幕组件 |
 
-`settings.gradle` 通过 Gradle Composite Build 引入 `vendor/media3`，并用依赖替换把标准 `androidx.media3` 模块指向定制源码。缺少该目录时播放器相关依赖无法解析。
+`settings.gradle` 通过 Gradle Composite Build 引入 `vendor/media3`，并用依赖替换把标准 `androidx.media3` 模块指向定制源码。主仓库以 Git 子模块提交固定播放器版本；缺少或未初始化该目录时播放器相关依赖无法解析。
 
 ## app 代码分层
 
