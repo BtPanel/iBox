@@ -1,6 +1,7 @@
 # Android / Gradle
 .gradle/
 .gradle-user-home/
+gradle/gradle-daemon-jvm.properties
 build/
 **/build/
 captures/
