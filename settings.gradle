@@ -19,12 +19,15 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
+        maven {
+            url = "https://jitpack.io"
+            content { includeGroupByRegex "com\\.github\\..*" }
+        }
         maven { url = uri("https://maven.aliyun.com/repository/google") }
         maven { url = uri("https://maven.aliyun.com/repository/central") }
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://repo.huaweicloud.com/repository/maven/") }
         flatDir { dirs "$rootDir/app/libs" }
-        maven { url = "https://jitpack.io" }
     }
 }
 
