@@ -144,8 +144,12 @@ public class LiveViewModel extends ViewModel {
     }
 
     public void getEpgGuide(Channel item) {
+        getEpgGuide(item, LiveApi.GUIDE_START_OFFSET, LiveApi.GUIDE_END_OFFSET);
+    }
+
+    public void getEpgGuide(Channel item, int startOffset, int endOffset) {
         execute(TaskType.EPG_GUIDE, () -> {
-            LiveApi.getEpgGuide(item, zoneId);
+            LiveApi.getEpgGuide(item, zoneId, startOffset, endOffset);
             return item;
         }, epgGuide::postValue, error -> epgGuide.postValue(item));
     }

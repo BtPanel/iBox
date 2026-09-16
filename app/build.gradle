@@ -111,7 +111,7 @@ androidComponents {
         def mode = flavors['mode'] ?: 'mode'
         def abi = flavors['abi'] ?: 'abi'
         variant.outputs.each { output ->
-            output.outputFileName.set("iBox-${android.defaultConfig.versionName}-${mode}-${abi}.apk")
+            output.outputFileName.set("iBox-${output.versionName.get()}-${mode}-${abi}.apk")
         }
     }
 }

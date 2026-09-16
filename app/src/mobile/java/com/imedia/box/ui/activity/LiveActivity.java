@@ -75,6 +75,7 @@ import com.imedia.box.player.PlaybackFailure;
 import com.imedia.box.service.PlaybackService;
 import com.imedia.box.setting.LiveSetting;
 import com.imedia.box.ui.adapter.ChannelAdapter;
+import com.imedia.box.ui.adapter.EpgDateAdapter;
 import com.imedia.box.ui.adapter.EpgDataAdapter;
 import com.imedia.box.ui.adapter.GroupAdapter;
 import com.imedia.box.ui.adapter.LineAdapter;
@@ -97,6 +98,7 @@ import com.imedia.box.ui.overlay.FloatingPlayerWindow;
 import com.imedia.box.ui.overlay.FloatingWindowEntryPolicy;
 import com.imedia.box.utils.Biometric;
 import com.imedia.box.utils.FileChooser;
+import com.imedia.box.utils.Formatters;
 import com.imedia.box.utils.ImgUtil;
 import com.imedia.box.utils.Notify;
 import com.imedia.box.utils.PiP;
@@ -108,13 +110,14 @@ import com.github.catvod.utils.Path;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-public class LiveActivity extends PlaybackActivity implements CustomKeyDown.Listener, Biometric.Callback, PassListener, ConfigListener, LiveListener, GroupAdapter.OnClickListener, ChannelAdapter.OnClickListener, LineAdapter.OnClickListener, EpgDataAdapter.OnClickListener, CastDialog.Listener, InfoDialog.Listener, LivePlaybackHost, LiveSettingsDialog.Listener {
+public class LiveActivity extends PlaybackActivity implements CustomKeyDown.Listener, Biometric.Callback, PassListener, ConfigListener, LiveListener, GroupAdapter.OnClickListener, ChannelAdapter.OnClickListener, LineAdapter.OnClickListener, EpgDateAdapter.OnClickListener, EpgDataAdapter.OnClickListener, CastDialog.Listener, InfoDialog.Listener, LivePlaybackHost, LiveSettingsDialog.Listener {
 
     private static final String EXTRA_OPEN_FLOATING_SETTINGS = "open_floating_settings";
 
@@ -125,6 +128,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     private GroupAdapter mGroupAdapter;
     private ChannelAdapter mChannelAdapter;
     private LineAdapter mLineAdapter;
+    private EpgDateAdapter mEpgDateAdapter;
     private EpgDataAdapter mEpgDataAdapter;
     private CustomKeyDown mKeyDown;
     private PiP mPiP;
@@ -135,6 +139,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     private List<Group> mHides;
     private Group mGroup;
     private Channel mChannel;
+    private Epg mSelectedEpg;
     private String mPlaybackKey;
     private boolean rotate;
     private long lastOrientationChange;
@@ -278,20 +283,24 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.summarySearch.setOnClickListener(view -> onChannelSearch());
         mBinding.summaryCast.setOnClickListener(view -> onCast());
         mBinding.summaryConfig.setOnClickListener(view -> showLiveSettings());
+        mBinding.epgBack.setOnClickListener(view -> hideEpg());
         mBinding.epgEmpty.setOnClickListener(view -> hideEpg());
     }
 
     private void setRecyclerView() {
         mBinding.group.setHasFixedSize(true);
         mBinding.channel.setHasFixedSize(true);
+        mBinding.epgDate.setHasFixedSize(true);
         mBinding.epgData.setHasFixedSize(true);
         mBinding.lineList.setHasFixedSize(true);
         mBinding.group.setItemAnimator(null);
         mBinding.channel.setItemAnimator(null);
+        mBinding.epgDate.setItemAnimator(null);
         mBinding.epgData.setItemAnimator(null);
         mBinding.lineList.setItemAnimator(null);
         mBinding.group.setAdapter(mGroupAdapter = new GroupAdapter(this));
         mBinding.channel.setAdapter(mChannelAdapter = new ChannelAdapter(this));
+        mBinding.epgDate.setAdapter(mEpgDateAdapter = new EpgDateAdapter(this));
         mBinding.epgData.setAdapter(mEpgDataAdapter = new EpgDataAdapter(this));
         mBinding.lineList.setAdapter(mLineAdapter = new LineAdapter(this));
     }
@@ -354,6 +363,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.recycler.setLayoutParams(recyclerParams);
         mBinding.group.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         mBinding.channel.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        mBinding.epgDate.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        mBinding.epgData.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         mBinding.lineList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         setPanelParams(portrait);
         boolean sourceStateVisible = mBinding.sourceState.getVisibility() == View.VISIBLE;
@@ -364,7 +375,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         setPanelParams(mBinding.group, 0, ViewGroup.LayoutParams.MATCH_PARENT, portrait ? 38 : 31);
         setPanelParams(mBinding.channel, 0, ViewGroup.LayoutParams.MATCH_PARENT, portrait ? 62 : 49);
         setPanelParams(mBinding.lineList, 0, ViewGroup.LayoutParams.MATCH_PARENT, portrait ? 0 : 20);
-        setPanelParams(mBinding.epgData, 0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+        setPanelParams(mBinding.epgPanel, 0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
     }
 
     private void setPanelParams(View view, int width, int height, float weight) {
@@ -410,6 +421,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         observeWhenServiceReady(mViewModel.playback(), this::onPlaybackObserved);
         mViewModel.error().observe(this, this::onLoadErrorObserved);
         observeForever(mViewModel.epg(), this::onEpgLoaded);
+        observeForever(mViewModel.epgGuide(), this::onEpgGuideLoaded);
         mViewModel.live().observe(this, this::onLiveParsed);
         mViewModel.xml().observe(this, this::onXmlParsed);
     }
@@ -942,14 +954,46 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     private void showEpg(Channel item) {
         if (mChannel == null || !mChannel.equals(item) || !mChannel.getGroup().equals(mGroup)) return;
-        boolean empty = mEpgDataAdapter.getItemCount() == 0;
-        if (!empty) scrollToPosition(mBinding.epgData, item.getData(mViewModel.getZoneId()).getSelected());
-        mBinding.epgData.setVisibility(empty ? View.GONE : View.VISIBLE);
-        mBinding.epgEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
+        List<Epg> dates = createGuideDates(item, mViewModel.getZoneId());
+        mSelectedEpg = dates.get(3);
+        mEpgDateAdapter.addAll(dates, mSelectedEpg, LocalDate.now(mViewModel.getZoneId()));
+        showSelectedEpg();
+        mBinding.epgPanel.setVisibility(View.VISIBLE);
         mBinding.channel.setVisibility(View.GONE);
         mBinding.group.setVisibility(View.GONE);
         mBinding.lineList.setVisibility(View.GONE);
         mBinding.lineDivider.setVisibility(View.GONE);
+        mViewModel.getEpgGuide(item, -3, 3);
+    }
+
+    static List<Epg> createGuideDates(Channel channel, ZoneId zoneId) {
+        List<Epg> dates = new ArrayList<>();
+        LocalDate today = LocalDate.now(zoneId);
+        for (int offset = -3; offset <= 3; offset++) {
+            String date = today.plusDays(offset).format(Formatters.DATE);
+            Epg value = channel.getDataList().stream()
+                    .filter(epg -> epg.equal(date))
+                    .findFirst()
+                    .orElseGet(() -> Epg.create(channel.getTvgId(), date));
+            dates.add(value);
+        }
+        return dates;
+    }
+
+    @Override
+    public void selectDate(Epg item) {
+        mSelectedEpg = item;
+        mEpgDateAdapter.setSelected(item);
+        showSelectedEpg();
+    }
+
+    private void showSelectedEpg() {
+        if (mSelectedEpg == null) return;
+        mEpgDataAdapter.addAll(mChannel, mSelectedEpg.getList());
+        boolean empty = mEpgDataAdapter.getItemCount() == 0;
+        mBinding.epgData.setVisibility(empty ? View.GONE : View.VISIBLE);
+        mBinding.epgEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
+        if (!empty) scrollToPosition(mBinding.epgData, Math.max(0, mSelectedEpg.getSelected()));
     }
 
     private void hideEpg() {
@@ -958,8 +1002,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.group.setVisibility(View.VISIBLE);
         mBinding.lineList.setVisibility(portrait ? View.GONE : View.VISIBLE);
         mBinding.lineDivider.setVisibility(portrait ? View.GONE : View.VISIBLE);
-        mBinding.epgData.setVisibility(View.GONE);
-        mBinding.epgEmpty.setVisibility(View.GONE);
+        mBinding.epgPanel.setVisibility(View.GONE);
+        mSelectedEpg = null;
     }
 
     @Override
@@ -1240,12 +1284,28 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         EpgData data = epg.getEpgData();
         boolean hasTitle = !data.getTitle().isEmpty();
         mEpgDataAdapter.addAll(mChannel, epg.getList());
-        if (isVisible(mBinding.epgData) || isVisible(mBinding.epgEmpty)) showEpg(mChannel);
+        if (isVisible(mBinding.epgPanel)) refreshGuideDates();
         mBinding.widget.name.setMaxEms(hasTitle ? 12 : 48);
         mBinding.widget.play.setText(data.format());
         setSummary(epg);
         mLive.onEpgChanged(data);
         setWidth(epg);
+    }
+
+    private void onEpgGuideLoaded(Channel item) {
+        if (mChannel != item || !isVisible(mBinding.epgPanel) || mSelectedEpg == null) return;
+        refreshGuideDates();
+    }
+
+    private void refreshGuideDates() {
+        String selectedDate = mSelectedEpg == null ? "" : mSelectedEpg.getDate();
+        List<Epg> dates = createGuideDates(mChannel, mViewModel.getZoneId());
+        mSelectedEpg = dates.stream()
+                .filter(epg -> epg.equal(selectedDate))
+                .findFirst()
+                .orElse(dates.get(3));
+        mEpgDateAdapter.addAll(dates, mSelectedEpg, LocalDate.now(mViewModel.getZoneId()));
+        showSelectedEpg();
     }
 
     private void onXmlParsed(LiveViewModel.XmlResult result) {
@@ -1718,7 +1778,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     @Override
     public void onSingleTap() {
-        if (isVisible(mBinding.epgData) || isVisible(mBinding.epgEmpty)) hideEpg();
+        if (isVisible(mBinding.epgPanel)) hideEpg();
         else if (isVisible(mBinding.recycler)) hideUI();
         if (isVisible(mBinding.control.getRoot())) hideControl();
         else showControl();
@@ -1817,6 +1877,8 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
             hideControl();
         } else if (isVisible(mBinding.widget.info)) {
             hideInfo();
+        } else if (isVisible(mBinding.epgPanel)) {
+            hideEpg();
         } else if (isVisible(mBinding.recycler) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             hideUI();
         } else if (!isLock()) {

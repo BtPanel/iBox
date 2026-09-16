@@ -75,7 +75,11 @@ public class LiveApi {
     }
 
     public static void getEpgGuide(@NonNull Channel item, @NonNull ZoneId zoneId) {
-        for (int offset = GUIDE_START_OFFSET; offset <= GUIDE_END_OFFSET; offset++) {
+        getEpgGuide(item, zoneId, GUIDE_START_OFFSET, GUIDE_END_OFFSET);
+    }
+
+    public static void getEpgGuide(@NonNull Channel item, @NonNull ZoneId zoneId, int startOffset, int endOffset) {
+        for (int offset = startOffset; offset <= endOffset; offset++) {
             fetchEpgDay(item, zoneId, offset);
         }
     }

@@ -262,29 +262,100 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/adapter_line" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/epgData"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/epgPanel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingStart="4dp"
+                android:orientation="vertical"
                 android:visibility="gone"
-                tools:itemCount="5"
-                tools:listitem="@layout/adapter_epg_data" />
+                tools:visibility="visible">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/epgEmpty"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="24dp"
-                android:text="@string/live_epg_empty"
-                android:textColor="@color/ibox_text_secondary"
-                android:textSize="@dimen/ibox_text_body"
-                android:visibility="gone" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/epgBack"
+                        android:layout_width="@dimen/ibox_touch_target"
+                        android:layout_height="@dimen/ibox_touch_target"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/live_channel_list"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_msr_arrow_back"
+                        android:tooltipText="@string/live_channel_list"
+                        app:tint="@color/ibox_text_primary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/live_menu_epg"
+                        android:textColor="@color/ibox_text_primary"
+                        android:textSize="@dimen/ibox_text_body"
+                        android:textStyle="bold" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/epgDate"
+                        android:layout_width="84dp"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:paddingEnd="4dp"
+                        tools:itemCount="7"
+                        tools:listitem="@layout/adapter_epg_date" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ibox_glass_divider" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/epgData"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:paddingStart="4dp"
+                            tools:itemCount="5"
+                            tools:listitem="@layout/adapter_epg_data" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/epgEmpty"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="24dp"
+                            android:text="@string/live_epg_empty"
+                            android:textColor="@color/ibox_text_secondary"
+                            android:textSize="@dimen/ibox_text_body"
+                            android:visibility="gone" />
+
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

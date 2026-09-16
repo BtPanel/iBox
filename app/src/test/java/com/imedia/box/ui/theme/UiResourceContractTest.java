@@ -371,6 +371,15 @@ public class UiResourceContractTest {
     }
 
     @Test
+    public void focusedTextInputStrokeUsesAColorAvailableInDialogOverlays() throws Exception {
+        Document selector = xml("app/src/main/res/color/selector_ibox_input_stroke.xml");
+        assertEquals("?attr/colorPrimary",
+                matchingState(selector, Set.of("enabled", "focused")).getAttribute("android:color"));
+        assertEquals("@color/ibox_outline",
+                matchingState(selector, Set.of("enabled")).getAttribute("android:color"));
+    }
+
+    @Test
     public void mobileDialogSurfacesAreNeutralAndReadableOverVideo() throws Exception {
         Document dialogTheme = xml("app/src/mobile/res/values/dialog_styles.xml");
         assertEquals("@color/ibox_mobile_dialog_surface", styleItem(dialogTheme,

@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/ibox_text_secondary"
+                android:textColor="@color/selector_epg_time_text"
                 android:textSize="@dimen/ibox_text_supporting"
                 tools:text="18:00 ~ 19:00" />
 
