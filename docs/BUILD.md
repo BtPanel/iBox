@@ -373,12 +373,14 @@ SOURCE-MANIFEST.txt
 
 ## 自动构建
 
-`.github/workflows/android-build.yml`：
+仓库提供两个独立工作流，可在 GitHub 仓库的 **Actions** 页面中选择后点击 **Run workflow**：
 
-- 分支推送和 Pull Request：四变体单元测试、双端 Lint、AndroidTest 编译和 Debug APK。
-- `v*` 标签或手动 Release：签名 Release APK、SHA-256 和 GitHub Release。
+- `Build Debug APK`（`.github/workflows/android-debug.yml`）：手动点击、分支推送或 Pull Request 时运行四变体单元测试、双端 Lint、AndroidTest 编译，并生成四个 Debug APK 和 SHA-256 校验文件。
+- `Build Release APK`（`.github/workflows/android-release.yml`）：手动点击时生成四个签名 Release APK 和 SHA-256 校验文件；推送 `v*` 标签时还会创建 GitHub Release。
 
-Release 需要仓库 Secrets：
+构建完成后打开对应运行记录，在页面底部 **Artifacts** 下载 `iBox-debug-apks-*` 或 `iBox-release-apks-*`。工作流会先检查所需 Secret，缺少配置时会在日志顶部列出具体名称。
+
+自动构建需要仓库 Secrets：
 
 - `MEDIA3_REPOSITORY_TOKEN`：对两个私有仓库具有只读 Contents 权限的细粒度 GitHub Token；Debug 和 Release 都需要。
 - `ANDROID_KEYSTORE_BASE64`

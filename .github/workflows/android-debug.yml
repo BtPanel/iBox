@@ -1,0 +1,143 @@
+name: Build Debug APK
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  debug:
+    name: Test and build Debug APKs
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Validate private dependency access
+        shell: bash
+        env:
+          MEDIA3_REPOSITORY_TOKEN: ${{ secrets.MEDIA3_REPOSITORY_TOKEN }}
+        run: |
+          if [[ -z "$MEDIA3_REPOSITORY_TOKEN" ]]; then
+            echo "::error::Configure the MEDIA3_REPOSITORY_TOKEN repository secret with read access to BtPanel/iBox-media3."
+            exit 1
+          fi
+
+      - name: Check out project and Media3
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.MEDIA3_REPOSITORY_TOKEN }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android packages
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager \
+            "platforms;android-37" \
+            "build-tools;36.0.0" \
+            "ndk;29.0.14206865" \
+            "cmake;3.31.6"
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Create temporary build configuration
+        shell: bash
+        run: |
+          keytool -genkeypair \
+            -keystore ci-debug.jks \
+            -storepass android \
+            -keypass android \
+            -alias androiddebugkey \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+          cat > local.properties <<EOF
+          sdk.dir=$ANDROID_HOME
+          storeFile=ci-debug.jks
+          storePassword=android
+          keyAlias=androiddebugkey
+          keyPassword=android
+          EOF
+
+      - name: Run unit tests
+        shell: bash
+        run: |
+          ./gradlew \
+            :app:testLeanbackArm64_v8aDebugUnitTest \
+            :app:testLeanbackArmeabi_v7aDebugUnitTest \
+            :app:testMobileArm64_v8aDebugUnitTest \
+            :app:testMobileArmeabi_v7aDebugUnitTest \
+            -PchaquopyBuildPython="$(command -v python)" \
+            --stacktrace
+
+      - name: Run mobile and TV lint
+        shell: bash
+        run: |
+          ./gradlew \
+            :app:lintMobileArm64_v8aDebug \
+            :app:lintLeanbackArm64_v8aDebug \
+            -PchaquopyBuildPython="$(command -v python)" \
+            --stacktrace
+
+      - name: Upload lint reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iBox-lint-reports-${{ github.run_number }}
+          path: app/build/reports/lint-results-*
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Compile mobile and TV UI tests
+        shell: bash
+        run: |
+          ./gradlew \
+            :app:assembleMobileArm64_v8aDebugAndroidTest \
+            :app:assembleLeanbackArm64_v8aDebugAndroidTest \
+            -PchaquopyBuildPython="$(command -v python)" \
+            --stacktrace
+
+      - name: Build Debug APKs
+        shell: bash
+        run: |
+          ./gradlew :app:assembleDebug \
+            -PchaquopyBuildPython="$(command -v python)" \
+            --stacktrace
+
+      - name: Collect APKs and checksums
+        shell: bash
+        run: |
+          mkdir -p dist
+          find app/build/outputs/apk -type f -path '*/debug/*.apk' ! -path '*/androidTest/*' -exec cp {} dist/ \;
+          test "$(find dist -maxdepth 1 -name '*.apk' | wc -l)" -eq 4
+          sha256sum dist/*.apk > dist/SHA256SUMS.txt
+
+      - name: Upload Debug APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: iBox-debug-apks-${{ github.run_number }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
