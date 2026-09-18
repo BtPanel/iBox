@@ -5,6 +5,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "GitHub Release tag, for example v1.0.1"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -104,6 +109,24 @@ jobs:
           test "$(find dist -maxdepth 1 -name '*.apk' | wc -l)" -eq 4
           sha256sum dist/*.apk > dist/SHA256SUMS.txt
 
+      - name: Resolve GitHub Release metadata
+        id: release
+        shell: bash
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            tag_name="${{ inputs.tag_name }}"
+          else
+            tag_name="$GITHUB_REF_NAME"
+          fi
+          if [[ ! "$tag_name" =~ ^v[0-9][0-9A-Za-z._-]*$ ]]; then
+            echo "::error::Release tag must start with v followed by a version label, for example v1.0.1."
+            exit 1
+          fi
+          {
+            echo "tag_name=$tag_name"
+            echo "release_name=iBox $tag_name"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Upload Release APKs
         uses: actions/upload-artifact@v4
         with:
@@ -113,7 +136,11 @@ jobs:
           retention-days: 30
 
       - name: Publish GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.release.outputs.tag_name }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ steps.release.outputs.release_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
           files: dist/*
