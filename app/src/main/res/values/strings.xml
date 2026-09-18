@@ -366,8 +366,6 @@
     <string name="setting_size">Image size</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_github_acceleration">GitHub acceleration</string>
-    <string name="setting_legacy_webview_compatibility">Legacy source WebView compatibility</string>
-    <string name="setting_legacy_webview_compatibility_summary">Allows invalid certificates and mixed content; enable only for trusted legacy sources</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">Cache</string>
     <string name="storage_privacy_title">Storage &amp; privacy</string>

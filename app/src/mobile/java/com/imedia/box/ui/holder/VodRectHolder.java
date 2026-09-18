@@ -1,5 +1,7 @@
 package com.imedia.box.ui.holder;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
@@ -28,14 +30,15 @@ public class VodRectHolder extends BaseVodHolder {
 
     @Override
     public void initView(Vod item) {
+        String remark = getScoreText(item.getRemarks());
         binding.name.setText(item.getName());
         binding.year.setText(item.getYear());
         binding.site.setText(item.getSiteName());
-        binding.remark.setText(item.getRemarks());
+        binding.remark.setText(remark);
         binding.site.setVisibility(item.getSiteVisible());
         binding.name.setVisibility(item.getNameVisible());
         binding.year.setVisibility(item.getYearVisible());
-        binding.remark.setVisibility(item.getRemarkVisible());
+        binding.remark.setVisibility(remark.isEmpty() ? View.GONE : View.VISIBLE);
         binding.getRoot().setOnClickListener(v -> listener.onItemClick(item));
         binding.getRoot().setOnLongClickListener(v -> listener.onLongClick(item));
         ImgUtil.load(item.getName(), item.getPic(), binding.image);
@@ -44,5 +47,9 @@ public class VodRectHolder extends BaseVodHolder {
     @Override
     public void unbind() {
         Glide.with(binding.image).clear(binding.image);
+    }
+
+    private String getScoreText(String remark) {
+        return remark.replaceFirst("^\\s*\\d{4}\\s*[/／|｜·,， -]+\\s*", "");
     }
 }

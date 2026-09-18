@@ -48,7 +48,7 @@ EPG 订阅不使用 `Config` 表，而由 `LiveSetting` 保存到 SharedPreferen
 
 ```json
 {
-  "spider": "https://example.com/spider.jar;sha256;0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "spider": "https://example.com/spider.jar",
   "sites": [
     {
       "key": "demo",
@@ -82,18 +82,18 @@ EPG 订阅不使用 `Config` 表，而由 `LiveSetting` 保存到 SharedPreferen
 
 站点能显示分类或影片，不代表一定能播放。播放还取决于站点详情结果、线路地址、解析接口、请求头、扩展版本和媒体服务器状态。
 
-### Java 扩展校验
+### Java 扩展
 
-远程 `spider` JAR 推荐使用以下格式，并把示例摘要替换为实际文件的 SHA-256：
+远程 `spider` JAR 可以直接使用旧版地址格式，也兼容带 MD5 摘要的历史写法：
 
 ```text
-https://example.com/spider.jar;sha256;<64 位十六进制 SHA-256>
+https://example.com/spider.jar
+https://example.com/spider.jar;md5;<32 位十六进制 MD5>
 ```
 
-- 远程 JAR 必须使用 HTTPS；缺少摘要、摘要格式错误或下载内容不匹配时不会加载。
-- 兼容旧的 `https://...;md5;<32 位摘要>` 格式。首次校验成功后会保存该文件的 SHA-256 指纹，后续加载还必须匹配这个本地指纹。
-- 新配置应始终使用 `;sha256;`，MD5 仅用于兼容仍未升级的旧订阅。
-- HTTPS 使用 Android 系统证书校验，证书无效的地址会失败。
+- 远程 JAR 支持 `http` 和 `https`。
+- 带 `;md5;` 时会优先复用本地缓存，摘要不匹配则重新下载。
+- 网络层兼容证书异常的旧源地址。
 - `file:` 和 `assets://` 本地扩展仍可按原格式加载，但应只打包或选择可信文件。
 
 ## 订阅集合
@@ -308,7 +308,7 @@ Config.find("assets://builtin/config.json", "内置点播", 0).update();
 
 ## GitHub 加速
 
-全局开关位于设置页，默认开启。网络层会识别未加速的 GitHub、Raw GitHub 和相关资源地址，依次尝试加速地址、备用地址、原始地址及适用的 jsDelivr 地址。
+全局开关位于设置页，默认关闭。开启后网络层会识别未加速的 GitHub、Raw GitHub 和相关资源地址，依次尝试加速地址、备用地址、原始地址及适用的 jsDelivr 地址。
 
 - 已包含受支持加速前缀的 URL 不会重复添加。
 - 关闭开关后保留用户填写的原地址。

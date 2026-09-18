@@ -661,51 +661,6 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/legacyWebViewCompatibility"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/selector_item"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_legacy_webview_compatibility"
-                    android:textColor="@color/ibox_text_primary"
-                    android:textSize="@dimen/ibox_text_body" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/setting_legacy_webview_compatibility_summary"
-                    android:textColor="@color/ibox_text_secondary"
-                    android:textSize="@dimen/ibox_text_supporting" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/legacyWebViewCompatibilityText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textColor="@color/ibox_text_secondary"
-                android:textSize="@dimen/ibox_text_body"
-                tools:text="Off" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/doh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

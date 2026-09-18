@@ -365,8 +365,6 @@
     <string name="setting_size">图片尺寸</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_github_acceleration">GitHub 加速</string>
-    <string name="setting_legacy_webview_compatibility">舊源 WebView 相容</string>
-    <string name="setting_legacy_webview_compatibility_summary">允許無效憑證和混合內容，僅對可信舊源開啟</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">缓存</string>
     <string name="storage_privacy_title">存储与隐私</string>

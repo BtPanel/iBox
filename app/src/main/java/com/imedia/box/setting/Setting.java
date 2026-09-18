@@ -355,20 +355,12 @@ public class Setting {
     }
 
     public static boolean isGitHubAcceleration() {
-        return Prefers.getBoolean("github_acceleration", true);
+        return Prefers.getBoolean("github_acceleration", false);
     }
 
     public static void putGitHubAcceleration(boolean enabled) {
         Prefers.put("github_acceleration", enabled);
         GitHubUrl.setAccelerationEnabled(enabled);
-    }
-
-    public static boolean isLegacyWebViewCompatibility() {
-        return Prefers.getBoolean("legacy_webview_compatibility", false);
-    }
-
-    public static void putLegacyWebViewCompatibility(boolean enabled) {
-        Prefers.put("legacy_webview_compatibility", enabled);
     }
 
     public static boolean isConfigNoticeEnabled() {

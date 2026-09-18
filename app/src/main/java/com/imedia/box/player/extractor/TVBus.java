@@ -7,7 +7,6 @@ import com.imedia.box.R;
 import com.imedia.box.api.config.LiveConfig;
 import com.imedia.box.bean.Core;
 import com.imedia.box.exception.ExtractException;
-import com.imedia.box.setting.LiveSetting;
 import com.imedia.box.utils.Download;
 import com.imedia.box.utils.ResUtil;
 import com.imedia.box.utils.UrlUtil;
@@ -63,8 +62,10 @@ public class TVBus implements Source.Extractor, Listener {
     }
 
     private void change() throws Exception {
-        LiveSetting.putBoot(true);
-        App.post(() -> System.exit(0), 100);
+        if (tvcore != null) tvcore.quit();
+        tvcore = null;
+        core = null;
+        hls = null;
         throw new ExtractException(ResUtil.getString(R.string.error_play_url));
     }
 

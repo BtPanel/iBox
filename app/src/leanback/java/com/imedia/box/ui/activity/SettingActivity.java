@@ -117,7 +117,6 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         mBinding.autoFallbackLineText.setText(Setting.getSwitch(Setting.isAutoFallbackLine()));
         mBinding.autoFallbackSourceText.setText(Setting.getSwitch(Setting.isAutoFallbackSource()));
         mBinding.githubAccelerationText.setText(Setting.getSwitch(Setting.isGitHubAcceleration()));
-        mBinding.legacyWebViewCompatibilityText.setText(Setting.getSwitch(Setting.isLegacyWebViewCompatibility()));
         mBinding.liveAutoFallbackLineText.setText(Setting.getSwitch(LiveSetting.isChange()));
     }
 
@@ -163,7 +162,6 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         mBinding.autoFallbackLine.setOnClickListener(this::setAutoFallbackLine);
         mBinding.autoFallbackSource.setOnClickListener(this::setAutoFallbackSource);
         mBinding.githubAcceleration.setOnClickListener(this::setGitHubAcceleration);
-        mBinding.legacyWebViewCompatibility.setOnClickListener(this::setLegacyWebViewCompatibility);
         mBinding.liveAutoFallbackLine.setOnClickListener(this::setLiveAutoFallbackLine);
         mBinding.accessibility.setOnClickListener(this::showAccessibility);
         mBinding.sourceHealth.setOnClickListener(view -> SourceHealthDialog.show(this));
@@ -339,11 +337,6 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
     private void setGitHubAcceleration(View view) {
         Setting.putGitHubAcceleration(!Setting.isGitHubAcceleration());
         mBinding.githubAccelerationText.setText(Setting.getSwitch(Setting.isGitHubAcceleration()));
-    }
-
-    private void setLegacyWebViewCompatibility(View view) {
-        Setting.putLegacyWebViewCompatibility(!Setting.isLegacyWebViewCompatibility());
-        mBinding.legacyWebViewCompatibilityText.setText(Setting.getSwitch(Setting.isLegacyWebViewCompatibility()));
     }
 
     private void setLiveAutoFallbackLine(View view) {
