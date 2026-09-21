@@ -18,7 +18,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:text="自定义 EPG" />
@@ -33,7 +33,7 @@
         android:ellipsize="end"
         android:lineSpacingExtra="4dp"
         android:maxLines="3"
-        android:textColor="@color/ibox_text_secondary"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="14sp"
         tools:text="使用手机扫描二维码" />
 

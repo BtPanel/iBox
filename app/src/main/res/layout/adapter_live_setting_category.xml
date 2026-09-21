@@ -12,12 +12,13 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:duplicateParentState="true"
         android:gravity="center"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="@color/selector_live_setting_category_text"
         android:textSize="@dimen/ibox_text_body" />
 
 </FrameLayout>

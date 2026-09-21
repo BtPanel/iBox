@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/ibox_text_supporting"
             tools:text="当前播放：青铜护卫队 · HD" />
     </androidx.appcompat.widget.LinearLayoutCompat>

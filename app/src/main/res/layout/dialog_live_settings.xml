@@ -13,7 +13,7 @@
         android:minHeight="@dimen/ibox_touch_target"
         android:text="@string/live_menu_title"
         android:textAppearance="@style/TextAppearance.IBox.DialogTitle"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.LinearLayoutCompat

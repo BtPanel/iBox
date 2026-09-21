@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/player_engine"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="14sp" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -51,7 +51,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:text="@string/play_exo"
-            android:textColor="@color/text"
+            android:textColor="@color/selector_chip_text"
             android:textSize="12sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -63,7 +63,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:text="@string/play_mpv"
-            android:textColor="@color/text"
+            android:textColor="@color/selector_chip_text"
             android:textSize="12sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -74,7 +74,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:text="@string/play_other"
-            android:textColor="@color/text"
+            android:textColor="@color/selector_chip_text"
             android:textSize="12sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

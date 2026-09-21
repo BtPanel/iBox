@@ -39,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textUri"
                 android:maxLines="2"
-                android:textColor="@color/ibox_text_primary"
-                android:textColorHint="@color/ibox_text_secondary" />
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -56,8 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textColor="@color/ibox_text_primary"
-                android:textColorHint="@color/ibox_text_secondary" />
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -74,8 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/ibox_text_primary"
-                android:textColorHint="@color/ibox_text_secondary" />
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView
@@ -97,7 +97,7 @@
                 android:layout_height="@dimen/ibox_touch_target"
                 android:layout_weight="1"
                 android:text="@string/webdav_favorites"
-                android:textColor="@color/ibox_text_primary" />
+                android:textColor="?attr/colorOnSurface" />
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/history"
@@ -106,7 +106,7 @@
                 android:layout_height="@dimen/ibox_touch_target"
                 android:layout_weight="1"
                 android:text="@string/webdav_history"
-                android:textColor="@color/ibox_text_primary" />
+                android:textColor="?attr/colorOnSurface" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -121,7 +121,7 @@
                 android:layout_height="@dimen/ibox_touch_target"
                 android:layout_weight="1"
                 android:text="@string/webdav_progress"
-                android:textColor="@color/ibox_text_primary" />
+                android:textColor="?attr/colorOnSurface" />
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/subscriptions"
@@ -130,7 +130,7 @@
                 android:layout_height="@dimen/ibox_touch_target"
                 android:layout_weight="1"
                 android:text="@string/webdav_subscriptions"
-                android:textColor="@color/ibox_text_primary" />
+                android:textColor="?attr/colorOnSurface" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.checkbox.MaterialCheckBox
@@ -139,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/ibox_touch_target"
             android:text="@string/webdav_settings"
-            android:textColor="@color/ibox_text_primary" />
+            android:textColor="?attr/colorOnSurface" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"

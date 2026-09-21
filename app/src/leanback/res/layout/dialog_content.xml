@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="8dp"
         android:padding="24dp"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="18sp" />
 
 </androidx.core.widget.NestedScrollView>

@@ -30,7 +30,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/dialog_positive"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="12sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

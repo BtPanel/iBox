@@ -2,5 +2,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="?attr/colorOnPrimary" android:state_focused="true" />
     <item android:color="?attr/colorOnPrimary" android:state_selected="true" />
-    <item android:color="#F5F6F7" />
+    <item android:color="@color/ibox_text_primary" />
 </selector>

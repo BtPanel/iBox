@@ -31,7 +31,7 @@
             android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="@string/mine_wallpaper_builtin"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/ibox_text_body" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
-            android:textColor="@color/ibox_text_secondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="@dimen/ibox_text_supporting"
             tools:text="雾青" />
 
@@ -80,7 +80,7 @@
             android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="@string/mine_wallpaper_blur"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/ibox_text_body" />
 
         <com.google.android.material.materialswitch.MaterialSwitch
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mine_wallpaper_random_action"
-                android:textColor="@color/ibox_text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -135,7 +135,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/mine_wallpaper_summary"
-                android:textColor="@color/ibox_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/ibox_text_supporting" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -175,7 +175,7 @@
             android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="@string/mine_wallpaper_gallery"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/ibox_text_body" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -214,7 +214,7 @@
             android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="@string/mine_wallpaper_save"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/ibox_text_body" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -247,7 +247,7 @@
             android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="@string/mine_wallpaper_reset"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/ibox_text_body" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

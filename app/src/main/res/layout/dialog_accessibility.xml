@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ibox_space_3"
         android:text="@string/accessibility_font_preview"
-        android:textColor="@color/ibox_text_secondary" />
+        android:textColor="?attr/colorOnSurfaceVariant" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/highContrast"

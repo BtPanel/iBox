@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/live_menu_epg_subscription"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="2"
-                android:textColor="@color/ibox_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 tools:text="扫码输入\nhttp://192.168.1.2:9978" />
 

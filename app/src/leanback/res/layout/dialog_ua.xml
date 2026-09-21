@@ -23,7 +23,7 @@
         android:maxLines="3"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:textColor="@color/ibox_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="16sp"
         tools:text="@string/push_info" />
 
@@ -62,7 +62,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/dialog_positive"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="12sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -76,7 +76,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/dialog_negative"
-            android:textColor="@color/ibox_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="12sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

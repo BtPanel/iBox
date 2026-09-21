@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="@string/live_menu_epg_subscription"
             android:textAppearance="@style/TextAppearance.IBox.DialogTitle"
-            android:textColor="@color/ibox_text_primary" />
+            android:textColor="?attr/colorOnSurface" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="@color/ibox_text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="14sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="8dp"
                 android:text="@string/live_epg_other_settings"
-                android:textColor="@color/ibox_text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -100,7 +100,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="@string/live_epg_type_xml"
-                android:textColor="@color/ibox_text_primary" />
+                android:textColor="?attr/colorOnSurface" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/help"
@@ -129,7 +129,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="@string/dialog_positive"
-                android:textColor="@color/ibox_text_primary" />
+                android:textColor="?attr/colorOnSurface" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -155,7 +155,7 @@
                 android:layout_weight="1"
                 android:maxLines="3"
                 android:ellipsize="middle"
-                android:textColor="@color/ibox_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
