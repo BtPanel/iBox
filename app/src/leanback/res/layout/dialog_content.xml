@@ -11,6 +11,6 @@
         android:lineSpacingExtra="8dp"
         android:padding="24dp"
         android:textColor="?attr/colorOnSurface"
-        android:textSize="18sp" />
+        android:textSize="@dimen/ibox_text_section" />
 
 </androidx.core.widget.NestedScrollView>

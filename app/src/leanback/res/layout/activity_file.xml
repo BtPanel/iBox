@@ -10,6 +10,9 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="24dp" />
+        android:paddingStart="@dimen/tv_page_padding_horizontal"
+        android:paddingTop="24dp"
+        android:paddingEnd="@dimen/tv_page_padding_horizontal"
+        android:paddingBottom="24dp" />
 
 </com.imedia.box.ui.custom.ProgressLayout>

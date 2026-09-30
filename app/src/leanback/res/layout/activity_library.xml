@@ -113,7 +113,7 @@
                     android:singleLine="true"
                     android:textColor="@color/ibox_text_primary"
                     android:textColorHint="@color/ibox_text_secondary"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/ibox_text_address" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

@@ -9,5 +9,5 @@
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:textColor="@color/ibox_text_primary"
-    android:textSize="14sp"
+    android:textSize="@dimen/ibox_text_supporting"
     tools:text="0" />

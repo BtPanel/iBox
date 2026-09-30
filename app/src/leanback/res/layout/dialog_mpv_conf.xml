@@ -24,7 +24,7 @@
         android:inputType="textMultiLine|textNoSuggestions"
         android:maxLines="5"
         android:minLines="5"
-        android:textSize="16sp" />
+        android:textSize="@dimen/ibox_text_body" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/bottom"
@@ -47,7 +47,7 @@
             android:singleLine="true"
             android:text="@string/dialog_positive"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="12sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/negative"
@@ -61,7 +61,7 @@
             android:singleLine="true"
             android:text="@string/dialog_negative"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="12sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

@@ -14,7 +14,7 @@
         android:layout_marginBottom="18dp"
         android:text="@string/timer_description"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="14sp" />
+        android:textSize="@dimen/ibox_text_label" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/list"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:text="@string/timer_remaining"
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="14sp" />
+            android:textSize="@dimen/ibox_text_label" />
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tick"
             android:layout_width="wrap_content"

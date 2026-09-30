@@ -10,5 +10,5 @@
     android:focusableInTouchMode="true"
     android:singleLine="true"
     android:textColor="@color/text"
-    android:textSize="12sp"
+    android:textSize="@dimen/ibox_text_supporting"
     tools:text="Chapter 1" />

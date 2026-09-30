@@ -29,7 +29,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/player_tunnel"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tunnelText"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="Off" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -58,7 +58,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/player_audio_pass_through"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/audioPassThroughText"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="Off" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -87,7 +87,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/player_audio_decode"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/audioPreferText"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="Off" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -116,7 +116,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/player_video_decode"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/videoPreferText"
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="Off" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -145,7 +145,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/player_aac_track"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/aacText"
@@ -153,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="Off" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -174,7 +174,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/player_dolby_vision_output"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/dolbyVisionOutputText"
@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="Auto" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

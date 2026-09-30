@@ -9,5 +9,5 @@
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:textColor="@color/text"
-    android:textSize="12sp"
+    android:textSize="@dimen/ibox_text_supporting"
     tools:text="解析" />

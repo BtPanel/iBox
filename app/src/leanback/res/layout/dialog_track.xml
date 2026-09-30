@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="14sp"
+            android:textSize="@dimen/ibox_text_label"
             tools:text="選擇字幕" />
 
         <androidx.appcompat.widget.AppCompatImageView

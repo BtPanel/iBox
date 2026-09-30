@@ -10,5 +10,5 @@
     android:gravity="center"
     android:singleLine="true"
     android:textColor="@color/text"
-    android:textSize="16sp"
+    android:textSize="@dimen/ibox_text_item_title"
     tools:text="Google" />

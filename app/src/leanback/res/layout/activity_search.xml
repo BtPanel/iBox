@@ -7,7 +7,10 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="horizontal"
-    android:padding="24dp">
+    android:paddingStart="@dimen/tv_page_padding_horizontal"
+    android:paddingTop="24dp"
+    android:paddingEnd="@dimen/tv_page_padding_horizontal"
+    android:paddingBottom="24dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
@@ -49,7 +52,7 @@
                 android:textColor="@color/ibox_text_primary"
                 android:textColorHint="@color/ibox_text_primary"
                 android:textCursorDrawable="@drawable/shape_cursor"
-                android:textSize="22sp" />
+                android:textSize="@dimen/ibox_text_dialog_title" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -132,7 +135,7 @@
                         android:layout_weight="1"
                         android:text="@string/search_record"
                         android:textColor="@color/ibox_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="@dimen/ibox_text_dialog_title" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/historyClear"
@@ -165,7 +168,7 @@
                 android:layout_marginBottom="14dp"
                 android:text="@string/search_hot"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="22sp" />
+                android:textSize="@dimen/ibox_text_dialog_title" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wordRecycler"

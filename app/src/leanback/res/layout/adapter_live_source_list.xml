@@ -17,7 +17,7 @@
         android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/selector_live_group_text"
-        android:textSize="16sp"
+        android:textSize="@dimen/ibox_text_item_title"
         tools:text="我的收藏" />
 
 </com.imedia.box.ui.custom.CustomLeftRightLayout>

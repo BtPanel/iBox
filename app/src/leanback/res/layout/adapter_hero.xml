@@ -37,7 +37,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="28sp"
+            android:textSize="@dimen/ibox_text_page_title"
             tools:text="推荐影片" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -48,7 +48,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/ibox_text_item_title"
             tools:text="今日热门 · 高清" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -30,7 +30,7 @@
             android:gravity="end"
             android:maxLines="1"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="14sp"
+            android:textSize="@dimen/ibox_text_label"
             tools:text="当前播放：青铜护卫队 · HD" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -41,7 +41,7 @@
         android:paddingHorizontal="24dp"
         android:text="@string/danmaku_search_description"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="14sp" />
+        android:textSize="@dimen/ibox_text_label" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             android:nextFocusDown="@id/recycler"
             android:paddingHorizontal="16dp"
             android:singleLine="true"
-            android:textSize="16sp" />
+            android:textSize="@dimen/ibox_text_body" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/search"
             style="@style/Widget.Material3.Button"
@@ -75,7 +75,7 @@
             android:nextFocusLeft="@id/keyword"
             android:nextFocusDown="@id/recycler"
             android:text="@string/danmaku_search_action"
-            android:textSize="15sp"
+            android:textSize="@dimen/ibox_text_address"
             app:icon="@drawable/ic_msr_search"
             app:iconGravity="textStart"
             app:iconSize="18dp" />
@@ -102,7 +102,7 @@
         android:paddingHorizontal="24dp"
         android:text="@string/danmaku_search_prompt"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="15sp"
+        android:textSize="@dimen/ibox_text_address"
         tools:text="输入片名后点“搜索”" />
 
     <com.imedia.box.ui.custom.CustomRecyclerView

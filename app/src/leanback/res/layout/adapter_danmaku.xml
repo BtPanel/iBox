@@ -19,7 +19,7 @@
         android:includeFontPadding="false"
         android:maxLines="1"
         android:textColor="?attr/colorPrimary"
-        android:textSize="12sp"
+        android:textSize="@dimen/ibox_text_supporting"
         android:textStyle="bold"
         tools:text="ECS" />
 
@@ -32,7 +32,7 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textColor="@color/text"
-        android:textSize="14sp"
+        android:textSize="@dimen/ibox_text_supporting"
         tools:text="藏海传(2025)【电视剧】from 360" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -45,7 +45,7 @@
         android:maxWidth="160dp"
         android:singleLine="true"
         android:textColor="?attr/colorPrimary"
-        android:textSize="14sp"
+        android:textSize="@dimen/ibox_text_supporting"
         android:textStyle="bold"
         tools:text="第12集" />
 </androidx.appcompat.widget.LinearLayoutCompat>

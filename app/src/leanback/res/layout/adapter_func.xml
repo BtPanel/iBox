@@ -27,7 +27,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/ibox_text_primary"
-        android:textSize="16sp"
+        android:textSize="@dimen/ibox_text_item_title"
         tools:text="點播" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

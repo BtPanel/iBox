@@ -65,7 +65,7 @@
                 android:paddingEnd="6dp"
                 android:paddingBottom="1dp"
                 android:textColor="@color/selector_epg_status_text"
-                android:textSize="12sp"
+                android:textSize="@dimen/ibox_text_supporting"
                 android:textStyle="bold"
                 tools:text="设置提醒" />
         </LinearLayout>

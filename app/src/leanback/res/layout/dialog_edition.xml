@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:text="@string/dialog_select_edition"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="14sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

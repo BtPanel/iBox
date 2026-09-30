@@ -25,7 +25,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/ibox_text_supporting"
             app:layout_constraintBottom_toBottomOf="@id/liveStatus"
             app:layout_constraintEnd_toStartOf="@id/liveStatus"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
                     android:paddingBottom="3dp"
                     android:text="@string/live_epg_replay"
                     android:textColor="?attr/colorOnPrimaryContainer"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/ibox_text_supporting"
                     android:textStyle="bold"
                     android:visibility="gone"
                     tools:visibility="visible" />
@@ -89,7 +89,7 @@
                 android:layout_marginTop="2dp"
                 android:fontFeatureSettings="tnum"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="@dimen/ibox_text_supporting"
                 android:visibility="gone"
                 tools:text="2.8 MB/s"
                 tools:visibility="visible" />
@@ -121,7 +121,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/ibox_text_supporting"
             tools:text="@string/error_play_url" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -135,7 +135,7 @@
         android:fontFeatureSettings="tnum"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="@dimen/ibox_text_body"
         android:visibility="gone"
         tools:text="Speed 3.0x"
         tools:visibility="visible" />
@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="tnum"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="@dimen/ibox_text_supporting"
                 tools:text="00:00:00" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -192,7 +192,7 @@
                 android:layout_marginEnd="4dp"
                 android:text="/"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="@dimen/ibox_text_supporting" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/duration"
@@ -200,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="tnum"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="@dimen/ibox_text_supporting"
                 tools:text="00:00:00" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -259,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:textColor="@color/ibox_text_secondary"
-                    android:textSize="13sp"
+                    android:textSize="@dimen/ibox_text_supporting"
                     tools:text="005" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -268,7 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:textColor="@color/ibox_player_text_secondary"
-                    android:textSize="13sp"
+                    android:textSize="@dimen/ibox_text_supporting"
                     tools:text="线路 1/2" />
 
             </LinearLayout>
@@ -292,7 +292,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="15sp"
+                android:textSize="@dimen/ibox_text_address"
                 tools:text="正在播放：10:00 ~ 11:00 精彩节目" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -303,7 +303,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/ibox_player_text_secondary"
-                android:textSize="15sp"
+                android:textSize="@dimen/ibox_text_address"
                 tools:text="下一节目：11:00 ~ 12:00 精彩节目" />
 
         </LinearLayout>

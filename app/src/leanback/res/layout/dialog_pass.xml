@@ -18,7 +18,7 @@
         android:inputType="textPassword"
         android:maxLength="20"
         android:singleLine="true"
-        android:textSize="14sp" />
+        android:textSize="@dimen/ibox_text_label" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/positive"
@@ -31,6 +31,6 @@
         android:singleLine="true"
         android:text="@string/dialog_positive"
         android:textColor="?attr/colorOnSurface"
-        android:textSize="12sp" />
+        android:textSize="@dimen/ibox_text_label" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -19,7 +19,7 @@
         android:lineSpacingExtra="4dp"
         android:text="@string/crash_info"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="@dimen/ibox_text_supporting" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/restart"

@@ -28,7 +28,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/danmaku_load"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/danmakuLoadText"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="關" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -59,7 +59,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/danmaku_auto_load"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/danmakuAutoText"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="關" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -90,7 +90,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/danmaku_spider_first"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ibox_text_body" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/danmakuSpiderText"
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/ibox_text_primary"
-                android:textSize="16sp"
+                android:textSize="@dimen/ibox_text_body"
                 tools:text="關" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

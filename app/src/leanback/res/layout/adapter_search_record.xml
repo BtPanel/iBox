@@ -11,5 +11,5 @@
     android:focusableInTouchMode="true"
     android:singleLine="true"
     android:textColor="@color/ibox_text_primary"
-    android:textSize="14sp"
+    android:textSize="@dimen/ibox_text_supporting"
     tools:text="歷史" />

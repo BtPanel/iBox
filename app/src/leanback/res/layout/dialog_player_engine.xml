@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:text="@string/player_engine"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="14sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/debug"
@@ -52,7 +52,7 @@
             android:focusableInTouchMode="true"
             android:text="@string/play_exo"
             android:textColor="@color/selector_chip_text"
-            android:textSize="12sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/mpv"
@@ -64,7 +64,7 @@
             android:focusableInTouchMode="true"
             android:text="@string/play_mpv"
             android:textColor="@color/selector_chip_text"
-            android:textSize="12sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/other"
@@ -75,7 +75,7 @@
             android:focusableInTouchMode="true"
             android:text="@string/play_other"
             android:textColor="@color/selector_chip_text"
-            android:textSize="12sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>
