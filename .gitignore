@@ -41,3 +41,9 @@ docs/superpowers/
 # Generated reports
 reports/
 outputs/
+
+# Local AI assistant workspace (memory, audit reports, screenshots)
+.workbuddy-ai/
+
+# Backup of a previously corrupted .git directory
+.git.corrupt/
