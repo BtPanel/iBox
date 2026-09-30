@@ -1218,7 +1218,8 @@ public class UiResourceContractTest {
         assertEquals("#164B75", resolveColor("@color/theme_blue_container", night));
         assertEquals("#D8EBFF", resolveColor("@color/theme_blue_on_container", night));
         assertEquals("#69B4FF", resolveColor("@color/theme_blue", night));
-        assertEquals("#E9DDFF", resolveColor("@color/theme_purple_container", night));
+        assertEquals("#4B3783", resolveColor("@color/theme_purple_container", night));
+        assertEquals("#E9DDFF", resolveColor("@color/theme_purple_on_container", night));
         assertEquals("#B30E1013", resolveColor("@color/bg_remark", night));
     }
 

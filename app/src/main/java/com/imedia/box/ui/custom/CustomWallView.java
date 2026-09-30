@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -24,16 +25,20 @@ import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
 import com.imedia.box.App;
 import com.imedia.box.R;
 import com.imedia.box.databinding.ViewWallBinding;
 import com.imedia.box.event.ConfigEvent;
 import com.imedia.box.event.RefreshEvent;
+import com.imedia.box.impl.CustomTarget;
 import com.imedia.box.setting.Setting;
 import com.imedia.box.utils.FileUtil;
+import com.imedia.box.utils.ResUtil;
 import com.imedia.box.utils.Task;
 import com.imedia.box.utils.Util;
+import com.imedia.box.utils.WallBlur;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,6 +61,7 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
     private PlayerView video;
     private ExoPlayer player;
     private int themeRequest;
+    private int wallRequest;
 
     public CustomWallView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -140,7 +146,8 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
     }
 
     private void loadCache(File file) {
-        Glide.with(binding.image)
+        if (legacyBlur()) loadCacheBlurred(file);
+        else Glide.with(binding.image)
                 .load(file)
                 .signature(new ObjectKey(file.lastModified()))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -148,6 +155,35 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
                 .error(R.drawable.wallpaper_solid_1)
                 .dontAnimate()
                 .into(binding.image);
+    }
+
+    /**
+     * API 31 以下没有 RenderEffect，改为在解码出的位图上直接做模糊。
+     */
+    private void loadCacheBlurred(File file) {
+        int request = ++wallRequest;
+        Glide.with(binding.image)
+                .asBitmap()
+                .load(file)
+                .signature(new ObjectKey(file.lastModified()))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .override(ResUtil.getScreenWidth(), ResUtil.getScreenHeight())
+                .placeholder(R.drawable.wallpaper_solid_1)
+                .error(R.drawable.wallpaper_solid_1)
+                .dontAnimate()
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        if (binding == null || request != wallRequest) return;
+                        Bitmap blurred = WallBlur.apply(resource);
+                        if (blurred != null) binding.image.setImageBitmap(blurred);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        if (binding != null) binding.image.setImageDrawable(placeholder);
+                    }
+                });
     }
 
     private GifDrawable gif(File file) {
@@ -177,6 +213,13 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
         boolean blur = Setting.isWallBlur();
         view.setRenderEffect(blur ? RenderEffect.createBlurEffect(41f, 41f, Shader.TileMode.CLAMP) : null);
+    }
+
+    /**
+     * 低版本没有 RenderEffect，虚化改由位图层面处理。
+     */
+    private boolean legacyBlur() {
+        return Setting.isWallBlur() && Build.VERSION.SDK_INT < Build.VERSION_CODES.S;
     }
 
     private boolean hasVideo() {
