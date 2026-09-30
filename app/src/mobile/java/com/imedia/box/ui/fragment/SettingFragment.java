@@ -66,6 +66,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.text.InputType;
+import android.view.Gravity;
+import android.widget.FrameLayout;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class SettingFragment extends BaseFragment implements ConfigListener, SiteListener, LiveListener, CustomColorDialog.Listener {
 
@@ -146,6 +151,10 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.autoFallbackLineToggle.setChecked(Setting.isAutoFallbackLine());
         mBinding.autoFallbackSourceToggle.setChecked(Setting.isAutoFallbackSource());
         mBinding.githubAccelerationToggle.setChecked(Setting.isGitHubAcceleration());
+        List<String> accelerators = Setting.getGitHubAcceleratorList();
+        mBinding.githubAcceleratorsText.setText(accelerators.isEmpty()
+                ? getString(R.string.setting_github_accelerators_default)
+                : getString(R.string.setting_github_accelerators_count, accelerators.size()));
         mBinding.hideNavigationText.setText(getHiddenNavigationText());
         mBinding.bootAutoStartText.setText((bootStart = ResUtil.getStringArray(R.array.select_boot_start))[Setting.getBootStartMode()]);
         mBinding.danmakuText.setText(Setting.getSwitch(DanmakuSetting.isLoad()));
@@ -184,6 +193,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.autoFallbackLine.setOnClickListener(this::setAutoFallbackLine);
         mBinding.autoFallbackSource.setOnClickListener(this::setAutoFallbackSource);
         mBinding.githubAcceleration.setOnClickListener(this::setGitHubAcceleration);
+        mBinding.githubAccelerators.setOnClickListener(this::setGitHubAccelerators);
         mBinding.hideNavigation.setOnClickListener(this::setNavigationHidden);
         mBinding.bootAutoStart.setOnClickListener(this::setBootAutoStart);
         mBinding.searchThreads.setOnClickListener(this::setSearchThreads);
@@ -364,6 +374,28 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     private void setGitHubAcceleration(View view) {
         Setting.putGitHubAcceleration(!Setting.isGitHubAcceleration());
         mBinding.githubAccelerationToggle.setChecked(Setting.isGitHubAcceleration());
+    }
+
+    private void setGitHubAccelerators(View view) {
+        TextInputEditText input = new TextInputEditText(requireContext());
+        input.setText(Setting.getGitHubAccelerators());
+        input.setHint(R.string.setting_github_accelerators_hint);
+        input.setGravity(Gravity.TOP | Gravity.START);
+        input.setMinLines(4);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        int padding = ResUtil.dp2px(20);
+        FrameLayout container = new FrameLayout(requireContext());
+        container.setPadding(padding, ResUtil.dp2px(8), padding, 0);
+        container.addView(input, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.setting_github_accelerators)
+                .setView(container)
+                .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
+                    Setting.putGitHubAccelerators(input.getText().toString());
+                    setOtherText();
+                })
+                .setNegativeButton(R.string.dialog_negative, null)
+                .show();
     }
 
     private void setNavigationHidden(View view) {

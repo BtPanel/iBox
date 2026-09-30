@@ -818,6 +818,48 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/githubAccelerators"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="8dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_msr_sync"
+                        app:tint="@color/ibox_text_secondary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:text="@string/setting_github_accelerators"
+                        android:textColor="@color/ibox_text_primary"
+                        android:textSize="@dimen/ibox_text_body" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/githubAcceleratorsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/ibox_text_secondary"
+                        android:textSize="@dimen/ibox_text_supporting" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="48dp"
+                    android:background="@color/ibox_glass_divider" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"

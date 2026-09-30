@@ -44,6 +44,7 @@ import com.imedia.box.ui.dialog.AccessibilityDialog;
 import com.imedia.box.ui.dialog.StoragePrivacyDialog;
 import com.imedia.box.ui.dialog.SourceHealthDialog;
 import com.imedia.box.ui.dialog.ThemeColorDialog;
+import com.imedia.box.ui.dialog.LiveSourceInputDialog;
 import com.imedia.box.storage.StoragePrivacyManager;
 import com.imedia.box.utils.FileUtil;
 import com.imedia.box.utils.Notify;
@@ -117,7 +118,17 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         mBinding.autoFallbackLineText.setText(Setting.getSwitch(Setting.isAutoFallbackLine()));
         mBinding.autoFallbackSourceText.setText(Setting.getSwitch(Setting.isAutoFallbackSource()));
         mBinding.githubAccelerationText.setText(Setting.getSwitch(Setting.isGitHubAcceleration()));
+        List<String> accelerators = Setting.getGitHubAcceleratorList();
+        mBinding.githubAcceleratorsText.setText(accelerators.isEmpty()
+                ? getString(R.string.setting_github_accelerators_default)
+                : getString(R.string.setting_github_accelerators_count, accelerators.size()));
         mBinding.liveAutoFallbackLineText.setText(Setting.getSwitch(LiveSetting.isChange()));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mBinding != null) mBinding.remoteAccessText.setText(Setting.getSwitch(RemoteAccess.isEnabled()));
     }
 
     private void setCacheText() {
@@ -162,6 +173,7 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         mBinding.autoFallbackLine.setOnClickListener(this::setAutoFallbackLine);
         mBinding.autoFallbackSource.setOnClickListener(this::setAutoFallbackSource);
         mBinding.githubAcceleration.setOnClickListener(this::setGitHubAcceleration);
+        mBinding.githubAccelerators.setOnClickListener(this::setGitHubAccelerators);
         mBinding.liveAutoFallbackLine.setOnClickListener(this::setLiveAutoFallbackLine);
         mBinding.accessibility.setOnClickListener(this::showAccessibility);
         mBinding.sourceHealth.setOnClickListener(view -> SourceHealthDialog.show(this));
@@ -337,6 +349,16 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
     private void setGitHubAcceleration(View view) {
         Setting.putGitHubAcceleration(!Setting.isGitHubAcceleration());
         mBinding.githubAccelerationText.setText(Setting.getSwitch(Setting.isGitHubAcceleration()));
+    }
+
+    private void setGitHubAccelerators(View view) {
+        LiveSourceInputDialog.create(R.string.setting_github_accelerators,
+                R.string.setting_github_accelerators_hint,
+                Setting.getGitHubAccelerators(), true, text -> {
+                    Setting.putGitHubAccelerators(text);
+                    setOtherText();
+                    return true;
+                }).show(this);
     }
 
     private void setLiveAutoFallbackLine(View view) {

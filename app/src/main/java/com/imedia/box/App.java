@@ -93,6 +93,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public void onCreate() {
         super.onCreate();
         GitHubUrl.setAccelerationEnabled(Setting.isGitHubAcceleration());
+        Setting.applyGitHubAccelerators();
         Setting.applyThemeMode();
         Notify.createChannel();
         registerActivityLifecycleCallbacks(this);

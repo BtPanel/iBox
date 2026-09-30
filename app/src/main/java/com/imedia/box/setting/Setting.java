@@ -7,6 +7,7 @@ import com.imedia.box.R;
 import com.imedia.box.utils.ResUtil;
 import com.github.catvod.net.GitHubUrl;
 import com.github.catvod.utils.Prefers;
+import java.util.List;
 
 public class Setting {
 
@@ -361,6 +362,33 @@ public class Setting {
     public static void putGitHubAcceleration(boolean enabled) {
         Prefers.put("github_acceleration", enabled);
         GitHubUrl.setAccelerationEnabled(enabled);
+    }
+
+    /**
+     * 用户自定义的 GitHub 加速前缀（原始多行文本，用于编辑回显）。
+     */
+    public static String getGitHubAccelerators() {
+        return Prefers.getString("github_accelerators", "");
+    }
+
+    /**
+     * 保存自定义加速前缀：按行解析、规范化，并立即生效。
+     */
+    public static void putGitHubAccelerators(String text) {
+        String value = text == null ? "" : text.trim();
+        Prefers.put("github_accelerators", value);
+        GitHubUrl.setCustomAccelerators(value);
+    }
+
+    public static List<String> getGitHubAcceleratorList() {
+        return GitHubUrl.parse(getGitHubAccelerators());
+    }
+
+    /**
+     * 应用启动时调用，把已保存的自定义前缀注入 {@link GitHubUrl}。
+     */
+    public static void applyGitHubAccelerators() {
+        GitHubUrl.setCustomAccelerators(getGitHubAccelerators());
     }
 
     public static boolean isConfigNoticeEnabled() {
