@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_dialog_config"
+    android:orientation="vertical"
     android:padding="20dp">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/code"
-        android:layout_width="164dp"
-        android:layout_height="164dp"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerCrop" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnSurface"
-        android:textSize="20sp"
+        android:textSize="@dimen/ibox_text_dialog_title"
         android:textStyle="bold"
         tools:text="自定义 EPG" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/code"
-        android:layout_marginStart="14dp"
-        android:layout_toEndOf="@id/code"
-        android:ellipsize="end"
-        android:lineSpacingExtra="4dp"
-        android:maxLines="3"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="14sp"
-        tools:text="使用手机扫描二维码" />
+        android:layout_marginTop="12dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:lineSpacingExtra="4dp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/ibox_text_label"
+            tools:text="使用手机扫描二维码，或于浏览器访问地址" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/code"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/live_menu_scan_push"
+            android:scaleType="centerCrop" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.imedia.box.ui.custom.CustomEditText
         android:id="@+id/text"
-        android:layout_width="372dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom"
-        android:layout_alignStart="@id/info"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="12dp"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="textUri"
-        android:maxLines="4"
-        android:minLines="1"
+        android:maxLines="5"
+        android:minLines="2"
         android:nextFocusDown="@id/positive"
-        android:textSize="16sp" />
+        android:textSize="@dimen/ibox_text_body" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/bottom"
-        android:layout_width="372dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_alignStart="@id/info"
-        android:layout_alignBottom="@id/code"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <com.google.android.material.textview.MaterialTextView
@@ -73,7 +76,7 @@
             android:singleLine="true"
             android:text="@string/dialog_positive"
             android:textColor="@color/selector_dialog_button_text"
-            android:textSize="14sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/negative"
@@ -87,7 +90,8 @@
             android:singleLine="true"
             android:text="@string/dialog_negative"
             android:textColor="@color/selector_dialog_button_text"
-            android:textSize="14sp" />
+            android:textSize="@dimen/ibox_text_label" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-</RelativeLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

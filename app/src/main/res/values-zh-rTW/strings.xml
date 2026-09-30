@@ -365,6 +365,11 @@
     <string name="setting_size">图片尺寸</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_github_acceleration">GitHub 加速</string>
+    <string name="setting_github_accelerators">自訂加速網址</string>
+    <string name="setting_github_accelerators_hint">每行一個加速前綴，例如 https://gh-proxy.com/
+留空則僅使用內建加速網址。</string>
+    <string name="setting_github_accelerators_default">預設</string>
+    <string name="setting_github_accelerators_count">%1$d 個自訂</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">缓存</string>
     <string name="storage_privacy_title">存储与隐私</string>
@@ -876,6 +881,7 @@
     <string name="live_menu_epg_cache_hour">每天 %1$d 點</string>
     <string name="live_epg_other_settings">其他設定</string>
     <string name="live_epg_scan_info">掃碼輸入\n%1$s</string>
+    <string name="push_pairing_code">配對碼：%s</string>
     <string name="live_epg_cache_value">快取　　每天 %1$d 點</string>
     <string name="live_epg_name_hint">名稱（選填）</string>
     <string name="live_epg_url_hint">位址 / JSON</string>

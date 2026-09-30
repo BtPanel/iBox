@@ -20,6 +20,7 @@ import com.imedia.box.bean.Config;
 import com.imedia.box.databinding.DialogConfigBinding;
 import com.imedia.box.event.ServerEvent;
 import com.imedia.box.impl.ConfigListener;
+import com.imedia.box.server.RemoteAccess;
 import com.imedia.box.server.Server;
 import com.imedia.box.utils.FileChooser;
 import com.imedia.box.utils.QRCode;
@@ -101,8 +102,13 @@ public class ConfigDialog extends BaseAlertDialog {
         binding.text.setSelection(TextUtils.isEmpty(url) ? 0 : url.length());
         binding.title.setText(getDialogTitle());
         binding.positive.setText(edit ? R.string.dialog_edit : R.string.dialog_positive);
-        binding.code.setImageBitmap(QRCode.getBitmap(Server.get().getAddress(4), 250, 1));
-        binding.info.setText(ResUtil.getString(R.string.push_info, Server.get().getAddress()).replace("\uff0c", "\n"));
+        RemoteAccess.setEnabled(true);
+        Server.get().start();
+        String pin = RemoteAccess.getPin();
+        String scanUrl = Server.get().getAddress() + "?pin=" + pin + "&tab=4";
+        binding.code.setImageBitmap(QRCode.getBitmap(scanUrl, 250, 1));
+        binding.info.setText(ResUtil.getString(R.string.push_info, Server.get().getAddress()).replace("\uff0c", "\n")
+                + "\n" + ResUtil.getString(R.string.push_pairing_code, pin));
     }
 
     @Override

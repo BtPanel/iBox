@@ -91,7 +91,6 @@
     <!-- Push -->
     <string name="push_clip">剪贴板</string>
     <string name="push_info">使用手机扫描二维码，或于浏览器访问地址\n<xliff:g name="name">%s</xliff:g></string>
-    <string name="push_pairing_code">配对码：%s</string>
 
     <string name="setting_section_source">片源与外观</string>
     <string name="setting_section_general">播放与通用</string>

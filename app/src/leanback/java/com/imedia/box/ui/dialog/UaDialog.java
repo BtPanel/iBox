@@ -11,6 +11,7 @@ import com.imedia.box.R;
 import com.imedia.box.databinding.DialogUaBinding;
 import com.imedia.box.event.ServerEvent;
 import com.imedia.box.impl.UaListener;
+import com.imedia.box.server.RemoteAccess;
 import com.imedia.box.server.Server;
 import com.imedia.box.setting.Setting;
 import com.imedia.box.ui.custom.CustomTextListener;
@@ -47,8 +48,13 @@ public class UaDialog extends BaseAlertDialog {
         String text = Setting.getUa();
         binding.text.setText(text);
         binding.text.setSelection(TextUtils.isEmpty(text) ? 0 : text.length());
-        binding.code.setImageBitmap(QRCode.getBitmap(Server.get().getAddress(4), 200, 0));
-        binding.info.setText(ResUtil.getString(R.string.push_info, Server.get().getAddress()).replace("\uff0c", "\n"));
+        RemoteAccess.setEnabled(true);
+        Server.get().start();
+        String pin = RemoteAccess.getPin();
+        String scanUrl = Server.get().getAddress() + "?pin=" + pin + "&tab=4";
+        binding.code.setImageBitmap(QRCode.getBitmap(scanUrl, 200, 1));
+        binding.info.setText(ResUtil.getString(R.string.push_info, Server.get().getAddress()).replace("\uff0c", "\n")
+                + "\n" + ResUtil.getString(R.string.push_pairing_code, pin));
     }
 
     @Override

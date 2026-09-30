@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import com.imedia.box.R;
 import com.imedia.box.databinding.DialogLiveSourceInputBinding;
 import com.imedia.box.event.ServerEvent;
+import com.imedia.box.server.RemoteAccess;
 import com.imedia.box.server.Server;
 import com.imedia.box.utils.QRCode;
 import com.imedia.box.utils.ResUtil;
@@ -56,14 +57,18 @@ public class LiveSourceInputDialog extends BaseAlertDialog {
 
     @Override
     protected void initView() {
+        RemoteAccess.setEnabled(true);
         Server.get().start();
         binding.title.setText(title);
         binding.text.setHint(hint);
         binding.text.setSingleLine(!multiline);
         binding.text.setInputType(multiline ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
         setText(value);
-        binding.code.setImageBitmap(QRCode.getBitmap(Server.get().getAddress(4), 200, 0));
-        binding.info.setText(ResUtil.getString(R.string.push_info, Server.get().getAddress()).replace("，", "\n"));
+        String pin = RemoteAccess.getPin();
+        String scanUrl = Server.get().getAddress() + "?pin=" + pin + "&tab=4";
+        binding.code.setImageBitmap(QRCode.getBitmap(scanUrl, 200, 1));
+        binding.info.setText(ResUtil.getString(R.string.push_info, Server.get().getAddress()).replace("，", "\n")
+                + "\n" + ResUtil.getString(R.string.push_pairing_code, pin));
     }
 
     @Override

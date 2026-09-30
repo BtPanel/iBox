@@ -366,6 +366,11 @@
     <string name="setting_size">Image size</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_github_acceleration">GitHub acceleration</string>
+    <string name="setting_github_accelerators">Custom acceleration URLs</string>
+    <string name="setting_github_accelerators_hint">One prefix per line, e.g. https://gh-proxy.com/
+Leave empty to use built-in accelerators only.</string>
+    <string name="setting_github_accelerators_default">Default</string>
+    <string name="setting_github_accelerators_count">%1$d custom</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">Cache</string>
     <string name="storage_privacy_title">Storage &amp; privacy</string>
@@ -887,6 +892,7 @@
     <string name="live_menu_epg_cache_hour">Daily at %1$d:00</string>
     <string name="live_epg_other_settings">Other settings</string>
     <string name="live_epg_scan_info">Scan to enter\n%1$s</string>
+    <string name="push_pairing_code">Pairing code: %s</string>
     <string name="live_epg_cache_value">Cache    Daily at %1$d:00</string>
     <string name="live_epg_name_hint">Name (optional)</string>
     <string name="live_epg_url_hint">URL / JSON</string>

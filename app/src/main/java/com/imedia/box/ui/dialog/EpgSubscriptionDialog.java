@@ -16,6 +16,7 @@ import com.imedia.box.R;
 import com.imedia.box.databinding.DialogEpgSubscriptionBinding;
 import com.imedia.box.event.ServerEvent;
 import com.imedia.box.live.EpgCacheScheduler;
+import com.imedia.box.server.RemoteAccess;
 import com.imedia.box.server.Server;
 import com.imedia.box.setting.LiveSetting;
 import com.imedia.box.ui.adapter.EpgSubscriptionAdapter;
@@ -63,9 +64,13 @@ public final class EpgSubscriptionDialog extends BaseAlertDialog implements EpgS
     @Override
     protected void initView() {
         if (Util.isLeanback()) {
+            RemoteAccess.setEnabled(true);
             Server.get().start();
-            binding.code.setImageBitmap(QRCode.getBitmap(Server.get().getAddress(4), 166, 0));
-            binding.info.setText(getString(R.string.live_epg_scan_info, Server.get().getAddress()));
+            String pin = RemoteAccess.getPin();
+            String scanUrl = Server.get().getAddress() + "?pin=" + pin + "&tab=4";
+            binding.code.setImageBitmap(QRCode.getBitmap(scanUrl, 166, 1));
+            binding.info.setText(getString(R.string.live_epg_scan_info, Server.get().getAddress())
+                    + "\n" + getString(R.string.push_pairing_code, pin));
         }
         binding.list.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.list.setAdapter(adapter = new EpgSubscriptionAdapter(this));
