@@ -16,10 +16,10 @@ EPG 订阅不使用 `Config` 表，而由 `LiveSetting` 保存到 SharedPreferen
 
 相关代码：
 
-- `app/src/main/java/com/imedia/box/bean/Config.java`
-- `app/src/main/java/com/imedia/box/api/config/VodConfig.java`
-- `app/src/main/java/com/imedia/box/api/config/LiveConfig.java`
-- `app/src/main/java/com/imedia/box/setting/LiveSetting.java`
+- `app/src/main/java/com/media/ibox/bean/Config.java`
+- `app/src/main/java/com/media/ibox/api/config/VodConfig.java`
+- `app/src/main/java/com/media/ibox/api/config/LiveConfig.java`
+- `app/src/main/java/com/media/ibox/setting/LiveSetting.java`
 
 用户可以在手机或 TV 的“订阅管理”中添加点播和直播地址，在直播 EPG 管理中添加节目单。配置可来自 HTTP(S)、本地文件和应用支持的 `assets://` 地址。
 
@@ -185,7 +185,7 @@ EPG 订阅类型 `0` 表示 XMLTV/XMLTV gzip。
 当前全局备用地址定义在：
 
 ```text
-app/src/main/java/com/imedia/box/api/LiveApi.java
+app/src/main/java/com/media/ibox/api/LiveApi.java
 ```
 
 `DEFAULT_EPG` 是按频道请求的备用 API，`DEFAULT_EPG_XML` 是备用 XMLTV。修改它们会影响所有没有有效自定义 EPG 的直播源，发布前必须检查可用性、响应速度、隐私和长期稳定性。
@@ -204,15 +204,15 @@ app/src/main/java/com/imedia/box/api/LiveApi.java
 新增文件：
 
 ```text
-app/src/main/java/com/imedia/box/setting/BuiltinSources.java
+app/src/main/java/com/media/ibox/setting/BuiltinSources.java
 ```
 
 参考实现：
 
 ```java
-package com.imedia.box.setting;
+package com.media.ibox.setting;
 
-import com.imedia.box.bean.Config;
+import com.media.ibox.bean.Config;
 import com.github.catvod.utils.Prefers;
 
 import java.util.Collections;

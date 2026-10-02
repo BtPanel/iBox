@@ -112,7 +112,7 @@
                     android:src="@drawable/ic_epg_info"
                     android:tint="@color/selector_dialog_button_text" />
 
-                <com.imedia.box.ui.custom.CustomEditText
+                <com.media.ibox.ui.custom.CustomEditText
                     android:id="@+id/name"
                     android:layout_width="110dp"
                     android:layout_height="match_parent"
@@ -122,7 +122,7 @@
                     android:singleLine="true"
                     android:textSize="@dimen/ibox_text_address" />
 
-                <com.imedia.box.ui.custom.CustomEditText
+                <com.media.ibox.ui.custom.CustomEditText
                     android:id="@+id/url"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

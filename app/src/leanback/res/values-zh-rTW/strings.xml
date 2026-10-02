@@ -94,4 +94,6 @@
 
     <string name="setting_section_source">片源與外觀</string>
     <string name="setting_section_general">播放與通用</string>
+    <string name="setting_search_threads">搜索線程</string>
+    <string name="setting_threads_value">%1$d 線程</string>
 </resources>

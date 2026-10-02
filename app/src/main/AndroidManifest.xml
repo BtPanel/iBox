@@ -77,7 +77,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.imedia.box.Startup"
+                android:name="com.media.ibox.Startup"
                 android:value="androidx.startup" />
         </provider>
 

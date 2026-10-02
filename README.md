@@ -4,8 +4,8 @@ iBox 是 Android 手机、平板和电视双端影音客户端。手机端使用
 
 | 平台 | Gradle 风味 | 应用 ID | 显示名称 |
 | --- | --- | --- | --- |
-| 手机、平板 | `mobile` | `com.imedia.box` | iBox |
-| Android TV | `leanback` | `com.imedia.box.tv` | iBoxTV |
+| 手机、平板 | `mobile` | `com.media.ibox` | iBox |
+| Android TV | `leanback` | `com.media.ibox.tv` | iBoxTV |
 
 目前源码的 `versionName` 为 `1.0`、`versionCode` 为 `1`。应用 ID 和 Java 包路径保留旧身份，以便同一平台的已安装版本升级；它们不是界面品牌。
 

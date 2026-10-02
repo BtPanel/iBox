@@ -111,17 +111,17 @@ adb -s 127.0.0.1:16384 install -r `
 `install -r` 保留应用数据。出现签名不一致时，通常是设备装过不同签名的 APK。卸载会清除应用数据，必须先确认备份，再执行：
 
 ```powershell
-adb -s 127.0.0.1:16384 uninstall com.imedia.box
+adb -s 127.0.0.1:16384 uninstall com.media.ibox
 ```
 
-TV 包名是 `com.imedia.box.tv`，可以与手机版同时安装。
+TV 包名是 `com.media.ibox.tv`，可以与手机版同时安装。
 
 启动和完全停止手机版：
 
 ```powershell
-adb -s 127.0.0.1:16384 shell am force-stop com.imedia.box
+adb -s 127.0.0.1:16384 shell am force-stop com.media.ibox
 adb -s 127.0.0.1:16384 shell monkey `
-  -p com.imedia.box -c android.intent.category.LAUNCHER 1
+  -p com.media.ibox -c android.intent.category.LAUNCHER 1
 ```
 
 查看当前顶部 Activity：
@@ -150,13 +150,13 @@ adb -s 127.0.0.1:16384 logcat -d -v threadtime > logs/mumu-logcat.txt
 
 ```powershell
 Select-String -Path logs/mumu-logcat.txt `
-  -Pattern "FATAL EXCEPTION|AndroidRuntime|ANR in|Process: com.imedia.box|Caused by:"
+  -Pattern "FATAL EXCEPTION|AndroidRuntime|ANR in|Process: com.media.ibox|Caused by:"
 ```
 
 查看当前进程实时日志：
 
 ```powershell
-$appPid = adb -s 127.0.0.1:16384 shell pidof com.imedia.box
+$appPid = adb -s 127.0.0.1:16384 shell pidof com.media.ibox
 adb -s 127.0.0.1:16384 logcat --pid=$appPid -v threadtime
 ```
 

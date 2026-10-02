@@ -127,8 +127,8 @@ git branch -d codex/ui-refinement
 数据库入口：
 
 ```text
-app/src/main/java/com/imedia/box/db/AppDatabase.java
-app/src/main/java/com/imedia/box/db/Migrations.java
+app/src/main/java/com/media/ibox/db/AppDatabase.java
+app/src/main/java/com/media/ibox/db/Migrations.java
 app/schemas/
 ```
 

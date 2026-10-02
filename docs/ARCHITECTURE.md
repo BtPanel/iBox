@@ -8,8 +8,8 @@
 
 ```text
 app/src/main       双端共用代码与资源
-    + mobile       手机/平板覆盖，applicationId=com.imedia.box
-    + leanback     Android TV 覆盖，applicationId=com.imedia.box.tv
+    + mobile       手机/平板覆盖，applicationId=com.media.ibox
+    + leanback     Android TV 覆盖，applicationId=com.media.ibox.tv
 
 ABI:
     + arm64_v8a
@@ -27,7 +27,7 @@ ABI:
 
 ## 品牌与包身份
 
-手机显示名为 `iBox`，TV 显示名为 `iBoxTV`。共用资源名和文件使用 `ibox_` 前缀，样式及 Java UI 组件使用 `IBox` 前缀。`com.imedia.box` 与 `com.imedia.box.tv` 分别作为 Android 稳定应用 ID 保留，以支持各自旧安装的覆盖升级及数据继承；不要把包身份用于界面文案。
+手机显示名为 `iBox`，TV 显示名为 `iBoxTV`。共用资源名和文件使用 `ibox_` 前缀，样式及 Java UI 组件使用 `IBox` 前缀。`com.media.ibox` 与 `com.media.ibox.tv` 分别作为 Android 稳定应用 ID 保留，以支持各自旧安装的覆盖升级及数据继承；不要把包身份用于界面文案。
 
 ## Gradle 模块
 
@@ -70,10 +70,10 @@ ABI:
 
 关键文件：
 
-- `app/src/main/java/com/imedia/box/App.java`
-- `app/src/mobile/java/com/imedia/box/ui/activity/HomeActivity.java`
-- `app/src/leanback/java/com/imedia/box/ui/activity/HomeActivity.java`
-- `app/src/main/java/com/imedia/box/bean/Config.java`
+- `app/src/main/java/com/media/ibox/App.java`
+- `app/src/mobile/java/com/media/ibox/ui/activity/HomeActivity.java`
+- `app/src/leanback/java/com/media/ibox/ui/activity/HomeActivity.java`
+- `app/src/main/java/com/media/ibox/bean/Config.java`
 
 新增首次安装初始化时，应在读取三个 `Config` 之前完成，并使用一次性版本标记。不要直接改变 `Config.vod()` 的空值回退，否则用户删除内置源后可能被强制重新添加。
 

@@ -39,7 +39,7 @@
 
 ## 当前重要约定
 
-- `mobile` 包名为 `com.imedia.box`、显示名为 `iBox`；`leanback` 包名为 `com.imedia.box.tv`、显示名为 `iBoxTV`。
+- `mobile` 包名为 `com.media.ibox`、显示名为 `iBox`；`leanback` 包名为 `com.media.ibox.tv`、显示名为 `iBoxTV`。
 - 当前版本号为 `1.0 (1)`；正式发布后 `versionCode` 必须递增。
 - 手机端新安装默认跟随系统日夜模式；已有用户明确选择的主题模式保持不变。
 - `artwork/app-icon/` 是正式图标母版与导出包，清理缓存或发布文件时不得删除。

@@ -9,7 +9,7 @@
     android:paddingEnd="@dimen/ibox_space_4"
     android:paddingBottom="@dimen/ibox_space_2">
 
-    <com.imedia.box.ui.custom.ColorWheelView
+    <com.media.ibox.ui.custom.ColorWheelView
         android:id="@+id/colorWheel"
         android:layout_width="216dp"
         android:layout_height="216dp"

@@ -87,7 +87,7 @@
             android:layout_marginEnd="8dp"
             android:text="@string/play_repeat" />
 
-        <com.imedia.box.ui.custom.CustomUpDownView
+        <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/speed"
             style="@style/Control"
             android:layout_marginEnd="8dp"
@@ -100,7 +100,7 @@
             android:layout_marginEnd="8dp"
             android:text="@string/play_scale" />
 
-        <com.imedia.box.ui.custom.CustomUpDownView
+        <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/text"
             style="@style/Control"
             android:layout_marginEnd="8dp"
@@ -130,6 +130,14 @@
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/danmakuToggle"
+            style="@style/Control"
+            android:layout_marginEnd="8dp"
+            android:text="@string/danmaku_off"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/edition"
             style="@style/Control"
             android:layout_marginEnd="8dp"
@@ -145,13 +153,13 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <com.imedia.box.ui.custom.CustomUpDownView
+        <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/opening"
             style="@style/Control"
             android:layout_marginEnd="8dp"
             android:text="@string/play_op" />
 
-        <com.imedia.box.ui.custom.CustomUpDownView
+        <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/ending"
             style="@style/Control"
             android:nextFocusRight="@id/next"

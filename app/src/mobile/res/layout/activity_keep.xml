@@ -72,7 +72,7 @@
             app:iconTint="@color/ibox_text_primary" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.imedia.box.ui.custom.ProgressLayout
+    <com.media.ibox.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -87,7 +87,7 @@
             android:padding="4dp"
             tools:listitem="@layout/adapter_vod" />
 
-    </com.imedia.box.ui.custom.ProgressLayout>
+    </com.media.ibox.ui.custom.ProgressLayout>
 
     <include
         android:id="@+id/navigation"

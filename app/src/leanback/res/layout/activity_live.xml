@@ -56,7 +56,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <com.imedia.box.ui.custom.CustomLiveListView
+        <com.media.ibox.ui.custom.CustomLiveListView
             android:id="@+id/group"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -66,7 +66,7 @@
             tools:itemCount="5"
             tools:listitem="@layout/adapter_group" />
 
-        <com.imedia.box.ui.custom.CustomLeftRightLayout
+        <com.media.ibox.ui.custom.CustomLeftRightLayout
             android:id="@+id/channelGroupEntry"
             android:layout_width="42dp"
             android:layout_height="match_parent"
@@ -97,9 +97,9 @@
                 android:duplicateParentState="true"
                 android:src="@drawable/ic_keyboard_left" />
 
-        </com.imedia.box.ui.custom.CustomLeftRightLayout>
+        </com.media.ibox.ui.custom.CustomLeftRightLayout>
 
-        <com.imedia.box.ui.custom.CustomLiveListView
+        <com.media.ibox.ui.custom.CustomLiveListView
             android:id="@+id/channel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -109,7 +109,7 @@
             tools:itemCount="5"
             tools:listitem="@layout/adapter_channel" />
 
-        <com.imedia.box.ui.custom.CustomLeftRightLayout
+        <com.media.ibox.ui.custom.CustomLeftRightLayout
             android:id="@+id/epgGuideEntry"
             android:layout_width="42dp"
             android:layout_height="match_parent"
@@ -139,9 +139,9 @@
                 android:duplicateParentState="true"
                 android:src="@drawable/ic_keyboard_right" />
 
-        </com.imedia.box.ui.custom.CustomLeftRightLayout>
+        </com.media.ibox.ui.custom.CustomLeftRightLayout>
 
-        <com.imedia.box.ui.custom.CustomLiveListView
+        <com.media.ibox.ui.custom.CustomLiveListView
             android:id="@+id/epgDate"
             android:layout_width="116dp"
             android:layout_height="match_parent"
@@ -154,7 +154,7 @@
             tools:listitem="@layout/adapter_epg_date"
             tools:visibility="visible" />
 
-        <com.imedia.box.ui.custom.CustomLiveListView
+        <com.media.ibox.ui.custom.CustomLiveListView
             android:id="@+id/epgData"
             android:layout_width="0dp"
             android:layout_height="match_parent"

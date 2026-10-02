@@ -13,7 +13,7 @@
         android:layout_marginStart="@dimen/ibox_dialog_content_padding"
         android:layout_marginEnd="@dimen/ibox_dialog_content_padding" />
 
-    <com.imedia.box.ui.custom.CustomRecyclerView
+    <com.media.ibox.ui.custom.CustomRecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

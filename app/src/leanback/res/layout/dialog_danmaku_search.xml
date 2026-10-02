@@ -105,7 +105,7 @@
         android:textSize="@dimen/ibox_text_address"
         tools:text="输入片名后点“搜索”" />
 
-    <com.imedia.box.ui.custom.CustomRecyclerView
+    <com.media.ibox.ui.custom.CustomRecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

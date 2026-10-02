@@ -43,7 +43,7 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.imedia.box.ui.custom.CustomEditText
+    <com.media.ibox.ui.custom.CustomEditText
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

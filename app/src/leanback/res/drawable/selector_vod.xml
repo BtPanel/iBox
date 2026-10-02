@@ -9,11 +9,7 @@
                     <corners android:radius="@dimen/ibox_radius_card" />
                 </shape>
             </item>
-            <item
-                android:left="@dimen/ibox_stroke_thin"
-                android:top="@dimen/ibox_stroke_thin"
-                android:right="@dimen/ibox_stroke_thin"
-                android:bottom="@dimen/ibox_stroke_thin">
+            <item>
                 <shape android:shape="rectangle">
                     <solid android:color="@color/transparent" />
                     <stroke android:width="@dimen/ibox_focus_stroke" android:color="?attr/focusFrameColor" />

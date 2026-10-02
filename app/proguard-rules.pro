@@ -1,7 +1,7 @@
 # TV
 -keep class androidx.leanback.widget.** { *; }
 -keep class com.fongmi.quickjs.method.** { *; }
--keep class com.imedia.box.bean.** { *; }
+-keep class com.media.ibox.bean.** { *; }
 
 # Gson is part of the runtime API exposed to dynamically loaded spiders.
 -keep class com.google.gson.** { *; }

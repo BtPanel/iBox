@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = 'com.imedia.box.quickjs'
+    namespace = 'com.media.ibox.quickjs'
 
     compileSdk libs.versions.compileSdk.get().toInteger()
 

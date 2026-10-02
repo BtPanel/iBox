@@ -8,12 +8,12 @@ rootProject.file('local.properties').withInputStream {
 }
 
 android {
-    namespace = 'com.imedia.box'
+    namespace = 'com.media.ibox'
 
     compileSdk libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        applicationId "com.imedia.box"
+        applicationId "com.media.ibox"
         minSdk libs.versions.minSdk.get().toInteger()
         targetSdk libs.versions.targetSdk.get().toInteger()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -21,7 +21,7 @@ android {
         versionName "1.0"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.imedia.box.event.EventIndex"]
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.media.ibox.event.EventIndex"]
             }
         }
     }

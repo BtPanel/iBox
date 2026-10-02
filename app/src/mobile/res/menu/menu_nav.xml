@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/library"
-        android:icon="@drawable/ic_msr_video_library"
+        android:icon="@drawable/ic_msr_favorite"
         android:title="@string/nav_library" />
 
     <item

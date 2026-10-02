@@ -43,7 +43,7 @@
         android:layout_marginTop="@dimen/ibox_dialog_group_spacing"
         android:layout_marginBottom="0dp">
 
-        <com.imedia.box.ui.custom.CustomRecyclerView
+        <com.media.ibox.ui.custom.CustomRecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:layout_width="@dimen/ibox_touch_target"
                 android:layout_height="@dimen/ibox_touch_target"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_nav_source"
+                android:src="@drawable/ic_msr_subscriptions"
                 app:tint="?attr/colorOnSurfaceVariant" />
 
             <com.google.android.material.textview.MaterialTextView

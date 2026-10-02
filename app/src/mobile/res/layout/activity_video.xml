@@ -98,7 +98,7 @@
         android:layout_below="@id/video"
         android:layout_above="@id/navigation">
 
-        <com.imedia.box.ui.custom.ProgressLayout
+        <com.media.ibox.ui.custom.ProgressLayout
             android:id="@+id/progressLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -232,7 +232,7 @@
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/ic_danmaku_bubble"
+                                android:src="@drawable/ic_msr_subtitles"
                                 app:tint="@color/ibox_player_text_primary" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -517,7 +517,7 @@
                         tools:visibility="visible" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
-        </com.imedia.box.ui.custom.ProgressLayout>
+        </com.media.ibox.ui.custom.ProgressLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include

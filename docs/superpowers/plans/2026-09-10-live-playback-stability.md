@@ -26,37 +26,37 @@
 
 **Create:**
 
-- `app/src/main/java/com/imedia/box/player/PlaybackFailure.java` - typed player/service failure contract.
-- `app/src/main/java/com/imedia/box/playback/live/LiveFailureKind.java` - live policy failure categories.
-- `app/src/main/java/com/imedia/box/playback/live/LiveFailureClassifier.java` - maps typed player failures and resolution failures to live categories.
-- `app/src/main/java/com/imedia/box/live/LiveLineKey.java` - privacy-safe source/channel/URL identity.
-- `app/src/main/java/com/imedia/box/live/LiveLineHealth.java` - score, cooldown, and rolling startup metrics.
-- `app/src/main/java/com/imedia/box/live/LiveLineHealthStore.java` - versioned persistence, pruning, ranking, and production/fake backends.
-- `app/src/main/java/com/imedia/box/playback/live/LiveRecoveryDecision.java` - immutable retry/switch/fail result.
-- `app/src/main/java/com/imedia/box/playback/live/LiveRecoveryPolicy.java` - pure recovery decision matrix.
-- `app/src/main/java/com/imedia/box/playback/live/LiveConnectionState.java` - immutable connection UI state.
-- `app/src/main/java/com/imedia/box/playback/live/LivePlaybackScheduler.java` - cancellable `App.post` adapter for deterministic tests.
-- `app/src/test/java/com/imedia/box/player/PlaybackFailureTest.java`
-- `app/src/test/java/com/imedia/box/playback/live/LiveFailureClassifierTest.java`
-- `app/src/test/java/com/imedia/box/live/LiveLineHealthTest.java`
-- `app/src/test/java/com/imedia/box/live/LiveLineHealthStoreTest.java`
-- `app/src/test/java/com/imedia/box/playback/live/LiveRecoveryPolicyTest.java`
+- `app/src/main/java/com/media/ibox/player/PlaybackFailure.java` - typed player/service failure contract.
+- `app/src/main/java/com/media/ibox/playback/live/LiveFailureKind.java` - live policy failure categories.
+- `app/src/main/java/com/media/ibox/playback/live/LiveFailureClassifier.java` - maps typed player failures and resolution failures to live categories.
+- `app/src/main/java/com/media/ibox/live/LiveLineKey.java` - privacy-safe source/channel/URL identity.
+- `app/src/main/java/com/media/ibox/live/LiveLineHealth.java` - score, cooldown, and rolling startup metrics.
+- `app/src/main/java/com/media/ibox/live/LiveLineHealthStore.java` - versioned persistence, pruning, ranking, and production/fake backends.
+- `app/src/main/java/com/media/ibox/playback/live/LiveRecoveryDecision.java` - immutable retry/switch/fail result.
+- `app/src/main/java/com/media/ibox/playback/live/LiveRecoveryPolicy.java` - pure recovery decision matrix.
+- `app/src/main/java/com/media/ibox/playback/live/LiveConnectionState.java` - immutable connection UI state.
+- `app/src/main/java/com/media/ibox/playback/live/LivePlaybackScheduler.java` - cancellable `App.post` adapter for deterministic tests.
+- `app/src/test/java/com/media/ibox/player/PlaybackFailureTest.java`
+- `app/src/test/java/com/media/ibox/playback/live/LiveFailureClassifierTest.java`
+- `app/src/test/java/com/media/ibox/live/LiveLineHealthTest.java`
+- `app/src/test/java/com/media/ibox/live/LiveLineHealthStoreTest.java`
+- `app/src/test/java/com/media/ibox/playback/live/LiveRecoveryPolicyTest.java`
 
 **Modify:**
 
-- `app/src/main/java/com/imedia/box/player/PlayerManager.java` - emit typed failures after internal recovery is exhausted.
-- `app/src/main/java/com/imedia/box/service/PlaybackService.java` - forward typed failures while preserving string callback compatibility.
-- `app/src/main/java/com/imedia/box/ui/activity/PlaybackActivity.java` - expose typed protected callback and type pre-play validation failures.
-- `app/src/main/java/com/imedia/box/live/LiveChannelStore.java` - share the current source key with the health store.
-- `app/src/main/java/com/imedia/box/playback/live/LivePlayRequest.java` - add a request ID for strict stale-result rejection.
-- `app/src/main/java/com/imedia/box/playback/live/LivePlaybackHost.java` - add connection-state rendering.
-- `app/src/main/java/com/imedia/box/playback/live/LivePlaybackController.java` - coordinate health, recovery, cancellation, and status.
-- `app/src/test/java/com/imedia/box/playback/live/LivePlaybackControllerTest.java` - expand controller state-machine coverage.
+- `app/src/main/java/com/media/ibox/player/PlayerManager.java` - emit typed failures after internal recovery is exhausted.
+- `app/src/main/java/com/media/ibox/service/PlaybackService.java` - forward typed failures while preserving string callback compatibility.
+- `app/src/main/java/com/media/ibox/ui/activity/PlaybackActivity.java` - expose typed protected callback and type pre-play validation failures.
+- `app/src/main/java/com/media/ibox/live/LiveChannelStore.java` - share the current source key with the health store.
+- `app/src/main/java/com/media/ibox/playback/live/LivePlayRequest.java` - add a request ID for strict stale-result rejection.
+- `app/src/main/java/com/media/ibox/playback/live/LivePlaybackHost.java` - add connection-state rendering.
+- `app/src/main/java/com/media/ibox/playback/live/LivePlaybackController.java` - coordinate health, recovery, cancellation, and status.
+- `app/src/test/java/com/media/ibox/playback/live/LivePlaybackControllerTest.java` - expand controller state-machine coverage.
 - `app/src/main/res/values/strings.xml` - English connection strings.
 - `app/src/main/res/values-zh-rCN/strings.xml` - Simplified Chinese connection strings.
 - `app/src/main/res/values-zh-rTW/strings.xml` - Traditional Chinese connection strings.
-- `app/src/mobile/java/com/imedia/box/ui/activity/LiveActivity.java` - render state and pass typed errors.
-- `app/src/leanback/java/com/imedia/box/ui/activity/LiveActivity.java` - render the same state and pass typed errors.
+- `app/src/mobile/java/com/media/ibox/ui/activity/LiveActivity.java` - render state and pass typed errors.
+- `app/src/leanback/java/com/media/ibox/ui/activity/LiveActivity.java` - render the same state and pass typed errors.
 
 No layout file changes are planned: both `view_progress.xml` variants already expose `progress.status`.
 
@@ -66,11 +66,11 @@ No layout file changes are planned: both `view_progress.xml` variants already ex
 
 **Files:**
 
-- Create: `app/src/main/java/com/imedia/box/player/PlaybackFailure.java`
-- Modify: `app/src/main/java/com/imedia/box/player/PlayerManager.java`
-- Modify: `app/src/main/java/com/imedia/box/service/PlaybackService.java`
-- Modify: `app/src/main/java/com/imedia/box/ui/activity/PlaybackActivity.java`
-- Test: `app/src/test/java/com/imedia/box/player/PlaybackFailureTest.java`
+- Create: `app/src/main/java/com/media/ibox/player/PlaybackFailure.java`
+- Modify: `app/src/main/java/com/media/ibox/player/PlayerManager.java`
+- Modify: `app/src/main/java/com/media/ibox/service/PlaybackService.java`
+- Modify: `app/src/main/java/com/media/ibox/ui/activity/PlaybackActivity.java`
+- Test: `app/src/test/java/com/media/ibox/player/PlaybackFailureTest.java`
 
 **Interfaces:**
 
@@ -107,7 +107,7 @@ public void factoriesPreserveMessageAndUnsetCode() {
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.player.PlaybackFailureTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.player.PlaybackFailureTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: FAIL because `PlaybackFailure` does not exist.
@@ -201,7 +201,7 @@ In `PlaybackActivity`, add `protected void onError(PlaybackFailure failure)` tha
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest :app:testLeanbackArm64_v8aDebugUnitTest --tests "com.imedia.box.player.PlaybackFailureTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest :app:testLeanbackArm64_v8aDebugUnitTest --tests "com.media.ibox.player.PlaybackFailureTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: both tasks PASS; `VideoActivity` and other string-only subclasses compile unchanged.
@@ -209,7 +209,7 @@ Expected: both tasks PASS; `VideoActivity` and other string-only subclasses comp
 - [ ] **Step 6: Commit the typed error contract**
 
 ```powershell
-git add app/src/main/java/com/imedia/box/player/PlaybackFailure.java app/src/main/java/com/imedia/box/player/PlayerManager.java app/src/main/java/com/imedia/box/service/PlaybackService.java app/src/main/java/com/imedia/box/ui/activity/PlaybackActivity.java app/src/test/java/com/imedia/box/player/PlaybackFailureTest.java
+git add app/src/main/java/com/media/ibox/player/PlaybackFailure.java app/src/main/java/com/media/ibox/player/PlayerManager.java app/src/main/java/com/media/ibox/service/PlaybackService.java app/src/main/java/com/media/ibox/ui/activity/PlaybackActivity.java app/src/test/java/com/media/ibox/player/PlaybackFailureTest.java
 git commit -m "refactor: preserve playback failure types"
 ```
 
@@ -219,15 +219,15 @@ git commit -m "refactor: preserve playback failure types"
 
 **Files:**
 
-- Create: `app/src/main/java/com/imedia/box/playback/live/LiveFailureKind.java`
-- Create: `app/src/main/java/com/imedia/box/playback/live/LiveFailureClassifier.java`
-- Create: `app/src/main/java/com/imedia/box/live/LiveLineKey.java`
-- Create: `app/src/main/java/com/imedia/box/live/LiveLineHealth.java`
-- Create: `app/src/main/java/com/imedia/box/live/LiveLineHealthStore.java`
-- Modify: `app/src/main/java/com/imedia/box/live/LiveChannelStore.java`
-- Test: `app/src/test/java/com/imedia/box/playback/live/LiveFailureClassifierTest.java`
-- Test: `app/src/test/java/com/imedia/box/live/LiveLineHealthTest.java`
-- Test: `app/src/test/java/com/imedia/box/live/LiveLineHealthStoreTest.java`
+- Create: `app/src/main/java/com/media/ibox/playback/live/LiveFailureKind.java`
+- Create: `app/src/main/java/com/media/ibox/playback/live/LiveFailureClassifier.java`
+- Create: `app/src/main/java/com/media/ibox/live/LiveLineKey.java`
+- Create: `app/src/main/java/com/media/ibox/live/LiveLineHealth.java`
+- Create: `app/src/main/java/com/media/ibox/live/LiveLineHealthStore.java`
+- Modify: `app/src/main/java/com/media/ibox/live/LiveChannelStore.java`
+- Test: `app/src/test/java/com/media/ibox/playback/live/LiveFailureClassifierTest.java`
+- Test: `app/src/test/java/com/media/ibox/live/LiveLineHealthTest.java`
+- Test: `app/src/test/java/com/media/ibox/live/LiveLineHealthStoreTest.java`
 
 **Interfaces:**
 
@@ -275,7 +275,7 @@ Also cover source/group/channel/URL separation, the same source channel reached 
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.playback.live.LiveFailureClassifierTest" --tests "com.imedia.box.live.LiveLineHealthTest" --tests "com.imedia.box.live.LiveLineHealthStoreTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.playback.live.LiveFailureClassifierTest" --tests "com.media.ibox.live.LiveLineHealthTest" --tests "com.media.ibox.live.LiveLineHealthStoreTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: FAIL because the live failure and health types do not exist.
@@ -296,7 +296,7 @@ static String sourceKey() {
 }
 ```
 
-Keep it package-private so `LiveLineHealthStore` in `com.imedia.box.live` can use it without expanding the public API.
+Keep it package-private so `LiveLineHealthStore` in `com.media.ibox.live` can use it without expanding the public API.
 
 Change `LiveChannelStore.resolve(Channel)` and its `ChannelRef` record from private to package-private. `LiveLineHealthStore` must call this resolver and use the returned canonical source group/channel names instead of `channel.getGroup()` directly. This makes a channel selected through Recent or Favorite resolve to the same health key as the original source group.
 
@@ -384,7 +384,7 @@ Remove the current `clearFailed(channel)` call from `LiveChannelStore.recordRece
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.playback.live.LiveFailureClassifierTest" --tests "com.imedia.box.live.LiveLineHealthTest" --tests "com.imedia.box.live.LiveLineHealthStoreTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.playback.live.LiveFailureClassifierTest" --tests "com.media.ibox.live.LiveLineHealthTest" --tests "com.media.ibox.live.LiveLineHealthStoreTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: PASS with no Android Context dependency in the fake-backend tests.
@@ -392,7 +392,7 @@ Expected: PASS with no Android Context dependency in the fake-backend tests.
 - [ ] **Step 7: Commit the health subsystem**
 
 ```powershell
-git add app/src/main/java/com/imedia/box/playback/live/LiveFailureKind.java app/src/main/java/com/imedia/box/playback/live/LiveFailureClassifier.java app/src/main/java/com/imedia/box/live/LiveLineKey.java app/src/main/java/com/imedia/box/live/LiveLineHealth.java app/src/main/java/com/imedia/box/live/LiveLineHealthStore.java app/src/main/java/com/imedia/box/live/LiveChannelStore.java app/src/test/java/com/imedia/box/playback/live/LiveFailureClassifierTest.java app/src/test/java/com/imedia/box/live/LiveLineHealthTest.java app/src/test/java/com/imedia/box/live/LiveLineHealthStoreTest.java
+git add app/src/main/java/com/media/ibox/playback/live/LiveFailureKind.java app/src/main/java/com/media/ibox/playback/live/LiveFailureClassifier.java app/src/main/java/com/media/ibox/live/LiveLineKey.java app/src/main/java/com/media/ibox/live/LiveLineHealth.java app/src/main/java/com/media/ibox/live/LiveLineHealthStore.java app/src/main/java/com/media/ibox/live/LiveChannelStore.java app/src/test/java/com/media/ibox/playback/live/LiveFailureClassifierTest.java app/src/test/java/com/media/ibox/live/LiveLineHealthTest.java app/src/test/java/com/media/ibox/live/LiveLineHealthStoreTest.java
 git commit -m "feat: track live line health"
 ```
 
@@ -402,9 +402,9 @@ git commit -m "feat: track live line health"
 
 **Files:**
 
-- Create: `app/src/main/java/com/imedia/box/playback/live/LiveRecoveryDecision.java`
-- Create: `app/src/main/java/com/imedia/box/playback/live/LiveRecoveryPolicy.java`
-- Test: `app/src/test/java/com/imedia/box/playback/live/LiveRecoveryPolicyTest.java`
+- Create: `app/src/main/java/com/media/ibox/playback/live/LiveRecoveryDecision.java`
+- Create: `app/src/main/java/com/media/ibox/playback/live/LiveRecoveryPolicy.java`
+- Test: `app/src/test/java/com/media/ibox/playback/live/LiveRecoveryPolicyTest.java`
 
 **Interfaces:**
 
@@ -445,7 +445,7 @@ Also cover `TIMEOUT` and `PLAYBACK`, empty candidates, negative delay normalized
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.playback.live.LiveRecoveryPolicyTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.playback.live.LiveRecoveryPolicyTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: FAIL because policy types do not exist.
@@ -498,7 +498,7 @@ public LiveRecoveryDecision decide(
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.playback.live.LiveRecoveryPolicyTest" --tests "com.imedia.box.live.LiveLineHealth*" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.playback.live.LiveRecoveryPolicyTest" --tests "com.media.ibox.live.LiveLineHealth*" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: PASS.
@@ -506,7 +506,7 @@ Expected: PASS.
 - [ ] **Step 5: Commit the recovery policy**
 
 ```powershell
-git add app/src/main/java/com/imedia/box/playback/live/LiveRecoveryDecision.java app/src/main/java/com/imedia/box/playback/live/LiveRecoveryPolicy.java app/src/test/java/com/imedia/box/playback/live/LiveRecoveryPolicyTest.java
+git add app/src/main/java/com/media/ibox/playback/live/LiveRecoveryDecision.java app/src/main/java/com/media/ibox/playback/live/LiveRecoveryPolicy.java app/src/test/java/com/media/ibox/playback/live/LiveRecoveryPolicyTest.java
 git commit -m "feat: add bounded live recovery policy"
 ```
 
@@ -516,12 +516,12 @@ git commit -m "feat: add bounded live recovery policy"
 
 **Files:**
 
-- Create: `app/src/main/java/com/imedia/box/playback/live/LiveConnectionState.java`
-- Create: `app/src/main/java/com/imedia/box/playback/live/LivePlaybackScheduler.java`
-- Modify: `app/src/main/java/com/imedia/box/playback/live/LivePlayRequest.java`
-- Modify: `app/src/main/java/com/imedia/box/playback/live/LivePlaybackHost.java`
-- Modify: `app/src/main/java/com/imedia/box/playback/live/LivePlaybackController.java`
-- Modify: `app/src/test/java/com/imedia/box/playback/live/LivePlaybackControllerTest.java`
+- Create: `app/src/main/java/com/media/ibox/playback/live/LiveConnectionState.java`
+- Create: `app/src/main/java/com/media/ibox/playback/live/LivePlaybackScheduler.java`
+- Modify: `app/src/main/java/com/media/ibox/playback/live/LivePlayRequest.java`
+- Modify: `app/src/main/java/com/media/ibox/playback/live/LivePlaybackHost.java`
+- Modify: `app/src/main/java/com/media/ibox/playback/live/LivePlaybackController.java`
+- Modify: `app/src/test/java/com/media/ibox/playback/live/LivePlaybackControllerTest.java`
 
 **Interfaces:**
 
@@ -559,7 +559,7 @@ Add tests for initial best-line choice, manual cooldown override, one retry then
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.playback.live.LivePlaybackControllerTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.playback.live.LivePlaybackControllerTest" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: FAIL because connection state, injectable scheduler, and typed recovery are not implemented.
@@ -686,7 +686,7 @@ On failure, classify before clearing the pending request. A permitted retry publ
 Run:
 
 ```powershell
-.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.imedia.box.playback.live.*" --tests "com.imedia.box.live.LiveLineHealth*" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
+.\gradlew.bat :app:testMobileArm64_v8aDebugUnitTest --tests "com.media.ibox.playback.live.*" --tests "com.media.ibox.live.LiveLineHealth*" -PchaquopyBuildPython="C:/Users/Admin/AppData/Local/Programs/Python/Python310/python.exe"
 ```
 
 Expected: PASS; fake scheduler has no pending tasks after reset tests.
@@ -694,7 +694,7 @@ Expected: PASS; fake scheduler has no pending tasks after reset tests.
 - [ ] **Step 8: Commit the controller state machine**
 
 ```powershell
-git add app/src/main/java/com/imedia/box/playback/live/LiveConnectionState.java app/src/main/java/com/imedia/box/playback/live/LivePlaybackScheduler.java app/src/main/java/com/imedia/box/playback/live/LivePlayRequest.java app/src/main/java/com/imedia/box/playback/live/LivePlaybackHost.java app/src/main/java/com/imedia/box/playback/live/LivePlaybackController.java app/src/test/java/com/imedia/box/playback/live/LivePlaybackControllerTest.java
+git add app/src/main/java/com/media/ibox/playback/live/LiveConnectionState.java app/src/main/java/com/media/ibox/playback/live/LivePlaybackScheduler.java app/src/main/java/com/media/ibox/playback/live/LivePlayRequest.java app/src/main/java/com/media/ibox/playback/live/LivePlaybackHost.java app/src/main/java/com/media/ibox/playback/live/LivePlaybackController.java app/src/test/java/com/media/ibox/playback/live/LivePlaybackControllerTest.java
 git commit -m "feat: recover live playback with healthy lines"
 ```
 
@@ -707,8 +707,8 @@ git commit -m "feat: recover live playback with healthy lines"
 - Modify: `app/src/main/res/values/strings.xml`
 - Modify: `app/src/main/res/values-zh-rCN/strings.xml`
 - Modify: `app/src/main/res/values-zh-rTW/strings.xml`
-- Modify: `app/src/mobile/java/com/imedia/box/ui/activity/LiveActivity.java`
-- Modify: `app/src/leanback/java/com/imedia/box/ui/activity/LiveActivity.java`
+- Modify: `app/src/mobile/java/com/media/ibox/ui/activity/LiveActivity.java`
+- Modify: `app/src/leanback/java/com/media/ibox/ui/activity/LiveActivity.java`
 
 **Interfaces:**
 
@@ -778,7 +778,7 @@ Expected: BUILD SUCCESSFUL with no new accessibility, translation, or resource-f
 - [ ] **Step 6: Commit dual-platform status rendering**
 
 ```powershell
-git add app/src/main/res/values/strings.xml app/src/main/res/values-zh-rCN/strings.xml app/src/main/res/values-zh-rTW/strings.xml app/src/mobile/java/com/imedia/box/ui/activity/LiveActivity.java app/src/leanback/java/com/imedia/box/ui/activity/LiveActivity.java
+git add app/src/main/res/values/strings.xml app/src/main/res/values-zh-rCN/strings.xml app/src/main/res/values-zh-rTW/strings.xml app/src/mobile/java/com/media/ibox/ui/activity/LiveActivity.java app/src/leanback/java/com/media/ibox/ui/activity/LiveActivity.java
 git commit -m "feat: show live recovery status"
 ```
 

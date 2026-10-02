@@ -252,6 +252,8 @@
 
     <!-- Danmaku Setting -->
     <string name="danmaku">弹幕</string>
+    <string name="danmaku_on">彈幕開</string>
+    <string name="danmaku_off">彈幕關</string>
     <string name="danmaku_select">选择弹幕</string>
     <string name="danmaku_setting">弹幕设置</string>
     <string name="danmaku_text_size">字体缩放</string>
@@ -344,6 +346,7 @@
     <string name="setting_incognito">无痕模式</string>
     <string name="setting_boot_auto_start">启动页面</string>
     <string name="setting_none">不隐藏</string>
+    <string name="setting_hidden_count">已隐藏 %d 项</string>
     <string name="play_picture_in_picture">小窗播放</string>
     <string name="floating_player_fullscreen">返回全螢幕</string>
     <string name="floating_player_close">關閉小窗</string>
@@ -358,7 +361,7 @@
     <string name="theme_color_custom">自定义主题色</string>
     <string name="theme_color_wheel">颜色选择盘</string>
     <string name="theme_color_brightness">明暗</string>
-    <string name="theme_color_disable">关闭主题色</string>
+    <string name="theme_color_disable">恢复默认</string>
     <string name="setting_theme_mode">主题模式</string>
     <string name="setting_auto">自动</string>
     <string name="setting_custom">自定义</string>

@@ -8,10 +8,10 @@
 
 | 风味 | ABI | 应用 ID |
 | --- | --- | --- |
-| `mobile` | `arm64_v8a` | `com.imedia.box` |
-| `mobile` | `armeabi_v7a` | `com.imedia.box` |
-| `leanback` | `arm64_v8a` | `com.imedia.box.tv` |
-| `leanback` | `armeabi_v7a` | `com.imedia.box.tv` |
+| `mobile` | `arm64_v8a` | `com.media.ibox` |
+| `mobile` | `armeabi_v7a` | `com.media.ibox` |
+| `leanback` | `arm64_v8a` | `com.media.ibox.tv` |
+| `leanback` | `armeabi_v7a` | `com.media.ibox.tv` |
 
 手机显示名为 `iBox`，TV 显示名为 `iBoxTV`。常见手机和较新的 TV 使用 arm64；只有明确需要 32 位兼容时才安装 armeabi-v7a 包。两个 ABI 属于相同应用 ID，不能同时安装在同一设备上。
 
@@ -185,7 +185,7 @@ adb -s 127.0.0.1:16384 install -r `
 签名不一致时不能直接覆盖。卸载会删除应用数据，确认备份后再执行：
 
 ```powershell
-adb -s 127.0.0.1:16384 uninstall com.imedia.box
+adb -s 127.0.0.1:16384 uninstall com.media.ibox
 ```
 
 完整 ADB 和 Logcat 流程见 [TESTING.md](TESTING.md)。

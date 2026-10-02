@@ -1,0 +1,138 @@
+package com.media.ibox.ui.adapter;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.media.ibox.bean.Group;
+import com.media.ibox.databinding.AdapterGroupBinding;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
+
+    private final OnClickListener listener;
+    private final List<Group> mItems;
+
+    public GroupAdapter(OnClickListener listener) {
+        this.listener = listener;
+        this.mItems = new ArrayList<>();
+    }
+
+    public interface OnClickListener {
+
+        void setWidth(Group item);
+
+        void onItemClick(Group item);
+    }
+
+    public void clear() {
+        mItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Group> items) {
+        mItems.clear();
+        mItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void add(Group item) {
+        mItems.add(item);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void setRecent(Group recent) {
+        int position = findRecent();
+        if (recent.isEmpty()) {
+            if (position >= 0) {
+                mItems.remove(position);
+                notifyItemRemoved(position);
+            }
+        } else if (position >= 0) {
+            mItems.set(position, recent);
+            notifyItemChanged(position);
+        } else {
+            int insert = Math.min(1, mItems.size());
+            mItems.add(insert, recent);
+            notifyItemInserted(insert);
+        }
+    }
+
+    public List<Group> items() {
+        return Collections.unmodifiableList(mItems);
+    }
+
+    private int findRecent() {
+        for (int i = 0; i < mItems.size(); i++) if (mItems.get(i).isRecent()) return i;
+        return -1;
+    }
+
+    public Group get(int position) {
+        return mItems.get(position);
+    }
+
+    public int getPosition() {
+        for (int i = 0; i < mItems.size(); i++) if (mItems.get(i).isSelected()) return i;
+        return 0;
+    }
+
+    public int indexOf(Group group) {
+        return mItems.indexOf(group);
+    }
+
+    public void setSelected(Group group) {
+        setSelected(indexOf(group));
+    }
+
+    public void setSelected(int position) {
+        if (position < 0 || position >= mItems.size()) return;
+        int previous = findSelectedPosition();
+        if (previous != position && previous >= 0) {
+            mItems.get(previous).setSelected(false);
+            notifyItemChanged(previous);
+        }
+        mItems.get(position).setSelected(true);
+        if (previous != position) notifyItemChanged(position);
+        listener.setWidth(mItems.get(position));
+    }
+
+    private int findSelectedPosition() {
+        for (int i = 0; i < mItems.size(); i++) if (mItems.get(i).isSelected()) return i;
+        return -1;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mItems.size();
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(AdapterGroupBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Group item = mItems.get(position);
+        holder.binding.name.setText(item.getName());
+        holder.binding.getRoot().setSelected(item.isSelected());
+        holder.binding.name.setSelected(item.isSelected());
+        holder.binding.getRoot().setOnClickListener(view -> listener.onItemClick(item));
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private final AdapterGroupBinding binding;
+
+        ViewHolder(@NonNull AdapterGroupBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+    }
+}

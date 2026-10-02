@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.imedia.box.ui.custom.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.media.ibox.ui.custom.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/progressLayout"
@@ -64,7 +64,7 @@
         android:singleLine="true"
         tools:text="庆余年第二季" />
 
-    <com.imedia.box.ui.custom.ScrollableNestedScrollView
+    <com.media.ibox.ui.custom.ScrollableNestedScrollView
         android:id="@+id/infoPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -174,7 +174,7 @@
                 tools:visibility="visible" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </com.imedia.box.ui.custom.ScrollableNestedScrollView>
+    </com.media.ibox.ui.custom.ScrollableNestedScrollView>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/row2"
@@ -420,4 +420,4 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
-</com.imedia.box.ui.custom.ProgressLayout>
+</com.media.ibox.ui.custom.ProgressLayout>

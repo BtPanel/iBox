@@ -94,4 +94,6 @@
 
     <string name="setting_section_source">Source &amp; Appearance</string>
     <string name="setting_section_general">Playback &amp; General</string>
+    <string name="setting_search_threads">Search threads</string>
+    <string name="setting_threads_value">%1$d threads</string>
 </resources>

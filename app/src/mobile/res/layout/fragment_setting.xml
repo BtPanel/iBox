@@ -36,8 +36,8 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_sources"
                 android:textAppearance="@style/TextAppearance.IBox.Section" />
 
@@ -108,7 +108,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/repository_vod_title"
                         android:padding="12dp"
-                        android:src="@drawable/ic_nav_source"
+                        android:src="@drawable/ic_msr_subscriptions"
                         app:tint="@color/ibox_text_secondary" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -180,7 +180,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/repository_live_title"
                         android:padding="12dp"
-                        android:src="@drawable/ic_nav_source"
+                        android:src="@drawable/ic_msr_subscriptions"
                         app:tint="@color/ibox_text_secondary" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -206,7 +206,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_msr_folder"
+                        android:src="@drawable/ic_msr_grid_view"
                         app:tint="@color/ibox_text_secondary" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -250,7 +250,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_general"
                 android:textAppearance="@style/TextAppearance.IBox.Section" />
 
@@ -275,7 +275,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_msr_lock"
+                        android:src="@drawable/ic_msr_lock_open"
                         app:tint="@color/ibox_text_secondary" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -351,7 +351,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_msr_link"
+                        android:src="@drawable/ic_msr_smartphone"
                         app:tint="@color/ibox_text_secondary" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -445,7 +445,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_msr_power_settings_new"
+                        android:src="@drawable/ic_msr_home"
                         app:tint="@color/ibox_text_secondary" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -480,7 +480,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_appearance"
                 android:textAppearance="@style/TextAppearance.IBox.Section" />
 
@@ -679,7 +679,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_playback"
                 android:textAppearance="@style/TextAppearance.IBox.Section" />
 
@@ -700,7 +700,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp">
-                    <androidx.appcompat.widget.AppCompatImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_msr_tune" app:tint="@color/ibox_text_secondary" />
+                    <androidx.appcompat.widget.AppCompatImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_msr_play_arrow" app:tint="@color/ibox_text_secondary" />
                     <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/setting_player" android:textColor="@color/ibox_text_primary" android:textSize="@dimen/ibox_text_body" />
                         <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="@string/settings_player_summary" android:textColor="@color/ibox_text_secondary" android:textSize="@dimen/ibox_text_supporting" />
@@ -772,7 +772,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_data"
                 android:textAppearance="@style/TextAppearance.IBox.Section" />
 
@@ -833,7 +833,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_msr_sync"
+                        android:src="@drawable/ic_msr_link"
                         app:tint="@color/ibox_text_secondary" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -963,7 +963,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp">
-                    <androidx.appcompat.widget.AppCompatImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_msr_delete" app:tint="@color/ibox_text_secondary" />
+                    <androidx.appcompat.widget.AppCompatImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_msr_database" app:tint="@color/ibox_text_secondary" />
                     <com.google.android.material.textview.MaterialTextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:text="@string/storage_privacy_title" android:textColor="@color/ibox_text_primary" android:textSize="@dimen/ibox_text_body" />
                     <com.google.android.material.textview.MaterialTextView android:id="@+id/cacheText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/ibox_text_secondary" android:textSize="@dimen/ibox_text_supporting" tools:text="42.7 MB" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -1023,7 +1023,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp">
-                    <androidx.appcompat.widget.AppCompatImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_msr_download" app:tint="@color/ibox_text_secondary" />
+                    <androidx.appcompat.widget.AppCompatImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_msr_restart_alt" app:tint="@color/ibox_text_secondary" />
                     <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/setting_restore" android:textColor="@color/ibox_text_primary" android:textSize="@dimen/ibox_text_body" />
                         <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="@string/settings_restore_summary" android:textColor="@color/ibox_text_secondary" android:textSize="@dimen/ibox_text_supporting" />
@@ -1037,7 +1037,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_about"
                 android:textAppearance="@style/TextAppearance.IBox.Section" />
 
@@ -1050,6 +1050,15 @@
                 android:orientation="horizontal"
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_info"
+                    app:tint="@color/ibox_text_secondary" />
+
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="0dp"

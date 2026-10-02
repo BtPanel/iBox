@@ -123,21 +123,21 @@ about every IPTV format in the ecosystem.
 
 ## Repository references
 
-- `app/src/main/java/com/imedia/box/api/parser/EpgParser.java`: XMLTV mapping,
+- `app/src/main/java/com/media/ibox/api/parser/EpgParser.java`: XMLTV mapping,
   gzip magic detection/decompression, cache/download behavior, and channel
   matching.
-- `app/src/main/java/com/imedia/box/bean/Tv.java`: exact XML subset modelled.
-- `app/src/main/java/com/imedia/box/api/LiveApi.java`: JSON date requests,
+- `app/src/main/java/com/media/ibox/bean/Tv.java`: exact XML subset modelled.
+- `app/src/main/java/com/media/ibox/api/LiveApi.java`: JSON date requests,
   default XML/JSON sources, and guide offsets.
-- `app/src/main/java/com/imedia/box/bean/Epg.java` and
-  `app/src/main/java/com/imedia/box/bean/EpgData.java`: accepted compact JSON
+- `app/src/main/java/com/media/ibox/bean/Epg.java` and
+  `app/src/main/java/com/media/ibox/bean/EpgData.java`: accepted compact JSON
   shape and time reconstruction.
-- `app/src/main/java/com/imedia/box/api/parser/LiveParser.java` and
-  `app/src/main/java/com/imedia/box/bean/Catchup.java`: playlist metadata and
+- `app/src/main/java/com/media/ibox/api/parser/LiveParser.java` and
+  `app/src/main/java/com/media/ibox/bean/Catchup.java`: playlist metadata and
   catch-up URL template handling.
-- `app/src/mobile/java/com/imedia/box/ui/activity/LiveActivity.java`: mobile
+- `app/src/mobile/java/com/media/ibox/ui/activity/LiveActivity.java`: mobile
   `-3..+3` guide request.
-- `app/src/leanback/java/com/imedia/box/ui/activity/LiveActivity.java`: TV
+- `app/src/leanback/java/com/media/ibox/ui/activity/LiveActivity.java`: TV
   default-offset guide request.
 
 ## Primary and first-party sources

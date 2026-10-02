@@ -35,6 +35,15 @@
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_movie"
+                    app:tint="@color/ibox_text_secondary" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -109,6 +118,15 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_live_tv"
+                    app:tint="@color/ibox_text_secondary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
@@ -185,6 +203,15 @@
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_grid_view"
+                    app:tint="@color/ibox_text_secondary" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -252,6 +279,15 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_tune"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -282,6 +318,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_setting_palette"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -314,6 +359,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_check_circle"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -355,6 +409,15 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_play_arrow"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -376,12 +439,62 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_subtitles"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/setting_danmaku"
                 android:textColor="@color/ibox_text_primary"
                 android:textSize="@dimen/ibox_text_body" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/searchThreads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_item"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_search"
+                    app:tint="@color/ibox_text_secondary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:text="@string/setting_search_threads"
+                android:textColor="@color/ibox_text_primary"
+                android:textSize="@dimen/ibox_text_body" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/searchThreadsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/ibox_text_primary"
+                android:textSize="@dimen/ibox_text_body"
+                tools:text="10 threads" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -396,6 +509,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_lock_open"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -428,6 +550,15 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_smartphone"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -457,6 +588,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_power_settings_new"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -490,6 +630,15 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_home"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -520,6 +669,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_alt_route"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -552,6 +710,15 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_swap_horiz"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -582,6 +749,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_alt_route"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -614,6 +790,15 @@
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_accessibility_new"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -643,6 +828,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_sync"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -675,6 +869,15 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_link"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -705,6 +908,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_nav_security"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -738,6 +950,15 @@
             android:nextFocusDown="@id/sourceHealth"
             android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_nav_aspect"
+                    app:tint="@color/ibox_text_secondary" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -769,6 +990,15 @@
             android:focusableInTouchMode="true"
             android:nextFocusDown="@id/webdav"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_monitor_heart"
+                    app:tint="@color/ibox_text_secondary" />
             <com.google.android.material.textview.MaterialTextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="16dp" android:text="@string/source_health_title" android:textColor="@color/ibox_text_primary" android:textSize="@dimen/ibox_text_body" />
             <com.google.android.material.textview.MaterialTextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="end" android:text="@string/source_health_setting_summary" android:textColor="@color/ibox_text_secondary" android:textSize="@dimen/ibox_text_supporting" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -785,6 +1015,15 @@
             android:focusableInTouchMode="true"
             android:nextFocusDown="@id/backup"
             android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_sync"
+                    app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -822,6 +1061,15 @@
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_upload"
+                    app:tint="@color/ibox_text_secondary" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -842,6 +1090,15 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_restart_alt"
+                    app:tint="@color/ibox_text_secondary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -871,6 +1128,15 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_database"
+                    app:tint="@color/ibox_text_secondary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -902,6 +1168,15 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_msr_info"
+                    app:tint="@color/ibox_text_secondary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"

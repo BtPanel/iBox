@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             app:hintEnabled="false">
 
-            <com.imedia.box.ui.custom.CustomEditText
+            <com.media.ibox.ui.custom.CustomEditText
                 android:id="@+id/name"
                 style="@style/Widget.IBox.TextInputEditText.Compact"
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             app:hintEnabled="false">
 
-            <com.imedia.box.ui.custom.CustomEditText
+            <com.media.ibox.ui.custom.CustomEditText
                 android:id="@+id/text"
                 style="@style/Widget.IBox.TextInputEditText.Address"
                 android:layout_width="match_parent"

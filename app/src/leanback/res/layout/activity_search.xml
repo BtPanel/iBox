@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.imedia.box.ui.custom.CustomMic
+            <com.media.ibox.ui.custom.CustomMic
                 android:id="@+id/mic"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -34,7 +34,7 @@
                 android:nextFocusDown="@id/scopeAll"
                 android:src="@drawable/ic_search_mic" />
 
-            <com.imedia.box.ui.custom.CustomSearchView
+            <com.media.ibox.ui.custom.CustomSearchView
                 android:id="@+id/keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

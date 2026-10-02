@@ -18,7 +18,7 @@
         app:title="@string/app_history"
         app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
-    <com.imedia.box.ui.custom.ProgressLayout
+    <com.media.ibox.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,7 +33,7 @@
             android:padding="4dp"
             tools:listitem="@layout/adapter_vod" />
 
-    </com.imedia.box.ui.custom.ProgressLayout>
+    </com.media.ibox.ui.custom.ProgressLayout>
 
     <include
         android:id="@+id/navigation"

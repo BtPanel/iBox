@@ -127,7 +127,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.imedia.box.ui.custom.ProgressLayout
+    <com.media.ibox.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -144,5 +144,5 @@
             android:paddingTop="16dp"
             android:paddingEnd="48dp"
             android:paddingBottom="32dp" />
-    </com.imedia.box.ui.custom.ProgressLayout>
+    </com.media.ibox.ui.custom.ProgressLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -77,7 +77,7 @@
         android:clipToPadding="false"
         android:minHeight="@dimen/ibox_repository_empty_min_height">
 
-        <com.imedia.box.ui.custom.CustomRecyclerView
+        <com.media.ibox.ui.custom.CustomRecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

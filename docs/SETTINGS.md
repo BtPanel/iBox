@@ -4,7 +4,7 @@
 
 ## 设置架构
 
-设置值保存在 SharedPreferences，由 `com.github.catvod.utils.Prefers` 访问。业务代码应通过 `app/src/main/java/com/imedia/box/setting/` 下的封装类读写，不要在 Activity、Dialog 或 Adapter 中重复字符串键名。
+设置值保存在 SharedPreferences，由 `com.github.catvod.utils.Prefers` 访问。业务代码应通过 `app/src/main/java/com/media/ibox/setting/` 下的封装类读写，不要在 Activity、Dialog 或 Adapter 中重复字符串键名。
 
 ```text
 设置页面或弹窗
@@ -79,7 +79,7 @@
 
 ```text
 app/src/mobile/res/layout/fragment_setting.xml
-app/src/mobile/java/com/imedia/box/ui/fragment/SettingFragment.java
+app/src/mobile/java/com/media/ibox/ui/fragment/SettingFragment.java
 ```
 
 分页面：
@@ -95,7 +95,7 @@ app/src/mobile/java/com/imedia/box/ui/fragment/SettingFragment.java
 
 ```text
 app/src/leanback/res/layout/activity_setting.xml
-app/src/leanback/java/com/imedia/box/ui/activity/SettingActivity.java
+app/src/leanback/java/com/media/ibox/ui/activity/SettingActivity.java
 ```
 
 分页面：
@@ -110,7 +110,7 @@ app/src/leanback/java/com/imedia/box/ui/activity/SettingActivity.java
 无障碍、音频、视频、字幕、弹幕、下载策略、直播设置、WebDAV 和存储隐私等弹窗主要位于：
 
 ```text
-app/src/main/java/com/imedia/box/ui/dialog/
+app/src/main/java/com/media/ibox/ui/dialog/
 app/src/main/res/layout/dialog_*.xml
 app/src/main/res/layout/view_*.xml
 ```
@@ -124,7 +124,7 @@ app/src/main/res/layout/view_*.xml
 ```text
 app/src/main/assets/index.html
 app/src/main/assets/js/script.js
-app/src/main/java/com/imedia/box/server/process/Manage.java
+app/src/main/java/com/media/ibox/server/process/Manage.java
 ```
 
 `Manage` 负责 Java 设置与 Web 表单键的映射。只修改网页而不修改 `Manage` 不会保存；只修改 Java 而不修改脚本则网页不会显示入口。

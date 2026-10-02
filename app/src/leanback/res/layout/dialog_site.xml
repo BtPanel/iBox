@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="24dp">
 
-    <com.imedia.box.ui.custom.CustomRecyclerView
+    <com.media.ibox.ui.custom.CustomRecyclerView
         android:id="@+id/recycler"
         android:layout_width="0dp"
         android:layout_height="match_parent"

@@ -63,7 +63,7 @@
             android:layout_marginEnd="8dp"
             android:text="@string/play_info" />
 
-        <com.imedia.box.ui.custom.CustomUpDownView
+        <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/speed"
             style="@style/Control"
             android:layout_marginEnd="8dp"
@@ -78,7 +78,7 @@
             android:layout_marginEnd="8dp"
             android:text="@string/play_scale" />
 
-        <com.imedia.box.ui.custom.CustomUpDownView
+        <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/text"
             style="@style/Control"
             android:layout_marginEnd="8dp"

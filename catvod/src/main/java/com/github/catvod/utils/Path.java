@@ -19,8 +19,20 @@ import java.util.List;
 public class Path {
 
     private static final String TAG = Path.class.getSimpleName();
-    private static final String APP_DIRECTORY = "iBox";
+    /** 默认目录名；宿主可在启动时用 {@link #setAppDirectory(String)} 按端覆盖。 */
+    private static final String DEFAULT_APP_DIRECTORY = "iBox";
     private static final String[] LEGACY_APP_DIRECTORIES = {legacyAppDirectory(), "TV"};
+    private static volatile String appDirectory = DEFAULT_APP_DIRECTORY;
+
+    /**
+     * 设置外部存储下的应用目录名（例如手机版 "iBox"、TV 版 "iBoxTV"）。
+     * 需要在首次调用 {@link #iBox()} 之前设置，否则目录名已定。
+     */
+    public static void setAppDirectory(String name) {
+        if (name == null) return;
+        String value = name.trim();
+        if (!value.isEmpty()) appDirectory = value;
+    }
 
     private static String legacyAppDirectory() {
         return new String(new char[]{77, 101, 100, 105, 97, 66, 111, 120});
@@ -57,7 +69,7 @@ public class Path {
     }
 
     public static synchronized File iBox() {
-        File directory = new File(root(), APP_DIRECTORY);
+        File directory = new File(root(), appDirectory);
         for (String name : LEGACY_APP_DIRECTORIES) {
             File legacy = new File(root(), name);
             if (!legacy.isDirectory()) continue;
