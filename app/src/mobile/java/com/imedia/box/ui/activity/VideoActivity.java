@@ -2041,6 +2041,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     @Override
     protected void onBackInvoked() {
+        // 连播提示显示时，返回键先取消连播
+        if (mAutoNextPrompt != null && mAutoNextPrompt.cancelIfShowing()) return;
         if (isVisible(mBinding.control.getRoot())) {
             hideControl();
         } else if (isFullscreen() && !isLock()) {

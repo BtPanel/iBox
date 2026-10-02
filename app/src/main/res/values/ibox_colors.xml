@@ -58,6 +58,9 @@
     <color name="ibox_player_scrim_soft">#66000000</color>
     <color name="ibox_player_text_primary">#F5F7FA</color>
     <color name="ibox_player_text_secondary">#CCD2DA</color>
+    <!-- 自动连播轻提示：按钮底衬 -->
+    <color name="ibox_auto_next_action">#26FFFFFF</color>
+    <color name="ibox_auto_next_action_pressed">#4DFFFFFF</color>
     <color name="ibox_player_control_surface">#E6262D35</color>
     <color name="ibox_player_control_surface_focused">#F23A4550</color>
     <color name="ibox_player_control_outline">#8A7F8D9C</color>

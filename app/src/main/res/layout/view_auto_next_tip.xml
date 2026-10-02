@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_toast_compact"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingTop="@dimen/ibox_space_3"
+    android:paddingEnd="@dimen/ibox_space_3"
+    android:paddingBottom="@dimen/ibox_space_3">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vod_auto_next_title"
+            android:textColor="@color/ibox_player_text_primary"
+            android:textSize="@dimen/ibox_text_label" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ibox_space_1"
+            android:ellipsize="end"
+            android:maxWidth="240dp"
+            android:maxLines="1"
+            android:textColor="@color/ibox_player_text_secondary"
+            android:textSize="@dimen/ibox_text_caption"
+            tools:text="第1集，5 秒后播放" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ibox_space_4"
+        android:background="@drawable/bg_auto_next_action"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="@dimen/ibox_space_3"
+        android:paddingTop="@dimen/ibox_space_1"
+        android:paddingEnd="@dimen/ibox_space_3"
+        android:paddingBottom="@dimen/ibox_space_1"
+        android:text="@string/dialog_negative"
+        android:textColor="@color/ibox_player_text_primary"
+        android:textSize="@dimen/ibox_text_caption" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1645,6 +1645,8 @@ public class VideoActivity extends PlaybackActivity implements VodPlaybackHost, 
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        // 连播提示显示时，返回键取消、确定键立即播放（浮层本身不抢焦点）
+        if (mAutoNextPrompt != null && mAutoNextPrompt.onKeyEvent(event)) return true;
         if (isFullscreen() && KeyUtil.isMenuKey(event)) onToggle();
         if (isVisible(mBinding.control.getRoot())) setR1Callback();
         if (isVisible(mBinding.control.getRoot())) mFocus2 = getCurrentFocus();

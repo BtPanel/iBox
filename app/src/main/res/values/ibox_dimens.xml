@@ -45,6 +45,7 @@
     <dimen name="ibox_text_item_title">14sp</dimen>
     <dimen name="ibox_text_body">14sp</dimen>
     <dimen name="ibox_text_supporting">12sp</dimen>
+    <dimen name="ibox_text_caption">11sp</dimen>
     <dimen name="ibox_text_label">12sp</dimen>
     <dimen name="ibox_text_button">14sp</dimen>
     <dimen name="ibox_text_address">13sp</dimen>
