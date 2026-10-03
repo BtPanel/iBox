@@ -412,8 +412,12 @@ public class UiResourceContractTest {
     public void movieFullscreenDoesNotApplyDelayedAutoRotateReset() throws Exception {
         String video = Files.readString(repoRoot().resolve(
                 "app/src/mobile/java/com/media/ibox/ui/activity/VideoActivity.java")).replace("\r\n", "\n");
+        int start = video.indexOf("private void setOrient() {");
+        assertTrue("setOrient() must exist", start >= 0);
+        int guard = video.indexOf("if (isFullscreen()) return;", start);
+        int rotate = video.indexOf("setRequestedOrientation", start);
         assertTrue("A delayed orientation reset must not override the user's fullscreen landscape",
-                video.contains("private void setOrient() {\n        if (isFullscreen()) return;"));
+                guard >= 0 && rotate >= 0 && guard < rotate);
     }
 
     @Test
@@ -1699,7 +1703,7 @@ public class UiResourceContractTest {
             assertEquals("30dp", vector.getAttribute("android:width"));
             assertEquals("30dp", vector.getAttribute("android:height"));
             assertEquals("960", vector.getAttribute("android:viewportWidth"));
-            assertEquals("@android:color/white", ((Element) vector.getElementsByTagName("path").item(0))
+            assertEquals("@color/ibox_text_primary", ((Element) vector.getElementsByTagName("path").item(0))
                     .getAttribute("android:fillColor"));
         }
     }

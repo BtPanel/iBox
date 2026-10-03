@@ -338,7 +338,10 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     }
 
     private void setFocus() {
-        App.post(() -> mBinding.title.setFocusable(true), 300);
+        App.post(() -> {
+            if (isFinishing() || isDestroyed() || mBinding == null) return;
+            mBinding.title.setFocusable(true);
+        }, 300);
         if (!mBinding.title.hasFocus()) mBinding.recycler.requestFocus();
     }
 

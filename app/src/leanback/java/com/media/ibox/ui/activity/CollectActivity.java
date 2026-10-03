@@ -219,6 +219,7 @@ public class CollectActivity extends BaseActivity {
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
+            if (isFinishing() || isDestroyed() || mBinding == null) return;
             mBinding.pager.setCurrentItem(mBinding.recycler.getSelectedPosition());
         }
     };

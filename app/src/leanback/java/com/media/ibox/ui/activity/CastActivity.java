@@ -263,6 +263,7 @@ public class CastActivity extends PlaybackActivity implements CustomKeyDownVod.L
     }
 
     private void hideControl() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         mBinding.control.getRoot().setVisibility(View.GONE);
         App.removeCallbacks(mR1);
     }
@@ -273,6 +274,7 @@ public class CastActivity extends PlaybackActivity implements CustomKeyDownVod.L
     }
 
     private void setTraffic() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         Traffic.setSpeed(mBinding.progress.traffic);
         App.post(mR2, 1000);
     }

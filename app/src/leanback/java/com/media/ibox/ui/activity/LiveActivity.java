@@ -478,6 +478,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void setSelected() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         mChannelAdapter.setSelected(mChannel);
         notifyItemChanged(mBinding.channel, mChannelAdapter);
     }
@@ -1112,6 +1113,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void setNetworkSpeed() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (!LiveSetting.isShowNetworkSpeed()) return;
         mNetworkMeter.setSpeed(mBinding.widget.networkSpeed);
         App.post(mR5, 1000);
@@ -1163,6 +1165,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     private void hideUI() {
         App.removeCallbacks(mR4);
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (isVisible(mBinding.recycler)) mBinding.recycler.setVisibility(View.GONE);
         updateTopVisibility();
         setPosition();
@@ -1522,6 +1525,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void hideControl() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         mBinding.control.getRoot().setVisibility(View.GONE);
         updateTopVisibility();
         App.removeCallbacks(mR1);
@@ -1540,11 +1544,13 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void hideInfo() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         mBinding.widget.bottom.setVisibility(View.GONE);
         App.removeCallbacks(mR3);
     }
 
     private void setTraffic() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         Traffic.setSpeed(mBinding.progress.traffic);
         App.post(mR2, 1000);
     }
