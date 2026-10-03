@@ -1495,10 +1495,12 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void hideDanmaku() {
+        if (isFinishing() || isDestroyed()) return;
         player().setDanmakuEnabled(false);
     }
 
     private void showControl() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (service() == null || isInPictureInPictureMode()) return;
         mBinding.control.danmaku.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.sendDanmaku.setVisibility(!isLock() && DanmakuSetting.isShow() ? View.VISIBLE : View.GONE);
@@ -1520,20 +1522,26 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void hideControl() {
+        if (isFinishing() || isDestroyed()) return;
+        if (mBinding == null || mBinding.control == null || mBinding.control.getRoot() == null) return;
         mBinding.control.getRoot().setVisibility(View.GONE);
         App.removeCallbacks(mR1);
     }
 
     private void dismissDialogs() {
+        if (isFinishing() || isDestroyed()) return;
         for (Fragment fragment : getSupportFragmentManager().getFragments()) if (fragment instanceof DialogFragment dialog) dialog.dismiss();
     }
 
     private void setTraffic() {
+        if (isFinishing() || isDestroyed()) return;
+        if (mBinding == null || mBinding.progress == null || mBinding.progress.traffic == null) return;
         Traffic.setSpeed(mBinding.progress.traffic);
         App.post(mR2, 1000);
     }
 
     private void setOrient() {
+        if (isFinishing() || isDestroyed()) return;
         if (isFullscreen()) return;
         if (isPort() && isAutoRotate()) setRequestedOrientation(PlaybackOrientation.getPortAutoRotateOrientation());
         if (isLand() && isAutoRotate()) setRequestedOrientation(PlaybackOrientation.getLandAutoRotateOrientation());
@@ -1821,6 +1829,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void syncFullscreenUI() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (isInPictureInPictureMode()) return;
         Util.toggleFullscreen(this, isFullscreen());
         mBinding.navigation.getRoot().setVisibility(isFullscreen() ? View.GONE : View.VISIBLE);
@@ -1954,6 +1963,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (isRedirect()) return;
         if (isLock()) App.post(this::onLock, 500);
         if (service() != null && player().haveTrack(C.TRACK_TYPE_VIDEO)) {
@@ -1971,6 +1981,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onEnterPictureInPicture() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         setVideoView(true);
         mBinding.video.bringToFront();
         updatePiPProgress(player().getPosition(), player().getDuration());
@@ -1984,6 +1995,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onExitPictureInPicture() {
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         setVideoView(false);
         mBinding.pipProgress.setVisibility(View.GONE);
         mBinding.widget.getRoot().setVisibility(View.VISIBLE);
@@ -1997,6 +2009,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         mBinding.actor.post(this::setAdaptiveMetadataLines);
         if (isAutoRotate() && isPort() && newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && !isRotate() && !isLock()) exitFullscreen();
         if (isAutoRotate() && isPort() && newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) enterFullscreen();
@@ -2007,12 +2020,14 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (hasFocus) syncFullscreenUI();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (isFinishing() || isDestroyed() || mBinding == null) return;
         if (mPendingFloatingWindow) {
             mPendingFloatingWindow = false;
             FloatingWindowEntryPolicy.Action action = FloatingWindowEntryPolicy.afterPermissionScreen(
