@@ -12,6 +12,7 @@ import com.media.ibox.R;
 import com.media.ibox.bean.Channel;
 import com.media.ibox.bean.EpgData;
 import com.media.ibox.databinding.AdapterChannelBinding;
+import com.media.ibox.live.LiveChannelStore;
 import com.media.ibox.live.LiveProgramSchedule;
 import com.media.ibox.setting.LiveSetting;
 import com.media.ibox.utils.ResUtil;
@@ -98,6 +99,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         holder.binding.name.setText(item.getShow());
         holder.binding.number.setText(item.getNumber());
         bindProgram(holder, item);
+        bindStatus(holder, item);
         bindSelection(holder, item);
         holder.binding.getRoot().setLeftListener(mListener::focusGroup);
         holder.binding.getRoot().setRightListener(mListener::openEpg);
@@ -112,7 +114,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
             return;
         }
         Channel item = mItems.get(position);
-        if (payloads.contains(PAYLOAD_CONTENT)) bindProgram(holder, item);
+        if (payloads.contains(PAYLOAD_CONTENT)) {
+            bindProgram(holder, item);
+            bindStatus(holder, item);
+        }
         if (payloads.contains(PAYLOAD_SELECTION)) bindSelection(holder, item);
     }
 
@@ -131,6 +136,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
                 epgMode == 1 ? current.getTitle() : current.format()));
         if (showNext) holder.binding.next.setText(holder.itemView.getContext().getString(R.string.live_epg_next_format,
                 epgMode == 1 ? next.getTitle() : next.format()));
+    }
+
+    private void bindStatus(ViewHolder holder, Channel item) {
+        holder.binding.status.setVisibility(LiveChannelStore.isFailed(item) ? View.VISIBLE : View.GONE);
     }
 
     private void bindSelection(ViewHolder holder, Channel item) {
