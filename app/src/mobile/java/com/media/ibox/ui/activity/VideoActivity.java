@@ -578,8 +578,11 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     @Override
     public boolean isAutoNextEnabled() {
+        // 小窗（画中画 / 悬浮窗）后台播放时 Activity 会走到 onStop，生命周期低于
+        // STARTED，但用户仍在小窗里观看，此时连播必须继续生效，否则切不了下一集。
         return PlayerSetting.isAutoNextEnabled()
-                && getLifecycle().getCurrentState().isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED);
+                && (isInPictureInPictureMode() || isFloatingWindowShowing()
+                || getLifecycle().getCurrentState().isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED));
     }
 
     @Override
@@ -2048,7 +2051,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     protected void onStop() {
         super.onStop();
-        mVod.suspendAutoNext();
+        // 小窗播放时 Activity 虽已 onStop，但用户仍在观看，不能清掉待触发的连播
+        if (!isInPictureInPictureMode() && !isFloatingWindowShowing()) mVod.suspendAutoNext();
         saveHistory(false);
         if (PlayerSetting.isBackgroundOff()) mClock.stop();
         if (!isAudioOnly()) setStop(true);

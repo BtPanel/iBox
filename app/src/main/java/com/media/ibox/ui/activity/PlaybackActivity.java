@@ -81,6 +81,17 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
         return mService;
     }
 
+    /**
+     * 悬浮小窗是否正在显示。
+     * <p>
+     * 小窗播放时 Activity 会被 {@code onStop}，但用户仍在小窗里观看，
+     * 所以判断"用户是否还在看"不能只看生命周期状态
+     * （见 {@code VideoActivity#isAutoNextEnabled}）。
+     */
+    protected boolean isFloatingWindowShowing() {
+        return service() != null && service().isFloatingWindowShowing();
+    }
+
     protected PlayerManager player() {
         return mService.player();
     }
@@ -725,7 +736,7 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     @Override
     protected void onStop() {
         super.onStop();
-        boolean floatingWindowShowing = mService != null && mService.isFloatingWindowShowing();
+        boolean floatingWindowShowing = isFloatingWindowShowing();
         if (FloatingPlaybackPolicy.shouldPauseOnStop(isOwner(), isFinishing(),
                 PlayerSetting.isBackgroundOff(), floatingWindowShowing)) pausePlayback();
         if (!isInPictureInPictureMode()) detachPlayerView();
