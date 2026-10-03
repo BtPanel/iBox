@@ -16,6 +16,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.media.ibox.api.LiveApi;
 import com.media.ibox.R;
 import com.media.ibox.bean.Channel;
 import com.media.ibox.bean.Epg;
@@ -91,19 +92,21 @@ public class LiveEpgPanelTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void guideDatesCoverThreeDaysBeforeAndAfterToday() throws Exception {
+    public void guideDatesCoverTheSharedRange() throws Exception {
         Method method = LiveActivity.class.getDeclaredMethod(
                 "createGuideDates", Channel.class, ZoneId.class);
         method.setAccessible(true);
         ZoneId zoneId = ZoneId.of("Asia/Shanghai");
         LocalDate today = LocalDate.now(zoneId);
+        int start = LiveApi.GUIDE_START_OFFSET;
+        int end = LiveApi.GUIDE_END_OFFSET;
 
         List<Epg> dates = (List<Epg>) method.invoke(null, new Channel("Test"), zoneId);
 
-        assertEquals(7, dates.size());
-        assertEquals(today.minusDays(3).toString(), dates.get(0).getDate());
-        assertEquals(today.toString(), dates.get(3).getDate());
-        assertEquals(today.plusDays(3).toString(), dates.get(6).getDate());
+        assertEquals(end - start + 1, dates.size());
+        assertEquals(today.plusDays(start).toString(), dates.get(0).getDate());
+        assertEquals(today.toString(), dates.get(-start).getDate());
+        assertEquals(today.plusDays(end).toString(), dates.get(dates.size() - 1).getDate());
     }
 
     private int resolveColor(Context context, int attribute) {

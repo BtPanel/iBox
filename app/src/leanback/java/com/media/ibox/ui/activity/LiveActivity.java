@@ -451,9 +451,11 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     private void setPosition(int[] position) {
         if (position[0] == -1) return;
         int size = mGroupAdapter.getItemCount();
-        if (size == 1 || position[0] >= size) return;
-        mGroup = mGroupAdapter.get(position[0]);
-        mBinding.group.setSelectedPosition(position[0]);
+        if (size == 0) return;
+        // 与手机端一致：越界回落到第一个分组；只有收藏等单个分组时也要能选中频道
+        int groupPosition = position[0] >= size ? 0 : position[0];
+        mGroup = mGroupAdapter.get(groupPosition);
+        mBinding.group.setSelectedPosition(groupPosition);
         mGroup.setPosition(position[1]);
         mLive.selectGroup(mGroup);
         mLive.selectChannel(mGroup.current());
@@ -1636,7 +1638,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
 
     @Override
     public boolean onLongClick(Channel item) {
-        if (mGroup.isHidden()) return false;
+        if (mGroup == null || mGroup.isHidden()) return false;
         boolean exist = isKept(item);
         Notify.show(exist ? R.string.keep_del : R.string.keep_add);
         if (exist) delKeep(item);
@@ -1666,7 +1668,7 @@ public class LiveActivity extends PlaybackActivity implements GroupAdapter.OnCli
     }
 
     private void delKeep(Channel item) {
-        if (mGroup.isKeep()) mChannelAdapter.remove(item);
+        if (mGroup != null && mGroup.isKeep()) mChannelAdapter.remove(item);
         if (mChannelAdapter.getItemCount() == 0) mBinding.group.requestFocus();
         getKeep().getChannel().remove(item);
         Keep.delete(item.getName());

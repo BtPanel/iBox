@@ -40,6 +40,7 @@ import com.media.ibox.App;
 import com.media.ibox.Constant;
 import com.media.ibox.R;
 import com.media.ibox.accessibility.AppAccessibility;
+import com.media.ibox.api.LiveApi;
 import com.media.ibox.api.config.LiveConfig;
 import com.media.ibox.bean.Channel;
 import com.media.ibox.bean.Config;
@@ -276,7 +277,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.video.setOnTouchListener((view, event) -> mKeyDown.onTouchEvent(event));
         mBinding.sourceAdd.setOnClickListener(view -> onAddSource());
         mBinding.sourceManage.setOnClickListener(view -> onManageSource());
-        mBinding.sourcePicker.setOnClickListener(view -> onManageSource());
         mBinding.sourceFile.setOnClickListener(view -> onChooseSourceFile());
         mBinding.sourceRetry.setOnClickListener(view -> onRetrySource());
         mBinding.summaryLine.setOnClickListener(view -> onLine());
@@ -350,7 +350,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.recycler.setBackgroundResource(portrait ? R.drawable.bg_live_browser : R.drawable.bg_live_browser_land);
         if (portrait) noPadding(mBinding.control.getRoot());
         else setPadding(mBinding.control.getRoot());
-        mBinding.sourcePicker.setVisibility(View.GONE);
         mBinding.channelSummary.setVisibility(portrait ? View.VISIBLE : View.GONE);
         mBinding.lineList.setVisibility(portrait ? View.GONE : View.VISIBLE);
         mBinding.lineDivider.setVisibility(portrait ? View.GONE : View.VISIBLE);
@@ -436,7 +435,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         hideSourceState();
         mViewModel.parseXml(live);
         setGroup(live);
-        setWidth(live);
     }
 
     private void onPlaybackObserved(PlaybackResult<LivePlayRequest> result) {
@@ -473,8 +471,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
 
     private void getLive() {
         hideSourceState();
-        String source = LiveConfig.getDesc();
-        mBinding.sourcePicker.setText(source.isEmpty() ? getString(R.string.setting_live) : source);
         mBinding.control.action.home.setText(LiveConfig.isOnly() ? getString(R.string.live_refresh) : getHome().getName());
         mViewModel.parse(getHome());
         showProgress();
@@ -542,19 +538,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         if (!recent.isEmpty()) items.add(Math.min(1, items.size()), recent);
         mGroupAdapter.addAll(items);
         setPosition(LiveConfig.get().findKeepPosition(items));
-    }
-
-    private void setWidth(Live live) {
-        // Panel widths are controlled by setAdaptiveLayout for stable portrait and landscape layouts.
-    }
-
-    @Override
-    public void setWidth(Group group) {
-        // Keep the channel column aligned with the browser panel instead of the longest channel name.
-    }
-
-    private void setWidth(Epg epg) {
-        // EPG replaces the channel column and uses the same fixed width.
     }
 
     private void setPosition(int[] position) {
@@ -955,7 +938,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     private void showEpg(Channel item) {
         if (mChannel == null || !mChannel.equals(item) || !mChannel.getGroup().equals(mGroup)) return;
         List<Epg> dates = createGuideDates(item, mViewModel.getZoneId());
-        mSelectedEpg = dates.get(3);
+        mSelectedEpg = dates.get(-LiveApi.GUIDE_START_OFFSET);
         mEpgDateAdapter.addAll(dates, mSelectedEpg, LocalDate.now(mViewModel.getZoneId()));
         showSelectedEpg();
         mBinding.epgPanel.setVisibility(View.VISIBLE);
@@ -963,13 +946,13 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.group.setVisibility(View.GONE);
         mBinding.lineList.setVisibility(View.GONE);
         mBinding.lineDivider.setVisibility(View.GONE);
-        mViewModel.getEpgGuide(item, -3, 3);
+        mViewModel.getEpgGuide(item);
     }
 
     static List<Epg> createGuideDates(Channel channel, ZoneId zoneId) {
         List<Epg> dates = new ArrayList<>();
         LocalDate today = LocalDate.now(zoneId);
-        for (int offset = -3; offset <= 3; offset++) {
+        for (int offset = LiveApi.GUIDE_START_OFFSET; offset <= LiveApi.GUIDE_END_OFFSET; offset++) {
             String date = today.plusDays(offset).format(Formatters.DATE);
             Epg value = channel.getDataList().stream()
                     .filter(epg -> epg.equal(date))
@@ -1232,7 +1215,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     }
 
     private void delKeep(Channel item) {
-        if (mGroup.isKeep()) mChannelAdapter.remove(item);
+        if (mGroup != null && mGroup.isKeep()) mChannelAdapter.remove(item);
         getKeep().getChannel().remove(item);
         Keep.delete(item.getName());
     }
@@ -1262,7 +1245,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.summaryName.setText(channel.getShow());
         mBinding.summaryNow.setText(R.string.live_epg_empty);
         mBinding.summaryNow.setSelected(true);
-        mBinding.summaryNext.setText(R.string.live_epg_empty);
     }
 
     private void setSummary(Epg epg) {
@@ -1292,7 +1274,6 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.widget.play.setText(data.format());
         setSummary(epg);
         mLive.onEpgChanged(data);
-        setWidth(epg);
     }
 
     private void onEpgGuideLoaded(Channel item) {
@@ -1306,7 +1287,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mSelectedEpg = dates.stream()
                 .filter(epg -> epg.equal(selectedDate))
                 .findFirst()
-                .orElse(dates.get(3));
+                .orElse(dates.get(-LiveApi.GUIDE_START_OFFSET));
         mEpgDateAdapter.addAll(dates, mSelectedEpg, LocalDate.now(mViewModel.getZoneId()));
         showSelectedEpg();
     }

@@ -25,8 +25,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     public interface OnClickListener {
 
-        void setWidth(Group item);
-
         void onItemClick(Group item);
     }
 
@@ -98,7 +96,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         }
         mItems.get(position).setSelected(true);
         if (previous != position) notifyItemChanged(position);
-        listener.setWidth(mItems.get(position));
     }
 
     private int findSelectedPosition() {

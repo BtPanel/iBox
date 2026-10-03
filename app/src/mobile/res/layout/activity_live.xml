@@ -122,12 +122,6 @@
                 android:textColor="@color/ibox_text_primary"
                 android:textSize="@dimen/ibox_text_supporting"
                 tools:text="正在播放：新闻眼" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/summaryNext"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="gone" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.button.MaterialButton
@@ -191,27 +185,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/channelSummary">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/sourcePicker"
-            style="@style/Widget.IBox.Button.Outlined"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="4dp"
-            android:gravity="start|center_vertical"
-            android:maxLines="1"
-            android:text="@string/setting_live"
-            android:textColor="@color/ibox_text_primary"
-            android:textSize="@dimen/ibox_text_supporting"
-            app:autoSizeMaxTextSize="12sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            app:icon="@drawable/ic_msr_folder"
-            app:iconGravity="start"
-            app:iconPadding="8dp"
-            app:iconSize="18dp"
-            app:iconTint="@color/ibox_text_secondary" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/browser"
