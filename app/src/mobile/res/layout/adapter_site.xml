@@ -27,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_site_search" />
+        android:src="@drawable/ic_site_search"
+        app:tint="@color/ibox_text_primary" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/change"
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_site_change" />
+        android:src="@drawable/ic_site_change"
+        app:tint="@color/ibox_text_primary" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
