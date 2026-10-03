@@ -1,10 +1,10 @@
 package com.media.ibox.bean;
 
-import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.net.URI;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -14,6 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Catchup {
+
+    private static boolean blank(String value) {
+        return value == null || value.isEmpty();
+    }
 
     private static final Pattern TOKEN_PATTERN = Pattern.compile("(\\$?\\{[^}]*\\})");
     private static final Pattern TAG_PATTERN = Pattern.compile("\\{([^}]+)\\}");
@@ -43,6 +47,14 @@ public class Catchup {
         return new Catchup();
     }
 
+    /** 酷9 txt 分组行 PB= 的回看模板: 完整地址按 default, 参数片段按 append。 */
+    public static Catchup playback(String source) {
+        Catchup item = Catchup.create();
+        item.setType(source.startsWith("http") ? "default" : "append");
+        item.setSource(source);
+        return item;
+    }
+
     public static Catchup decide(Catchup major, Catchup minor) {
         if (!major.isEmpty()) return major;
         if (!minor.isEmpty()) return minor;
@@ -50,7 +62,7 @@ public class Catchup {
     }
 
     public String getType() {
-        return TextUtils.isEmpty(type) ? "" : type;
+        return blank(type) ? "" : type;
     }
 
     public void setType(String type) {
@@ -58,7 +70,7 @@ public class Catchup {
     }
 
     public String getDays() {
-        return TextUtils.isEmpty(days) ? "" : days;
+        return blank(days) ? "" : days;
     }
 
     public void setDays(String days) {
@@ -74,7 +86,7 @@ public class Catchup {
     }
 
     public String getRegex() {
-        return TextUtils.isEmpty(regex) ? "" : regex;
+        return blank(regex) ? "" : regex;
     }
 
     public void setRegex(String regex) {
@@ -82,7 +94,7 @@ public class Catchup {
     }
 
     public String getReplace() {
-        return TextUtils.isEmpty(replace) ? "" : replace;
+        return blank(replace) ? "" : replace;
     }
 
     public void setReplace(String replace) {
@@ -90,7 +102,7 @@ public class Catchup {
     }
 
     public String getSource() {
-        return TextUtils.isEmpty(source) ? "" : source;
+        return blank(source) ? "" : source;
     }
 
     public void setSource(String source) {
@@ -112,12 +124,14 @@ public class Catchup {
     private String append(String url, String result) {
         String[] splits = getReplace().split(",", 2);
         if (splits.length == 2) url = url.replaceAll(splits[0], splits[1]);
-        if (!TextUtils.isEmpty(URI.create(url).getQuery())) result = result.replace("?", "&");
+        if (!blank(URI.create(url).getQuery())) result = result.replace("?", "&");
         return url + result;
     }
 
     public String format(String url, EpgData data) {
         String result = getSource();
+        // {eid} / ${eid}: DIYP 风格的节目 ID, EPG 接口提供 id 字段时才有值
+        result = result.replace("{eid}", data.getEid()).replace("${eid}", data.getEid());
         Matcher matcher = TOKEN_PATTERN.matcher(result);
         while (matcher.find()) result = result.replace(matcher.group(1), format(matcher.group(1), data.getStartTime(), data.getEndTime()));
         return isDefault() ? result : append(url, result);
@@ -128,19 +142,35 @@ public class Catchup {
     }
 
     static String formatTime(long millis, String fmt, ZoneId defaultZone) {
+        // 酷9 兼容: ${(b)} 生成 13 位毫秒时间戳, ${(b)10}/${(b)13} 指定位数, "timestamp" 为 10 位秒
+        if (fmt.isEmpty()) return String.valueOf(millis);
+        if (fmt.equals("10")) return String.valueOf(millis / 1000);
+        if (fmt.equals("13")) return String.valueOf(millis);
         if (fmt.equals("timestamp")) return String.valueOf(millis / 1000);
         ZoneId zoneId = defaultZone;
         int modifier = fmt.lastIndexOf('|');
         if (modifier >= 0) {
             String value = fmt.substring(modifier + 1);
-            if (value.equalsIgnoreCase("UTC")) {
+            String pattern = fmt.substring(0, modifier);
+            if (value.equalsIgnoreCase("LOCAL")) {
+                fmt = pattern;
+            } else if (value.equalsIgnoreCase("UTC")) {
                 zoneId = ZoneOffset.UTC;
-                fmt = fmt.substring(0, modifier);
-            } else if (value.equalsIgnoreCase("LOCAL")) {
-                fmt = fmt.substring(0, modifier);
+                fmt = pattern;
+            } else {
+                try {
+                    zoneId = ZoneId.of(value);
+                    fmt = pattern;
+                } catch (DateTimeException ignored) {
+                    // 不是时区标记时保留原样, 交给下面的格式化兜底
+                }
             }
         }
-        return DateTimeFormatter.ofPattern(fmt, Locale.getDefault()).format(Instant.ofEpochMilli(millis).atZone(zoneId));
+        try {
+            return DateTimeFormatter.ofPattern(fmt, Locale.getDefault()).format(Instant.ofEpochMilli(millis).atZone(zoneId));
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     private String format(String group, long start, long end) {

@@ -20,6 +20,9 @@ public class EpgData {
     private String start;
     @SerializedName("end")
     private String end;
+    // DIYP/酷9 的节目 ID, 供回看模板 {eid} 使用; EPG 接口不提供时为空
+    @SerializedName("id")
+    private String eid;
 
     private boolean selected;
     private boolean placeholder;
@@ -48,6 +51,14 @@ public class EpgData {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public String getEid() {
+        return eid == null ? "" : eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
     }
 
     public boolean isSelected() {

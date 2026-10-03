@@ -110,7 +110,8 @@ public class LiveParser {
                 unknown.setDays(extract(line, CATCHUP_DAYS));
                 unknown.setSource(extract(line, CATCHUP_SOURCE));
                 unknown.setReplace(extract(line, CATCHUP_REPLACE));
-                channel.setCatchup(Catchup.decide(unknown, catchup.hasDays() ? catchup : Catchup.create()));
+                // 酷9 兼容: 全局 #EXTM3U 的 catchup-source 无需 catchup-days 也生效
+                channel.setCatchup(Catchup.decide(unknown, catchup));
             } else if (!line.startsWith("#") && line.contains("://")) {
                 String[] parts = line.split("\\|", 2);
                 if (parts.length > 1) setting.headers(parts[1]);
@@ -122,13 +123,18 @@ public class LiveParser {
 
     private static void txt(Live live, String text) {
         Setting setting = Setting.create();
+        String playback = "";
         text = text.replace("\r\n", "\n").replace("\r", "");
         for (String line : text.split("\n")) {
             if (Thread.interrupted()) break;
             String[] split = line.split(",", 2);
             if (setting.find(line)) setting.check(line);
             if (line.contains("#genre#")) setting.clear();
-            if (line.contains("#genre#")) live.getGroups().add(Group.create(split[0], live.isPass()));
+            if (line.contains("#genre#")) {
+                // 酷9 txt: 分组行可携带 PB=回看模板, 仅对本分组的频道生效
+                playback = playback(split.length > 1 ? split[1] : line);
+                live.getGroups().add(Group.create(split[0], live.isPass()));
+            }
             if (split.length > 1 && live.getGroups().isEmpty()) live.getGroups().add(Group.create());
             if (split.length > 1 && split[1].contains("://")) {
                 Group group = live.getGroups().get(live.getGroups().size() - 1);
@@ -139,8 +145,15 @@ public class LiveParser {
                     channel.getUrls().add(parts[0]);
                     setting.copy(channel);
                 }
+                if (!playback.isEmpty() && channel.getCatchup().isEmpty()) channel.setCatchup(Catchup.playback(playback));
             }
         }
+    }
+
+    // "分组1,#genre#,PB=playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}" → "playseek=..."
+    private static String playback(String line) {
+        int index = line.indexOf("PB=");
+        return index < 0 ? "" : line.substring(index + 3).trim();
     }
 
     private static class Setting {
