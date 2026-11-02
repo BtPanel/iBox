@@ -1251,7 +1251,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onSendDanmaku() {
-        if (!DanmakuSetting.isShow() || !player().haveDanmaku()) return;
+        if (!DanmakuSetting.isShow()) return;
         DanmakuDialog.create().player(player()).sendMode().show(this);
         hideControl();
     }
