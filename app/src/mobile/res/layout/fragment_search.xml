@@ -74,7 +74,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/dialog_negative"
                 android:padding="@dimen/ibox_space_3"
-                android:src="@drawable/ic_nav_close"
+                android:src="@drawable/ic_msr_close"
                 app:tint="@color/ibox_text_secondary"
                 android:visibility="gone"
                 tools:visibility="visible" />
