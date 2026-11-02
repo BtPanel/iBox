@@ -1,5 +1,7 @@
 package com.media.ibox.ui.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +69,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 public class VodFragment extends BaseFragment implements ConfigListener, SiteListener, FilterListener, TypeAdapter.OnClickListener, HistoryAdapter.OnClickListener, KeepAdapter.OnClickListener {
+
+    /** 折叠完成后分类栏顶部的透明度：留一点透，让状态栏处的壁纸平滑接上 */
+    private static final float FOLD_TOP_ALPHA = 0.70f;
 
     private FragmentVodBinding mBinding;
     private SiteViewModel mViewModel;
@@ -143,9 +148,10 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
 
     /**
      * 顶栏与壁纸的衔接。
-     * 有壁纸时顶栏用渐变自然过渡到壁纸，消除「顶栏纯色块 / 内容区壁纸」的横向硬边；
-     * 滚动折叠过程中分类栏按折叠比例补实底，避免海报滑到标签下方后压字。
-     * 未设壁纸时保持纯色实底，默认状态不出现灰白渐变。
+     * 有壁纸时顶栏整体用渐变过渡到壁纸，消除「顶栏纯色块 / 内容区壁纸」的横向硬边；
+     * 滚动折叠时分类栏按折叠比例补底，但顶部保留半透明，
+     * 让状态栏处的壁纸与分类栏之间不出现硬边，同时保证海报滑到下方时不压字。
+     * 未设壁纸时保持纯色实底，默认观感不变。
      */
     private void setBarScrim() {
         int barColor = ContextCompat.getColor(requireContext(), R.color.ibox_home_scrim);
@@ -155,12 +161,14 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
             mBinding.type.setBackgroundColor(barColor);
             return;
         }
-        mBinding.type.setBackgroundColor(ColorUtils.setAlphaComponent(barColor, 0));
+        GradientDrawable scrim = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, Color.TRANSPARENT});
+        mBinding.type.setBackground(scrim);
         mBinding.appBar.addOnOffsetChangedListener((layout, offset) -> {
             int range = layout.getTotalScrollRange();
-            float ratio = range <= 0 ? 0f : Math.min(1f, Math.abs(offset) / (float) range);
-            float alpha = Math.min(1f, ratio / 0.45f);
-            mBinding.type.setBackgroundColor(ColorUtils.setAlphaComponent(barColor, Math.round(alpha * 255)));
+            float fade = range <= 0 ? 0f : Math.min(1f, Math.abs(offset) / (range * 0.45f));
+            int top = Math.round(FOLD_TOP_ALPHA * 255 * fade);
+            int bottom = Math.round(255 * fade);
+            scrim.setColors(new int[]{ColorUtils.setAlphaComponent(barColor, top), ColorUtils.setAlphaComponent(barColor, bottom)});
         });
     }
 
