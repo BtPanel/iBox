@@ -8,9 +8,6 @@
     <!-- 玻璃卡片：叠在深色蒙层上的低透明度白 -->
     <color name="ibox_detail_glass_surface">#24FFFFFF</color>
     <color name="ibox_detail_glass_stroke">#1FFFFFFF</color>
-    <!-- 顶部浮动返回按钮 -->
-    <color name="ibox_detail_back_surface">#59000000</color>
-    <color name="ibox_detail_back_ripple">#33FFFFFF</color>
     <!-- 线路 / 清晰度 chip -->
     <color name="ibox_detail_chip_surface">#26FFFFFF</color>
     <color name="ibox_detail_chip_text">#E6F5F7FA</color>

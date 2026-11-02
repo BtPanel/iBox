@@ -91,19 +91,6 @@
             app:trackThickness="3dp" />
     </FrameLayout>
 
-    <!-- 竖屏详情页此前没有返回入口，只能靠系统手势；这里补一个浮在海报上的圆形返回 -->
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/detailBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/statusBar"
-        android:layout_marginStart="@dimen/ibox_content_padding_horizontal"
-        android:layout_marginTop="@dimen/ibox_space_2"
-        android:background="@drawable/bg_detail_back_button"
-        android:contentDescription="@string/nav_back"
-        android:padding="10dp"
-        android:src="@drawable/ic_msr_arrow_back"
-        app:tint="@color/ibox_player_text_primary" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"

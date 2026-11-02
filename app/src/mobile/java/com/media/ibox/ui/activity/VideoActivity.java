@@ -360,8 +360,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @SuppressLint("ClickableViewAccessibility")
     protected void initEvent() {
         mBinding.name.setOnClickListener(view -> onName());
-        // 走 onBack() 而不是直接 finish()：全屏时要先退全屏，避免一下就关掉播放页
-        mBinding.detailBack.setOnClickListener(view -> onBack());
         mBinding.more.setOnClickListener(view -> onMore());
         mBinding.actor.setOnClickListener(view -> onActor());
         mBinding.content.setOnClickListener(view -> onContent());
@@ -1387,7 +1385,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.video.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(player().isPortrait()));
         mBinding.control.title.setVisibility(View.VISIBLE);
-        mBinding.detailBack.setVisibility(View.GONE);
         setRotate(player().isPortrait());
         mKeyDown.resetScale();
         App.post(mR3, 2000);
@@ -1401,7 +1398,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setRequestedOrientation(PlaybackOrientation.getExitFullscreenOrientation(isPort()));
         mBinding.episode.postDelayed(() -> mBinding.episode.scrollToPosition(mEpisodeAdapter.getPosition()), 100);
         mBinding.control.title.setVisibility(View.INVISIBLE);
-        mBinding.detailBack.setVisibility(isPort() ? View.VISIBLE : View.GONE);
         mBinding.video.setLayoutParams(mFrameParams);
         mKeyDown.resetScale();
         App.post(mR3, 2000);
@@ -1532,8 +1528,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.control.back.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.top.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.getRoot().setVisibility(View.VISIBLE);
-        // 控制条自己带返回键，浮动的 detailBack 会和它叠在同一个角落，露出两个箭头
-        mBinding.detailBack.setVisibility(View.GONE);
         setR1Callback();
     }
 
@@ -1541,7 +1535,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         if (isFinishing() || isDestroyed()) return;
         if (mBinding == null || mBinding.control == null || mBinding.control.getRoot() == null) return;
         mBinding.control.getRoot().setVisibility(View.GONE);
-        mBinding.detailBack.setVisibility(isFullscreen() ? View.GONE : View.VISIBLE);
         App.removeCallbacks(mR1);
     }
 
@@ -1850,8 +1843,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         if (isInPictureInPictureMode()) return;
         Util.toggleFullscreen(this, isFullscreen());
         mBinding.navigation.getRoot().setVisibility(isFullscreen() ? View.GONE : View.VISIBLE);
-        // 全屏时控制条自己带返回键，浮动的 detailBack 会和它叠在一起变成两个箭头
-        mBinding.detailBack.setVisibility(isFullscreen() ? View.GONE : View.VISIBLE);
     }
 
     public boolean isUseParse() {
