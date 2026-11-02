@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 线路/清晰度 chip 底色：选中取主题主色，未选中为白色低透明度 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="?attr/colorPrimary" android:state_selected="true" />
+    <item android:color="?attr/colorPrimary" android:state_checked="true" />
+    <item android:color="@color/ibox_detail_chip_surface" />
+</selector>

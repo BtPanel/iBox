@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 详情页线路/清晰度 chip：未选中白色低透明度，选中为主题主色实心 -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/selector_detail_chip_bg" />
+            <corners android:radius="18dp" />
+            <padding
+                android:bottom="8dp"
+                android:left="14dp"
+                android:right="14dp"
+                android:top="8dp" />
+        </shape>
+    </item>
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="18dp" />
+        </shape>
+    </item>
+</ripple>

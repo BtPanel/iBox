@@ -360,6 +360,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @SuppressLint("ClickableViewAccessibility")
     protected void initEvent() {
         mBinding.name.setOnClickListener(view -> onName());
+        mBinding.detailBack.setOnClickListener(view -> finish());
         mBinding.more.setOnClickListener(view -> onMore());
         mBinding.actor.setOnClickListener(view -> onActor());
         mBinding.content.setOnClickListener(view -> onContent());
@@ -975,11 +976,18 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setOther(TextView view, Vod item) {
         StringBuilder sb = new StringBuilder();
-        if (!item.getYear().isEmpty()) sb.append(getString(R.string.detail_year, item.getYear())).append("  ");
-        if (!item.getArea().isEmpty()) sb.append(getString(R.string.detail_area, item.getArea())).append("  ");
-        if (!item.getTypeName().isEmpty()) sb.append(getString(R.string.detail_type, item.getTypeName())).append("  ");
+        appendMeta(sb, item.getYear());
+        appendMeta(sb, item.getArea());
+        appendMeta(sb, item.getTypeName());
         view.setVisibility(sb.length() == 0 ? View.GONE : View.VISIBLE);
-        view.setText(Util.substring(sb.toString(), 2));
+        view.setText(sb);
+    }
+
+    /** 年份 / 地区 / 类型合并成一行「2024 · 内地 · 剧情」，比带冒号的标签更省宽度 */
+    private void appendMeta(StringBuilder sb, String value) {
+        if (TextUtils.isEmpty(value)) return;
+        if (sb.length() > 0) sb.append(" · ");
+        sb.append(value);
     }
 
     @Override
@@ -1378,6 +1386,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.video.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(player().isPortrait()));
         mBinding.control.title.setVisibility(View.VISIBLE);
+        mBinding.detailBack.setVisibility(View.GONE);
         setRotate(player().isPortrait());
         mKeyDown.resetScale();
         App.post(mR3, 2000);
@@ -1391,6 +1400,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setRequestedOrientation(PlaybackOrientation.getExitFullscreenOrientation(isPort()));
         mBinding.episode.postDelayed(() -> mBinding.episode.scrollToPosition(mEpisodeAdapter.getPosition()), 100);
         mBinding.control.title.setVisibility(View.INVISIBLE);
+        mBinding.detailBack.setVisibility(isPort() ? View.VISIBLE : View.GONE);
         mBinding.video.setLayoutParams(mFrameParams);
         mKeyDown.resetScale();
         App.post(mR3, 2000);

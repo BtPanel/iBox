@@ -929,4 +929,5 @@
     <string name="live_menu_epg_update">刷新 EPG</string>
     <string name="live_menu_request">请求设置</string>
     <string name="live_menu_tracks">音视频轨</string>
+    <string name="nav_back">返回</string>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  详情页专用颜色。
+  详情页恒为「模糊海报 + 深色蒙层」的沉浸底，不跟随明暗主题，
+  因此这些值只在 values 下定义，不进 values-night。
+-->
+<resources>
+    <!-- 玻璃卡片：叠在深色蒙层上的低透明度白 -->
+    <color name="ibox_detail_glass_surface">#24FFFFFF</color>
+    <color name="ibox_detail_glass_stroke">#1FFFFFFF</color>
+    <!-- 顶部浮动返回按钮 -->
+    <color name="ibox_detail_back_surface">#59000000</color>
+    <color name="ibox_detail_back_ripple">#33FFFFFF</color>
+    <!-- 线路 / 清晰度 chip -->
+    <color name="ibox_detail_chip_surface">#26FFFFFF</color>
+    <color name="ibox_detail_chip_text">#E6F5F7FA</color>
+    <!-- 卡片内分隔线 -->
+    <color name="ibox_detail_card_divider">#1FFFFFFF</color>
+</resources>

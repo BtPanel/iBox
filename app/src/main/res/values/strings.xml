@@ -943,4 +943,5 @@ Leave empty to use built-in accelerators only.</string>
     <string name="live_menu_epg_update">Refresh EPG</string>
     <string name="live_menu_request">Request settings</string>
     <string name="live_menu_tracks">Track settings</string>
+    <string name="nav_back">Back</string>
 </resources>
