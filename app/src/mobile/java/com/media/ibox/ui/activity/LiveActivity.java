@@ -994,6 +994,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         mBinding.progress.getRoot().setVisibility(View.VISIBLE);
         App.post(mR2, 0);
         hideError();
+        hideInfo();
     }
 
     @Override
@@ -1014,6 +1015,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
             case PLAYING:
                 hideConnectionStatus();
                 hideProgress();
+                showInfo();
                 break;
             case FAILED:
                 hideConnectionStatus();
