@@ -43,11 +43,11 @@ public class SettingAppearanceFragment extends BaseFragment implements CustomCol
     @Override
     protected void initView() {
         bindBackNavigation(mBinding.toolbar);
-        initRow(mBinding.rowThemeMode, R.drawable.ic_setting_theme_mode, R.string.setting_theme_mode);
+        initRow(mBinding.rowThemeMode, R.drawable.ic_msr_dark_mode, R.string.setting_theme_mode);
         initRow(mBinding.rowLayoutMode, R.drawable.ic_msr_grid_view, R.string.setting_layout_mode);
-        initRow(mBinding.rowThemeColor, R.drawable.ic_setting_palette, R.string.setting_theme_color);
+        initRow(mBinding.rowThemeColor, R.drawable.ic_msr_palette, R.string.setting_theme_color);
         initRow(mBinding.rowHomeContent, R.drawable.ic_msr_home, R.string.home_content);
-        initRow(mBinding.rowSize, R.drawable.ic_nav_aspect, R.string.setting_size);
+        initRow(mBinding.rowSize, R.drawable.ic_msr_aspect_ratio, R.string.setting_size);
         initRow(mBinding.rowAccessibility, R.drawable.ic_msr_accessibility_new, R.string.accessibility_title);
         mBinding.rowAccessibility.summary.setText(R.string.accessibility_setting_summary);
         mBinding.rowAccessibility.summary.setVisibility(View.VISIBLE);

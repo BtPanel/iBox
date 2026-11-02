@@ -74,7 +74,7 @@ public class SettingDataFragment extends BaseFragment {
     protected void initView() {
         bindBackNavigation(mBinding.toolbar);
         initRow(mBinding.rowGithubAccelerators, R.drawable.ic_msr_link, R.string.setting_github_accelerators);
-        initRow(mBinding.rowDoh, R.drawable.ic_nav_security, R.string.setting_doh);
+        initRow(mBinding.rowDoh, R.drawable.ic_msr_security, R.string.setting_doh);
         initRow(mBinding.rowSearchThreads, R.drawable.ic_msr_search, R.string.setting_search_threads);
         initRow(mBinding.rowCache, R.drawable.ic_msr_database, R.string.storage_privacy_title);
         initRow(mBinding.rowWebdav, R.drawable.ic_msr_sync, R.string.setting_webdav);

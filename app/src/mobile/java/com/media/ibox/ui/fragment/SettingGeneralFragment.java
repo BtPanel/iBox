@@ -43,7 +43,7 @@ public class SettingGeneralFragment extends BaseFragment {
         initRow(mBinding.rowIncognito, R.drawable.ic_msr_lock_open, R.string.setting_incognito);
         initRow(mBinding.rowConfigNotice, R.drawable.ic_msr_info, R.string.setting_config_notice);
         initRow(mBinding.rowRemoteAccess, R.drawable.ic_msr_smartphone, R.string.remote_title);
-        initRow(mBinding.rowHideNavigation, R.drawable.ic_setting_navigation, R.string.setting_hide_navigation);
+        initRow(mBinding.rowHideNavigation, R.drawable.ic_msr_bottom_navigation, R.string.setting_hide_navigation);
         initRow(mBinding.rowBootAutoStart, R.drawable.ic_msr_home, R.string.setting_boot_auto_start);
         refresh();
     }
