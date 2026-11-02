@@ -458,8 +458,15 @@ public class VodPlaybackController {
 
     void detailEmpty(boolean shouldFinish) {
         if (!detailLoaded && host.openInitialDetailSearch()) return;
-        if (host.isFromCollect() || shouldFinish) host.finishVod();
-        else showDetailFallback();
+        // 详情已经加载成功过（往往正在播放），后续的刷新/切集失败只做提示与换源。
+        // 之前这里会直接 finishVod()，表现为在播放页上滑（单集影片上滑等于刷新）后无故退回首页。
+        if (!detailLoaded) {
+            if (host.isFromCollect() || shouldFinish) {
+                host.finishVod();
+                return;
+            }
+        }
+        showDetailFallback();
     }
 
     private void showDetailFallback() {

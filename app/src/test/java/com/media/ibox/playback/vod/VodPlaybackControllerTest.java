@@ -64,6 +64,19 @@ public class VodPlaybackControllerTest {
     }
 
     @Test
+    public void detailErrorWhilePlayingKeepsThePlaybackPageOpen() throws Exception {
+        Map<String, Integer> calls = new HashMap<>();
+        VodPlaybackHost host = host(calls, false);
+        VodPlaybackController controller = new VodPlaybackController(host, new VodPlaybackState());
+        markDetailLoaded(controller);
+
+        controller.detailEmpty(true);
+
+        assertEquals(0, calls.getOrDefault("finishVod", 0).intValue());
+        assertEquals(1, calls.getOrDefault("renderFallbackName", 0).intValue());
+    }
+
+    @Test
     public void endingAndPlaybackEndOfferTheSameNextEpisodeOnlyOnce() {
         Map<String, Integer> calls = new HashMap<>();
         VodPlaybackState state = twoEpisodes();
@@ -144,6 +157,13 @@ public class VodPlaybackControllerTest {
         history.setEnding(10_000);
         state.setHistory(history);
         return state;
+    }
+
+    /** 模拟「详情已经成功加载过一次」，即播放页已经在正常播放 */
+    private static void markDetailLoaded(VodPlaybackController controller) throws ReflectiveOperationException {
+        java.lang.reflect.Field field = VodPlaybackController.class.getDeclaredField("detailLoaded");
+        field.setAccessible(true);
+        field.setBoolean(controller, true);
     }
 
     private static void invoke(VodPlaybackController controller, String method) {
