@@ -52,7 +52,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/ibox_stroke_thin"
         android:layout_marginStart="44dp"
         android:background="@color/ibox_glass_divider" />
 
@@ -93,7 +93,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/ibox_stroke_thin"
         android:layout_marginStart="44dp"
         android:background="@color/ibox_glass_divider" />
 
@@ -148,7 +148,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/ibox_stroke_thin"
         android:layout_marginStart="44dp"
         android:background="@color/ibox_glass_divider" />
 
@@ -187,7 +187,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/ibox_stroke_thin"
         android:layout_marginStart="44dp"
         android:background="@color/ibox_glass_divider" />
 
@@ -220,7 +220,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/ibox_stroke_thin"
         android:layout_marginStart="44dp"
         android:background="@color/ibox_glass_divider" />
 
