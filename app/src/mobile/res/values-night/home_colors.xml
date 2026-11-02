@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ibox_home_scrim">@color/ibox_surface_container</color>
+    <!-- 与 ibox_surface_container 同色但全透明：顶部栏向壁纸过渡时避免插值出灰边 -->
+    <color name="ibox_home_scrim_clear">#000F1412</color>
     <color name="ibox_home_control_surface">#66080F0D</color>
     <color name="ibox_home_chrome_surface">#B317201E</color>
     <color name="ibox_home_chrome_secondary">#AABAB5</color>

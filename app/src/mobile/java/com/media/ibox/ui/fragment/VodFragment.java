@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -52,6 +54,7 @@ import com.media.ibox.ui.dialog.RepositoryDialog;
 import com.media.ibox.ui.dialog.SiteDialog;
 import com.media.ibox.utils.ImgUtil;
 import com.media.ibox.utils.DisplayText;
+import com.media.ibox.utils.FileUtil;
 import com.media.ibox.utils.Notify;
 import com.media.ibox.Product;
 import com.media.ibox.setting.Setting;
@@ -134,6 +137,30 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
                 mAdapter.setSelected(position);
                 setFabVisible(position);
             }
+        });
+        setBarScrim();
+    }
+
+    /**
+     * 顶栏与壁纸的衔接。
+     * 有壁纸时顶栏用渐变自然过渡到壁纸，消除「顶栏纯色块 / 内容区壁纸」的横向硬边；
+     * 滚动折叠过程中分类栏按折叠比例补实底，避免海报滑到标签下方后压字。
+     * 未设壁纸时保持纯色实底，默认状态不出现灰白渐变。
+     */
+    private void setBarScrim() {
+        int barColor = ContextCompat.getColor(requireContext(), R.color.ibox_home_scrim);
+        boolean hasWall = Setting.getWall() > 0 || FileUtil.getWallCache().exists();
+        if (!hasWall) {
+            mBinding.appBar.setBackgroundColor(barColor);
+            mBinding.type.setBackgroundColor(barColor);
+            return;
+        }
+        mBinding.type.setBackgroundColor(ColorUtils.setAlphaComponent(barColor, 0));
+        mBinding.appBar.addOnOffsetChangedListener((layout, offset) -> {
+            int range = layout.getTotalScrollRange();
+            float ratio = range <= 0 ? 0f : Math.min(1f, Math.abs(offset) / (float) range);
+            float alpha = Math.min(1f, ratio / 0.45f);
+            mBinding.type.setBackgroundColor(ColorUtils.setAlphaComponent(barColor, Math.round(alpha * 255)));
         });
     }
 

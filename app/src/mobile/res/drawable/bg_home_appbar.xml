@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  首页顶部栏背景：实体表面色向下渐隐到透明。
+  换了壁纸后，顶部不再是一块死色横条，而是自然过渡到壁纸，
+  消除「顶栏纯色 / 内容区壁纸」之间的横向硬边。
+  下半段（分类 Tab 区）由 VodFragment 按折叠比例动态补实底色，
+  保证内容滚动到 Tab 下方时文字仍然可读。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/ibox_home_scrim"
+        android:centerY="0.78"
+        android:endColor="@color/ibox_home_scrim_clear"
+        android:startColor="@color/ibox_home_scrim"
+        android:type="linear" />
+
+</shape>
