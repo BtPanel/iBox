@@ -5,7 +5,7 @@
             android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
             <shape android:shape="rectangle">
                 <solid android:color="?attr/colorPrimary" />
-                <corners android:radius="@dimen/ibox_radius_small" />
+                <corners android:radius="@dimen/ibox_radius_pill" />
             </shape>
         </inset>
     </item>
@@ -14,7 +14,7 @@
             android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
             <shape android:shape="rectangle">
                 <solid android:color="@color/ibox_interaction_pressed" />
-                <corners android:radius="@dimen/ibox_radius_small" />
+                <corners android:radius="@dimen/ibox_radius_pill" />
             </shape>
         </inset>
     </item>
@@ -23,7 +23,7 @@
             android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
             <shape android:shape="rectangle">
                 <solid android:color="@color/ibox_interaction_pressed" />
-                <corners android:radius="@dimen/ibox_radius_small" />
+                <corners android:radius="@dimen/ibox_radius_pill" />
             </shape>
         </inset>
     </item>
@@ -32,7 +32,7 @@
             android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
             <shape android:shape="rectangle">
                 <solid android:color="@color/ibox_interaction_pressed" />
-                <corners android:radius="@dimen/ibox_radius_small" />
+                <corners android:radius="@dimen/ibox_radius_pill" />
             </shape>
         </inset>
     </item>
@@ -41,7 +41,7 @@
             android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
             <shape android:shape="rectangle">
                 <solid android:color="@android:color/transparent" />
-                <corners android:radius="@dimen/ibox_radius_small" />
+                <corners android:radius="@dimen/ibox_radius_pill" />
             </shape>
         </inset>
     </item>

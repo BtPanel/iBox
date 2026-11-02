@@ -8,6 +8,8 @@ import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
 import com.media.ibox.Product;
+import com.media.ibox.R;
+import com.media.ibox.accessibility.AppAccessibility;
 import com.media.ibox.bean.Style;
 import com.media.ibox.bean.Vod;
 import com.media.ibox.databinding.AdapterHomeVodBinding;
@@ -17,6 +19,8 @@ import com.media.ibox.utils.ResUtil;
 public class HomeVodPresenter extends Presenter {
 
     public static final int COLUMN_COUNT = 5;
+    /** 重设计规范：TV 焦点放大 1.06（docs/UI_REDESIGN_2026.md） */
+    private static final float FOCUS_SCALE = 1.06f;
     private final VodPresenter.OnClickListener listener;
     private final int[] size;
 
@@ -47,6 +51,11 @@ public class HomeVodPresenter extends Presenter {
         holder.binding.getRoot().setOnClickListener(view -> listener.onItemClick(item));
         holder.binding.getRoot().setOnLongClickListener(view -> listener.onLongClick(item));
         holder.binding.getRoot().setOnFocusChangeListener((view, focused) -> {
+            float scale = focused ? FOCUS_SCALE : 1f;
+            view.animate().scaleX(scale).scaleY(scale)
+                    .setDuration(AppAccessibility.duration(view.getResources().getInteger(R.integer.ibox_motion_short)))
+                    .start();
+            view.setTranslationZ(focused ? 10f : 0f);
             if (focused) listener.onItemFocus(item);
         });
         ImgUtil.load(item.getName(), item.getPic(), holder.binding.image);

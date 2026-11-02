@@ -16,6 +16,8 @@
     <dimen name="ibox_radius_card">12dp</dimen>
     <dimen name="ibox_radius_container">16dp</dimen>
     <dimen name="ibox_radius_large">16dp</dimen>
+    <!-- 胶囊圆角：Chip、底部导航选中态、搜索框 -->
+    <dimen name="ibox_radius_pill">100dp</dimen>
     <dimen name="ibox_stroke_thin">1dp</dimen>
     <dimen name="ibox_focus_stroke">2dp</dimen>
     <dimen name="ibox_focus_halo_stroke">4dp</dimen>

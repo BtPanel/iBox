@@ -93,7 +93,7 @@ public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
         private void setFocusListener() {
             itemView.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
-                    v.animate().scaleX(1.04f).scaleY(1.04f).setDuration(AppAccessibility.duration(v.getResources().getInteger(R.integer.ibox_motion_short))).start();
+                    v.animate().scaleX(1.06f).scaleY(1.06f).setDuration(AppAccessibility.duration(v.getResources().getInteger(R.integer.ibox_motion_short))).start();
                     v.setTranslationZ(10f);
                     v.setSelected(true);
                 } else {

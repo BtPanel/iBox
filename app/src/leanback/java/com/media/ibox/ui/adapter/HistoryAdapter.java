@@ -91,7 +91,7 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
             super(binding.getRoot());
             this.binding = binding;
             itemView.setOnFocusChangeListener((view, hasFocus) -> {
-                float scale = hasFocus ? 1.025f : 1f;
+                float scale = hasFocus ? 1.06f : 1f;
                 view.animate().scaleX(scale).scaleY(scale)
                         .setDuration(AppAccessibility.duration(view.getResources().getInteger(R.integer.ibox_motion_short)))
                         .start();
