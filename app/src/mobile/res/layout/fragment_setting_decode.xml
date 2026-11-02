@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
@@ -23,20 +24,20 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp">
+            android:background="@drawable/bg_setting_group"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/tunnel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -62,8 +63,8 @@
                 android:id="@+id/audioPassThrough"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -89,8 +90,8 @@
                 android:id="@+id/audioPrefer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -116,8 +117,8 @@
                 android:id="@+id/videoPrefer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -143,8 +144,8 @@
                 android:id="@+id/aac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -170,7 +171,7 @@
                 android:id="@+id/dolbyVisionOutput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="0dp"
                 android:background="@drawable/shape_setting_row"
                 android:orientation="horizontal">
 

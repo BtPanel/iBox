@@ -29,6 +29,7 @@ public class SettingDanmakuFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        bindBackNavigation(mBinding.toolbar);
         mBinding.danmakuAuto.setChecked(DanmakuSetting.isAuto());
         mBinding.danmakuLoad.setChecked(DanmakuSetting.isLoad());
         mBinding.danmakuSpider.setChecked(DanmakuSetting.isSpiderFirst());

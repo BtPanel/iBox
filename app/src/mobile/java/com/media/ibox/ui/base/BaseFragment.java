@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.media.ibox.R;
+
 public abstract class BaseFragment extends Fragment {
 
     private boolean isViewCreated;
@@ -39,6 +41,14 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void initMenu() {
+    }
+
+    /** 二级页面工具栏统一的返回入口：左侧箭头 + 交给系统返回栈 */
+    protected void bindBackNavigation(com.google.android.material.appbar.MaterialToolbar toolbar) {
+        if (toolbar == null) return;
+        toolbar.setNavigationIcon(R.drawable.ic_msr_arrow_back);
+        toolbar.setNavigationIconTint(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.ibox_text_primary));
+        toolbar.setNavigationOnClickListener(view -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
     }
 
     protected void initView() {

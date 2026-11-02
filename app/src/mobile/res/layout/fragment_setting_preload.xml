@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
@@ -23,19 +24,19 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp">
+            android:background="@drawable/bg_setting_group"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/preload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_setting_row"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -62,8 +63,8 @@
                 android:id="@+id/preloadNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -90,8 +91,8 @@
                 android:id="@+id/preloadThread"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -118,8 +119,8 @@
                 android:id="@+id/preloadSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_setting_row"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/shape_setting_row_divided"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -146,7 +147,7 @@
                 android:id="@+id/preloadTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="0dp"
                 android:background="@drawable/shape_setting_row"
                 android:orientation="horizontal">
 

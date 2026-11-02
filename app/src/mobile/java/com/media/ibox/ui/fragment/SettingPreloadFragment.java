@@ -32,6 +32,7 @@ public class SettingPreloadFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        bindBackNavigation(mBinding.toolbar);
         refresh();
     }
 

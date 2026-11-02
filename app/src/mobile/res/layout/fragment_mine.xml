@@ -40,7 +40,7 @@
             android:layout_marginTop="26dp"
             android:layout_marginBottom="10dp"
             android:text="@string/mine_common"
-            android:textAppearance="@style/TextAppearance.IBox.Section" />
+            android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -162,7 +162,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="@string/mine_connect"
-            android:textAppearance="@style/TextAppearance.IBox.Section" />
+            android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.IBox.Card"
@@ -193,7 +193,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginBottom="8dp"
             android:text="@string/mine_more"
-            android:textAppearance="@style/TextAppearance.IBox.Section" />
+            android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.IBox.Card"

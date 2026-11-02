@@ -42,6 +42,7 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
 
     @Override
     protected void initView() {
+        bindBackNavigation(mBinding.toolbar);
         setVisible();
         setPlaybackModeText();
         mBinding.adblockText.setText(Setting.getSwitch(Setting.isAdblock()));

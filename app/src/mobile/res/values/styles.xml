@@ -36,6 +36,15 @@
         <item name="android:textSize">@dimen/ibox_text_supporting</item>
     </style>
 
+    <!-- 设置类页面的分组标题：小号次级标签，比原先 16sp 粗体更轻盈 -->
+    <style name="TextAppearance.IBox.SectionLabel" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/ibox_text_secondary</item>
+        <item name="android:textSize">@dimen/ibox_text_supporting</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay_IBox_CastArtwork">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

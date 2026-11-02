@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/search_record"
-                    android:textAppearance="@style/TextAppearance.IBox.Section" />
+                    android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/historyClear"
@@ -185,7 +185,7 @@
                 android:layout_marginEnd="@dimen/ibox_space_1"
                 android:layout_marginBottom="@dimen/ibox_space_2"
                 android:text="@string/search_hot"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wordRecycler"

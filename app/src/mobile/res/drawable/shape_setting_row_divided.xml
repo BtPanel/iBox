@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  二级设置页中「后面还有行」的单行：透明底 + 点击态 + 底部 1dp 分隔线。
+  分隔线画在行背景里，行被隐藏时线一起消失，不会留下孤立线条
+  （LinearLayoutCompat 不支持 android:divider / showDividers）。
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent" />
+                    <corners android:radius="@dimen/ibox_radius_card" />
+                    <padding
+                        android:bottom="14dp"
+                        android:left="16dp"
+                        android:right="16dp"
+                        android:top="14dp" />
+                </shape>
+            </item>
+            <item
+                android:bottom="0dp"
+                android:gravity="bottom"
+                android:left="16dp"
+                android:right="16dp">
+                <shape android:shape="rectangle">
+                    <size android:height="@dimen/ibox_stroke_thin" />
+                    <solid android:color="@color/ibox_glass_divider" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="@dimen/ibox_radius_card" />
+        </shape>
+    </item>
+
+</ripple>

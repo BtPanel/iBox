@@ -32,6 +32,7 @@ public class SettingDecodeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        bindBackNavigation(mBinding.toolbar);
         setVisible();
         refresh();
     }

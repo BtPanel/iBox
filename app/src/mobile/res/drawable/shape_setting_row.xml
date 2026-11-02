@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?attr/colorControlHighlight">
+<!--
+  二级设置页的单行：透明底 + 点击态，整组底由 bg_setting_group 统一承载，
+  与主设置页保持同一套"分组玻璃卡片"结构。
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
+
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />
-            <corners android:radius="8dp" />
-            <padding android:left="16dp" android:top="14dp" android:right="16dp" android:bottom="14dp" />
+            <corners android:radius="@dimen/ibox_radius_card" />
+            <padding
+                android:bottom="14dp"
+                android:left="16dp"
+                android:right="16dp"
+                android:top="14dp" />
         </shape>
     </item>
+
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
-            <corners android:radius="8dp" />
+            <corners android:radius="@dimen/ibox_radius_card" />
         </shape>
     </item>
+
 </ripple>

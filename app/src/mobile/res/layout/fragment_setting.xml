@@ -13,7 +13,6 @@
         android:layout_height="60dp"
         android:background="@android:color/transparent"
         app:title="@string/nav_setting"
-        app:titleCentered="true"
         app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
     <androidx.core.widget.NestedScrollView
@@ -39,7 +38,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_sources"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -115,7 +114,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/ibox_stroke_thin"
                     android:layout_marginStart="48dp"
                     android:background="@color/ibox_glass_divider" />
 
@@ -187,7 +186,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/ibox_stroke_thin"
                     android:layout_marginStart="48dp"
                     android:background="@color/ibox_glass_divider" />
 
@@ -252,7 +251,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_general"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -296,7 +295,7 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/configNotice"
@@ -334,7 +333,7 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/remoteAccess"
@@ -379,7 +378,7 @@
                         app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/hideNavigation"
@@ -428,7 +427,7 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/bootAutoStart"
@@ -482,7 +481,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_appearance"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -507,7 +506,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/layoutMode"
@@ -526,7 +525,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/themeColor"
@@ -545,7 +544,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/homeContent"
@@ -604,7 +603,7 @@
                         app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/size"
@@ -623,7 +622,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/accessibility"
@@ -681,7 +680,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_playback"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -708,7 +707,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/danmaku"
@@ -730,7 +729,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/autoFallbackLine"
@@ -748,7 +747,7 @@
                     <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/autoFallbackLineToggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:clickable="false" android:focusable="false" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/autoFallbackSource"
@@ -774,7 +773,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_data"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -856,13 +855,13 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/ibox_stroke_thin"
                     android:layout_marginStart="48dp"
                     android:background="@color/ibox_glass_divider" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/ibox_stroke_thin"
                     android:layout_marginStart="48dp"
                     android:background="@color/ibox_glass_divider" />
 
@@ -883,7 +882,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/searchThreads"
@@ -929,7 +928,7 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/sourceHealth"
@@ -950,7 +949,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:contentDescription="@null" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/cache"
@@ -968,7 +967,7 @@
                     <com.google.android.material.textview.MaterialTextView android:id="@+id/cacheText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/ibox_text_secondary" android:textSize="@dimen/ibox_text_supporting" tools:text="42.7 MB" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/webdav"
@@ -989,7 +988,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/backup"
@@ -1010,7 +1009,7 @@
                     <androidx.appcompat.widget.AppCompatImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_msr_chevron_right" app:tint="@color/ibox_text_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View android:layout_width="match_parent" android:layout_height="2dp" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
+                <View android:layout_width="match_parent" android:layout_height="@dimen/ibox_stroke_thin" android:layout_marginStart="48dp" android:background="@color/ibox_glass_divider" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/restore"
@@ -1039,7 +1038,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/settings_section_about"
-                android:textAppearance="@style/TextAppearance.IBox.Section" />
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/version"
