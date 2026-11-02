@@ -3,8 +3,8 @@
     android:shape="rectangle">
 
     <corners
-        android:topLeftRadius="@dimen/ibox_radius_small"
-        android:topRightRadius="@dimen/ibox_radius_small" />
+        android:topLeftRadius="@dimen/ibox_radius_card"
+        android:topRightRadius="@dimen/ibox_radius_card" />
 
     <solid android:color="@color/ibox_scrim" />
 

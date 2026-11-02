@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ibox_home_scrim">@color/ibox_surface_container</color>
-    <color name="ibox_home_control_surface">#66F5F5F5</color>
-    <color name="ibox_home_chrome_surface">#B3F5F5F5</color>
-    <color name="ibox_home_chrome_secondary">#555555</color>
-    <color name="ibox_wall_chrome_surface">#C6F5F5F5</color>
+    <color name="ibox_home_control_surface">#66F3F6F4</color>
+    <color name="ibox_home_chrome_surface">#B3F3F6F4</color>
+    <color name="ibox_home_chrome_secondary">#555B605D</color>
+    <color name="ibox_wall_chrome_surface">#C6F3F6F4</color>
 </resources>
