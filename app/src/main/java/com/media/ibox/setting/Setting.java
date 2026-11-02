@@ -11,11 +11,12 @@ import java.util.List;
 
 public class Setting {
 
-    private static final int DEFAULT_THEME_COLOR = 0xFF3D7FFF;
+    private static final int DEFAULT_THEME_COLOR = 0xFF00875A;
     private static final int DEFAULT_FOCUS_COLOR = 0xFFFFFFFF;
     private static final int LEGACY_BLUE_THEME_COLOR = 0xFF1E88E5;
     private static final int PREVIOUS_DEFAULT_THEME_COLOR = 0xFF2F86E5;
     private static final int RELEASE_1_0_THEME_COLOR = 0xFF2882E1;
+    private static final int TENCENT_BLUE_THEME_COLOR = 0xFF3D7FFF;
 
     public static final int THEME_SYSTEM = 0;
     public static final int THEME_LIGHT = 1;
@@ -144,7 +145,7 @@ public class Setting {
     }
 
     private static boolean isOldBlue(int color) {
-        return color == LEGACY_BLUE_THEME_COLOR || color == PREVIOUS_DEFAULT_THEME_COLOR || color == RELEASE_1_0_THEME_COLOR;
+        return color == LEGACY_BLUE_THEME_COLOR || color == PREVIOUS_DEFAULT_THEME_COLOR || color == RELEASE_1_0_THEME_COLOR || color == TENCENT_BLUE_THEME_COLOR;
     }
 
     public static int getThemeMode() {
@@ -286,7 +287,7 @@ public class Setting {
             case 0xFF00897B -> R.style.ThemeOverlay_IBox_Color_Teal;
             case 0xFF43A047 -> R.style.ThemeOverlay_IBox_Color_Green;
             case 0xFF7CB342 -> R.style.ThemeOverlay_IBox_Color_Lime;
-            case DEFAULT_THEME_COLOR -> R.style.ThemeOverlay_IBox_Color_TencentBlue;
+            case DEFAULT_THEME_COLOR -> R.style.ThemeOverlay_IBox_Color_IBoxGreen;
             case 0xFFE8590C, 0xFFFB8C00 -> R.style.ThemeOverlay_IBox_Color_Orange;
             case 0xFF00C250 -> R.style.ThemeOverlay_IBox_Color_IqiyiGreen;
             case 0xFFFB7299 -> R.style.ThemeOverlay_IBox_Color_BiliPink;

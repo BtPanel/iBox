@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ibox_primary">#00796B</color>
+    <!-- 2026 重设计 · 清爽绿日间方案，见 docs/UI_REDESIGN_2026.md -->
+    <color name="ibox_primary">#00875A</color>
     <color name="ibox_on_primary">#FFFFFF</color>
-    <color name="ibox_primary_container">#B2DFDB</color>
-    <color name="ibox_on_primary_container">#00201C</color>
-    <color name="ibox_secondary">#52615D</color>
+    <color name="ibox_primary_container">#D7F2E4</color>
+    <color name="ibox_on_primary_container">#00391F</color>
+    <color name="ibox_secondary">#4A5B53</color>
     <color name="ibox_on_secondary">#FFFFFF</color>
     <color name="ibox_surface">#FFFFFF</color>
-    <color name="ibox_surface_variant">#EEEEEE</color>
-    <color name="ibox_surface_container_low">#FAFAFA</color>
-    <color name="ibox_surface_container_high">#E0E0E0</color>
+    <color name="ibox_surface_variant">#EBEFEC</color>
+    <color name="ibox_surface_container_low">#F9FAF9</color>
+    <color name="ibox_surface_container_high">#E1E7E3</color>
     <color name="ibox_glass_surface">#F2F5F5F5</color>
     <color name="ibox_glass_card">#F4FFFFFF</color>
     <color name="ibox_live_glass">#66F5F5F5</color>
@@ -21,22 +22,22 @@
     <color name="ibox_glass_divider">#1F222222</color>
     <color name="ibox_wall_scrim">#66F5F5F5</color>
     <color name="ibox_navigation_surface">#FAFFFFFF</color>
-    <color name="ibox_navigation_item">#1400796B</color>
-    <color name="ibox_chip_selected">#00796B</color>
+    <color name="ibox_navigation_item">#1400875A</color>
+    <color name="ibox_chip_selected">#00875A</color>
     <color name="ibox_chip_selected_text">#FFFFFF</color>
     <color name="ibox_mine_tile">#0F222222</color>
-    <color name="ibox_surface_container">#F5F5F5</color>
-    <color name="ibox_outline">#888888</color>
-    <color name="ibox_outline_strong">#777777</color>
-    <color name="ibox_divider">#E0E0E0</color>
-    <color name="ibox_text_primary">#222222</color>
-    <color name="ibox_text_secondary">#555555</color>
-    <color name="ibox_text_disabled">#999999</color>
-    <color name="ibox_surface_disabled">#E0E0E0</color>
+    <color name="ibox_surface_container">#F5F7F6</color>
+    <color name="ibox_outline">#7A8880</color>
+    <color name="ibox_outline_strong">#6B7971</color>
+    <color name="ibox_divider">#E1E7E3</color>
+    <color name="ibox_text_primary">#1A1F1C</color>
+    <color name="ibox_text_secondary">#5A6660</color>
+    <color name="ibox_text_disabled">#9AA4A0</color>
+    <color name="ibox_surface_disabled">#E1E7E3</color>
     <color name="ibox_interaction_pressed">#14222222</color>
-    <color name="ibox_interaction_selected">#1000796B</color>
+    <color name="ibox_interaction_selected">#1000875A</color>
     <color name="ibox_focus_surface">#FFFFFF</color>
-    <color name="ibox_focus_outline">#006B5F</color>
+    <color name="ibox_focus_outline">#00875A</color>
     <color name="bg_remark">@color/ibox_player_scrim</color>
     <color name="text_remark">@color/ibox_player_text_primary</color>
     <color name="bg_site">@color/ibox_player_scrim</color>
@@ -46,7 +47,7 @@
     <color name="ibox_on_error_container">#410002</color>
     <color name="ibox_success">#2E6B4F</color>
     <color name="ibox_warning">#8A5B00</color>
-    <color name="ibox_content_accent">#D95D45</color>
+    <color name="ibox_content_accent">#A96A10</color>
     <color name="ibox_focus">#FFFFFF</color>
     <color name="ibox_switch_track_off">#3852615D</color>
     <color name="ibox_switch_track_disabled">#2052615D</color>
@@ -64,7 +65,7 @@
     <color name="ibox_player_control_surface">#E6262D35</color>
     <color name="ibox_player_control_surface_focused">#F23A4550</color>
     <color name="ibox_player_control_outline">#8A7F8D9C</color>
-    <color name="ibox_episode_selected_surface">#3D006B5F</color>
+    <color name="ibox_episode_selected_surface">#3D00875A</color>
     <color name="ibox_episode_selected_text">#FFFFFF</color>
     <color name="ibox_high_contrast_primary">#FFD166</color>
     <color name="ibox_high_contrast_on_primary">#000000</color>

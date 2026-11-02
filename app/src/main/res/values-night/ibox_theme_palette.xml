@@ -53,6 +53,11 @@
     <color name="theme_iqiyi_green_container">#00532A</color>
     <color name="theme_iqiyi_green_on_container">#B8F5C8</color>
 
+    <color name="theme_ibox_green">#4ADE8F</color>
+    <color name="theme_ibox_green_on_primary">#052E1A</color>
+    <color name="theme_ibox_green_container">#164C35</color>
+    <color name="theme_ibox_green_on_container">#A9F0CC</color>
+
     <color name="theme_bili_pink">#FB8FB0</color>
     <color name="theme_bili_pink_on_primary">#40131F</color>
     <color name="theme_bili_pink_container">#7E1B3C</color>

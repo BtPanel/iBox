@@ -20,9 +20,9 @@ import java.util.Locale;
 public class CustomColorDialog extends BaseAlertDialog {
 
     private static final String COLOR = "color";
-    /** 常用影视主色：腾讯蓝 / 芒果橙 / 爱奇艺绿 / 哔哩粉 / 中国红 / 优酷青 / 葡萄紫 / 柠檬黄 / 深紫 / 青绿 / 玫红 / 琥珀 */
+    /** 常用影视主色：iBox绿 / 芒果橙 / 爱奇艺绿 / 哔哩粉 / 中国红 / 优酷青 / 葡萄紫 / 柠檬黄 / 深紫 / 青绿 / 玫红 / 琥珀 */
     private static final int[] PRESETS = {
-            0xFF3D7FFF, 0xFFE8590C, 0xFF00C250, 0xFFFB7299, 0xFFE43D30, 0xFF00AEEC,
+            0xFF00875A, 0xFFE8590C, 0xFF00C250, 0xFFFB7299, 0xFFE43D30, 0xFF00AEEC,
             0xFF9C27B0, 0xFFFFC107, 0xFF673AB7, 0xFF009688, 0xFFE91E63, 0xFFFF9800
     };
     private DialogCustomColorBinding binding;

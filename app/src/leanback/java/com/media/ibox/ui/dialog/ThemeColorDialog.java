@@ -42,7 +42,7 @@ public final class ThemeColorDialog {
             R.string.theme_color_festive
     };
     private static final int[] SWATCHES = {
-            0xFF3D7FFF,
+            0xFF00875A,
             0xFF69B4FF,
             0xFF00ACC1,
             0xFF43A047,
