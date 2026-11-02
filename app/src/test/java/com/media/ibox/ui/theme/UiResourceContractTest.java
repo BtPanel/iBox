@@ -127,11 +127,18 @@ public class UiResourceContractTest {
 
     @Test
     public void mobileSearchAndNavigationBlendWithWallpaperWithoutLosingContrast() throws Exception {
-        for (String drawable : new String[]{"bg_home_search", "bg_floating_navigation"}) {
-            Document background = xml("app/src/mobile/res/drawable/" + drawable + ".xml");
-            assertEquals(drawable, "@color/ibox_home_chrome_surface",
-                    attribute(background, "solid", "android:color"));
-        }
+        // 2026 重设计：搜索框改为实底胶囊（ibox_home_search_surface），导航改为 layer-list 分层表面。
+        Document searchBg = xml("app/src/mobile/res/drawable/bg_home_search.xml");
+        assertEquals("@color/ibox_home_search_surface",
+                attribute(searchBg, "solid", "android:color"));
+        Document navBg = xml("app/src/mobile/res/drawable/bg_floating_navigation.xml");
+        NodeList navItems = navBg.getElementsByTagName("item");
+        assertEquals("@color/ibox_surface_container",
+                ((Element) ((Element) navItems.item(0)).getElementsByTagName("solid").item(0))
+                        .getAttribute("android:color"));
+        assertEquals("@color/ibox_home_chrome_surface",
+                ((Element) ((Element) navItems.item(1)).getElementsByTagName("solid").item(0))
+                        .getAttribute("android:color"));
         assertEquals("@color/ibox_wall_chrome_surface", attribute(
                 xml("app/src/mobile/res/drawable/bg_search_input.xml"), "solid", "android:color"));
         Document homeLayout = xml("app/src/mobile/res/layout/fragment_vod.xml");
@@ -215,9 +222,14 @@ public class UiResourceContractTest {
     @Test
     public void mobileNavigationBarHasNoTopDivider() throws Exception {
         Document background = xml("app/src/mobile/res/drawable/bg_floating_navigation.xml");
-        assertEquals("Navigation should be a single uninterrupted surface", "shape",
+        // 2026 重设计：导航栏改为 layer-list（底 + chrome 表面 + 1dp 顶部分隔线）。
+        assertEquals("Navigation should be a layered surface", "layer-list",
                 background.getDocumentElement().getTagName());
-        assertEquals("@color/ibox_home_chrome_surface", attribute(background, "solid", "android:color"));
+        NodeList items = background.getElementsByTagName("item");
+        assertEquals(3, items.getLength());
+        assertEquals("@color/ibox_home_chrome_surface",
+                ((Element) ((Element) items.item(1)).getElementsByTagName("solid").item(0))
+                        .getAttribute("android:color"));
     }
 
     @Test
@@ -229,15 +241,17 @@ public class UiResourceContractTest {
             assertEquals("@dimen/ibox_navigation_item_height", target.getAttribute("android:layout_height"));
             assertEquals("@drawable/bg_app_navigation_item", target.getAttribute("android:background"));
         }
+        // 2026 重设计：导航选中态由「胶囊底色」改为「图标+文字着色」，背景仅 pressed/focused 高亮 + 透明默认，不再 inset 收缩。
         NodeList states = background.getElementsByTagName("item");
+        assertEquals(3, states.getLength());
         for (int i = 0; i < states.getLength(); i++) {
             Element state = (Element) states.item(i);
-            Element inset = (Element) state.getElementsByTagName("inset").item(0);
-            assertTrue("Navigation state fills the entire touch target", inset != null);
-            assertEquals("@dimen/ibox_space_2", inset.getAttribute("android:insetLeft"));
-            assertEquals("@dimen/ibox_space_2", inset.getAttribute("android:insetRight"));
-            assertEquals("@dimen/ibox_space_1", inset.getAttribute("android:insetTop"));
-            assertEquals("@dimen/ibox_space_1", inset.getAttribute("android:insetBottom"));
+            String solid = ((Element) state.getElementsByTagName("solid").item(0)).getAttribute("android:color");
+            if (state.hasAttribute("android:state_pressed") || state.hasAttribute("android:state_focused")) {
+                assertEquals("@color/ibox_interaction_pressed", solid);
+            } else {
+                assertEquals("@android:color/transparent", solid);
+            }
         }
     }
 
@@ -273,12 +287,12 @@ public class UiResourceContractTest {
     @Test
     public void selectedMobileLiveChannelAndToolbarRemainLegible() throws Exception {
         Document text = xml("app/src/mobile/res/color/selector_live_text.xml");
-        assertEquals("?attr/colorOnPrimary", tvSelectorItem(text, true, false).getAttribute("android:color"));
+        assertEquals("?attr/colorOnPrimaryContainer", tvSelectorItem(text, true, false).getAttribute("android:color"));
         for (boolean night : new boolean[]{false, true}) {
             Document colors = xml(night ? "app/src/main/res/values-night/ibox_colors.xml"
                     : "app/src/main/res/values/ibox_colors.xml");
             assertTrue("Selected channel text loses contrast",
-                    contrast(color(colors, "ibox_on_primary"), color(colors, "ibox_primary")) >= 4.5);
+                    contrast(color(colors, "ibox_on_primary_container"), color(colors, "ibox_primary_container")) >= 4.5);
         }
         Document live = xml("app/src/mobile/res/layout/activity_live.xml");
         for (String id : new String[]{"summarySearch", "summaryCast", "summaryConfig"}) {
@@ -310,7 +324,7 @@ public class UiResourceContractTest {
         Element detailCast = view(detail, "detail_cast");
         Element detailIcon = (Element) detailCast.getElementsByTagName("androidx.appcompat.widget.AppCompatImageView").item(0);
         assertEquals("@drawable/ic_msr_cast_mobile", detailIcon.getAttribute("android:src"));
-        assertEquals("20dp", detailIcon.getAttribute("android:layout_width"));
+        assertEquals("@dimen/ibox_icon_medium", detailIcon.getAttribute("android:layout_width"));
 
         Document icon = xml("app/src/mobile/res/drawable/ic_msr_cast_mobile.xml");
         NodeList layers = icon.getElementsByTagName("item");
@@ -502,22 +516,22 @@ public class UiResourceContractTest {
 
     @Test
     public void approvedMobilePalettesMeetTextContrast() throws Exception {
-        assertPalette("app/src/main/res/values/ibox_colors.xml", "#F5F5F5", "#222222", "#555555", "#00796B", "#FFFFFF");
-        assertEquals("#D95D45", color(xml("app/src/main/res/values/ibox_colors.xml"), "ibox_content_accent"));
-        assertPalette("app/src/main/res/values-night/ibox_colors.xml", "#0D1513", "#F5F5F5", "#AAAAAA", "#4DB6AC", "#003731");
-        assertTrue(contrast(color(xml("app/src/main/res/values-night/ibox_colors.xml"), "ibox_content_accent"), "#0D1513") >= 3.0);
+        assertPalette("app/src/main/res/values/ibox_colors.xml", "#F5F7F6", "#1A1F1C", "#4E5A54", "#00875A", "#FFFFFF");
+        assertEquals("#A96A10", color(xml("app/src/main/res/values/ibox_colors.xml"), "ibox_content_accent"));
+        assertPalette("app/src/main/res/values-night/ibox_colors.xml", "#0F1412", "#F2F6F4", "#A9B5AF", "#4ADE8F", "#052E1A");
+        assertTrue(contrast(color(xml("app/src/main/res/values-night/ibox_colors.xml"), "ibox_content_accent"), "#0F1412") >= 3.0);
     }
 
     @Test
     public void approvedTvPaletteSeparatesTextAndFocus() throws Exception {
         String[][] approved = {
-                {"ibox_surface_container", "#080F0D"}, {"ibox_surface", "#141D1A"},
-                {"ibox_surface_variant", "#23302C"}, {"ibox_text_primary", "#F0F7F5"},
-                {"ibox_text_secondary", "#A9B8B3"}, {"ibox_primary", "#68DFC9"},
-                {"ibox_on_primary", "#003731"}, {"ibox_primary_container", "#164E46"},
-                {"ibox_on_primary_container", "#B7EBDD"}, {"ibox_content_accent", "#FFB4A8"},
-                {"ibox_outline", "#71817C"}, {"ibox_outline_strong", "#72827D"},
-                {"ibox_focus_surface", "#23302C"}, {"ibox_focus_outline", "#E2FFF8"},
+                {"ibox_surface_container", "#0A0E0C"}, {"ibox_surface", "#101412"},
+                {"ibox_surface_variant", "#1E2622"}, {"ibox_text_primary", "#F0F5F2"},
+                {"ibox_text_secondary", "#A9B5AF"}, {"ibox_primary", "#4ADE8F"},
+                {"ibox_on_primary", "#052E1A"}, {"ibox_primary_container", "#164C35"},
+                {"ibox_on_primary_container", "#A9F0CC"}, {"ibox_content_accent", "#F5C065"},
+                {"ibox_outline", "#6F7D76"}, {"ibox_outline_strong", "#74827A"},
+                {"ibox_focus_surface", "#1E2622"}, {"ibox_focus_outline", "#FFFFFF"},
                 {"ibox_player_surface", "#0E1013"}, {"ibox_player_scrim", "#B30E1013"},
                 {"ibox_player_text_primary", "#F5F7FA"}, {"ibox_player_text_secondary", "#CCD2DA"},
                 {"ibox_player_control_surface", "#E6262D35"},
@@ -531,11 +545,11 @@ public class UiResourceContractTest {
                         role[1], resolveColor("@color/" + role[0], resources));
             }
             for (String role : new String[]{"ibox_text_primary", "ibox_text_secondary"}) {
-                assertTrue(contrast(resolveColor("@color/" + role, resources), "#080F0D") >= 4.5);
+                assertTrue(contrast(resolveColor("@color/" + role, resources), "#0A0E0C") >= 4.5);
             }
-            assertTrue(contrast(resolveColor("@color/ibox_outline", resources), "#080F0D") >= 3.0);
-            assertTrue(contrast(resolveColor("@color/ibox_focus_outline", resources), "#141D1A") >= 3.0);
-            assertTrue(contrast(resolveColor("@color/ibox_content_accent", resources), "#141D1A") >= 3.0);
+            assertTrue(contrast(resolveColor("@color/ibox_outline", resources), "#0A0E0C") >= 3.0);
+            assertTrue(contrast(resolveColor("@color/ibox_focus_outline", resources), "#101412") >= 3.0);
+            assertTrue(contrast(resolveColor("@color/ibox_content_accent", resources), "#101412") >= 3.0);
         }
     }
 
@@ -935,7 +949,8 @@ public class UiResourceContractTest {
             assertEquals("@dimen/ibox_touch_target", view(repository, id).getAttribute("android:layout_width"));
         }
         Document search = xml("app/src/mobile/res/layout/fragment_search.xml");
-        assertEquals("@dimen/ibox_home_row_height", view(xml("app/src/mobile/res/layout/adapter_type.xml"), "text")
+        // 2026 重设计：分类 Tab 为文字标签 + 下划线指示器，文字高度自适应（wrap_content），行高由父容器 ibox_home_tab_height 保证。
+        assertEquals("wrap_content", view(xml("app/src/mobile/res/layout/adapter_type.xml"), "text")
                 .getAttribute("android:layout_height"));
         for (String id : new String[]{"keywordClear", "historyClear", "scopeAll", "scopeCurrent"}) {
             assertEquals(id, "@dimen/ibox_touch_target", view(search, id).getAttribute("android:layout_height"));
@@ -949,19 +964,20 @@ public class UiResourceContractTest {
         assertEquals("56dp", value(dimensions, "dimen", "ibox_navigation_item_height"));
         Document homeDimensions = xml("app/src/mobile/res/values/home_dimens.xml");
         assertEquals("44dp", value(homeDimensions, "dimen", "ibox_home_row_height"));
+        assertEquals("56dp", value(homeDimensions, "dimen", "ibox_home_brand_height"));
+        assertEquals("40dp", value(homeDimensions, "dimen", "ibox_home_search_height"));
+        assertEquals("46dp", value(homeDimensions, "dimen", "ibox_home_tab_height"));
 
         Document home = xml("app/src/mobile/res/layout/fragment_vod.xml");
         Element source = view(home, "source");
-        assertEquals("@dimen/ibox_home_row_height", ((Element) source.getParentNode()).getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_brand_height", ((Element) source.getParentNode()).getAttribute("android:layout_height"));
         for (String id : new String[]{"repository", "keep", "history"}) {
             Element action = view(home, id);
-            assertEquals("@dimen/ibox_home_row_height", action.getAttribute("android:layout_height"));
-            assertEquals("@dimen/ibox_home_row_height", action.getAttribute("android:minHeight"));
+            assertEquals("@dimen/ibox_home_icon_button_size", action.getAttribute("android:layout_height"));
         }
-        assertEquals("@dimen/ibox_home_row_height", view(home, "search").getAttribute("android:layout_height"));
-        assertEquals("@dimen/ibox_home_row_height", view(home, "linkQuick").getAttribute("android:layout_height"));
-        assertEquals("@dimen/ibox_home_row_height", view(home, "type").getAttribute("android:layout_height"));
-        assertEquals("@dimen/ibox_home_row_height", xml("app/src/mobile/res/layout/adapter_type.xml")
+        assertEquals("@dimen/ibox_home_search_height", view(home, "search").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_tab_height", view(home, "type").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_tab_height", xml("app/src/mobile/res/layout/adapter_type.xml")
                 .getDocumentElement().getAttribute("android:layout_height"));
 
         for (String layout : new String[]{"activity_home.xml", "activity_live.xml", "activity_video.xml",
@@ -985,20 +1001,20 @@ public class UiResourceContractTest {
     public void mobileHomeChromePaintsCompactBackgroundsWithinFullSizeTargets() throws Exception {
         Document home = xml("app/src/mobile/res/layout/fragment_vod.xml");
         Element source = view(home, "source");
-        assertEquals("match_parent", source.getAttribute("android:layout_height"));
-        assertEquals("@dimen/ibox_home_row_height", ((Element) source.getParentNode()).getAttribute("android:layout_height"));
-        for (String id : new String[]{"repository", "keep", "history", "search", "type"}) {
-            assertEquals(id, "@dimen/ibox_home_row_height", view(home, id).getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_icon_button_size", source.getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_brand_height", ((Element) source.getParentNode()).getAttribute("android:layout_height"));
+        for (String id : new String[]{"repository", "keep", "history"}) {
+            assertEquals(id, "@dimen/ibox_home_icon_button_size", view(home, id).getAttribute("android:layout_height"));
         }
+        assertEquals("@dimen/ibox_home_search_height", view(home, "search").getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_tab_height", view(home, "type").getAttribute("android:layout_height"));
         Element category = xml("app/src/mobile/res/layout/adapter_type.xml").getDocumentElement();
-        assertEquals("@dimen/ibox_home_row_height", category.getAttribute("android:layout_height"));
-        assertEquals("@dimen/ibox_home_row_height", category.getAttribute("android:minWidth"));
-        assertEquals("@dimen/ibox_home_category_padding", category.getAttribute("android:paddingStart"));
-        assertEquals("@dimen/ibox_home_category_padding", category.getAttribute("android:paddingEnd"));
-        assertEquals(6.0, dp(xml("app/src/mobile/res/values/home_dimens.xml"), "ibox_home_category_padding")
-                - dp(xml("app/src/main/res/values/ibox_dimens.xml"), "ibox_space_1"), 0.001);
+        assertEquals("@dimen/ibox_home_tab_height", category.getAttribute("android:layout_height"));
+        assertEquals("@dimen/ibox_home_tab_padding", category.getAttribute("android:paddingStart"));
+        assertEquals("@dimen/ibox_home_tab_padding", category.getAttribute("android:paddingEnd"));
 
-        for (String name : new String[]{"bg_home_action", "bg_home_search", "bg_ibox_chip"}) {
+        // 保留 inset 收缩视觉边界的背景（chip 仍用 category_vertical_inset；action 仍用 space_1）。
+        for (String name : new String[]{"bg_home_action", "bg_ibox_chip"}) {
             Document background = xml("app/src/mobile/res/drawable/" + name + ".xml");
             NodeList items = background.getElementsByTagName("item");
             for (int i = 0; i < items.getLength(); i++) {
@@ -1259,13 +1275,14 @@ public class UiResourceContractTest {
 
     @Test
     public void selectedNavigationUsesMatchingThemeRolesInEveryMobilePalette() throws Exception {
+        // 2026 重设计：导航选中态由「胶囊底色」改为「图标+文字着色」，背景仅 pressed/focused 高亮 + 透明默认。
         Document background = xml("app/src/mobile/res/drawable/bg_app_navigation_item.xml");
-        Element selectedBackground = (Element) background.getElementsByTagName("item").item(0);
-        assertEquals("Selection must retain its color pair during press/focus/hover", "true",
-                selectedBackground.getAttribute("android:state_selected"));
-        String backgroundRole = ((Element) selectedBackground.getElementsByTagName("solid").item(0))
-                .getAttribute("android:color");
-        assertEquals("?attr/colorPrimary", backgroundRole);
+        NodeList bgItems = background.getElementsByTagName("item");
+        for (int i = 0; i < bgItems.getLength(); i++) {
+            Element item = (Element) bgItems.item(i);
+            assertFalse("Navigation background no longer carries a selected state",
+                    "true".equals(item.getAttribute("android:state_selected")));
+        }
         Document overlays = xml("app/src/main/res/values/ibox_theme_overlays.xml");
         Document base = xml("app/src/main/res/values/ibox_styles.xml");
         Document[] dayResources = mobileColorResources(false);
@@ -1275,31 +1292,32 @@ public class UiResourceContractTest {
                     .getElementsByTagName("item").item(0);
             assertEquals("true", selectedForeground.getAttribute("android:state_selected"));
             String foregroundRole = selectedForeground.getAttribute("android:color");
-            assertEquals("?attr/colorOnPrimary", foregroundRole);
+            assertEquals("?attr/colorPrimary", foregroundRole);
             Map<String, String> baseRoles = directStyleItems(style(base, "Theme.IBox.Mobile"));
-            assertNavigationPairContrast("Mobile default day", foregroundRole, backgroundRole, baseRoles, dayResources);
-            assertNavigationPairContrast("Mobile default night", foregroundRole, backgroundRole, baseRoles, nightResources);
+            // 选中前景色必须对导航栏表面（透明背景叠在 surface 上）保持可读。
+            assertNavigationPairContrast("Mobile default day", foregroundRole, "?attr/colorSurface", baseRoles, dayResources);
+            assertNavigationPairContrast("Mobile default night", foregroundRole, "?attr/colorSurface", baseRoles, nightResources);
             NodeList styles = overlays.getElementsByTagName("style");
             for (int i = 0; i < styles.getLength(); i++) {
                 Element overlay = (Element) styles.item(i);
                 Map<String, String> roles = new LinkedHashMap<>(baseRoles);
                 roles.putAll(directStyleItems(overlay));
-                // Includes every supported color preset and the high-contrast accessibility overlay.
                 if (!directStyleItems(overlay).containsKey("colorPrimaryContainer")) continue;
                 String name = overlay.getAttribute("name");
-                assertNavigationPairContrast(name + " day", foregroundRole, backgroundRole, roles, dayResources);
-                assertNavigationPairContrast(name + " night", foregroundRole, backgroundRole, roles, nightResources);
+                assertNavigationPairContrast(name + " day", foregroundRole, "?attr/colorSurface", roles, dayResources);
+                assertNavigationPairContrast(name + " night", foregroundRole, "?attr/colorSurface", roles, nightResources);
             }
         }
     }
 
     @Test
     public void mobileCategorySelectionAndPressKeepReadablePairsAcrossOverlays() throws Exception {
-        Element category = xml("app/src/mobile/res/layout/adapter_type.xml").getDocumentElement();
-        Document background = xml("app/src/mobile/res/drawable/"
-                + category.getAttribute("android:background").substring("@drawable/".length()) + ".xml");
-        Document foreground = xml("app/src/mobile/res/color/"
-                + category.getAttribute("android:textColor").substring("@color/".length()) + ".xml");
+        // 2026 重设计：分类 Tab 文字颜色下沉到 TextAppearance.IBox.HomeTab，通过 selector_home_tab_text 表达选中/默认。
+        Element selectedForeground = (Element) xml("app/src/mobile/res/color/selector_home_tab_text.xml")
+                .getElementsByTagName("item").item(0);
+        assertEquals("true", selectedForeground.getAttribute("android:state_selected"));
+        String selectedRole = selectedForeground.getAttribute("android:color");
+        assertEquals("?attr/colorPrimary", selectedRole);
         Map<String, String> baseRoles = directStyleItems(style(
                 xml("app/src/main/res/values/ibox_styles.xml"), "Theme.IBox.Mobile"));
         Map<String, Map<String, String>> palettes = new LinkedHashMap<>();
@@ -1313,19 +1331,14 @@ public class UiResourceContractTest {
             roles.putAll(items);
             palettes.put(overlay.getAttribute("name"), roles);
         }
-        for (Set<String> state : List.of(Set.of("selected"), Set.of("checked"),
-                Set.of("pressed"), Set.of("selected", "pressed"), Set.of("checked", "pressed"))) {
-            for (boolean night : new boolean[]{false, true}) {
-                Document[] resources = mobileColorResources(night);
-                for (Map.Entry<String, Map<String, String>> palette : palettes.entrySet()) {
-                    String fill = ((Element) matchingState(background, state).getElementsByTagName("solid").item(0))
-                            .getAttribute("android:color");
-                    String text = matchingState(foreground, state).getAttribute("android:color");
-                    String label = palette.getKey() + (night ? " night " : " day ") + state;
-                    double ratio = contrast(resolveThemeColor(text, palette.getValue(), resources),
-                            resolveThemeColor(fill, palette.getValue(), resources));
-                    assertTrue(label + " category contrast=" + ratio + " below 4.5:1", ratio >= 4.5);
-                }
+        for (boolean night : new boolean[]{false, true}) {
+            Document[] resources = mobileColorResources(night);
+            for (Map.Entry<String, Map<String, String>> palette : palettes.entrySet()) {
+                String fill = resolveThemeColor(selectedRole, palette.getValue(), resources);
+                String surface = resolveThemeColor("?attr/colorSurface", palette.getValue(), resources);
+                double ratio = contrast(fill, surface);
+                assertTrue(palette.getKey() + (night ? " night" : " day")
+                        + " selected category contrast=" + ratio + " below 4.5:1", ratio >= 4.5);
             }
         }
     }
@@ -1680,9 +1693,10 @@ public class UiResourceContractTest {
         }
         assertEquals("@color/text_site", view(xml("app/src/mobile/res/layout/adapter_search.xml"),
                 "site").getAttribute("android:textColor"));
-        assertEquals("@color/text_site", view(xml("app/src/mobile/res/layout/adapter_vod.xml"),
+        // 2026 重设计：首页海报角标改为「深色半透明底/投影 + 白字」，以应对任意海报背景。
+        assertEquals("@color/white", view(xml("app/src/mobile/res/layout/adapter_vod.xml"),
                 "site").getAttribute("android:textColor"));
-        assertEquals("@color/text_remark", view(xml("app/src/mobile/res/layout/adapter_vod.xml"),
+        assertEquals("@color/white", view(xml("app/src/mobile/res/layout/adapter_vod.xml"),
                 "remark").getAttribute("android:textColor"));
     }
 
