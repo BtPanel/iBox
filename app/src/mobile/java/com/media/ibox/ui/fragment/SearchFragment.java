@@ -116,7 +116,7 @@ public class SearchFragment extends BaseFragment implements MenuProvider, WordAd
         mBinding.wordRecycler.setItemAnimator(null);
         mBinding.wordRecycler.setHasFixedSize(false);
         mBinding.wordRecycler.setAdapter(mWordAdapter = new WordAdapter(this));
-        mBinding.wordRecycler.setLayoutManager(new GridLayoutManager(getContext(), Product.isTabletLayout(requireContext()) ? 3 : 2));
+        mBinding.wordRecycler.setLayoutManager(new GridLayoutManager(getContext(), Product.isTabletLayout(requireContext()) ? 2 : 1));
         mBinding.recordRecycler.setHasFixedSize(false);
         mBinding.recordRecycler.setAdapter(mRecordAdapter = new RecordAdapter(this));
         mBinding.recordRecycler.setLayoutManager(new FlexboxLayoutManager(getContext(), FlexDirection.ROW));
