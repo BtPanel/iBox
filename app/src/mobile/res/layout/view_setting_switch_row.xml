@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  设置页开关行（模板）：图标 + 标题（+ 可选副标题）+ 右侧开关。
+  整行可点，点击即切换；开关本身不可聚焦，避免双重点击区域。
+-->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/ibox_setting_row_height"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingTop="@dimen/ibox_space_3"
+    android:paddingEnd="@dimen/ibox_space_3"
+    android:paddingBottom="@dimen/ibox_space_3">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_msr_settings"
+        app:tint="@color/ibox_text_secondary" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ibox_space_3"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ibox_text_primary"
+            android:textSize="@dimen/ibox_text_body"
+            tools:text="@string/setting_incognito" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ibox_text_secondary"
+            android:textSize="@dimen/ibox_text_supporting"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ibox_space_2"
+        android:clickable="false"
+        android:focusable="false" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

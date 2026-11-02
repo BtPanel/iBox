@@ -59,7 +59,8 @@ public class DanmakuSetting {
     }
 
     public static boolean isAuto() {
-        return Prefers.getBoolean("danmaku_auto", true);
+        // 默认不自动搜索弹幕：进入播放页不去外部接口按片名检索，避免首屏等待与误匹配。
+        return Prefers.getBoolean("danmaku_auto", false);
     }
 
     public static void putAuto(boolean auto) {

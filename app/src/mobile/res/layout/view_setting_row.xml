@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  设置页通用行（模板）：图标 + 标题（+ 可选副标题）+ 右侧值 + 箭头。
+  用于所有「点进去」或「弹选择框」的条目，保证整站设置行高度、字号、间距一致；
+  副标题、右侧值、箭头默认隐藏，由各页面的代码按需显示。
+-->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/ibox_setting_row_height"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingTop="@dimen/ibox_space_3"
+    android:paddingEnd="@dimen/ibox_space_4"
+    android:paddingBottom="@dimen/ibox_space_3">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_msr_settings"
+        app:tint="@color/ibox_text_secondary" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ibox_space_3"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ibox_text_primary"
+            android:textSize="@dimen/ibox_text_body"
+            tools:text="@string/setting_vod" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ibox_text_secondary"
+            android:textSize="@dimen/ibox_text_supporting"
+            android:visibility="gone"
+            tools:text="https://example.com/config.json"
+            tools:visibility="visible" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ibox_space_2"
+        android:ellipsize="end"
+        android:maxWidth="150dp"
+        android:singleLine="true"
+        android:textColor="@color/ibox_text_secondary"
+        android:textSize="@dimen/ibox_text_supporting"
+        android:visibility="gone"
+        tools:text="跟随系统"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/chevron"
+        android:layout_width="@dimen/ibox_icon_small"
+        android:layout_height="@dimen/ibox_icon_small"
+        android:layout_marginStart="@dimen/ibox_space_1"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_msr_chevron_right"
+        app:tint="@color/ibox_text_secondary" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

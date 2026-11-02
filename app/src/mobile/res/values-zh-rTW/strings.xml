@@ -202,4 +202,17 @@
     <string name="cast_changing_episode">正在載入劇集…</string>
     <string name="cast_episode_unavailable">無法在電視上切換到該劇集</string>
     <string name="cast_resume_on_phone">在手機繼續播放</string>
+    <string name="setting_entry_source">內容源</string>
+    <string name="setting_entry_general">通用</string>
+    <string name="setting_entry_appearance">外觀與佈局</string>
+    <string name="setting_entry_playback">播放與彈幕</string>
+    <string name="setting_entry_data">網路與資料</string>
+    <string name="setting_entry_general_summary">無痕、區域網路控制、底部選單、啟動頁</string>
+    <string name="setting_entry_playback_summary">播放器、彈幕、自動切源</string>
+    <string name="setting_entry_source_empty">還沒有設定訂閱</string>
+    <string name="setting_source_tip">長按內容源可編輯訂閱位址</string>
+    <string name="settings_section_network">網路</string>
+    <string name="settings_section_storage">資料與同步</string>
+    <string name="setting_entry_appearance_summary">%1$s · %2$s</string>
+    <string name="setting_entry_data_summary">%1$d 執行緒搜尋 · DoH、加速、備份</string>
 </resources>

@@ -40,11 +40,16 @@ import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.base.BaseActivity;
 import com.media.ibox.ui.custom.AppNavigation;
 import com.media.ibox.ui.custom.FragmentStateManager;
+import com.media.ibox.ui.fragment.SettingAppearanceFragment;
 import com.media.ibox.ui.fragment.SettingDanmakuFragment;
+import com.media.ibox.ui.fragment.SettingDataFragment;
 import com.media.ibox.ui.fragment.SettingDecodeFragment;
 import com.media.ibox.ui.fragment.SettingFragment;
+import com.media.ibox.ui.fragment.SettingGeneralFragment;
+import com.media.ibox.ui.fragment.SettingPlaybackFragment;
 import com.media.ibox.ui.fragment.SettingPlayerFragment;
 import com.media.ibox.ui.fragment.SettingPreloadFragment;
+import com.media.ibox.ui.fragment.SettingSourceFragment;
 import com.media.ibox.ui.fragment.VodFragment;
 import com.media.ibox.utils.FileChooser;
 import com.media.ibox.utils.Notify;
@@ -61,6 +66,19 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
 
     private static final long LIVE_CONFIG_DELAY_MS = 2000;
     private static final String STATE_POSITION = "home_position";
+
+    /** 设置首页与各级设置页在 FragmentStateManager 中的位置 */
+    public static final int PAGE_HOME = 0;
+    public static final int PAGE_SETTINGS = 1;
+    public static final int PAGE_PLAYER = 2;
+    public static final int PAGE_DANMAKU = 3;
+    public static final int PAGE_PRELOAD = 4;
+    public static final int PAGE_DECODE = 5;
+    public static final int PAGE_SOURCE = 6;
+    public static final int PAGE_GENERAL = 7;
+    public static final int PAGE_APPEARANCE = 8;
+    public static final int PAGE_PLAYBACK = 9;
+    public static final int PAGE_DATA = 10;
 
     private FragmentStateManager mManager;
     private ActivityHomeBinding mBinding;
@@ -160,12 +178,17 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
 
     private void initFragment() {
         mManager = new FragmentStateManager(mBinding.container, getSupportFragmentManager(), position -> switch (position) {
-            case 0 -> VodFragment.newInstance();
-            case 1 -> SettingFragment.newInstance();
-            case 2 -> SettingPlayerFragment.newInstance();
-            case 3 -> SettingDanmakuFragment.newInstance();
-            case 4 -> SettingPreloadFragment.newInstance();
-            case 5 -> SettingDecodeFragment.newInstance();
+            case PAGE_HOME -> VodFragment.newInstance();
+            case PAGE_SETTINGS -> SettingFragment.newInstance();
+            case PAGE_PLAYER -> SettingPlayerFragment.newInstance();
+            case PAGE_DANMAKU -> SettingDanmakuFragment.newInstance();
+            case PAGE_PRELOAD -> SettingPreloadFragment.newInstance();
+            case PAGE_DECODE -> SettingDecodeFragment.newInstance();
+            case PAGE_SOURCE -> SettingSourceFragment.newInstance();
+            case PAGE_GENERAL -> SettingGeneralFragment.newInstance();
+            case PAGE_APPEARANCE -> SettingAppearanceFragment.newInstance();
+            case PAGE_PLAYBACK -> SettingPlaybackFragment.newInstance();
+            case PAGE_DATA -> SettingDataFragment.newInstance();
             default -> null;
         });
     }
@@ -249,7 +272,7 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
     }
 
     private void checkDestination() {
-        if (mManager != null && getIntent().getIntExtra("destination", 0) == 1) change(1);
+        if (mManager != null && getIntent().getIntExtra("destination", 0) == 1) change(PAGE_SETTINGS);
     }
 
     private void checkStartPage(Intent intent) {
@@ -275,10 +298,10 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
     public void change(int position) {
         currentPosition = position;
         mManager.change(position);
-        if (position >= 2) mBinding.navigation.getRoot().setVisibility(View.GONE);
+        if (position >= PAGE_PLAYER) mBinding.navigation.getRoot().setVisibility(View.GONE);
         else AppNavigation.applyVisibility(this);
-        if (position == 0) AppNavigation.select(this, AppNavigation.HOME);
-        else if (position == 1) AppNavigation.select(this, AppNavigation.SETTINGS);
+        if (position == PAGE_HOME) AppNavigation.select(this, AppNavigation.HOME);
+        else if (position == PAGE_SETTINGS) AppNavigation.select(this, AppNavigation.SETTINGS);
     }
 
     @Override
@@ -326,13 +349,16 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
 
     @Override
     protected void onBackInvoked() {
-        if (mManager.isVisible(4) || mManager.isVisible(5)) {
-            change(2);
-        } else if (mManager.isVisible(2) || mManager.isVisible(3)) {
-            change(1);
-        } else if (mManager.isVisible(1)) {
-            change(0);
-        } else if (mManager.canBack(0)) {
+        if (mManager.isVisible(PAGE_PRELOAD) || mManager.isVisible(PAGE_DECODE)) {
+            change(PAGE_PLAYER);
+        } else if (mManager.isVisible(PAGE_PLAYER) || mManager.isVisible(PAGE_DANMAKU)) {
+            change(PAGE_PLAYBACK);
+        } else if (mManager.isVisible(PAGE_SOURCE) || mManager.isVisible(PAGE_GENERAL) || mManager.isVisible(PAGE_APPEARANCE)
+                || mManager.isVisible(PAGE_PLAYBACK) || mManager.isVisible(PAGE_DATA)) {
+            change(PAGE_SETTINGS);
+        } else if (mManager.isVisible(PAGE_SETTINGS)) {
+            change(PAGE_HOME);
+        } else if (mManager.canBack(PAGE_HOME)) {
             if (PlaybackService.isRunning()) Util.moveToBackground(this);
             else super.onBackInvoked();
         }

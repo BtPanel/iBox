@@ -202,4 +202,17 @@
     <string name="cast_changing_episode">Loading episode…</string>
     <string name="cast_episode_unavailable">Cannot switch to this episode on the TV.</string>
     <string name="cast_resume_on_phone">Continue on phone</string>
+    <string name="setting_entry_source">Content sources</string>
+    <string name="setting_entry_general">General</string>
+    <string name="setting_entry_appearance">Appearance and layout</string>
+    <string name="setting_entry_playback">Playback and danmaku</string>
+    <string name="setting_entry_data">Network and data</string>
+    <string name="setting_entry_general_summary">Incognito, LAN control, navigation, start page</string>
+    <string name="setting_entry_playback_summary">Player, danmaku, automatic source switching</string>
+    <string name="setting_entry_source_empty">No subscription yet</string>
+    <string name="setting_source_tip">Long press a source to edit its subscription</string>
+    <string name="settings_section_network">Network</string>
+    <string name="settings_section_storage">Data and sync</string>
+    <string name="setting_entry_appearance_summary">%1$s · %2$s</string>
+    <string name="setting_entry_data_summary">%1$d search threads · DoH, acceleration, backup</string>
 </resources>

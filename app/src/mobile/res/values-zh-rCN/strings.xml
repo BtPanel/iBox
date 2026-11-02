@@ -202,4 +202,17 @@
     <string name="cast_changing_episode">正在加载剧集…</string>
     <string name="cast_episode_unavailable">无法在电视上切换到该剧集</string>
     <string name="cast_resume_on_phone">在手机继续播放</string>
+    <string name="setting_entry_source">内容源</string>
+    <string name="setting_entry_general">通用</string>
+    <string name="setting_entry_appearance">外观与布局</string>
+    <string name="setting_entry_playback">播放与弹幕</string>
+    <string name="setting_entry_data">网络与数据</string>
+    <string name="setting_entry_general_summary">无痕、局域网控制、底部菜单、启动页</string>
+    <string name="setting_entry_playback_summary">播放器、弹幕、自动切源</string>
+    <string name="setting_entry_source_empty">还没有配置订阅</string>
+    <string name="setting_source_tip">长按内容源可编辑订阅地址</string>
+    <string name="settings_section_network">网络</string>
+    <string name="settings_section_storage">数据与同步</string>
+    <string name="setting_entry_appearance_summary">%1$s · %2$s</string>
+    <string name="setting_entry_data_summary">%1$d 线程搜索 · DoH、加速、备份</string>
 </resources>

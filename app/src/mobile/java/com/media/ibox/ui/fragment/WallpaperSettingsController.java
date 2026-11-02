@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.widget.TextView;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,7 +22,6 @@ import com.media.ibox.api.config.VodConfig;
 import com.media.ibox.api.config.WallConfig;
 import com.media.ibox.bean.Config;
 import com.media.ibox.databinding.DialogWallpaperBinding;
-import com.media.ibox.databinding.FragmentSettingBinding;
 import com.media.ibox.event.ConfigEvent;
 import com.media.ibox.impl.Callback;
 import com.media.ibox.setting.Setting;
@@ -37,7 +37,7 @@ final class WallpaperSettingsController {
     private static final int[] BUILT_IN_WALLPAPERS = {0, R.drawable.wallpaper_solid_1, R.drawable.wallpaper_solid_2, R.drawable.wallpaper_solid_3};
 
     private final ActivityResultLauncher<Intent> picker;
-    private final FragmentSettingBinding settingsBinding;
+    private final TextView wallText;
     private final Fragment fragment;
     private DialogWallpaperBinding dialogBinding;
     private AlertDialog dialog;
@@ -45,9 +45,9 @@ final class WallpaperSettingsController {
     private int requestId;
     private boolean released;
 
-    WallpaperSettingsController(Fragment fragment, FragmentSettingBinding settingsBinding, ActivityResultLauncher<Intent> picker) {
+    WallpaperSettingsController(Fragment fragment, TextView wallText, ActivityResultLauncher<Intent> picker) {
         this.fragment = fragment;
-        this.settingsBinding = settingsBinding;
+        this.wallText = wallText;
         this.picker = picker;
     }
 
@@ -126,7 +126,7 @@ final class WallpaperSettingsController {
         String custom = WallConfig.getDesc();
         String builtIn = wall >= 0 && wall < wallpaper.length ? wallpaper[wall] : wallpaper[0];
         boolean customActive = wall == 0 && FileUtil.getWallCache().exists();
-        settingsBinding.wallUrl.setText(customActive && !TextUtils.isEmpty(custom) ? custom : builtIn);
+        if (wallText != null) wallText.setText(customActive && !TextUtils.isEmpty(custom) ? custom : builtIn);
         syncDialog();
     }
 
