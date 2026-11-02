@@ -103,8 +103,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
                     android:textColor="@color/ibox_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -195,7 +196,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group"
-                android:layout_width="120dp"
+                android:layout_width="104dp"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
                 android:clipToPadding="false"
@@ -204,7 +205,7 @@
                 tools:listitem="@layout/adapter_group" />
 
             <View
-                android:layout_width="2dp"
+                android:layout_width="@dimen/ibox_stroke_thin"
                 android:layout_height="match_parent"
                 android:background="@color/ibox_glass_divider" />
 
@@ -221,7 +222,7 @@
 
             <View
                 android:id="@+id/lineDivider"
-                android:layout_width="2dp"
+                android:layout_width="@dimen/ibox_stroke_thin"
                 android:layout_height="match_parent"
                 android:background="@color/ibox_glass_divider" />
 

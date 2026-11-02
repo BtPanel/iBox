@@ -1243,6 +1243,7 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
     private void setSummary(Channel channel) {
         mBinding.summaryNumber.setText(channel.getNumber());
         mBinding.summaryName.setText(channel.getShow());
+        mBinding.summaryName.setSelected(true);
         mBinding.summaryNow.setText(R.string.live_epg_empty);
         mBinding.summaryNow.setSelected(true);
     }
