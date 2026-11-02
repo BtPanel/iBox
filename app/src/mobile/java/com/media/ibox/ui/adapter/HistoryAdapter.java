@@ -70,10 +70,10 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
         boolean same = item.getVodName().equals(item.getVodRemarks());
         boolean hasProgress = item.getDuration() > 0 && item.getPosition() >= 0;
         String progress = item.isWatched() ? holder.itemView.getContext().getString(com.media.ibox.R.string.history_watched) : holder.itemView.getContext().getString(com.media.ibox.R.string.history_progress, item.getProgressPercent());
-        String remark = same ? progress : item.getVodRemarks() + " · " + progress;
+        // 角标只承载进度：清晰度叠进来会把胶囊撑满整张海报，进度反而被省略号吃掉
         holder.binding.name.setText(item.getVodName());
         holder.binding.site.setText(item.getSiteName());
-        holder.binding.remark.setText(hasProgress ? remark : item.getVodRemarks());
+        holder.binding.remark.setText(hasProgress ? progress : item.getVodRemarks());
         holder.binding.site.setVisibility(item.getSiteVisible());
         holder.binding.progress.setMax((int) item.getDuration());
         holder.binding.progress.setProgress((int) item.getPosition(), animate);
