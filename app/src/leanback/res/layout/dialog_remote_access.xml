@@ -8,15 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="@dimen/ibox_dialog_content_padding">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/remote_title"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="@dimen/ibox_text_page_title"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.IBox.DialogTitle" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"

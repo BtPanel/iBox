@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/ibox_space_5">
+    android:padding="@dimen/ibox_dialog_content_padding">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/accessibility_title"
-        android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+        android:textAppearance="@style/TextAppearance.IBox.DialogTitle" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"

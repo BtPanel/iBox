@@ -15,7 +15,6 @@
         android:paddingEnd="24dp"
         android:paddingBottom="16dp"
         android:textAppearance="@style/TextAppearance.IBox.DialogTitle"
-        android:textColor="?attr/colorOnSurface"
         tools:text="选集 · 共156集" />
 
     <com.media.ibox.ui.custom.CustomRecyclerView

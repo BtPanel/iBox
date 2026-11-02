@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="24dp">
+    android:padding="@dimen/ibox_dialog_content_padding">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/pass"

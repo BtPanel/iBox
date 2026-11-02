@@ -12,6 +12,7 @@
     <dimen name="ibox_space_7">48dp</dimen>
     <dimen name="ibox_dialog_content_padding">24dp</dimen>
     <dimen name="ibox_dialog_group_spacing">16dp</dimen>
+    <dimen name="ibox_dialog_webdav_max_height">560dp</dimen>
     <dimen name="ibox_radius_small">8dp</dimen>
     <dimen name="ibox_radius_card">12dp</dimen>
     <dimen name="ibox_radius_container">16dp</dimen>

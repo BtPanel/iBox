@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.media.ibox.ui.custom.MaxHeightNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    app:maxHeight="@dimen/ibox_dialog_webdav_max_height">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/ibox_space_5">
+        android:padding="@dimen/ibox_dialog_content_padding">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/webdav_title"
-            android:textAppearance="@style/TextAppearance.IBox.Toolbar" />
+            android:textAppearance="@style/TextAppearance.IBox.DialogTitle" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
@@ -202,4 +203,4 @@
                 android:text="@string/webdav_upload" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
-</androidx.core.widget.NestedScrollView>
+</com.media.ibox.ui.custom.MaxHeightNestedScrollView>

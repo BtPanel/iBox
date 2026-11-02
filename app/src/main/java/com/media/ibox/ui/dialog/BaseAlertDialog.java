@@ -41,6 +41,7 @@ public abstract class BaseAlertDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
         applyDefaultWidth();
+        applyMaxHeight();
         Dialog dialog = getDialog();
         if (dialog == null) return;
         DialogMotion.disableListAnimations(dialog);
@@ -77,6 +78,20 @@ public abstract class BaseAlertDialog extends DialogFragment {
                 : R.dimen.ibox_dialog_width_mobile);
         WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = Math.min(screenWidth - margin * 2, maximum);
+        getDialog().getWindow().setAttributes(params);
+    }
+
+    /** 子类可覆盖以限制弹窗最大高度；返回 0 表示不限制（默认 WRAP_CONTENT）。 */
+    protected int getMaxHeight() {
+        return 0;
+    }
+
+    private void applyMaxHeight() {
+        int maxHeight = getMaxHeight();
+        if (maxHeight <= 0 || getDialog() == null || getDialog().getWindow() == null) return;
+        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.height = Math.min(maxHeight, ResUtil.getScreenHeight() - getResources()
+                .getDimensionPixelSize(R.dimen.ibox_dialog_margin_mobile) * 2);
         getDialog().getWindow().setAttributes(params);
     }
 }

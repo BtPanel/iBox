@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="24dp">
+    android:padding="@dimen/ibox_dialog_content_padding">
 
     <com.media.ibox.ui.custom.CustomRecyclerView
         android:id="@+id/recycler"

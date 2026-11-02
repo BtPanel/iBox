@@ -3,7 +3,7 @@
     <style name="ThemeOverlay.IBox.Dialog.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.Alert</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.30</item>
+        <item name="android:backgroundDimAmount">0.56</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="colorError">@color/ibox_error</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.IBox.Dialog.TV</item>
@@ -24,7 +24,7 @@
     <style name="ThemeOverlay.IBox.Dialog.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="android:windowAnimationStyle">@style/Animation.IBox.Dialog.BottomSheet</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.64</item>
+        <item name="android:backgroundDimAmount">0.56</item>
         <item name="android:textColorPrimary">@color/ibox_text_primary</item>
         <item name="android:textColorSecondary">@color/ibox_text_secondary</item>
         <item name="android:colorAccent">?attr/colorPrimary</item>

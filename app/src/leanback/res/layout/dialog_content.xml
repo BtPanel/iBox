@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="8dp"
-        android:padding="24dp"
+        android:padding="@dimen/ibox_dialog_content_padding"
         android:textColor="?attr/colorOnSurface"
         android:textSize="@dimen/ibox_text_section" />
 
