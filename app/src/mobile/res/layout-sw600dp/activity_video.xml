@@ -454,4 +454,18 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         layout="@layout/view_app_navigation" />
+
+    <!-- 平板竖屏同样需要返回入口；全屏时由代码隐藏 -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/detailBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/ibox_content_padding_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_detail_back_button"
+        android:contentDescription="@string/nav_back"
+        android:padding="10dp"
+        android:src="@drawable/ic_msr_arrow_back"
+        app:tint="@color/ibox_player_text_primary" />
 </RelativeLayout>
