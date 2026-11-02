@@ -12,11 +12,10 @@ public final class GitHubUrl {
     private static final String GITHUB_HOST = "github.com";
     private static final String GITHUB_RAW_HOST = "raw.githubusercontent.com";
     private static final String GITHUB_RAW = "https://raw.githubusercontent.com";
-    private static final String JSDELIVR = "https://cdn.jsdelivr.net/gh";
-    private static final String[] ACCELERATORS = {
-            "https://gh-proxy.com/",
-            "https://ghfast.top/"
-    };
+    /**
+     * 仅用于识别「这段地址已经被某个加速前缀包过」，不再作为默认加速线路。
+     * 加速线路只来自用户在设置页填写的自定义列表。
+     */
     private static final String[] KNOWN_PROXY_PREFIXES = {
             "https://gh-proxy.com/",
             "https://ghfast.top/",
@@ -43,8 +42,7 @@ public final class GitHubUrl {
 
     /**
      * 设置用户自定义的加速前缀。传入的每项都会规范化为以 "/" 结尾。
-     * 自定义前缀会**优先于**内置的 {@link #ACCELERATORS} 被尝试，
-     * 内置的仍保留作为兜底，避免自定义失效后整个功能不可用。
+     * 这是唯一的加速来源：没有内置前缀，列表为空即等同于不加速。
      */
     public static void setCustomAccelerators(List<String> list) {
         if (list == null || list.isEmpty()) {
@@ -85,34 +83,22 @@ public final class GitHubUrl {
         return value;
     }
 
-    /**
-     * 所有生效的加速前缀：自定义在前，内置在后。
-     */
-    private static List<String> accelerators() {
-        List<String> custom = customAccelerators;
-        if (custom.isEmpty()) return Arrays.asList(ACCELERATORS);
-        List<String> all = new ArrayList<>(custom.size() + ACCELERATORS.length);
-        all.addAll(custom);
-        for (String builtin : ACCELERATORS) if (!custom.contains(builtin)) all.add(builtin);
-        return all;
-    }
-
     public static List<String> candidates(String url) {
         if (url == null || url.isEmpty()) return Collections.emptyList();
+        // 关闭开关时完全不做改写，保持用户填写的原地址
         if (!accelerationEnabled) return Collections.singletonList(url);
         boolean accelerated = isAccelerated(url);
         String unwrapped = unwrap(url);
         String raw = toRaw(unwrapped);
+        List<String> accelerators = customAccelerators;
         LinkedHashSet<String> candidates = new LinkedHashSet<>();
         if (raw != null) {
             if (accelerated) candidates.add(url);
-            for (String accelerator : accelerators()) candidates.add(accelerator + raw);
+            for (String accelerator : accelerators) candidates.add(accelerator + raw);
             candidates.add(raw);
-            String jsDelivr = toJsDelivr(raw);
-            if (jsDelivr != null) candidates.add(jsDelivr);
         } else if (isGitHubUrl(unwrapped)) {
             if (accelerated) candidates.add(url);
-            for (String accelerator : accelerators()) candidates.add(accelerator + unwrapped);
+            for (String accelerator : accelerators) candidates.add(accelerator + unwrapped);
             candidates.add(unwrapped);
         } else {
             candidates.add(url);
@@ -122,12 +108,12 @@ public final class GitHubUrl {
 
     public static String accelerateIfNeeded(String url) {
         if (!accelerationEnabled || url == null || url.isEmpty() || isAccelerated(url)) return url;
-        List<String> all = accelerators();
+        List<String> all = customAccelerators;
         return isGitHubUrl(url) && !all.isEmpty() ? all.get(0) + url : url;
     }
 
     /**
-     * 识别加速前缀时使用：已知的内置代理前缀 + 用户自定义前缀。
+     * 识别加速前缀时使用：已知的历史代理前缀 + 用户自定义前缀。
      */
     private static List<String> proxyPrefixes() {
         List<String> custom = customAccelerators;
@@ -204,21 +190,6 @@ public final class GitHubUrl {
         for (int i = pathStart; i < parts.length; i++) result.append('/').append(parts[i]);
         if (query != null && !query.isEmpty()) result.append('?').append(query);
         return result.toString();
-    }
-
-    private static String toJsDelivr(String raw) {
-        try {
-            URI uri = URI.create(raw);
-            if (!GITHUB_RAW_HOST.equalsIgnoreCase(uri.getHost())) return null;
-            String[] parts = uri.getRawPath().split("/");
-            if (parts.length < 5) return null;
-            StringBuilder result = new StringBuilder(JSDELIVR).append('/').append(parts[1]).append('/').append(parts[2]).append('@').append(parts[3]);
-            for (int i = 4; i < parts.length; i++) result.append('/').append(parts[i]);
-            if (uri.getRawQuery() != null) result.append('?').append(uri.getRawQuery());
-            return result.toString();
-        } catch (Exception ignored) {
-            return null;
-        }
     }
 
 }

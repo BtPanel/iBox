@@ -370,8 +370,8 @@
     <string name="setting_github_acceleration">GitHub 加速</string>
     <string name="setting_github_accelerators">自定义加速网址</string>
     <string name="setting_github_accelerators_hint">每行一个加速前缀，例如 https://gh-proxy.com/
-留空则仅使用内置加速网址。</string>
-    <string name="setting_github_accelerators_default">默认</string>
+留空则不启用加速。</string>
+    <string name="setting_github_accelerators_default">未设置</string>
     <string name="setting_github_accelerators_count">%1$d 个自定义</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">缓存</string>

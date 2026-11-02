@@ -21,13 +21,9 @@ public class GitHubUrlTest {
     }
 
     @Test
-    public void providesGlobalFallbacksForGitHubResources() {
-        assertEquals(Arrays.asList(
-                "https://gh-proxy.com/" + RAW,
-                "https://ghfast.top/" + RAW,
-                RAW,
-                "https://cdn.jsdelivr.net/gh/owner/repository@main/config.json"),
-                GitHubUrl.candidates(RAW));
+    public void withoutCustomAcceleratorsOnlyTheOriginalUrlIsUsed() {
+        assertEquals(Collections.singletonList(RAW), GitHubUrl.candidates(RAW));
+        assertEquals(RAW, GitHubUrl.accelerateIfNeeded(RAW));
     }
 
     @Test
@@ -39,20 +35,15 @@ public class GitHubUrlTest {
     @Test
     public void disablesAllAutomaticAcceleration() {
         GitHubUrl.setAccelerationEnabled(false);
+        GitHubUrl.setCustomAccelerators("https://my-proxy.example/");
         assertEquals(Collections.singletonList(RAW), GitHubUrl.candidates(RAW));
         assertEquals(RAW, GitHubUrl.accelerateIfNeeded(RAW));
     }
 
     @Test
-    public void customAcceleratorsTakePriorityAndKeepBuiltInOnesAsFallback() {
+    public void customAcceleratorsAreTriedBeforeTheOriginalUrl() {
         GitHubUrl.setCustomAccelerators("https://my-proxy.example/");
-        assertEquals(Arrays.asList(
-                "https://my-proxy.example/" + RAW,
-                "https://gh-proxy.com/" + RAW,
-                "https://ghfast.top/" + RAW,
-                RAW,
-                "https://cdn.jsdelivr.net/gh/owner/repository@main/config.json"),
-                GitHubUrl.candidates(RAW));
+        assertEquals(Arrays.asList("https://my-proxy.example/" + RAW, RAW), GitHubUrl.candidates(RAW));
         assertEquals("https://my-proxy.example/" + RAW, GitHubUrl.accelerateIfNeeded(RAW));
     }
 
@@ -66,13 +57,12 @@ public class GitHubUrlTest {
     }
 
     @Test
-    public void customAcceleratorsAreDeduplicatedAgainstBuiltInOnes() {
-        GitHubUrl.setCustomAccelerators("https://gh-proxy.com/");
+    public void customAcceleratorsKeepTheirOrderAndDropDuplicates() {
+        GitHubUrl.setCustomAccelerators("https://a.example/\nhttps://b.example/\na.example");
         assertEquals(Arrays.asList(
-                "https://gh-proxy.com/" + RAW,
-                "https://ghfast.top/" + RAW,
-                RAW,
-                "https://cdn.jsdelivr.net/gh/owner/repository@main/config.json"),
+                        "https://a.example/" + RAW,
+                        "https://b.example/" + RAW,
+                        RAW),
                 GitHubUrl.candidates(RAW));
     }
 

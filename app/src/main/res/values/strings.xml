@@ -371,8 +371,8 @@
     <string name="setting_github_acceleration">GitHub acceleration</string>
     <string name="setting_github_accelerators">Custom acceleration URLs</string>
     <string name="setting_github_accelerators_hint">One prefix per line, e.g. https://gh-proxy.com/
-Leave empty to use built-in accelerators only.</string>
-    <string name="setting_github_accelerators_default">Default</string>
+Leave empty to disable acceleration.</string>
+    <string name="setting_github_accelerators_default">Not set</string>
     <string name="setting_github_accelerators_count">%1$d custom</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">Cache</string>
