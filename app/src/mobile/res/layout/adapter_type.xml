@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/text"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/ibox_home_row_height"
-    android:layout_marginStart="@dimen/ibox_space_1"
-    android:layout_marginEnd="@dimen/ibox_space_1"
-    android:background="@drawable/bg_ibox_chip"
+    android:layout_height="@dimen/ibox_home_tab_height"
+    android:background="@drawable/bg_home_icon_button"
+    android:clickable="true"
+    android:focusable="true"
     android:gravity="center"
-    android:includeFontPadding="false"
-    android:minWidth="@dimen/ibox_home_row_height"
-    android:paddingStart="@dimen/ibox_home_category_padding"
-    android:paddingEnd="@dimen/ibox_home_category_padding"
-    android:textColor="@color/selector_ibox_text"
-    android:textAppearance="@style/TextAppearance.IBox.Body"
-    tools:text="電影" />
+    android:orientation="vertical"
+    android:paddingStart="@dimen/ibox_home_tab_padding"
+    android:paddingEnd="@dimen/ibox_home_tab_padding">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.IBox.HomeTab"
+        tools:text="电影" />
+
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="@dimen/ibox_home_tab_indicator_width"
+        android:layout_height="@dimen/ibox_home_tab_indicator_height"
+        android:layout_marginTop="@dimen/ibox_home_tab_indicator_gap"
+        android:background="@drawable/selector_home_tab_indicator"
+        android:duplicateParentState="true" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

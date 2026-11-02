@@ -4,5 +4,7 @@
     <color name="ibox_home_control_surface">#66080F0D</color>
     <color name="ibox_home_chrome_surface">#B317201E</color>
     <color name="ibox_home_chrome_secondary">#AABAB5</color>
+    <color name="ibox_home_search_surface">#FF1B2421</color>
+    <color name="ibox_home_poster_scrim">#B3000000</color>
     <color name="ibox_wall_chrome_surface">#C617201E</color>
 </resources>

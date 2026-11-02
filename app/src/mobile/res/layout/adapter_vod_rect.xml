@@ -1,82 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="6dp"
-    android:layout_marginVertical="@dimen/ibox_space_2"
+    android:layout_marginHorizontal="@dimen/ibox_home_poster_margin"
+    android:layout_marginTop="@dimen/ibox_space_1"
+    android:layout_marginBottom="@dimen/ibox_space_3"
     android:background="@android:color/transparent"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="@drawable/shape_vod">
+    android:foreground="@drawable/shape_vod"
+    android:orientation="vertical">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/ibox_surface_variant"
-        android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/Vod.Grid.Large" />
+        android:layout_height="wrap_content">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/image"
-        android:layout_alignEnd="@+id/image"
-        android:layout_margin="@dimen/ibox_space_1"
-        android:background="@drawable/bg_ibox_badge"
-        android:ellipsize="end"
-        android:maxWidth="96dp"
-        android:singleLine="true"
-        android:textColor="?attr/colorOnPrimary"
-        android:textAppearance="@style/TextAppearance.IBox.Supporting"
-        android:visibility="gone"
-        tools:text="2022"
-        tools:visibility="visible" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/ibox_surface_variant"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/Vod.Grid.Large" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/site"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/ibox_space_1"
-        android:background="@drawable/bg_ibox_badge"
-        android:singleLine="true"
-        android:textColor="?attr/colorOnPrimary"
-        android:textAppearance="@style/TextAppearance.IBox.Supporting"
-        android:visibility="gone"
-        tools:text="泥巴"
-        tools:visibility="visible" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_margin="@dimen/ibox_space_1"
+            android:background="@drawable/bg_home_poster_badge"
+            android:ellipsize="end"
+            android:maxWidth="72dp"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingTop="1dp"
+            android:paddingEnd="@dimen/ibox_space_2"
+            android:paddingBottom="1dp"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.IBox.PosterBadge"
+            android:visibility="gone"
+            tools:text="泥巴"
+            tools:visibility="visible" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/remark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/shape_vod_score"
-        android:ellipsize="end"
-        android:maxWidth="96dp"
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textAppearance="@style/TextAppearance.IBox.Supporting"
-        tools:text="1080p" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_margin="@dimen/ibox_space_1"
+            android:background="@drawable/bg_home_poster_badge"
+            android:ellipsize="end"
+            android:maxWidth="72dp"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingTop="1dp"
+            android:paddingEnd="@dimen/ibox_space_2"
+            android:paddingBottom="1dp"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.IBox.PosterBadge"
+            android:visibility="gone"
+            tools:text="2022"
+            tools:visibility="visible" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/name"
-        style="@style/Widget.IBox.PosterTitle"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/remarkText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/ibox_space_1"
+            android:background="@drawable/bg_home_poster_remark"
+            android:ellipsize="end"
+            android:maxWidth="72dp"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingTop="1dp"
+            android:paddingEnd="@dimen/ibox_space_2"
+            android:paddingBottom="1dp"
+            android:singleLine="true"
+            android:textColor="@color/ibox_content_accent"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting"
+            android:visibility="gone"
+            tools:text="8.5"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ibox_vod_name_height"
-        android:layout_alignStart="@+id/image"
-        android:layout_alignEnd="@+id/image"
-        android:layout_alignBottom="@+id/image"
-        android:background="@drawable/shape_vod_name"
-        android:paddingStart="@dimen/ibox_space_2"
-        android:paddingTop="@dimen/ibox_space_1"
-        android:paddingEnd="@dimen/ibox_space_2"
-        tools:text="蜘蛛人" />
+        android:layout_height="@dimen/ibox_home_poster_name_height"
+        android:layout_marginTop="@dimen/ibox_home_poster_gap">
 
-</RelativeLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.PosterCaption"
+            tools:text="越剧《劈山救母》" />
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

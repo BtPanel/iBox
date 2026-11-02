@@ -16,10 +16,10 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingStart="4dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="4dp"
-            android:paddingBottom="4dp"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingTop="@dimen/ibox_space_2"
+            android:paddingEnd="@dimen/ibox_space_2"
+            android:paddingBottom="@dimen/ibox_space_1"
             tools:listitem="@layout/adapter_vod_rect" />
 
     </com.media.ibox.ui.custom.ProgressLayout>

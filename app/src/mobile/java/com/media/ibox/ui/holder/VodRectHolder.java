@@ -34,11 +34,11 @@ public class VodRectHolder extends BaseVodHolder {
         binding.name.setText(item.getName());
         binding.year.setText(item.getYear());
         binding.site.setText(item.getSiteName());
-        binding.remark.setText(remark);
+        binding.remarkText.setText(remark);
         binding.site.setVisibility(item.getSiteVisible());
         binding.name.setVisibility(item.getNameVisible());
         binding.year.setVisibility(item.getYearVisible());
-        binding.remark.setVisibility(remark.isEmpty() ? View.GONE : View.VISIBLE);
+        binding.remarkText.setVisibility(remark.isEmpty() ? View.GONE : View.VISIBLE);
         binding.getRoot().setOnClickListener(v -> listener.onItemClick(item));
         binding.getRoot().setOnLongClickListener(v -> listener.onLongClick(item));
         ImgUtil.load(item.getName(), item.getPic(), binding.image);
@@ -52,6 +52,9 @@ public class VodRectHolder extends BaseVodHolder {
     private String getScoreText(String remark) {
         String cleaned = remark.replaceFirst("^\\s*\\d{4}\\s*[/／|｜·,， -]+\\s*", "").trim();
         if (cleaned.isEmpty() || cleaned.equals("0") || cleaned.equals("0.0")) return "";
+        // 只保留真正的短标签（8.5 / 1080P / 全40集）；长句是源的剧情备注，会挤掉片名
+        if (cleaned.length() > 5) return "";
+        if (cleaned.contains("《") || cleaned.contains("》")) return "";
         return cleaned;
     }
 }

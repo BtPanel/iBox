@@ -12,36 +12,38 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:elevation="0dp"
+        android:stateListAnimator="@null"
         app:elevation="0dp"
         app:liftOnScrollColor="@android:color/transparent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/ibox_home_scrim"
             android:orientation="vertical"
             app:layout_scrollFlags="scroll|enterAlways">
 
+            <!-- 品牌行：源入口在左，快捷动作在右，无底色块 -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/ibox_home_row_height"
+                android:layout_height="@dimen/ibox_home_brand_height"
                 android:layout_marginStart="@dimen/ibox_space_3"
-                android:layout_marginTop="@dimen/ibox_space_1"
-                android:layout_marginEnd="@dimen/ibox_space_3"
+                android:layout_marginEnd="@dimen/ibox_space_2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/source"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/ibox_home_icon_button_size"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_home_icon_button"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="@drawable/bg_home_action"
-                    android:paddingStart="@dimen/ibox_space_1"
-                    android:paddingEnd="@dimen/ibox_space_2"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/ibox_space_1"
+                    android:paddingEnd="@dimen/ibox_space_2">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/logo"
@@ -62,59 +64,55 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/app_name"
-                        android:textColor="@color/ibox_text_primary"
-                        android:textAppearance="@style/TextAppearance.IBox.ItemTitle" />
+                        android:textAppearance="@style/TextAppearance.IBox.HomeBrand" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/repository"
                     style="@style/Widget.IBox.IconButton"
-                    android:layout_width="@dimen/ibox_home_row_height"
-                    android:layout_height="@dimen/ibox_home_row_height"
-                    android:layout_marginStart="@dimen/ibox_space_1"
-                    android:background="@drawable/bg_home_action"
+                    android:layout_width="@dimen/ibox_home_icon_button_size"
+                    android:layout_height="@dimen/ibox_home_icon_button_size"
+                    android:background="@drawable/bg_home_icon_button"
                     android:contentDescription="@string/mine_subscription"
-                    android:minWidth="@dimen/ibox_home_row_height"
-                    android:minHeight="@dimen/ibox_home_row_height"
+                    android:minWidth="@dimen/ibox_home_icon_button_size"
+                    android:minHeight="@dimen/ibox_home_icon_button_size"
                     android:src="@drawable/ic_msr_subscriptions"
                     android:tooltipText="@string/mine_subscription"
-                    app:tint="@color/ibox_text_primary" />
+                    app:tint="@color/ibox_home_chrome_secondary" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/keep"
                     style="@style/Widget.IBox.IconButton"
-                    android:layout_width="@dimen/ibox_home_row_height"
-                    android:layout_height="@dimen/ibox_home_row_height"
-                    android:layout_marginStart="@dimen/ibox_space_1"
-                    android:background="@drawable/bg_home_action"
+                    android:layout_width="@dimen/ibox_home_icon_button_size"
+                    android:layout_height="@dimen/ibox_home_icon_button_size"
+                    android:background="@drawable/bg_home_icon_button"
                     android:contentDescription="@string/app_keep"
-                    android:minWidth="@dimen/ibox_home_row_height"
-                    android:minHeight="@dimen/ibox_home_row_height"
+                    android:minWidth="@dimen/ibox_home_icon_button_size"
+                    android:minHeight="@dimen/ibox_home_icon_button_size"
                     android:src="@drawable/ic_msr_favorite"
-                    app:tint="@color/ibox_text_primary" />
+                    app:tint="@color/ibox_home_chrome_secondary" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/history"
                     style="@style/Widget.IBox.IconButton"
-                    android:layout_width="@dimen/ibox_home_row_height"
-                    android:layout_height="@dimen/ibox_home_row_height"
-                    android:layout_marginStart="@dimen/ibox_space_1"
-                    android:background="@drawable/bg_home_action"
+                    android:layout_width="@dimen/ibox_home_icon_button_size"
+                    android:layout_height="@dimen/ibox_home_icon_button_size"
+                    android:background="@drawable/bg_home_icon_button"
                     android:contentDescription="@string/app_history"
-                    android:minWidth="@dimen/ibox_home_row_height"
-                    android:minHeight="@dimen/ibox_home_row_height"
+                    android:minWidth="@dimen/ibox_home_icon_button_size"
+                    android:minHeight="@dimen/ibox_home_icon_button_size"
                     android:src="@drawable/ic_msr_history"
-                    app:tint="@color/ibox_text_primary" />
+                    app:tint="@color/ibox_home_chrome_secondary" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <!-- 搜索行：实底胶囊，视频类 App 的主入口 -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/search"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/ibox_home_row_height"
+                android:layout_height="@dimen/ibox_home_search_height"
                 android:layout_marginStart="@dimen/ibox_space_3"
-                android:layout_marginTop="@dimen/ibox_space_1"
                 android:layout_marginEnd="@dimen/ibox_space_3"
-                android:layout_marginBottom="@dimen/ibox_space_1"
+                android:layout_marginBottom="@dimen/ibox_space_2"
                 android:background="@drawable/bg_home_search"
                 android:clickable="true"
                 android:contentDescription="@string/home_search_hint"
@@ -122,14 +120,14 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/ibox_space_4"
-                android:paddingEnd="@dimen/ibox_space_2">
+                android:paddingEnd="@dimen/ibox_space_1">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/ibox_icon_small"
                     android:layout_height="@dimen/ibox_icon_small"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_msr_search"
-                    app:tint="?attr/colorPrimary" />
+                    app:tint="@color/ibox_home_chrome_secondary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
@@ -145,37 +143,38 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linkArea"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <View
-                    android:layout_width="@dimen/ibox_stroke_thin"
-                    android:layout_height="@dimen/ibox_icon_small"
-                    android:layout_marginStart="@dimen/ibox_space_2"
-                    android:background="@color/ibox_glass_divider" />
+                        android:layout_width="@dimen/ibox_stroke_thin"
+                        android:layout_height="@dimen/ibox_icon_small"
+                        android:background="@color/ibox_glass_divider" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/linkQuick"
-                    android:layout_width="@dimen/ibox_home_row_height"
-                    android:layout_height="@dimen/ibox_home_row_height"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@string/home_open_link"
-                    android:focusable="true"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_msr_link"
-                    app:tint="?attr/colorPrimary" />
+                        android:id="@+id/linkQuick"
+                        android:layout_width="@dimen/ibox_space_6"
+                        android:layout_height="@dimen/ibox_space_6"
+                        android:layout_marginStart="@dimen/ibox_space_1"
+                        android:background="@drawable/bg_home_icon_button"
+                        android:clickable="true"
+                        android:contentDescription="@string/home_open_link"
+                        android:focusable="true"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_msr_link"
+                        app:tint="@color/ibox_home_chrome_secondary" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- 分类 Tab：文字型标签 + 下划线指示器 -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/type"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/ibox_home_row_height"
-            android:background="@android:color/transparent"
+            android:layout_height="@dimen/ibox_home_tab_height"
+            android:background="@color/ibox_home_scrim"
             android:clipChildren="false"
             android:clipToPadding="true"
             android:orientation="horizontal"

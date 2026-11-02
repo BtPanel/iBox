@@ -1,5 +1,41 @@
 <resources>
 
+    <!-- 首页品牌标题：源名做主视觉 -->
+    <style name="TextAppearance.IBox.HomeBrand" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/ibox_text_primary</item>
+        <item name="android:textSize">@dimen/ibox_text_home_brand</item>
+    </style>
+
+    <!-- 首页分类 Tab：文字型标签，选中靠颜色与下划线指示，不使用胶囊底 -->
+    <style name="TextAppearance.IBox.HomeTab" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/selector_home_tab_text</item>
+        <item name="android:textSize">@dimen/ibox_text_home_tab</item>
+    </style>
+
+    <!-- 首页海报片名：图片下方独立一行 -->
+    <style name="TextAppearance.IBox.PosterCaption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/ibox_text_primary</item>
+        <item name="android:textSize">@dimen/ibox_text_poster</item>
+    </style>
+
+    <!-- 海报角标：深色半透明底 + 白字 -->
+    <style name="TextAppearance.IBox.PosterBadge" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/ibox_text_supporting</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay_IBox_CastArtwork">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

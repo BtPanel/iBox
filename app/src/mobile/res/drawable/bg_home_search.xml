@@ -2,24 +2,15 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="?attr/colorControlHighlight">
     <item>
-        <inset android:insetLeft="@dimen/ibox_space_1" android:insetRight="@dimen/ibox_space_1"
-            android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
-            <shape android:shape="rectangle">
-                <solid android:color="@color/ibox_home_chrome_surface" />
-                <stroke
-                    android:width="@dimen/ibox_stroke_thin"
-                    android:color="@color/ibox_glass_divider" />
-                <corners android:radius="@dimen/ibox_radius_pill" />
-            </shape>
-        </inset>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ibox_home_search_surface" />
+            <corners android:radius="@dimen/ibox_radius_pill" />
+        </shape>
     </item>
     <item android:id="@android:id/mask">
-        <inset android:insetLeft="@dimen/ibox_space_1" android:insetRight="@dimen/ibox_space_1"
-            android:insetTop="@dimen/ibox_space_1" android:insetBottom="@dimen/ibox_space_1">
-            <shape android:shape="rectangle">
-                <solid android:color="@color/white" />
-                <corners android:radius="@dimen/ibox_radius_pill" />
-            </shape>
-        </inset>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="@dimen/ibox_radius_pill" />
+        </shape>
     </item>
 </ripple>

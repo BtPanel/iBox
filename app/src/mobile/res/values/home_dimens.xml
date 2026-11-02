@@ -3,4 +3,25 @@
     <dimen name="ibox_home_row_height">44dp</dimen>
     <dimen name="ibox_home_category_padding">10dp</dimen>
     <dimen name="ibox_home_category_vertical_inset">6dp</dimen>
+
+    <!-- 首页品牌行：源入口 + 快捷动作 -->
+    <dimen name="ibox_home_brand_height">56dp</dimen>
+    <!-- 首页搜索胶囊 -->
+    <dimen name="ibox_home_search_height">40dp</dimen>
+    <!-- 首页分类 Tab：文字 + 下划线指示器 -->
+    <dimen name="ibox_home_tab_height">46dp</dimen>
+    <dimen name="ibox_home_tab_indicator_width">24dp</dimen>
+    <dimen name="ibox_home_tab_indicator_height">3dp</dimen>
+    <dimen name="ibox_home_tab_indicator_gap">4dp</dimen>
+    <dimen name="ibox_home_tab_padding">10dp</dimen>
+    <!-- 海报卡：图片下方独立片名行（两行） -->
+    <dimen name="ibox_home_poster_name_height">22dp</dimen>
+    <dimen name="ibox_home_poster_gap">6dp</dimen>
+    <dimen name="ibox_home_poster_margin">6dp</dimen>
+    <dimen name="ibox_home_grid_padding">12dp</dimen>
+    <!-- 顶部图标按钮 -->
+    <dimen name="ibox_home_icon_button_size">40dp</dimen>
+    <!-- 首页字号：品牌标题 / 分类 Tab -->
+    <dimen name="ibox_text_home_brand">18sp</dimen>
+    <dimen name="ibox_text_home_tab">16sp</dimen>
 </resources>

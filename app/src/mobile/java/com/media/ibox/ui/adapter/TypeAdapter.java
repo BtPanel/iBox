@@ -84,8 +84,8 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Class item = mItems.get(position);
         holder.binding.text.setText(item.getTypeName());
-        holder.binding.text.setSelected(item.isSelected());
-        holder.binding.text.setOnClickListener(v -> listener.onItemClick(position, item));
+        holder.binding.getRoot().setSelected(item.isSelected());
+        holder.binding.getRoot().setOnClickListener(v -> listener.onItemClick(position, item));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
