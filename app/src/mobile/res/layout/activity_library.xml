@@ -21,10 +21,11 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="@dimen/ibox_home_tab_height"
         android:background="@android:color/transparent"
         app:tabIndicatorColor="?attr/colorPrimary"
         app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="@dimen/ibox_home_tab_indicator_height"
         app:tabSelectedTextColor="?attr/colorPrimary"
         app:tabTextColor="@color/ibox_text_secondary" />
 
