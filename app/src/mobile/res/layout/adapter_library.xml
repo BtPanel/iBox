@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 收藏/历史卡片：海报圆角卡片 + 底部蒙层 + 进度胶囊 + 片名/来源两行 -->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="6dp"
+    android:layout_marginTop="@dimen/ibox_space_1"
+    android:layout_marginBottom="@dimen/ibox_space_3"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@drawable/shape_vod"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/ibox_surface_variant"
+        app:cardCornerRadius="@dimen/ibox_radius_card"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/ibox_surface_variant"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/Vod.Grid.Large" />
+
+            <View
+                android:id="@+id/scrim"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_library_poster_scrim"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_library_badge"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxWidth="96dp"
+                android:paddingStart="7dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="7dp"
+                android:paddingBottom="2dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/ibox_text_caption"
+                android:visibility="gone"
+                tools:text="已看 58%"
+                tools:visibility="visible" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_gravity="bottom"
+                app:indicatorColor="@color/white"
+                app:trackColor="@color/transparent"
+                app:trackStopIndicatorSize="0dp"
+                app:trackThickness="3dp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_50"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_vod_delete"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ibox_home_poster_name_height"
+        android:layout_marginTop="@dimen/ibox_home_poster_gap"
+        android:ellipsize="end"
+        android:gravity="start|center_vertical"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.IBox.PosterCaption"
+        tools:text="北境往事" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting"
+        android:textColor="@color/ibox_text_secondary"
+        android:visibility="gone"
+        tools:text="更新至 24 集"
+        tools:visibility="visible" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

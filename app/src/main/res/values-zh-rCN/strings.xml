@@ -373,6 +373,7 @@
 留空则不启用加速。</string>
     <string name="setting_github_accelerators_default">未设置</string>
     <string name="setting_github_accelerators_count">%1$d 个自定义</string>
+    <string name="setting_github_acceleration_needs_url">请先在下方填写自定义加速网址</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">缓存</string>
     <string name="storage_privacy_title">存储与隐私</string>
@@ -703,6 +704,7 @@
     <string name="download_filter_failed">失败</string>
     <string name="download_summary">共 %1$d 个任务 · 已下载 %2$s</string>
     <string name="download_empty">暂无下载任务</string>
+    <string name="download_empty_hint">在播放页选择清晰度后即可开始下载</string>
     <string name="download_source_line">线路：%1$s</string>
     <string name="download_progress_value">%1$d%% · %2$s</string>
     <string name="download_status_speed">%1$s · %2$s/s</string>
@@ -741,6 +743,7 @@
     <string name="offline_library_summary">共 %1$d 部 · %2$d 集 · 占用 %3$s</string>
     <string name="offline_library_item_summary">已下载 %1$d 集 · %2$s</string>
     <string name="offline_library_empty">暂无已完成的离线影片</string>
+    <string name="offline_library_empty_hint">下载完成的影片会自动收进这里，断网也能看</string>
     <string name="offline_manage_episodes">管理集数</string>
     <string name="offline_delete_movie_title">删除整部影片？</string>
     <string name="offline_delete_movie_message">将删除“%1$s”已下载的全部 %2$d 集。</string>

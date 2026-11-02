@@ -374,6 +374,7 @@
 Leave empty to disable acceleration.</string>
     <string name="setting_github_accelerators_default">Not set</string>
     <string name="setting_github_accelerators_count">%1$d custom</string>
+    <string name="setting_github_acceleration_needs_url">Add a custom acceleration URL below first</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">Cache</string>
     <string name="storage_privacy_title">Storage &amp; privacy</string>
@@ -704,6 +705,7 @@ Leave empty to disable acceleration.</string>
     <string name="download_filter_failed">Failed</string>
     <string name="download_summary">%1$d tasks · %2$s downloaded</string>
     <string name="download_empty">No downloads</string>
+    <string name="download_empty_hint">Pick a quality on the playback page to start downloading</string>
     <string name="download_source_line">Line: %1$s</string>
     <string name="download_progress_value">%1$d%% · %2$s</string>
     <string name="download_status_speed">%1$s · %2$s/s</string>
@@ -742,6 +744,7 @@ Leave empty to disable acceleration.</string>
     <string name="offline_library_summary">%1$d titles · %2$d episodes · %3$s</string>
     <string name="offline_library_item_summary">%1$d episodes downloaded · %2$s</string>
     <string name="offline_library_empty">No completed downloads</string>
+    <string name="offline_library_empty_hint">Finished downloads show up here and play offline</string>
     <string name="offline_manage_episodes">Manage episodes</string>
     <string name="offline_delete_movie_title">Delete this title?</string>
     <string name="offline_delete_movie_message">Downloaded data for %1$s (%2$d episodes) will be removed.</string>

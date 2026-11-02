@@ -1,5 +1,6 @@
 package com.media.ibox.ui.adapter;
 
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,9 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.media.ibox.R;
 import com.media.ibox.api.config.VodConfig;
 import com.media.ibox.bean.History;
-import com.media.ibox.databinding.AdapterVodBinding;
+import com.media.ibox.databinding.AdapterLibraryBinding;
 import com.media.ibox.utils.ImgUtil;
 
 public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.ViewHolder> {
@@ -58,7 +60,7 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(AdapterVodBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        ViewHolder holder = new ViewHolder(AdapterLibraryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         holder.binding.getRoot().getLayoutParams().width = width;
         holder.binding.image.getLayoutParams().height = height;
         return holder;
@@ -68,19 +70,24 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         History item = getItem(position);
         boolean hasProgress = item.getDuration() > 0 && item.getPosition() > 0 && item.getProgressPercent() > 0;
-        String progress = item.isWatched() ? holder.itemView.getContext().getString(com.media.ibox.R.string.history_watched) : holder.itemView.getContext().getString(com.media.ibox.R.string.history_progress, item.getProgressPercent());
+        String progress = item.isWatched() ? holder.itemView.getContext().getString(R.string.history_watched) : holder.itemView.getContext().getString(R.string.history_progress, item.getProgressPercent());
         // 角标只承载进度：清晰度叠进来会把胶囊撑满整张海报，进度反而被省略号吃掉
         holder.binding.name.setText(item.getVodName());
-        holder.binding.site.setText(item.getSiteName());
-        holder.binding.remark.setText(hasProgress ? progress : item.getVodRemarks());
-        // 站点名压在海报上会糊住画面，收藏/历史只需要海报和片名
-        holder.binding.site.setVisibility(View.GONE);
+        holder.binding.remark.setText(progress);
+        holder.binding.remark.setVisibility(hasProgress && !delete ? View.VISIBLE : View.GONE);
+        holder.binding.scrim.setVisibility(hasProgress && !delete ? View.VISIBLE : View.GONE);
         holder.binding.progress.setMax((int) item.getDuration());
         holder.binding.progress.setProgress((int) item.getPosition(), animate);
         holder.binding.progress.setVisibility(hasProgress && !delete ? View.VISIBLE : View.GONE);
         holder.binding.delete.setVisibility(!delete ? View.GONE : View.VISIBLE);
-        // 只有真正的观看进度才占角标，清晰度/集数这类备注不上海报
-        holder.binding.remark.setVisibility(!hasProgress || delete ? View.GONE : View.VISIBLE);
+        // 副标题给「上次观看时间」：vodRemarks 常是裸数字（集数），放在片名下反而像乱码
+        long time = item.getCreateTime();
+        if (time > 0) {
+            holder.binding.subtitle.setText(DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS));
+            holder.binding.subtitle.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.subtitle.setVisibility(View.GONE);
+        }
         ImgUtil.load(item.getVodName(), item.getVodPic(), holder.binding.image);
         setClickListener(holder.binding.getRoot(), item);
     }
@@ -95,9 +102,9 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final AdapterVodBinding binding;
+        private final AdapterLibraryBinding binding;
 
-        ViewHolder(@NonNull AdapterVodBinding binding) {
+        ViewHolder(@NonNull AdapterLibraryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

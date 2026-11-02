@@ -8,6 +8,7 @@
     android:padding="@dimen/tv_page_padding_top">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:background="@drawable/bg_empty_icon"
@@ -25,6 +26,7 @@
         android:textAppearance="@style/TextAppearance.IBox.ItemTitle" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ibox_space_2"

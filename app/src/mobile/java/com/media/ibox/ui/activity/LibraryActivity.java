@@ -21,7 +21,9 @@ import com.media.ibox.bean.Keep;
 import com.media.ibox.databinding.ActivityLibraryBinding;
 import com.media.ibox.db.AppDatabase;
 import com.media.ibox.event.RefreshEvent;
+import com.media.ibox.library.KeepLibrary;
 import com.media.ibox.impl.Callback;
+import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.adapter.HistoryAdapter;
 import com.media.ibox.ui.adapter.KeepAdapter;
 import com.media.ibox.ui.base.BaseActivity;
@@ -30,6 +32,10 @@ import com.media.ibox.ui.dialog.SyncDialog;
 import com.media.ibox.utils.Notify;
 import com.media.ibox.ui.custom.IBoxAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -41,6 +47,7 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
     private KeepAdapter mKeepAdapter;
     private boolean keep;
     private int mLibraryRequestId;
+    private List<Keep> allKeepItems = Collections.emptyList();
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, LibraryActivity.class));
@@ -97,6 +104,9 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
         keep = false;
         mKeepAdapter.setDelete(false);
         mBinding.recycler.setAdapter(mHistoryAdapter);
+        mBinding.progressLayout.setEmptyState(R.drawable.ic_msr_history, getString(R.string.library_empty_history_title), getString(R.string.library_empty_history_hint));
+        updateSummary();
+        invalidateOptionsMenu();
         getHistory();
     }
 
@@ -104,7 +114,22 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
         keep = true;
         mHistoryAdapter.setDelete(false);
         mBinding.recycler.setAdapter(mKeepAdapter);
+        mBinding.progressLayout.setEmptyState(R.drawable.ic_msr_favorite, getString(R.string.library_empty_keep_title), getString(R.string.library_empty_keep_hint));
+        updateSummary();
+        invalidateOptionsMenu();
         getKeep();
+    }
+
+    /** 列表上方的一行摘要：数量 + 当前排序，替代空荡荡的标题下方留白 */
+    private void updateSummary() {
+        if (mBinding == null) return;
+        int count = keep ? mKeepAdapter.getItemCount() : mHistoryAdapter.getItemCount();
+        String sort = keep ? currentSortName() : getString(R.string.library_summary_history);
+        mBinding.summary.setText(getString(R.string.library_summary, count, sort));
+    }
+
+    private String currentSortName() {
+        return getResources().getStringArray(R.array.keep_sort_options)[Setting.getKeepSortMode()];
     }
 
     private void getHistory() {
@@ -113,6 +138,7 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
             if (keep || requestId != mLibraryRequestId || isFinishing() || isDestroyed()) return;
             mHistoryAdapter.setItems(items, hasChange -> {
                 mBinding.progressLayout.showContent(true, mHistoryAdapter.getItemCount());
+                updateSummary();
                 if (hasChange) mBinding.recycler.scrollToPosition(0);
             });
         });
@@ -122,8 +148,31 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
         int requestId = ++mLibraryRequestId;
         AppDatabase.queryAsync(Keep::getVod, items -> {
             if (!keep || requestId != mLibraryRequestId || isFinishing() || isDestroyed()) return;
-            mKeepAdapter.setItems(items, () -> mBinding.progressLayout.showContent(true, mKeepAdapter.getItemCount()));
+            allKeepItems = items;
+            applyKeepSort();
         });
+    }
+
+    /** 与首页顶部「收藏」页共用同一份排序设置，避免两处顺序不一致 */
+    private void applyKeepSort() {
+        List<Keep> visible = KeepLibrary.filterAndSort(allKeepItems, "", Setting.getKeepSortMode());
+        mKeepAdapter.setItems(visible, () -> {
+            mBinding.progressLayout.showContent(true, mKeepAdapter.getItemCount());
+            updateSummary();
+        });
+    }
+
+    private void showSortDialog() {
+        String[] options = getResources().getStringArray(R.array.keep_sort_options);
+        new IBoxAlertDialogBuilder(this)
+                .setTitle(R.string.keep_sort)
+                .setSingleChoiceItems(options, Setting.getKeepSortMode(), (dialog, which) -> {
+                    Setting.putKeepSortMode(which);
+                    applyKeepSort();
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.dialog_negative, null)
+                .show();
     }
 
     private void onSync() {
@@ -150,7 +199,9 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
                 .setNegativeButton(R.string.dialog_negative, null)
                 .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
                     action.run();
+                    if (keep) allKeepItems = Collections.emptyList();
                     mBinding.progressLayout.showContent(true, 0);
+                    updateSummary();
                 })
                 .show();
     }
@@ -178,6 +229,7 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
     public void onItemDelete(History item) {
         mHistoryAdapter.remove(item.delete(), () -> {
             if (mHistoryAdapter.getItemCount() == 0) mHistoryAdapter.setDelete(false);
+            updateSummary();
         });
     }
 
@@ -206,9 +258,11 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
 
     @Override
     public void onItemDelete(Keep item) {
-        mKeepAdapter.remove(item.delete(), () -> {
-            if (mKeepAdapter.getItemCount() == 0) mKeepAdapter.setDelete(false);
-        });
+        item.delete();
+        allKeepItems = new ArrayList<>(allKeepItems);
+        allKeepItems.remove(item);
+        applyKeepSort();
+        if (mKeepAdapter.getItemCount() == 0) mKeepAdapter.setDelete(false);
     }
 
     @Override
@@ -231,10 +285,18 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem sort = menu.findItem(R.id.sort);
+        if (sort != null) sort.setVisible(keep);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackInvoked();
         else if (item.getItemId() == R.id.delete) onDelete();
         else if (item.getItemId() == R.id.sync) onSync();
+        else if (item.getItemId() == R.id.sort) showSortDialog();
         return super.onOptionsItemSelected(item);
     }
 

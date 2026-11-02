@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.format.Formatter;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -72,6 +73,8 @@ public class OfflineDownloadActivity extends BaseActivity implements OfflineDown
             filterId = checkedId;
             refresh();
         });
+        binding.empty.emptyTitle.setText(R.string.download_empty);
+        binding.empty.emptyHint.setText(R.string.download_empty_hint);
         OfflineDownloadManager.get().addListener(this);
         refresh();
     }
@@ -80,8 +83,8 @@ public class OfflineDownloadActivity extends BaseActivity implements OfflineDown
         List<OfflineDownloadItem> all = OfflineDownloadManager.getDownloadsWithLiveProgress().stream().map(OfflineDownloadItem::from).toList();
         List<OfflineDownloadItem> visible = all.stream().filter(this::matchesFilter).toList();
         adapter.setItems(visible);
-        binding.empty.setVisibility(visible.isEmpty() ? android.view.View.VISIBLE : android.view.View.GONE);
-        binding.recycler.setVisibility(visible.isEmpty() ? android.view.View.GONE : android.view.View.VISIBLE);
+        binding.empty.getRoot().setVisibility(visible.isEmpty() ? View.VISIBLE : View.GONE);
+        binding.recycler.setVisibility(visible.isEmpty() ? View.GONE : View.VISIBLE);
         binding.summary.setText(getString(R.string.download_summary, all.size(), Formatter.formatFileSize(this, OfflineDownloadManager.getDownloadedBytes())));
         updatePolicyState(all);
     }

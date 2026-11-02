@@ -103,11 +103,14 @@ public class SettingDataFragment extends BaseFragment {
 
     private void refresh() {
         if (mBinding == null) return;
-        mBinding.rowGithubAcceleration.toggle.setChecked(Setting.isGitHubAcceleration());
         List<String> accelerators = Setting.getGitHubAcceleratorList();
-        mBinding.rowGithubAccelerators.value.setText(accelerators.isEmpty()
-                ? getString(R.string.setting_github_accelerators_default)
-                : getString(R.string.setting_github_accelerators_count, accelerators.size()));
+        boolean hasAccelerators = !accelerators.isEmpty();
+        // 没有任何自定义前缀时加速无处可走，开关置灰并显示为关闭，避免「开着却没生效」的错觉
+        mBinding.rowGithubAcceleration.toggle.setChecked(hasAccelerators && Setting.isGitHubAcceleration());
+        mBinding.rowGithubAcceleration.getRoot().setAlpha(hasAccelerators ? 1f : 0.45f);
+        mBinding.rowGithubAccelerators.value.setText(hasAccelerators
+                ? getString(R.string.setting_github_accelerators_count, accelerators.size())
+                : getString(R.string.setting_github_accelerators_default));
         mBinding.rowDoh.value.setText(getDohList()[getDohIndex()]);
         mBinding.rowSearchThreads.value.setText(getString(R.string.setting_threads_value, Setting.getSearchThreads()));
         refreshCache();
@@ -146,8 +149,12 @@ public class SettingDataFragment extends BaseFragment {
     }
 
     private void setGitHubAcceleration(View view) {
+        if (Setting.getGitHubAcceleratorList().isEmpty()) {
+            Notify.show(R.string.setting_github_acceleration_needs_url);
+            return;
+        }
         Setting.putGitHubAcceleration(!Setting.isGitHubAcceleration());
-        mBinding.rowGithubAcceleration.toggle.setChecked(Setting.isGitHubAcceleration());
+        refresh();
     }
 
     private void setGitHubAccelerators(View view) {

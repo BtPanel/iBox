@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/sort"
+        android:icon="@drawable/ic_action_sort"
+        android:title="@string/keep_sort"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/sync"
         android:icon="@drawable/ic_action_sync"
         android:title="@string/menu_sync"

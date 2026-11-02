@@ -8,6 +8,7 @@
     android:padding="@dimen/ibox_space_5">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
         android:layout_width="@dimen/ibox_toolbar_height"
         android:layout_height="@dimen/ibox_toolbar_height"
         android:contentDescription="@null"
@@ -24,6 +25,7 @@
         android:textAppearance="@style/TextAppearance.IBox.ItemTitle" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ibox_space_1"

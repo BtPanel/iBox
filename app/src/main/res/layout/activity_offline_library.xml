@@ -15,25 +15,31 @@
         app:navigationIcon="@drawable/ic_msr_arrow_back"
         app:navigationIconTint="@color/ibox_text_primary"
         app:title="@string/offline_library"
-        app:titleTextAppearance="@style/TextAppearance.IBox.Toolbar">
+        app:titleTextAppearance="@style/TextAppearance.IBox.Toolbar"
+        app:titleTextColor="@color/ibox_text_primary">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/downloads"
-            style="@style/Widget.IBox.Button"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="48dp"
             android:layout_height="48dp"
-            android:text="@string/download_manager"
-            app:icon="@drawable/ic_msr_download" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/download_manager"
+            android:tooltipText="@string/download_manager"
+            app:icon="@drawable/ic_msr_download"
+            app:iconTint="?attr/colorPrimary" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="12dp"
-        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+        android:textAppearance="@style/TextAppearance.IBox.Supporting"
+        android:textColor="@color/ibox_text_secondary" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -50,15 +56,12 @@
             android:paddingEnd="16dp"
             android:paddingBottom="24dp" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <include
             android:id="@+id/empty"
+            layout="@layout/view_empty_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawablePadding="12dp"
-            android:gravity="center"
-            android:text="@string/offline_library_empty"
-            android:textAppearance="@style/TextAppearance.IBox.Body"
-            app:drawableTopCompat="@drawable/ic_msr_download" />
+            android:drawableTint="@color/ibox_text_secondary" />
     </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

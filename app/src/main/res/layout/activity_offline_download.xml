@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@color/ibox_surface_container"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -15,7 +15,8 @@
         app:navigationIcon="@drawable/ic_msr_arrow_back"
         app:navigationIconTint="@color/ibox_text_primary"
         app:title="@string/download_manager"
-        app:titleTextAppearance="@style/TextAppearance.IBox.Toolbar">
+        app:titleTextAppearance="@style/TextAppearance.IBox.Toolbar"
+        app:titleTextColor="@color/ibox_text_primary">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/policy"
@@ -23,114 +24,138 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/download_policy_title"
             android:focusable="true"
-            app:icon="@drawable/ic_msr_settings" />
+            android:tooltipText="@string/download_policy_title"
+            app:icon="@drawable/ic_msr_tune"
+            app:iconTint="@color/ibox_text_primary" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/filters"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="16dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         app:checkedButton="@id/filterAll"
         app:selectionRequired="true"
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filterAll"
-            style="@style/Widget.IBox.Button"
+            style="@style/Widget.IBox.Button.Segment"
+            app:backgroundTint="@color/selector_download_filter_background"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:maxLines="1"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="@dimen/ibox_text_supporting"
             android:text="@string/download_filter_all"
-            app:autoSizeMinTextSize="9sp"
+            android:textSize="@dimen/ibox_text_supporting"
             app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filterActive"
-            style="@style/Widget.IBox.Button"
+            style="@style/Widget.IBox.Button.Segment"
+            app:backgroundTint="@color/selector_download_filter_background"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:maxLines="1"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="@dimen/ibox_text_supporting"
             android:text="@string/download_filter_active"
-            app:autoSizeMinTextSize="9sp"
+            android:textSize="@dimen/ibox_text_supporting"
             app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filterCompleted"
-            style="@style/Widget.IBox.Button"
+            style="@style/Widget.IBox.Button.Segment"
+            app:backgroundTint="@color/selector_download_filter_background"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:maxLines="1"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="@dimen/ibox_text_supporting"
             android:text="@string/download_filter_completed"
-            app:autoSizeMinTextSize="9sp"
+            android:textSize="@dimen/ibox_text_supporting"
             app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filterFailed"
-            style="@style/Widget.IBox.Button"
+            style="@style/Widget.IBox.Button.Segment"
+            app:backgroundTint="@color/selector_download_filter_background"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:maxLines="1"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="@dimen/ibox_text_supporting"
             android:text="@string/download_filter_failed"
-            app:autoSizeMinTextSize="9sp"
+            android:textSize="@dimen/ibox_text_supporting"
             app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/queueStatus"
+    <!-- 状态行：左边是队列状态，右边是全局统计，避免两条独立文本各占一行 -->
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
-        android:textAppearance="@style/TextAppearance.IBox.Body" />
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/queueStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Body" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.IBox.Supporting"
+            android:textColor="@color/ibox_text_secondary" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/policySummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="4dp"
-        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="20dp"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting"
+        android:textColor="@color/ibox_text_secondary" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -139,19 +164,16 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingStart="16dp"
-            android:paddingTop="8dp"
+            android:paddingTop="4dp"
             android:paddingEnd="16dp"
             android:paddingBottom="24dp" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <include
             android:id="@+id/empty"
+            layout="@layout/view_empty_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawablePadding="12dp"
-            android:gravity="center"
-            android:text="@string/download_empty"
-            android:textAppearance="@style/TextAppearance.IBox.Body"
-            app:drawableTopCompat="@drawable/ic_msr_download" />
+            android:drawableTint="@color/ibox_text_primary" />
     </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

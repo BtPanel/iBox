@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Formatter;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -48,6 +49,8 @@ public class OfflineLibraryActivity extends BaseActivity implements OfflineLibra
         binding.downloads.setOnClickListener(view -> OfflineDownloadActivity.start(this));
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
         binding.recycler.setAdapter(adapter = new OfflineLibraryAdapter(this));
+        binding.empty.emptyTitle.setText(R.string.offline_library_empty);
+        binding.empty.emptyHint.setText(R.string.offline_library_empty_hint);
         OfflineDownloadManager.get().addListener(this);
         refresh();
     }
@@ -58,8 +61,8 @@ public class OfflineLibraryActivity extends BaseActivity implements OfflineLibra
         long bytes = items.stream().mapToLong(OfflineLibraryItem::bytes).sum();
         int episodes = items.stream().mapToInt(item -> item.episodes().size()).sum();
         binding.summary.setText(getString(R.string.offline_library_summary, items.size(), episodes, Formatter.formatFileSize(this, bytes)));
-        binding.empty.setVisibility(items.isEmpty() ? android.view.View.VISIBLE : android.view.View.GONE);
-        binding.recycler.setVisibility(items.isEmpty() ? android.view.View.GONE : android.view.View.VISIBLE);
+        binding.empty.getRoot().setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
+        binding.recycler.setVisibility(items.isEmpty() ? View.GONE : View.VISIBLE);
     }
 
     @Override

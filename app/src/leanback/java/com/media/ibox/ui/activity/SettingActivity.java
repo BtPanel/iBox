@@ -118,8 +118,9 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         mBinding.sizeText.setText((size = ResUtil.getStringArray(R.array.select_size))[PlayerSetting.getSize()]);
         mBinding.autoFallbackLineText.setText(Setting.getSwitch(Setting.isAutoFallbackLine()));
         mBinding.autoFallbackSourceText.setText(Setting.getSwitch(Setting.isAutoFallbackSource()));
-        mBinding.githubAccelerationText.setText(Setting.getSwitch(Setting.isGitHubAcceleration()));
         List<String> accelerators = Setting.getGitHubAcceleratorList();
+        // 没有自定义前缀时加速无处可走，显示为关闭
+        mBinding.githubAccelerationText.setText(Setting.getSwitch(!accelerators.isEmpty() && Setting.isGitHubAcceleration()));
         mBinding.githubAcceleratorsText.setText(accelerators.isEmpty()
                 ? getString(R.string.setting_github_accelerators_default)
                 : getString(R.string.setting_github_accelerators_count, accelerators.size()));
@@ -368,6 +369,10 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
     }
 
     private void setGitHubAcceleration(View view) {
+        if (Setting.getGitHubAcceleratorList().isEmpty()) {
+            Notify.show(R.string.setting_github_acceleration_needs_url);
+            return;
+        }
         Setting.putGitHubAcceleration(!Setting.isGitHubAcceleration());
         mBinding.githubAccelerationText.setText(Setting.getSwitch(Setting.isGitHubAcceleration()));
     }

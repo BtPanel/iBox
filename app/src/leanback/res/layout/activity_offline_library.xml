@@ -54,15 +54,11 @@
             android:paddingEnd="8dp"
             android:paddingBottom="16dp" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <include
             android:id="@+id/empty"
+            layout="@layout/view_empty_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawablePadding="12dp"
-            android:gravity="center"
-            android:text="@string/offline_library_empty"
-            android:textAppearance="@style/TextAppearance.IBox.Body"
-            app:drawableTopCompat="@drawable/ic_download_empty" />
+            android:layout_gravity="center" />
     </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

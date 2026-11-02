@@ -14,7 +14,7 @@
         android:layout_height="68dp"
         android:background="@android:color/transparent"
         app:navigationIconTint="@color/ibox_text_primary"
-        app:title="@string/nav_library"
+        app:title="@string/library_title"
         app:titleTextAppearance="@style/ToolbarTextAppearance"
         app:titleTextColor="@color/ibox_text_primary" />
 
@@ -29,6 +29,16 @@
         app:tabSelectedTextColor="?attr/colorPrimary"
         app:tabTextColor="@color/ibox_text_secondary" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="6dp"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting"
+        android:textColor="@color/ibox_text_secondary" />
+
     <com.media.ibox.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
@@ -41,7 +51,10 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:padding="4dp"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="12dp"
             tools:listitem="@layout/adapter_vod" />
 
     </com.media.ibox.ui.custom.ProgressLayout>

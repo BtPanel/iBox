@@ -25,6 +25,7 @@ public class ProgressLayout extends RelativeLayout {
     private List<View> mContentViews;
     private View mProgressView;
     private View mEmptyView;
+    private ViewEmptyBinding mEmptyBinding;
     private State mState;
 
     public ProgressLayout(Context context) {
@@ -48,7 +49,8 @@ public class ProgressLayout extends RelativeLayout {
     }
 
     private void initView() {
-        mEmptyView = ViewEmptyBinding.inflate(LayoutInflater.from(getContext())).getRoot();
+        mEmptyBinding = ViewEmptyBinding.inflate(LayoutInflater.from(getContext()));
+        mEmptyView = mEmptyBinding.getRoot();
         mEmptyView.setTag(TAG_PROGRESS);
         mEmptyView.setVisibility(GONE);
         mProgressView = ViewProgressBinding.inflate(LayoutInflater.from(getContext())).getRoot();
@@ -66,6 +68,22 @@ public class ProgressLayout extends RelativeLayout {
         if (child.getTag() == null || !child.getTag().equals(TAG_PROGRESS)) {
             mContentViews.add(child);
         }
+    }
+
+    /**
+     * 自定义空状态文案，便于各页面给出与其语境相符的提示。
+     */
+    public void setEmptyText(CharSequence title, CharSequence hint) {
+        mEmptyBinding.text.setText(title);
+        mEmptyBinding.hint.setText(hint);
+    }
+
+    /**
+     * 同时指定空状态图标，让「收藏」「历史」这类列表的提示更贴合语境。
+     */
+    public void setEmptyState(int iconRes, CharSequence title, CharSequence hint) {
+        mEmptyBinding.icon.setImageResource(iconRes);
+        setEmptyText(title, hint);
     }
 
     public void showProgress() {

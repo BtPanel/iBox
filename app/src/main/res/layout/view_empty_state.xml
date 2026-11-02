@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 空状态：圆形图标底座 + 标题 + 说明，下载/离线库共用 -->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/ibox_space_6">
+
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_empty_icon">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/emptyIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_msr_download"
+            app:tint="@color/ibox_text_secondary" />
+    </FrameLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emptyTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_4"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.IBox.ItemTitle"
+        tools:text="暂无下载任务" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emptyHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_1"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.IBox.Supporting"
+        tools:text="在播放页选择清晰度后即可开始下载" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -10,6 +10,13 @@
     <string name="nav_live">直播</string>
     <string name="nav_library">收藏</string>
     <string name="nav_mine">我的</string>
+    <string name="library_title">我的片库</string>
+    <string name="library_summary">共 %1$d 部 · %2$s</string>
+    <string name="library_summary_history">按最近观看</string>
+    <string name="library_empty_history_title">还没有观看记录</string>
+    <string name="library_empty_history_hint">看过的影片会自动出现在这里</string>
+    <string name="library_empty_keep_title">还没有收藏</string>
+    <string name="library_empty_keep_hint">在播放页点亮心形即可收藏</string>
     <string name="nav_setting">设置</string>
     <string name="mine_common">常用功能</string>
     <string name="mine_connect">电视互联</string>

@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.media.ibox.bean.Keep;
-import com.media.ibox.databinding.AdapterVodBinding;
+import com.media.ibox.databinding.AdapterLibraryBinding;
 import com.media.ibox.utils.ImgUtil;
 
 public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
@@ -54,7 +54,7 @@ public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewHolder holder = new ViewHolder(AdapterVodBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        ViewHolder holder = new ViewHolder(AdapterLibraryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         holder.binding.getRoot().getLayoutParams().width = width;
         holder.binding.image.getLayoutParams().height = height;
         return holder;
@@ -64,9 +64,13 @@ public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Keep item = getItem(position);
         holder.binding.name.setText(item.getVodName());
+        // 收藏没有观看进度，蒙层/角标/进度条一律不占用海报画面
         holder.binding.remark.setVisibility(View.GONE);
-        holder.binding.site.setVisibility(View.GONE);
+        holder.binding.scrim.setVisibility(View.GONE);
         holder.binding.progress.setVisibility(View.GONE);
+        String site = item.getSiteName();
+        holder.binding.subtitle.setText(site == null ? "" : site);
+        holder.binding.subtitle.setVisibility(site == null || site.isEmpty() ? View.GONE : View.VISIBLE);
         holder.binding.delete.setVisibility(!delete ? View.GONE : View.VISIBLE);
         ImgUtil.load(item.getVodName(), item.getVodPic(), holder.binding.image);
         setClickListener(holder.binding.getRoot(), item);
@@ -82,9 +86,9 @@ public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final AdapterVodBinding binding;
+        private final AdapterLibraryBinding binding;
 
-        ViewHolder(@NonNull AdapterVodBinding binding) {
+        ViewHolder(@NonNull AdapterLibraryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

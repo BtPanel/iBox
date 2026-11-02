@@ -10,6 +10,13 @@
     <string name="nav_live">Live</string>
     <string name="nav_library">Favorites</string>
     <string name="nav_mine">Mine</string>
+    <string name="library_title">My library</string>
+    <string name="library_summary">%1$d titles · %2$s</string>
+    <string name="library_summary_history">Recently watched</string>
+    <string name="library_empty_history_title">No watch history yet</string>
+    <string name="library_empty_history_hint">Titles you watch show up here</string>
+    <string name="library_empty_keep_title">No favorites yet</string>
+    <string name="library_empty_keep_hint">Tap the heart on a title to save it</string>
     <string name="nav_setting">Setting</string>
     <string name="mine_common">Common features</string>
     <string name="mine_connect">TV connection</string>
