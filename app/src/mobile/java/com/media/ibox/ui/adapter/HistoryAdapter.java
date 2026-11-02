@@ -67,19 +67,20 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         History item = getItem(position);
-        boolean same = item.getVodName().equals(item.getVodRemarks());
-        boolean hasProgress = item.getDuration() > 0 && item.getPosition() >= 0;
+        boolean hasProgress = item.getDuration() > 0 && item.getPosition() > 0 && item.getProgressPercent() > 0;
         String progress = item.isWatched() ? holder.itemView.getContext().getString(com.media.ibox.R.string.history_watched) : holder.itemView.getContext().getString(com.media.ibox.R.string.history_progress, item.getProgressPercent());
         // 角标只承载进度：清晰度叠进来会把胶囊撑满整张海报，进度反而被省略号吃掉
         holder.binding.name.setText(item.getVodName());
         holder.binding.site.setText(item.getSiteName());
         holder.binding.remark.setText(hasProgress ? progress : item.getVodRemarks());
-        holder.binding.site.setVisibility(item.getSiteVisible());
+        // 站点名压在海报上会糊住画面，收藏/历史只需要海报和片名
+        holder.binding.site.setVisibility(View.GONE);
         holder.binding.progress.setMax((int) item.getDuration());
         holder.binding.progress.setProgress((int) item.getPosition(), animate);
         holder.binding.progress.setVisibility(hasProgress && !delete ? View.VISIBLE : View.GONE);
         holder.binding.delete.setVisibility(!delete ? View.GONE : View.VISIBLE);
-        holder.binding.remark.setVisibility(delete || (same && !hasProgress) ? View.GONE : View.VISIBLE);
+        // 只有真正的观看进度才占角标，清晰度/集数这类备注不上海报
+        holder.binding.remark.setVisibility(!hasProgress || delete ? View.GONE : View.VISIBLE);
         ImgUtil.load(item.getVodName(), item.getVodPic(), holder.binding.image);
         setClickListener(holder.binding.getRoot(), item);
     }

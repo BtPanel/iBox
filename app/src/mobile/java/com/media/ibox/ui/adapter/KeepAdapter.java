@@ -65,8 +65,7 @@ public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
         Keep item = getItem(position);
         holder.binding.name.setText(item.getVodName());
         holder.binding.remark.setVisibility(View.GONE);
-        holder.binding.site.setVisibility(View.VISIBLE);
-        holder.binding.site.setText(item.getSiteName());
+        holder.binding.site.setVisibility(View.GONE);
         holder.binding.progress.setVisibility(View.GONE);
         holder.binding.delete.setVisibility(!delete ? View.GONE : View.VISIBLE);
         ImgUtil.load(item.getVodName(), item.getVodPic(), holder.binding.image);
