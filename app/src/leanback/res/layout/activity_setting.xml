@@ -325,7 +325,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="12dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_setting_palette"
+                    android:src="@drawable/ic_msr_palette"
                     app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -915,7 +915,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="12dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_nav_security"
+                    android:src="@drawable/ic_msr_security"
                     app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -956,7 +956,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="12dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_nav_aspect"
+                    android:src="@drawable/ic_msr_aspect_ratio"
                     app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView

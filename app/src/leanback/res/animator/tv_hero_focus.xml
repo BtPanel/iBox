@@ -5,12 +5,12 @@
             <objectAnimator
                 android:duration="@integer/ibox_motion_short"
                 android:propertyName="scaleX"
-                android:valueTo="1.035"
+                android:valueTo="1.06"
                 android:valueType="floatType" />
             <objectAnimator
                 android:duration="@integer/ibox_motion_short"
                 android:propertyName="scaleY"
-                android:valueTo="1.035"
+                android:valueTo="1.06"
                 android:valueType="floatType" />
             <objectAnimator
                 android:duration="@integer/ibox_motion_short"
