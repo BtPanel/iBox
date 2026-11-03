@@ -48,11 +48,25 @@ public class BaseLoader {
         return api.startsWith("csp_");
     }
 
+    /**
+     * 配置变化：关闭旧爬虫的宿主引用但不销毁实例（retired），减少切源开销。
+     */
     public void clear() {
         Task.execute(() -> {
             jarLoader.clear();
             pyLoader.clear();
             jsLoader.clear();
+        });
+    }
+
+    /**
+     * App 退出：统一销毁全部存量与 retired 爬虫（对齐上游生命周期语义）。
+     */
+    public void destroy() {
+        Task.execute(() -> {
+            jarLoader.destroy();
+            pyLoader.destroy();
+            jsLoader.destroy();
         });
     }
 

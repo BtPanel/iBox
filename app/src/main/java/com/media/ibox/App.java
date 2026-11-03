@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 
+import com.media.ibox.api.loader.BaseLoader;
 import com.media.ibox.utils.Notify;
 import com.media.ibox.live.EpgCacheScheduler;
 import com.media.ibox.setting.Setting;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
 
@@ -39,6 +41,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     private final AtomicBoolean deferredStartupScheduled = new AtomicBoolean();
 
     private WeakReference<Activity> activity = new WeakReference<>(null);
+    private final AtomicInteger startedActivities = new AtomicInteger();
     private Hook hook;
 
     public App() {
@@ -141,18 +144,23 @@ public class App extends Application implements Application.ActivityLifecycleCal
     }
 
     @Override
-    public void onActivityDestroyed(@NonNull Activity activity) {
-    }
-
-    @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
+        startedActivities.incrementAndGet();
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
+        if (startedActivities.get() > 0) startedActivities.decrementAndGet();
+    }
+
+    @Override
+    public void onActivityDestroyed(@NonNull Activity activity) {
+        // 最后一个页面以 finish 方式退出（返回键退出应用）且已无可见页面：
+        // 对齐上游「爬虫延后到应用退出才销毁」的生命周期语义。
+        if (startedActivities.get() == 0 && activity.isFinishing()) BaseLoader.get().destroy();
     }
 }

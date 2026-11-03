@@ -15,8 +15,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -31,6 +34,7 @@ public class JarLoader {
     private final ConcurrentHashMap<String, Spider> spiders;
     private final ConcurrentHashMap<String, Object> locks;
     private final Set<String> rejected;
+    private final List<Spider> retired;
     private volatile String recent;
 
     public JarLoader() {
@@ -39,16 +43,36 @@ public class JarLoader {
         spiders = new ConcurrentHashMap<>();
         locks = new ConcurrentHashMap<>();
         rejected = ConcurrentHashMap.newKeySet();
+        retired = Collections.synchronizedList(new ArrayList<>());
     }
 
+    /**
+     * 配置变化：关闭宿主引用（DexClassLoader/解析方法/锁），把存量爬虫转入
+     * retired 暂存（保持存活，供在途请求收尾），App 退出时才统一销毁。
+     */
     public void clear() {
-        spiders.values().forEach(Spider::destroy);
+        retired.addAll(spiders.values());
         loaders.clear();
         methods.clear();
         spiders.clear();
         locks.clear();
         rejected.clear();
         recent = null;
+    }
+
+    /** App 退出：销毁全部存量与 retired 爬虫。 */
+    public void destroy() {
+        clear();
+        synchronized (retired) {
+            for (Spider spider : retired) {
+                try {
+                    if (spider != null) spider.destroy();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+            retired.clear();
+        }
     }
 
     public void setRecent(String recent) {
@@ -142,20 +166,26 @@ public class JarLoader {
     public Spider getSpider(String key, String api, String ext, String jar) {
         String jaKey = Util.md5(jar);
         String spKey = jaKey + key;
-        return spiders.computeIfAbsent(spKey, k -> {
-            try {
-                parseJar(jaKey, jar);
-                DexClassLoader loader = loaders.get(jaKey);
-                if (loader == null) return new SpiderNull();
-                Spider spider = (Spider) loader.loadClass("com.github.catvod.spider." + api.split("csp_")[1]).newInstance();
-                spider.siteKey = key;
-                spider.init(App.get(), ext);
-                return spider;
-            } catch (Throwable e) {
-                e.printStackTrace();
-                return new SpiderNull();
+        Spider cached = spiders.get(spKey);
+        if (cached != null) return cached;
+        try {
+            parseJar(jaKey, jar);
+            DexClassLoader loader = loaders.get(jaKey);
+            if (loader == null) return new SpiderNull();
+            Spider spider = (Spider) loader.loadClass("com.github.catvod.spider." + api.split("csp_")[1]).newInstance();
+            spider.siteKey = key;
+            spider.init(App.get(), ext);
+            // 只缓存初始化成功的实例；失败实例不保留，下次访问可重试
+            Spider existing = spiders.putIfAbsent(spKey, spider);
+            if (existing != null) {
+                spider.destroy();
+                return existing;
             }
-        });
+            return spider;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return new SpiderNull();
+        }
     }
 
     private DexClassLoader requireRecentLoader() {
