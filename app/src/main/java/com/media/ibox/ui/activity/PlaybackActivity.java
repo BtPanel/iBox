@@ -544,12 +544,15 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
 
     private boolean shouldKeepServiceAlive() {
         return FloatingPlaybackPolicy.shouldKeepServiceAlive(mService.hasMediaClient(),
-                mService.hasPlayerCallback(), mService.isFloatingWindowShowing());
+                mService.hasPlayerCallback(), mService.isFloatingWindowShowing(),
+                isOwner() && !PlayerSetting.isBackgroundOff());
     }
 
     private void keepServiceAlive(boolean playbackOwner) {
         if (mService.isFloatingWindowShowing()) return;
-        if (playbackOwner) mService.suspend();
+        // 背景播放开启：退出页面后由前台服务继续播（通知栏可控），不清队列；
+        // 关闭：停掉播放并清队列，只保留会话入口。
+        if (playbackOwner && PlayerSetting.isBackgroundOff()) mService.suspend();
         mService.resetSessionActivity();
     }
 
@@ -737,7 +740,7 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     protected void onStop() {
         super.onStop();
         boolean floatingWindowShowing = isFloatingWindowShowing();
-        if (FloatingPlaybackPolicy.shouldPauseOnStop(isOwner(), isFinishing(),
+        if (FloatingPlaybackPolicy.shouldPauseOnStop(isOwner(),
                 PlayerSetting.isBackgroundOff(), floatingWindowShowing)) pausePlayback();
         if (!isInPictureInPictureMode()) detachPlayerView();
     }
