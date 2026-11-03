@@ -65,6 +65,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class HomeActivity extends BaseActivity implements DLNACastSession.Listener {
 
     private static final long LIVE_CONFIG_DELAY_MS = 2000;
+    private static final long EXIT_CONFIRM_INTERVAL_MS = 2000;
     private static final String STATE_POSITION = "home_position";
 
     /** 设置首页与各级设置页在 FragmentStateManager 中的位置 */
@@ -86,6 +87,7 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
     private int orientation;
     private int windowWidthDp;
     private int currentPosition;
+    private long mLastBackTime;
 
     public static void start(Activity activity, int destination) {
         Intent intent = new Intent(activity, HomeActivity.class);
@@ -359,8 +361,17 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
         } else if (mManager.isVisible(PAGE_SETTINGS)) {
             change(PAGE_HOME);
         } else if (mManager.canBack(PAGE_HOME)) {
-            if (PlaybackService.isRunning()) Util.moveToBackground(this);
-            else super.onBackInvoked();
+            if (PlaybackService.isRunning()) {
+                Util.moveToBackground(this);
+            } else {
+                long now = System.currentTimeMillis();
+                if (now - mLastBackTime > EXIT_CONFIRM_INTERVAL_MS) {
+                    mLastBackTime = now;
+                    Notify.show(R.string.exit_confirm);
+                } else {
+                    super.onBackInvoked();
+                }
+            }
         }
     }
 

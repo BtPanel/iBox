@@ -1035,11 +1035,13 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         updateEpisodeStatus();
     }
 
-    /** 网格完整铺开：高度即全部行数，不做内部滚动窗口，避免绘制溢出遮挡上方控件。 */
+    /** 网格限高展示：最多 episode_grid_max_rows 行，超出部分在网格内部滚动，避免几百集撑爆详情页 */
     private void updateEpisodeGridHeight(int itemCount) {
         int rows = (itemCount + getEpisodeGridColumns() - 1) / getEpisodeGridColumns();
+        int maxRows = getResources().getInteger(R.integer.episode_grid_max_rows);
+        int displayRows = Math.min(rows, maxRows);
         ViewGroup.LayoutParams params = mBinding.episode.getLayoutParams();
-        params.height = rows * getResources().getDimensionPixelSize(R.dimen.episode_grid_row_height);
+        params.height = displayRows * getResources().getDimensionPixelSize(R.dimen.episode_grid_row_height);
         mBinding.episode.setLayoutParams(params);
     }
 
