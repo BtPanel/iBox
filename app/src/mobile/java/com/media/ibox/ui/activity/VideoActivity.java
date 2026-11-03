@@ -440,6 +440,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void setVideoView() {
         PlayerEngineDialog.setText(mBinding.control.action.player);
         mBinding.control.action.danmaku.setVisibility(DanmakuSetting.isLoad() ? View.VISIBLE : View.GONE);
+        checkDanmakuSearch();
         if (!isLand()) {
             mFrameParams.height = getDefaultVideoHeight();
             mBinding.video.setLayoutParams(mFrameParams);
