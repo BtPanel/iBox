@@ -149,7 +149,7 @@ public class Setting {
     }
 
     public static int getThemeMode() {
-        return Math.clamp(Prefers.getInt("theme_mode", THEME_SYSTEM), THEME_SYSTEM, THEME_DARK);
+        return Math.clamp(Prefers.getInt("theme_mode", THEME_DARK), THEME_SYSTEM, THEME_DARK);
     }
 
     public static void putThemeMode(int mode) {

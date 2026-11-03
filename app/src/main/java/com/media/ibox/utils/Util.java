@@ -33,6 +33,20 @@ import java.util.regex.Pattern;
 public class Util {
 
     private static final Pattern EPISODE = Pattern.compile("(?i)(?:ep|第|e|[\\-\\.\\s])\\s?(\\d{1,4})");
+    private static final Pattern EMOJI = Pattern.compile("[\\p{So}\\p{Cf}]");
+    private static final Pattern PROMO_SUFFIX = Pattern.compile("(?:[\\s·・|｜/／-]*(?:更新|首发|上线|热播|抢先|全集|完整版|正片|推荐|资源|连载中|独家|福利))+$");
+
+    /**
+     * 清洗站源原始标题：去除 emoji/装饰符号与尾部推广词（"仙逆💥更新" → "仙逆"）。
+     * 仅用于展示层，不改动数据源；清洗结果为空时回退原文。
+     */
+    public static String cleanTitle(String title) {
+        if (title == null || title.isEmpty()) return title;
+        String cleaned = EMOJI.matcher(title).replaceAll(" ").trim();
+        cleaned = PROMO_SUFFIX.matcher(cleaned).replaceAll("").trim();
+        cleaned = cleaned.replaceAll("\\s{2,}", " ");
+        return cleaned.isEmpty() ? title : cleaned;
+    }
 
     public static void toggleFullscreen(Activity activity, boolean fullscreen) {
         if (fullscreen) hideSystemUI(activity);

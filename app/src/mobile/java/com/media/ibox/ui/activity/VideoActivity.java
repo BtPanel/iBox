@@ -714,7 +714,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mHistory = history;
         mBinding.swipeLayout.setRefreshing(false);
         mBinding.progressLayout.showContent();
-        mBinding.name.setText(item.getName());
+        mBinding.name.setText(Util.cleanTitle(item.getName()));
         App.removeCallbacks(mR4);
         setArtwork(item.getPic());
         checkKeepImg();
@@ -731,7 +731,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void renderVodMetadata(String name, String pic) {
         if (name.isEmpty() && pic.isEmpty()) return;
-        if (!name.isEmpty()) mBinding.name.setText(name);
+        if (!name.isEmpty()) mBinding.name.setText(Util.cleanTitle(name));
         if (!pic.isEmpty()) setArtwork();
         updateKeep();
     }

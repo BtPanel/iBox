@@ -10,6 +10,7 @@ import com.media.ibox.databinding.AdapterVodRectBinding;
 import com.media.ibox.ui.adapter.VodAdapter;
 import com.media.ibox.ui.base.BaseVodHolder;
 import com.media.ibox.utils.ImgUtil;
+import com.media.ibox.utils.Util;
 
 public class VodRectHolder extends BaseVodHolder {
 
@@ -31,7 +32,7 @@ public class VodRectHolder extends BaseVodHolder {
     @Override
     public void initView(Vod item) {
         String remark = getScoreText(item.getRemarks());
-        binding.name.setText(item.getName());
+        binding.name.setText(Util.cleanTitle(item.getName()));
         binding.year.setText(item.getYear());
         binding.site.setText(item.getSiteName());
         binding.remarkText.setText(remark);

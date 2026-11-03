@@ -11,7 +11,8 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="@drawable/shape_vod"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:stateListAnimator="@animator/vod_press">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -24,6 +25,12 @@
             android:background="@color/ibox_surface_variant"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/Vod.Grid.Large" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_poster_scrim" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/site"
@@ -64,6 +71,24 @@
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingEnd="@dimen/ibox_space_2"
+            android:paddingBottom="@dimen/ibox_space_6"
+            android:shadowColor="@color/black_60"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.IBox.PosterOverlayTitle"
+            tools:text="越剧《劈山救母》" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/remarkText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,23 +107,6 @@
             android:visibility="gone"
             tools:text="8.5"
             tools:visibility="visible" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ibox_home_poster_name_height"
-        android:layout_marginTop="@dimen/ibox_home_poster_gap">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:gravity="start|center_vertical"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.IBox.PosterCaption"
-            tools:text="越剧《劈山救母》" />
 
     </FrameLayout>
 

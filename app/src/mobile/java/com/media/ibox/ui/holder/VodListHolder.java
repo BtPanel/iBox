@@ -8,6 +8,7 @@ import com.media.ibox.databinding.AdapterVodListBinding;
 import com.media.ibox.ui.adapter.VodAdapter;
 import com.media.ibox.ui.base.BaseVodHolder;
 import com.media.ibox.utils.ImgUtil;
+import com.media.ibox.utils.Util;
 
 public class VodListHolder extends BaseVodHolder {
 
@@ -22,7 +23,7 @@ public class VodListHolder extends BaseVodHolder {
 
     @Override
     public void initView(Vod item) {
-        binding.name.setText(item.getName());
+        binding.name.setText(Util.cleanTitle(item.getName()));
         binding.remark.setText(item.getRemarks());
         binding.name.setVisibility(item.getNameVisible());
         binding.remark.setVisibility(item.getRemarkVisible());
