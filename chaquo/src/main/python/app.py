@@ -1,7 +1,35 @@
 import os
-import requests
+import sys
+import builtins
+import threading
 from importlib.machinery import SourceFileLoader
 import json
+
+
+# Chaquopy 默认把 sys.exit() 映射为 Java System.exit()，会直接杀死整个 App 进程。
+# 第三方站点脚本常在异常路径调用 sys.exit()，搜索时会把进程整体带走。
+# 这里恢复标准 Python 语义：exit 只抛 SystemExit，由 Java 侧 PyException 捕获。
+def _safe_exit(status=0):
+    raise SystemExit(status)
+
+
+def _thread_excepthook(args):
+    # 站点脚本线程内的退出/异常只记录，不允许终止进程
+    if args.exc_type is SystemExit:
+        return
+    sys.stderr.write("Python thread error: %s: %s\n" % (args.exc_type.__name__, args.exc_value))
+
+
+def install_exit_guard():
+    sys.exit = _safe_exit
+    os._exit = _safe_exit
+    builtins.exit = _safe_exit
+    builtins.quit = _safe_exit
+    if hasattr(threading, "excepthook"):
+        threading.excepthook = _thread_excepthook
+
+
+install_exit_guard()
 
 
 def spider(cache, api):
@@ -25,6 +53,7 @@ def writeFile(path, content):
 
 
 def redirect(url):
+    import requests
     rsp = requests.get(url, allow_redirects=False, verify=False)
     if 'Location' in rsp.headers:
         return redirect(rsp.headers['Location'])
