@@ -596,6 +596,12 @@ public class VideoActivity extends PlaybackActivity implements VodPlaybackHost, 
     }
 
     @Override
+    public void seekPlayback(long positionMs) {
+        if (positionMs < 0) return;
+        player().seekTo(positionMs);
+    }
+
+    @Override
     public void startPlayback(Result result, boolean useParse, long startPositionMs, MediaMetadata metadata) {
         startPlayer(getHistoryKey(), result, useParse, getSite().getTimeout(), startPositionMs, metadata);
     }

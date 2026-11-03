@@ -10,6 +10,7 @@ import com.media.ibox.bean.History;
 import com.media.ibox.bean.Keep;
 import com.media.ibox.bean.Parse;
 import com.media.ibox.bean.Result;
+import com.media.ibox.bean.SkipSegment;
 import com.media.ibox.bean.Vod;
 import com.media.ibox.playback.PlaybackResult;
 
@@ -26,6 +27,7 @@ public class VodPlaybackController {
     private final VodHistoryPolicy historyPolicy;
     private final VodFallbackPolicy fallbackPolicy;
     private History lastHistory;
+    private SkipSegment activeSkip;
     private boolean detailLoaded;
     private Episode autoNextFrom;
     private Episode autoNextTo;
@@ -41,6 +43,7 @@ public class VodPlaybackController {
     public void reset() {
         clearAutoNext();
         cancelledAutoNextFor = null;
+        activeSkip = null;
         clearPreload();
         state.reset();
         detailLoaded = false;
@@ -115,6 +118,7 @@ public class VodPlaybackController {
     private void applyPlaybackResult(Result result, VodPlayRequest request) {
         Episode episode = findEpisode(request);
         if (episode == null) return;
+        activeSkip = null;
         applyPlaybackState(result, request);
         renderPlaybackResult(result);
         updatePlaybackPosition(result);
@@ -357,7 +361,34 @@ public class VodPlaybackController {
         History history = currentHistory();
         historyPolicy.updateProgress(history, time, position, duration);
         if (history != null && duration > 0 && position >= 0 && history.getEnding() > 0
-                && history.getEnding() + position >= duration) offerAutoNext(false);
+                && history.getEnding() + position >= duration) {
+            offerAutoNext(false);
+            return;
+        }
+        skipSegment(history, position, duration);
+    }
+
+    /**
+     * 片段跳过（对齐 FongMi）：
+     * - 中插区间：自动 seek 到区间末尾；
+     * - 片头区间（未手动标记片头）：自动 seek 到区间末尾；
+     * - 片尾区间（isToEnd，未手动标记片尾）：走既有自动连播流程。
+     */
+    private void skipSegment(History history, long position, long duration) {
+        if (state.getPlayingRequest() == null) return;
+        SkipSegment segment = VodSkipPolicy.activeSegment(history, state.getQuality(), position);
+        if (segment == null) {
+            activeSkip = null;
+            return;
+        }
+        if (segment == activeSkip) return;
+        if (!segment.isToEnd()) {
+            activeSkip = segment;
+            host.seekPlayback(segment.getEnd());
+            return;
+        }
+        activeSkip = segment;
+        offerAutoNext(false);
     }
 
     private void offerAutoNext(boolean notify) {
@@ -399,7 +430,9 @@ public class VodPlaybackController {
     }
 
     public long startPositionMs() {
-        return historyPolicy.startPositionMs(state.getHistory());
+        History history = state.getHistory();
+        long resumePositionMs = history == null ? C.TIME_UNSET : history.getPosition();
+        return VodSkipPolicy.startPositionMs(history, state.getQuality(), resumePositionMs);
     }
 
     private History currentHistory() {
@@ -438,10 +471,12 @@ public class VodPlaybackController {
 
     public void setOpening(long opening) {
         if (state.getHistory() != null) state.getHistory().setOpening(opening);
+        activeSkip = null;
     }
 
     public void setEnding(long ending) {
         if (state.getHistory() != null) state.getHistory().setEnding(ending);
+        activeSkip = null;
     }
 
     public void setScale(int scale) {
@@ -579,9 +614,8 @@ public class VodPlaybackController {
 
     private long getPreloadStartPositionMs(Result result) {
         History history = state.getHistory();
-        long opening = history == null ? C.TIME_UNSET : history.getOpening();
         long position = result.hasPosition() ? result.getPosition() : C.TIME_UNSET;
-        return Math.max(0, Math.max(opening, position));
+        return Math.max(0, VodSkipPolicy.startPositionMs(history, result, position));
     }
 
     private Episode findEpisode(VodPlayRequest request) {

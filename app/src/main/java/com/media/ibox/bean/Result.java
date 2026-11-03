@@ -12,6 +12,7 @@ import com.media.ibox.gson.DanmakuAdapter;
 import com.media.ibox.gson.FilterAdapter;
 import com.media.ibox.gson.HeaderAdapter;
 import com.media.ibox.gson.MsgAdapter;
+import com.media.ibox.gson.SkipAdapter;
 import com.media.ibox.gson.UrlAdapter;
 import com.media.ibox.setting.DanmakuSetting;
 import com.media.ibox.utils.UrlUtil;
@@ -97,6 +98,9 @@ public class Result implements Parcelable {
     private Integer jx;
     @SerializedName("drm")
     private Drm drm;
+    @SerializedName("skips")
+    @JsonAdapter(SkipAdapter.class)
+    private List<SkipSegment> skipSegments;
 
     public Result() {
     }
@@ -210,6 +214,10 @@ public class Result implements Parcelable {
 
     public List<Sub> getSubs() {
         return subs == null ? new ArrayList<>() : new ArrayList<>(subs);
+    }
+
+    public List<SkipSegment> getSkipSegments() {
+        return skipSegments == null ? Collections.emptyList() : skipSegments;
     }
 
     public void setSubs(List<Sub> subs) {

@@ -204,6 +204,14 @@ public class History implements Diffable<History> {
         return opening;
     }
 
+    /**
+     * 未手动标记片头（TIME_UNSET / 0 / 负值）时，允许按数据源下发的
+     * skips 片段自动跳过片头；手动标记后以手动标记为准。
+     */
+    public static boolean isAutoSkip(long value) {
+        return value <= 0;
+    }
+
     public void setOpening(long opening) {
         this.opening = opening;
     }
