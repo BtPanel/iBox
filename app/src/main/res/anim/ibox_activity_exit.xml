@@ -2,6 +2,6 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:duration="@integer/ibox_motion_short"
     android:interpolator="@android:interpolator/fast_out_linear_in">
-    <alpha android:fromAlpha="1" android:toAlpha="0.92" />
-    <translate android:fromYDelta="0%" android:toYDelta="2%" />
+    <alpha android:fromAlpha="1" android:toAlpha="0.86" />
+    <translate android:fromYDelta="0%" android:toYDelta="3%" />
 </set>

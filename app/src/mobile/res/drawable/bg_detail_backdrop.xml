@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 详情页海报背景遮罩：顶部半透保留氛围，向下渐入页面底色 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="#40101316"
+        android:centerColor="#B3101316"
+        android:endColor="@color/ibox_surface_container" />
+</shape>

@@ -27,15 +27,6 @@
         <item name="android:textSize">@dimen/ibox_text_poster</item>
     </style>
 
-    <!-- 首页海报片名（叠印）：压在海报底部渐变上，白字带投影 -->
-    <style name="TextAppearance.IBox.PosterOverlayTitle" parent="TextAppearance.Material3.BodySmall">
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/ibox_text_poster</item>
-    </style>
-
     <!-- 海报角标：深色半透明底 + 白字 -->
     <style name="TextAppearance.IBox.PosterBadge" parent="TextAppearance.Material3.BodySmall">
         <item name="android:fontFamily">sans-serif</item>

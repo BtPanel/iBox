@@ -26,12 +26,6 @@
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/Vod.Grid.Large" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/bg_poster_scrim" />
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/site"
             android:layout_width="wrap_content"
@@ -71,42 +65,33 @@
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingStart="@dimen/ibox_space_2"
-            android:paddingEnd="@dimen/ibox_space_2"
-            android:paddingBottom="@dimen/ibox_space_6"
-            android:shadowColor="@color/black_60"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="3"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.IBox.PosterOverlayTitle"
-            tools:text="越剧《劈山救母》" />
-
-        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/remarkText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="@dimen/ibox_space_1"
-            android:background="@drawable/bg_home_poster_remark"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/ibox_vod_name_height"
+            android:background="@drawable/shape_vod_score"
             android:ellipsize="end"
-            android:maxWidth="72dp"
+            android:maxWidth="96dp"
             android:paddingStart="@dimen/ibox_space_2"
-            android:paddingTop="1dp"
             android:paddingEnd="@dimen/ibox_space_2"
-            android:paddingBottom="1dp"
             android:singleLine="true"
-            android:textColor="@color/ibox_content_accent"
             android:textAppearance="@style/TextAppearance.IBox.Supporting"
+            android:textColor="@color/white"
             android:visibility="gone"
             tools:text="8.5"
             tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            style="@style/Widget.IBox.PosterTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ibox_vod_name_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_vod_name"
+            android:paddingStart="@dimen/ibox_space_2"
+            android:paddingEnd="@dimen/ibox_space_2"
+            tools:text="越剧《劈山救母》" />
 
     </FrameLayout>
 

@@ -21,10 +21,11 @@
         android:contentDescription="@null"
         android:scaleType="centerCrop" />
 
+    <!-- 背景遮罩：顶部浅、底部深，向页面底色渐隐，保留海报氛围又不压内容 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ibox_player_scrim" />
+        android:background="@drawable/bg_detail_backdrop" />
 
     <FrameLayout
         android:id="@+id/video"
