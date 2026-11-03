@@ -9,7 +9,7 @@
     android:background="@drawable/bg_search_chip"
     android:ellipsize="marquee"
     android:gravity="center"
-    android:minHeight="40dp"
+    android:minHeight="@dimen/ibox_component_height_compact"
     android:singleLine="true"
     android:textColor="@color/ibox_text_primary"
     android:textSize="@dimen/ibox_text_body"

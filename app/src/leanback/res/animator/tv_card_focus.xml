@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 普通海报卡焦点动效：比 Hero（1.06/12dp）更柔和，配合容器 clipChildren=false 放大不裁切 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <set android:ordering="together">
+            <objectAnimator
+                android:duration="@integer/ibox_motion_short"
+                android:propertyName="scaleX"
+                android:valueTo="1.04"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="@integer/ibox_motion_short"
+                android:propertyName="scaleY"
+                android:valueTo="1.04"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="@integer/ibox_motion_short"
+                android:propertyName="elevation"
+                android:valueTo="8dp"
+                android:valueType="floatType" />
+        </set>
+    </item>
+    <item>
+        <set android:ordering="together">
+            <objectAnimator
+                android:duration="@integer/ibox_motion_short"
+                android:propertyName="scaleX"
+                android:valueTo="1"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="@integer/ibox_motion_short"
+                android:propertyName="scaleY"
+                android:valueTo="1"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:duration="@integer/ibox_motion_short"
+                android:propertyName="elevation"
+                android:valueTo="@dimen/tv_card_elevation"
+                android:valueType="floatType" />
+        </set>
+    </item>
+</selector>

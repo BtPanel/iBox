@@ -106,7 +106,7 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/selector_dialog_button"
                     android:contentDescription="@string/live_epg_headers_help"
-                    android:padding="12dp"
+                    android:padding="@dimen/ibox_space_3"
                     android:src="@drawable/ic_epg_info"
                     android:tint="@color/selector_dialog_button_text" />
 
@@ -139,7 +139,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@drawable/selector_dialog_button"
                     android:contentDescription="@string/live_epg_clear"
-                    android:padding="12dp"
+                    android:padding="@dimen/ibox_space_3"
                     android:src="@drawable/ic_msr_delete"
                     android:tint="@color/selector_dialog_button_text" />
 

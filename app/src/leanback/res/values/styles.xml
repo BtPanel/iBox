@@ -56,6 +56,9 @@
         <item name="iconSize">@dimen/ibox_icon_large</item>
     </style>
 
+    <!-- TV 弹窗确认键：沿用 TV 按钮焦点描边，保证 D-pad 焦点可辨识 -->
+    <style name="Widget.IBox.Dialog.PositiveButton" parent="Widget.IBox.Button" />
+
     <style name="Widget.IBox.SettingSwitch" parent="Widget.IBox.SettingSwitch.Base">
         <item name="android:background">@drawable/selector_item</item>
         <item name="android:focusable">true</item>

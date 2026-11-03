@@ -1,29 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.media.ibox.ui.custom.SkeletonGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="32dp">
+    android:padding="@dimen/ibox_space_4">
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:indeterminate="true"
-        app:indicatorColor="?attr/colorPrimary"
-        app:trackColor="?attr/colorSurfaceVariant"
-        app:trackThickness="4dp" />
+    <!-- 模拟首页 3 列海报网格的骨架占位 -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ibox_space_3"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/ibox_space_2"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_skeleton_block" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_2"
+                android:layout_marginEnd="@dimen/ibox_space_4"
+                android:background="@drawable/bg_skeleton_bar" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:layout_marginEnd="@dimen/ibox_space_7"
+                android:background="@drawable/bg_skeleton_bar" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/ibox_space_2"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_skeleton_block" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_2"
+                android:layout_marginEnd="@dimen/ibox_space_4"
+                android:background="@drawable/bg_skeleton_bar" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:layout_marginEnd="@dimen/ibox_space_7"
+                android:background="@drawable/bg_skeleton_bar" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_skeleton_block" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_2"
+                android:layout_marginEnd="@dimen/ibox_space_4"
+                android:background="@drawable/bg_skeleton_bar" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginStart="@dimen/ibox_space_3"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:layout_marginEnd="@dimen/ibox_space_7"
+                android:background="@drawable/bg_skeleton_bar" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/ibox_space_4"
         android:gravity="center"
         android:text="@string/home_source_loading"
         android:textColor="@color/ibox_text_secondary"
-        android:textSize="@dimen/ibox_text_body" />
+        android:textAppearance="@style/TextAppearance.IBox.Supporting" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</com.media.ibox.ui.custom.SkeletonGroup>

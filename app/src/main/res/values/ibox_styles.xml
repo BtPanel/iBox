@@ -219,6 +219,9 @@
         <item name="iconTint">?attr/colorOnPrimaryContainer</item>
     </style>
 
+    <!-- 弹窗确认键：操作组里唯一的强调项，取消等次级动作保持默认文字样式 -->
+    <style name="Widget.IBox.Dialog.PositiveButton" parent="Widget.IBox.Button.Tonal" />
+
     <style name="Widget.IBox.Button.Outlined" parent="Widget.IBox.Button.Base">
         <item name="backgroundTint">@color/selector_ibox_button_outline_background</item>
         <item name="strokeColor">@color/selector_ibox_component_outline</item>

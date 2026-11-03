@@ -7,6 +7,7 @@
     android:elevation="@dimen/tv_card_elevation"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:stateListAnimator="@animator/tv_card_focus"
     android:foreground="@drawable/selector_vod">
 
     <com.google.android.material.imageview.ShapeableImageView

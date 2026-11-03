@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?attr/colorControlHighlight">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/ibox_live_glass_strong" />
+            <solid android:color="@color/ibox_surface_variant" />
             <stroke
-                android:width="2dp"
+                android:width="@dimen/ibox_stroke_thin"
                 android:color="@color/ibox_glass_divider" />
-            <corners android:radius="@dimen/ibox_radius_small" />
-            <padding android:left="10dp" android:top="4dp" android:right="10dp" android:bottom="4dp" />
+            <corners android:radius="@dimen/ibox_radius_pill" />
+            <padding android:left="@dimen/ibox_space_3" android:top="@dimen/ibox_space_1" android:right="@dimen/ibox_space_3" android:bottom="@dimen/ibox_space_1" />
         </shape>
     </item>
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
-            <corners android:radius="@dimen/ibox_radius_small" />
+            <corners android:radius="@dimen/ibox_radius_pill" />
         </shape>
     </item>
 </ripple>

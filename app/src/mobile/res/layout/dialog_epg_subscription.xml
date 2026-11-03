@@ -107,7 +107,7 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/live_epg_headers_help"
-                android:padding="12dp"
+                android:padding="@dimen/ibox_space_3"
                 android:src="@drawable/ic_epg_info"
                 app:tint="@color/ibox_text_primary" />
 
@@ -117,7 +117,7 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/live_epg_clear"
-                android:padding="12dp"
+                android:padding="@dimen/ibox_space_3"
                 android:src="@drawable/ic_msr_delete"
                 app:tint="@color/ibox_text_primary" />
 

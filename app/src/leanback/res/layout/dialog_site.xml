@@ -38,7 +38,7 @@
             android:focusableInTouchMode="true"
             android:nextFocusUp="@id/search"
             android:nextFocusDown="@id/change"
-            android:padding="8dp"
+            android:padding="@dimen/ibox_space_2"
             android:src="@drawable/ic_site_search"
             app:tint="@color/ibox_text_primary" />
 
@@ -53,7 +53,7 @@
             android:focusableInTouchMode="true"
             android:nextFocusUp="@id/search"
             android:nextFocusDown="@id/select"
-            android:padding="8dp"
+            android:padding="@dimen/ibox_space_2"
             android:src="@drawable/ic_site_change"
             app:tint="@color/ibox_text_primary" />
 
@@ -68,7 +68,7 @@
             android:focusableInTouchMode="true"
             android:nextFocusUp="@id/change"
             android:nextFocusDown="@id/cancel"
-            android:padding="8dp"
+            android:padding="@dimen/ibox_space_2"
             android:src="@drawable/ic_site_select" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -82,7 +82,7 @@
             android:focusableInTouchMode="true"
             android:nextFocusUp="@id/select"
             android:nextFocusDown="@id/mode"
-            android:padding="8dp"
+            android:padding="@dimen/ibox_space_2"
             android:src="@drawable/ic_site_cancel" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -96,7 +96,7 @@
             android:focusableInTouchMode="true"
             android:nextFocusUp="@id/cancel"
             android:nextFocusDown="@id/mode"
-            android:padding="8dp"
+            android:padding="@dimen/ibox_space_2"
             tools:src="@drawable/ic_site_list" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

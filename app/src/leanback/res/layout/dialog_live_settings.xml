@@ -19,7 +19,7 @@
         android:background="@drawable/bg_live_setting_panel"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:padding="6dp"
+        android:padding="@dimen/ibox_space_1"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -31,7 +31,7 @@
         android:background="@drawable/bg_live_setting_panel"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:padding="6dp" />
+        android:padding="@dimen/ibox_space_1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categories"
@@ -40,6 +40,6 @@
         android:background="@drawable/bg_live_setting_panel"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:padding="6dp" />
+        android:padding="@dimen/ibox_space_1" />
 
 </LinearLayout>

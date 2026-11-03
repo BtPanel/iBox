@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.media.ibox.R;
 import com.media.ibox.api.config.LiveConfig;
@@ -168,7 +167,7 @@ public class SettingDataFragment extends BaseFragment {
         FrameLayout container = new FrameLayout(requireContext());
         container.setPadding(padding, ResUtil.dp2px(8), padding, 0);
         container.addView(input, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        new MaterialAlertDialogBuilder(requireContext())
+        new IBoxAlertDialogBuilder(requireContext())
                 .setTitle(R.string.setting_github_accelerators)
                 .setView(container)
                 .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
