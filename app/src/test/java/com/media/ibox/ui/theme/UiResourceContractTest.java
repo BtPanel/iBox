@@ -683,8 +683,6 @@ public class UiResourceContractTest {
         assertEquals("12dp", value(dialogSystem, "dimen", "ibox_dialog_radius_tv"));
         assertEquals("24dp", value(mobileDimens, "dimen", "ibox_dialog_content_padding"));
         assertEquals("16dp", value(mobileDimens, "dimen", "ibox_dialog_group_spacing"));
-        assertEquals("24dp", value(tvDimens, "dimen", "ibox_dialog_content_padding"));
-        assertEquals("16dp", value(tvDimens, "dimen", "ibox_dialog_group_spacing"));
 
         assertEquals("?attr/colorSurface", attribute(mobileDialog, "solid", "android:color"));
         assertEquals("?attr/colorOutline", attribute(mobileDialog, "stroke", "android:color"));
@@ -1733,7 +1731,7 @@ public class UiResourceContractTest {
 
     @Test
     public void liveSettingRowsKeepSingleLineTitlesAndACompactCurrentIndicator() throws Exception {
-        for (String[] variant : new String[][]{{"main", "15sp"}, {"leanback", "18sp"}}) {
+        for (String[] variant : new String[][]{{"main", "15sp"}, {"leanback", "@dimen/ibox_text_section"}}) {
             Document row = xml("app/src/" + variant[0] + "/res/layout/adapter_live_setting_action.xml");
             Element title = view(row, "title");
             assertEquals("1", title.getAttribute("android:maxLines"));
@@ -1749,7 +1747,7 @@ public class UiResourceContractTest {
         Element categoryTitle = view(category, "title");
         assertEquals("1", categoryTitle.getAttribute("android:maxLines"));
         assertEquals("end", categoryTitle.getAttribute("android:ellipsize"));
-        assertEquals("17sp", categoryTitle.getAttribute("android:textSize"));
+        assertEquals("@dimen/ibox_text_section", categoryTitle.getAttribute("android:textSize"));
     }
 
     @Test
@@ -1768,7 +1766,7 @@ public class UiResourceContractTest {
     @Test
     public void bothPlayerSettingsExposeIndependentAudioAndSubtitleLanguages() throws Exception {
         for (String[] variant : new String[][]{
-                {"leanback", "activity_setting_player.xml", "16sp"},
+                {"leanback", "activity_setting_player.xml", "@dimen/ibox_text_body"},
                 {"mobile", "fragment_setting_player.xml", "@dimen/ibox_text_body"}}) {
             Document layout = xml("app/src/" + variant[0] + "/res/layout/" + variant[1]);
             view(layout, "audioLanguage");

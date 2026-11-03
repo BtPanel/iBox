@@ -24,7 +24,7 @@
             android:layout_marginEnd="@dimen/ibox_space_4"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/ibox_player_text_primary"
             android:textSize="@dimen/ibox_text_supporting"
             app:layout_constraintBottom_toBottomOf="@id/liveStatus"
             app:layout_constraintEnd_toStartOf="@id/liveStatus"
@@ -75,7 +75,7 @@
                     android:gravity="end"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"
+                    android:textColor="@color/ibox_player_text_primary"
                     android:textSize="20sp"
                     tools:text="09:20:00" />
 
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFeatureSettings="tnum"
-                android:textColor="@color/white"
+                android:textColor="@color/ibox_player_text_primary"
                 android:textSize="@dimen/ibox_text_supporting"
                 android:visibility="gone"
                 tools:text="2.8 MB/s"
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/ibox_player_text_primary"
             android:textSize="@dimen/ibox_text_supporting"
             tools:text="@string/error_play_url" />
 
@@ -134,7 +134,7 @@
         android:background="@drawable/shape_widget"
         android:fontFeatureSettings="tnum"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/ibox_player_text_primary"
         android:textSize="@dimen/ibox_text_body"
         android:visibility="gone"
         tools:text="Speed 3.0x"
@@ -148,7 +148,7 @@
         android:background="@drawable/shape_widget"
         android:includeFontPadding="false"
         android:letterSpacing="0.05"
-        android:textColor="@color/white"
+        android:textColor="@color/ibox_player_text_primary"
         android:textSize="62sp"
         android:visibility="gone"
         tools:text="05"
@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="tnum"
-                android:textColor="@color/white"
+                android:textColor="@color/ibox_player_text_primary"
                 android:textSize="@dimen/ibox_text_supporting"
                 tools:text="00:00:00" />
 
@@ -191,7 +191,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:text="/"
-                android:textColor="@color/white"
+                android:textColor="@color/ibox_player_text_primary"
                 android:textSize="@dimen/ibox_text_supporting" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -199,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="tnum"
-                android:textColor="@color/white"
+                android:textColor="@color/ibox_player_text_primary"
                 android:textSize="@dimen/ibox_text_supporting"
                 tools:text="00:00:00" />
 
@@ -248,7 +248,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/ibox_player_text_primary"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     tools:text="浙江卫视" />
@@ -291,7 +291,7 @@
                 android:layout_marginTop="6dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/white"
+                android:textColor="@color/ibox_player_text_primary"
                 android:textSize="@dimen/ibox_text_address"
                 tools:text="正在播放：10:00 ~ 11:00 精彩节目" />
 

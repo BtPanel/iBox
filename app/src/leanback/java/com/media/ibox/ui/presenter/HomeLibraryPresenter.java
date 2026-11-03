@@ -17,6 +17,7 @@ import com.media.ibox.bean.Style;
 import com.media.ibox.databinding.AdapterHomeVodBinding;
 import com.media.ibox.utils.ImgUtil;
 import com.media.ibox.utils.ResUtil;
+import com.media.ibox.utils.TvFocusScale;
 
 public class HomeLibraryPresenter extends Presenter {
 
@@ -81,6 +82,7 @@ public class HomeLibraryPresenter extends Presenter {
         holder.binding.remark.setVisibility(TextUtils.isEmpty(remark) ? View.GONE : View.VISIBLE);
         holder.binding.progress.setProgress(Math.max(0, progress));
         holder.binding.progress.setVisibility(progress < 0 ? View.GONE : View.VISIBLE);
+        holder.binding.getRoot().setOnFocusChangeListener((view, focused) -> TvFocusScale.apply(view, focused));
         ImgUtil.load(name, pic, holder.binding.image);
     }
 
@@ -89,6 +91,7 @@ public class HomeLibraryPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.binding.getRoot().setOnClickListener(null);
         holder.binding.getRoot().setOnLongClickListener(null);
+        holder.binding.getRoot().setOnFocusChangeListener(null);
         Glide.with(holder.binding.image).clear(holder.binding.image);
     }
 

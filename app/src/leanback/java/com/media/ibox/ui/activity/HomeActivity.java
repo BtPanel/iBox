@@ -190,9 +190,10 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         selector.addPresenter(History.class, libraryPresenter);
         selector.addPresenter(Keep.class, libraryPresenter);
         selector.addPresenter(ListRow.class, new CustomRowPresenter(22, FocusHighlight.ZOOM_FACTOR_NONE, HorizontalGridView.FOCUS_SCROLL_ALIGNED), HomeCategoryPresenter.class);
-        selector.addPresenter(ListRow.class, new CustomRowPresenter(10), FuncPresenter.class);
-        selector.addPresenter(ListRow.class, new CustomRowPresenter(20), HomeVodPresenter.class);
-        selector.addPresenter(ListRow.class, new CustomRowPresenter(20), HomeLibraryPresenter.class);
+        // 焦点缩放统一由 TvFocusScale(1.06) 处理，禁用 leanback 内建 zoom 避免双重缩放竞争。
+        selector.addPresenter(ListRow.class, new CustomRowPresenter(10, FocusHighlight.ZOOM_FACTOR_NONE), FuncPresenter.class);
+        selector.addPresenter(ListRow.class, new CustomRowPresenter(20, FocusHighlight.ZOOM_FACTOR_NONE), HomeVodPresenter.class);
+        selector.addPresenter(ListRow.class, new CustomRowPresenter(20, FocusHighlight.ZOOM_FACTOR_NONE), HomeLibraryPresenter.class);
         mBinding.recycler.setAdapter(new ItemBridgeAdapter(mAdapter = new ArrayObjectAdapter(selector)));
         mBinding.recycler.setVerticalSpacing(ResUtil.dp2px(12));
     }

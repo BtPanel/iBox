@@ -13,17 +13,17 @@
         android:orientation="horizontal">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/next"
-            style="@style/Control"
-            android:layout_marginEnd="8dp"
-            android:nextFocusLeft="@id/ending"
-            android:text="@string/play_next" />
-
-        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/prev"
             style="@style/Control"
             android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@id/ending"
             android:text="@string/play_prev" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/next"
+            style="@style/Control"
+            android:layout_marginEnd="8dp"
+            android:text="@string/play_next" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/danmakuSearch"
@@ -162,7 +162,7 @@
         <com.media.ibox.ui.custom.CustomUpDownView
             android:id="@+id/ending"
             style="@style/Control"
-            android:nextFocusRight="@id/next"
+            android:nextFocusRight="@id/prev"
             android:text="@string/play_ed" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

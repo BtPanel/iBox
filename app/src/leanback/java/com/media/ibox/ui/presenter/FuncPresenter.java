@@ -8,6 +8,7 @@ import androidx.leanback.widget.Presenter;
 
 import com.media.ibox.bean.Func;
 import com.media.ibox.databinding.AdapterFuncBinding;
+import com.media.ibox.utils.TvFocusScale;
 
 public class FuncPresenter extends Presenter {
 
@@ -47,6 +48,7 @@ public class FuncPresenter extends Presenter {
         public ViewHolder(@NonNull AdapterFuncBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            view.setOnFocusChangeListener((v, focused) -> TvFocusScale.apply(v, focused));
         }
     }
 }

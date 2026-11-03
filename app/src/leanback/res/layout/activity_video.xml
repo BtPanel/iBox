@@ -11,7 +11,7 @@
         android:layout_width="400dp"
         android:layout_height="224dp"
         android:layout_margin="24dp"
-        android:background="@color/black"
+        android:background="@color/ibox_player_surface"
         android:defaultFocusHighlightEnabled="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -245,6 +245,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/video"
+        android:layout_alignParentBottom="true"
         android:overScrollMode="never">
 
         <androidx.appcompat.widget.LinearLayoutCompat

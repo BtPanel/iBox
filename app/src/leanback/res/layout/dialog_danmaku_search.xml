@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="@string/danmaku_search"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="20sp"
+            android:textSize="@dimen/ibox_text_dialog_title"
             android:textStyle="bold" />
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/current"

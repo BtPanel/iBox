@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.media.ibox.Product;
 import com.media.ibox.R;
-import com.media.ibox.accessibility.AppAccessibility;
+import com.media.ibox.utils.TvFocusScale;
 import com.media.ibox.bean.History;
 import com.media.ibox.databinding.AdapterVodBinding;
 import com.media.ibox.utils.ImgUtil;
@@ -91,11 +91,7 @@ public class HistoryAdapter extends BaseDiffAdapter<History, HistoryAdapter.View
             super(binding.getRoot());
             this.binding = binding;
             itemView.setOnFocusChangeListener((view, hasFocus) -> {
-                float scale = hasFocus ? 1.06f : 1f;
-                view.animate().scaleX(scale).scaleY(scale)
-                        .setDuration(AppAccessibility.duration(view.getResources().getInteger(R.integer.ibox_motion_short)))
-                        .start();
-                view.setTranslationZ(hasFocus ? 10f : 0f);
+                TvFocusScale.apply(view, hasFocus);
                 view.setSelected(hasFocus);
             });
         }

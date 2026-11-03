@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.media.ibox.Product;
 import com.media.ibox.R;
-import com.media.ibox.accessibility.AppAccessibility;
+import com.media.ibox.utils.TvFocusScale;
 import com.media.ibox.bean.Keep;
 import com.media.ibox.databinding.AdapterVodBinding;
 import com.media.ibox.utils.ImgUtil;
@@ -92,15 +92,8 @@ public class KeepAdapter extends BaseDiffAdapter<Keep, KeepAdapter.ViewHolder> {
 
         private void setFocusListener() {
             itemView.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) {
-                    v.animate().scaleX(1.06f).scaleY(1.06f).setDuration(AppAccessibility.duration(v.getResources().getInteger(R.integer.ibox_motion_short))).start();
-                    v.setTranslationZ(10f);
-                    v.setSelected(true);
-                } else {
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(AppAccessibility.duration(v.getResources().getInteger(R.integer.ibox_motion_short))).start();
-                    v.setTranslationZ(0f);
-                    v.setSelected(false);
-                }
+                TvFocusScale.apply(v, hasFocus);
+                v.setSelected(hasFocus);
             });
         }
     }

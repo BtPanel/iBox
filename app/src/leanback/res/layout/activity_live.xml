@@ -204,7 +204,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textAppearance="@style/TextAppearance.IBox.PageTitle"
             android:textColor="@color/ibox_text_primary"
             tools:text="No live source" />
 
@@ -215,7 +215,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textAppearance="@style/TextAppearance.IBox.Body"
             android:textColor="@color/ibox_text_secondary"
             tools:text="Add a source URL or choose a local M3U/TXT playlist." />
 
