@@ -11,8 +11,8 @@
     <color name="ibox_home_search_surface">#B317201E</color>
     <color name="ibox_home_poster_scrim">#B3000000</color>
     <color name="ibox_wall_chrome_surface">#C617201E</color>
-    <!-- 悬浮导航毛玻璃：约 60% 不透明，内容从下方透出 -->
-    <color name="ibox_nav_glass_surface">#FF17201E</color>
+    <!-- 悬浮导航毛玻璃：约 80% 不透明，内容从下方透出 -->
+    <color name="ibox_nav_glass_surface">#CC17201E</color>
     <!-- 玻璃顶部高光（上亮下透明） -->
     <color name="ibox_nav_glass_highlight">#33FFFFFF</color>
     <color name="ibox_nav_glass_highlight_mid">#0DFFFFFF</color>
