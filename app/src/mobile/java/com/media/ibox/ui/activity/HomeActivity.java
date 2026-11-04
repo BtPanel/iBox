@@ -272,7 +272,13 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
     }
 
     private void checkDestination() {
-        if (mManager != null && getIntent().getIntExtra("destination", 0) == 1) change(PAGE_SETTINGS);
+        if (mManager == null) return;
+        Intent intent = getIntent();
+        // 显式指定了目标页时才切换：1=设置，0=主页。
+        // 未携带 destination extra（如冷启动）时不做干预，尊重 savedInstanceState 恢复的位置。
+        if (!intent.hasExtra("destination")) return;
+        int destination = intent.getIntExtra("destination", 0);
+        change(destination == 1 ? PAGE_SETTINGS : PAGE_HOME);
     }
 
     private void checkStartPage(Intent intent) {

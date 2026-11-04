@@ -97,9 +97,14 @@ public class PiP {
                 activity.setPictureInPictureParams(builder.build());
             }
             if (!manual && !backgroundEnabled) return;
-            if (scale == 1) builder.setAspectRatio(new Rational(16, 9));
-            else if (scale == 2) builder.setAspectRatio(new Rational(4, 3));
-            else builder.setAspectRatio(getRational(width, height));
+            // Android 12+：不锁定 aspectRatio，让 PiP 窗口进入后能自由拖拽四角缩放；
+            // 初始比例仍由视频比例决定（sourceRectHint 已在 update() 中设置），
+            // setSeamlessResizeEnabled(true) 负责缩放时的平滑过渡。
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                if (scale == 1) builder.setAspectRatio(new Rational(16, 9));
+                else if (scale == 2) builder.setAspectRatio(new Rational(4, 3));
+                else builder.setAspectRatio(getRational(width, height));
+            }
             activity.enterPictureInPictureMode(builder.build());
         } catch (Exception e) {
             e.printStackTrace();
