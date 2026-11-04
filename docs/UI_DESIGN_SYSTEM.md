@@ -52,29 +52,29 @@ Android 资源会按源码集和限定符覆盖。修改 `main` 后必须检查�
 | 边框与分隔 | `ibox_outline`、`ibox_outline_strong`、`ibox_divider` |
 | 错误/成功/警告 | `ibox_error`、`ibox_success`、`ibox_warning` |
 | 播放器 | `ibox_player_surface`、`ibox_player_text_*`、`ibox_player_control_*` |
-| 内容强调 | `ibox_content_accent`（珊瑚色，不替代正文色） |
+| 内容强调 | `ibox_content_accent`（评分金，不替代正文色） |
 | TV 焦点 | `ibox_focus`、`ibox_focus_surface`、`ibox_focus_outline` 和端侧 focus selector |
 
-默认孔雀青／珊瑚色方案的精确值如下。自定义主题覆盖仍须满足相同的语义配对和对比度要求。
+当前采用 2026 重设计的**清爽绿**方向（中性灰阶承载界面，绿色唯一强调色指示操作与选中，金色承载评分），精确值以 `ibox_colors.xml` / `ibox_tv_colors.xml` 为准。自定义主题覆盖仍须满足相同的语义配对和对比度要求。核心令牌：
 
 | 资源 | 手机日间 | 手机夜间 | TV 固定深色 |
 | --- | --- | --- | --- |
-| `ibox_surface_container` | `#F6F9F8` | `#0D1513` | `#080F0D` |
-| `ibox_surface` | `#FFFFFF` | `#17201E` | `#141D1A` |
-| `ibox_surface_variant` | `#E1E5E3` | `#26312E` | `#23302C` |
-| `ibox_text_primary` | `#13201D` | `#E8F1EE` | `#F0F7F5` |
-| `ibox_text_secondary` | `#52615D` | `#AABAB5` | `#A9B8B3` |
-| `ibox_primary` | `#006B5F` | `#62DAC4` | `#68DFC9` |
-| `ibox_on_primary` | `#FFFFFF` | `#003731` | `#003731` |
-| `ibox_primary_container` | `#B7EBDD` | `#164E46` | `#164E46` |
-| `ibox_on_primary_container` | `#00201C` | `#B7EBDD` | `#B7EBDD` |
-| `ibox_content_accent` | `#D95D45` | `#FFB4A8` | `#FFB4A8` |
-| `ibox_outline` | `#71817C` | `#71817C` | `#71817C` |
-| `ibox_outline_strong` | `#697975` | `#73847F` | `#72827D` |
-| `ibox_focus_surface` | `#FFFFFF` | `#26312E` | `#23302C` |
-| `ibox_focus_outline` | `#006B5F` | `#62DAC4` | `#E2FFF8` |
+| `ibox_primary` | `#00875A` | `#4ADE8F` | `#4ADE8F` |
+| `ibox_on_primary` | `#FFFFFF` | `#052E1A` | `#052E1A` |
+| `ibox_primary_container` | `#D7F2E4` | `#164C35` | `#164C35` |
+| `ibox_on_primary_container` | `#00391F` | `#A9F0CC` | `#A9F0CC` |
+| `ibox_surface` | `#FFFFFF` | `#121714` | `#101412` |
+| `ibox_surface_container` | `#F5F7F6` | `#0F1412` | `#0A0E0C` |
+| `ibox_surface_variant` | `#EBEFEC` | `#212A25` | `#1E2622` |
+| `ibox_text_primary` | `#1A1F1C` | `#F2F6F4` | `#F0F5F2` |
+| `ibox_text_secondary` | `#4E5A54` | `#A9B5AF` | `#A9B5AF` |
+| `ibox_content_accent` | `#A96A10` | `#F5C065` | `#F5C065` |
+| `ibox_focus` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
+| `ibox_focus_outline` | `#00875A` | `#4ADE8F` | `#FFFFFF` |
 
-正文和辅助文字与实际背景的对比度至少 **4.5:1**；必要的输入边界和焦点指示至少 **3:1**。透明色必须先与底图合成再计算，不能直接忽略 alpha。珊瑚色用于内容强调；日间珊瑚色不用于小字号正文。装饰分隔线不承担输入边界或焦点指示职责。
+正文和辅助文字与实际背景的对比度至少 **4.5:1**；必要的输入边界和焦点指示至少 **3:1**。透明色必须先与底图合成再计算，不能直接忽略 alpha。`ibox_content_accent` 金色用于评分等内容强调；日间金色不用于小字号正文。装饰分隔线不承担输入边界或焦点指示职责。
+
+完整配色方案（含玻璃表面、直播面板、高对比度、错误/成功/警告等派生色）见 [UI_REDESIGN_2026.md](UI_REDESIGN_2026.md) 与各 `ibox_colors.xml` 文件，二者不一致时以源码文件为准。
 
 播放器和艺术图上的深色元数据使用跨日间／夜间／TV 一致的角色：
 

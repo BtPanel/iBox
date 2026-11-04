@@ -41,19 +41,22 @@
 | 设置 | 手机默认 | TV 默认 | 代码位置 |
 | --- | --- | --- | --- |
 | 主题模式 | 跟随系统 | 固定深色 | `Setting.applyThemeMode()` |
-| 主题色 | 品牌蓝 `#3D7FFF` | 品牌蓝主题覆盖 | `Setting.getThemeColor()` |
-| TV 焦点色 | - | `#69B4FF` | `Setting.getFocusColor()` |
+| 主题色 | 清爽绿 `#00875A` | 清爽绿主题覆盖 | `Setting.getThemeColor()` |
+| TV 焦点色 | - | `#FFFFFF` | `Setting.getFocusColor()` |
 | 字号 | 大 | 标准 | `Setting.getFontScaleMode()` |
 | 高对比度 | 关 | 关 | `Setting.isHighContrast()` |
 | 减少动画 | 关 | 关 | `Setting.isReduceMotion()` |
 | 布局模式 | 自动 | TV 固定布局 | `Setting.getLayoutMode()` |
 | 首页内容 | 推荐 | 点播主页 | `Setting.getHomeContent()` |
 | 底部导航隐藏项 | 下载 | 不适用 | `Setting.getHiddenNavigationItems()` |
+| 悬浮导航 | 开 | 不适用 | `Setting.isFloatingNavigation()` |
+| 播放按钮 | 关 | 不适用 | `Setting.isResumeButtonEnabled()` |
 | 启动页面 | 关闭 | 点播 | `Setting.getBootStartMode()` |
 | 系统开机自动启动 | 由启动页控制 | 关闭 | `Setting.isBootAutoStart()` |
-| 点播失败自动换线路 | 开 | 开 | `Setting.isAutoFallbackLine()` |
-| 点播失败自动跨站换源 | 开 | 开 | `Setting.isAutoFallbackSource()` |
+| 点播失败自动换线 | 开 | 开 | `Setting.isAutoFallbackLine()` |
+| 点播失败自动换源 | 开 | 开 | `Setting.isAutoFallbackSource()` |
 | 点播自动播放下一集 | 开 | 开 | `PlayerSetting.isAutoNextEnabled()` |
+| 自动连播倒计时 | 3 秒 | 3 秒 | `VodAutoNextPrompt.COUNTDOWN_SECONDS` |
 | 首选音轨语言 | 跟随设备 | 跟随设备 | `PlayerSetting.getAudioLanguageIndex()` |
 | 首选字幕语言 | 跟随设备 | 跟随设备 | `PlayerSetting.getTextLanguageIndex()` |
 | GitHub 加速 | 关 | 关 | `Setting.isGitHubAcceleration()` |
@@ -70,6 +73,8 @@
 修改默认值前必须考虑已有用户：SharedPreferences 已保存的值不会随代码默认值变化。只改 getter 默认值只影响从未写过该键的新用户。
 
 `theme_mode` 未保存时返回 `THEME_SYSTEM`。因此本次 `1.0` 发布中，手机端新安装会跟随系统，升级用户此前主动选择的浅色、深色或跟随系统不会被覆盖；TV 仍由 `applyThemeMode()` 强制使用深色。
+
+“播放按钮”开关复用同一语义：关闭时不仅不显示悬浮返回/播放按钮，还连带“离开播放页是否后台保活”行为，见 `PlaybackActivity` 与 `PlaybackResumeButton`。只希望控制按钮显示、不影响后台播放时，需要把它拆成独立开关后再改。
 
 ## 设置界面位置
 
