@@ -35,7 +35,6 @@ import com.media.ibox.offline.OfflineDownloadManager;
 import com.media.ibox.player.extractor.Source;
 import com.media.ibox.receiver.ShortcutReceiver;
 import com.media.ibox.server.Server;
-import com.media.ibox.service.PlaybackService;
 import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.base.BaseActivity;
 import com.media.ibox.ui.custom.AppNavigation;
@@ -56,7 +55,6 @@ import com.media.ibox.utils.Notify;
 import com.media.ibox.utils.PermissionUtil;
 import com.media.ibox.utils.Task;
 import com.media.ibox.utils.UrlUtil;
-import com.media.ibox.utils.Util;
 import com.github.catvod.net.OkHttp;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -362,16 +360,12 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
         } else if (mManager.isVisible(PAGE_SETTINGS)) {
             change(PAGE_HOME);
         } else if (mManager.canBack(PAGE_HOME)) {
-            if (PlaybackService.isRunning()) {
-                Util.moveToBackground(this);
+            long now = System.currentTimeMillis();
+            if (now - mLastBackTime > EXIT_CONFIRM_INTERVAL_MS) {
+                mLastBackTime = now;
+                Notify.show(R.string.exit_confirm);
             } else {
-                long now = System.currentTimeMillis();
-                if (now - mLastBackTime > EXIT_CONFIRM_INTERVAL_MS) {
-                    mLastBackTime = now;
-                    Notify.show(R.string.exit_confirm);
-                } else {
-                    super.onBackInvoked();
-                }
+                super.onBackInvoked();
             }
         }
     }
