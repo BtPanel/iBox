@@ -300,11 +300,9 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
     public void change(int position) {
         currentPosition = position;
         mManager.change(position);
-        // 仅播放器相关页（播放器/弹幕/预加载/解码）需要全屏隐藏底部导航；
-        // 设置二级页保留导航，返回栈亦由 applyVisibility 恢复显示
-        boolean playerRelated = position >= PAGE_PLAYER && position <= PAGE_DECODE;
-        if (playerRelated) mBinding.navigation.getRoot().setVisibility(View.GONE);
-        else AppNavigation.applyVisibility(this);
+        // 三级设置页（播放器/弹幕/预加载/解码）同样保留底部导航，
+        // 由 applyVisibility 统一管理显示状态与选中态。
+        AppNavigation.applyVisibility(this);
         if (position == PAGE_HOME) AppNavigation.select(this, AppNavigation.HOME);
         else if (position == PAGE_SETTINGS) AppNavigation.select(this, AppNavigation.SETTINGS);
     }

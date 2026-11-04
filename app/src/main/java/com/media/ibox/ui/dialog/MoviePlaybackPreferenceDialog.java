@@ -17,6 +17,7 @@ import com.media.ibox.setting.PlayerSetting;
 import com.media.ibox.setting.SpeedSetting;
 import com.media.ibox.setting.SubtitleSetting;
 import com.media.ibox.utils.ResUtil;
+import com.media.ibox.utils.SliderUtil;
 import com.media.ibox.utils.Util;
 
 import java.util.Locale;
@@ -90,14 +91,16 @@ public final class MoviePlaybackPreferenceDialog extends BaseAlertDialog {
         binding.enabled.setChecked(enabled);
         binding.engine.check(preference.engine() == PlayerSetting.ENGINE_MPV ? R.id.engineMpv : R.id.engineExo);
         binding.decode.check(preference.decode() == PlayerEngine.SOFT ? R.id.decodeSoft : R.id.decodeHard);
-        binding.speed.setValue(Math.clamp(preference.speed(), 0.5f, 3.0f));
+        // 对齐 slider 的 stepSize：全局速度(0.1 步进)、字幕缩放/位置等历史值可能与
+        // slider 步进不一致，直接 setValue 会抛 IllegalStateException 崩溃。
+        SliderUtil.setValue(binding.speed, preference.speed());
         binding.subtitleStyle.check(switch (preference.subtitleSource()) {
             case SubtitleSetting.STYLE_SOURCE_SYSTEM -> R.id.subtitleSystem;
             case SubtitleSetting.STYLE_SOURCE_CUSTOM -> R.id.subtitleCustom;
             default -> R.id.subtitleOriginal;
         });
-        binding.subtitleScale.setValue(preference.subtitleScale());
-        binding.subtitlePosition.setValue(preference.subtitlePosition());
+        SliderUtil.setValue(binding.subtitleScale, preference.subtitleScale());
+        SliderUtil.setValue(binding.subtitlePosition, preference.subtitlePosition());
         bindingValues = false;
         setControlsEnabled(enabled);
         updateLabels();

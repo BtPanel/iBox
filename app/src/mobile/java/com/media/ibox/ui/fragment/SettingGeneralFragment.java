@@ -12,12 +12,14 @@ import com.media.ibox.R;
 import com.media.ibox.databinding.FragmentSettingGeneralBinding;
 import com.media.ibox.databinding.ViewSettingRowBinding;
 import com.media.ibox.databinding.ViewSettingSwitchRowBinding;
+import com.media.ibox.event.RefreshEvent;
 import com.media.ibox.server.RemoteAccess;
 import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.base.BaseFragment;
 import com.media.ibox.ui.custom.AppNavigation;
 import com.media.ibox.ui.custom.IBoxAlertDialogBuilder;
 import com.media.ibox.ui.dialog.RemoteAccessDialog;
+import com.media.ibox.ui.overlay.PlaybackResumeButton;
 import com.media.ibox.utils.ResUtil;
 
 /**
@@ -44,6 +46,8 @@ public class SettingGeneralFragment extends BaseFragment {
         initRow(mBinding.rowConfigNotice, R.drawable.ic_msr_info, R.string.setting_config_notice);
         initRow(mBinding.rowRemoteAccess, R.drawable.ic_msr_smartphone, R.string.remote_title);
         initRow(mBinding.rowHideNavigation, R.drawable.ic_msr_bottom_navigation, R.string.setting_hide_navigation);
+        initRow(mBinding.rowFloatingNavigation, R.drawable.ic_msr_bottom_navigation, R.string.setting_floating_navigation);
+        initRow(mBinding.rowResumeButton, R.drawable.ic_msr_play_arrow, R.string.setting_resume_button);
         initRow(mBinding.rowBootAutoStart, R.drawable.ic_msr_home, R.string.setting_boot_auto_start);
         refresh();
     }
@@ -65,6 +69,8 @@ public class SettingGeneralFragment extends BaseFragment {
         mBinding.rowConfigNotice.toggle.setChecked(Setting.isConfigNoticeEnabled());
         mBinding.rowRemoteAccess.value.setText(Setting.getSwitch(RemoteAccess.isEnabled()));
         mBinding.rowHideNavigation.value.setText(getHiddenNavigationText());
+        mBinding.rowFloatingNavigation.toggle.setChecked(Setting.isFloatingNavigation());
+        mBinding.rowResumeButton.toggle.setChecked(Setting.isResumeButtonEnabled());
         bootStart = ResUtil.getStringArray(R.array.select_boot_start);
         mBinding.rowBootAutoStart.value.setText(bootStart[Setting.getBootStartMode()]);
     }
@@ -75,6 +81,8 @@ public class SettingGeneralFragment extends BaseFragment {
         mBinding.rowConfigNotice.getRoot().setOnClickListener(this::setConfigNotice);
         mBinding.rowRemoteAccess.getRoot().setOnClickListener(view -> RemoteAccessDialog.create().show(requireActivity()));
         mBinding.rowHideNavigation.getRoot().setOnClickListener(this::setNavigationHidden);
+        mBinding.rowFloatingNavigation.getRoot().setOnClickListener(this::setFloatingNavigation);
+        mBinding.rowResumeButton.getRoot().setOnClickListener(this::setResumeButton);
         mBinding.rowBootAutoStart.getRoot().setOnClickListener(this::setBootAutoStart);
     }
 
@@ -101,6 +109,21 @@ public class SettingGeneralFragment extends BaseFragment {
             mBinding.rowHideNavigation.value.setText(getHiddenNavigationText());
             AppNavigation.applyVisibility(requireActivity());
         }).show();
+    }
+
+    private void setFloatingNavigation(View view) {
+        boolean floating = !Setting.isFloatingNavigation();
+        Setting.putFloatingNavigation(floating);
+        mBinding.rowFloatingNavigation.toggle.setChecked(floating);
+        AppNavigation.applyFloatingMode(requireActivity());
+        RefreshEvent.navigation();
+    }
+
+    private void setResumeButton(View view) {
+        boolean enabled = !Setting.isResumeButtonEnabled();
+        Setting.putResumeButtonEnabled(enabled);
+        mBinding.rowResumeButton.toggle.setChecked(enabled);
+        PlaybackResumeButton.refresh(requireActivity());
     }
 
     private String getHiddenNavigationText() {

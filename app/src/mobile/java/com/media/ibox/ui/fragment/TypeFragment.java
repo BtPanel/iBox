@@ -101,6 +101,7 @@ public class TypeFragment extends BaseFragment implements CustomScroller.Callbac
         setRecyclerView();
         setViewModel();
         getVideo();
+        org.greenrobot.eventbus.EventBus.getDefault().register(this);
     }
 
     @Override
@@ -113,6 +114,39 @@ public class TypeFragment extends BaseFragment implements CustomScroller.Callbac
         mBinding.recycler.setTranslationY(-ResUtil.dp2px(getY()));
         mBinding.recycler.setHasFixedSize(true);
         setStyle(getStyle());
+        applyNavigationPadding();
+    }
+
+    /**
+     * 根据「悬浮底部导航」开关设置列表底部留白：
+     * 悬浮模式导航悬浮覆盖，留 88dp 让最后一行滚到胶囊上方；
+     * 传统模式导航占位（内容容器已留出导航高度），留常规 12dp 即可。
+     */
+    private void applyNavigationPadding() {
+        boolean floating = com.media.ibox.setting.Setting.isFloatingNavigation();
+        int bottom = ResUtil.dp2px(floating ? 88 : 12);
+        mBinding.recycler.setPadding(mBinding.recycler.getPaddingLeft(),
+                mBinding.recycler.getPaddingTop(),
+                mBinding.recycler.getPaddingRight(), bottom);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBinding != null) applyNavigationPadding();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = org.greenrobot.eventbus.ThreadMode.MAIN)
+    public void onRefreshEvent(com.media.ibox.event.RefreshEvent event) {
+        if (event.getType() == com.media.ibox.event.RefreshEvent.Type.NAVIGATION) {
+            if (mBinding != null) applyNavigationPadding();
+        }
     }
 
     private void setStyle(Style style) {

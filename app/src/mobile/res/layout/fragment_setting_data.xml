@@ -30,7 +30,7 @@
             android:paddingStart="@dimen/ibox_content_padding_horizontal"
             android:paddingTop="@dimen/ibox_space_2"
             android:paddingEnd="@dimen/ibox_content_padding_horizontal"
-            android:paddingBottom="@dimen/ibox_space_6">
+            android:paddingBottom="@dimen/ibox_navigation_content_padding">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"

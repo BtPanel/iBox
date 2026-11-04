@@ -75,9 +75,9 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
         mKeepAdapter.setSize(size);
         mBinding.recycler.setHasFixedSize(true);
         mBinding.recycler.setLayoutManager(new GridLayoutManager(this, Product.getColumn(this)));
-        mBinding.tabs.addTab(mBinding.tabs.newTab().setText(R.string.app_history));
         mBinding.tabs.addTab(mBinding.tabs.newTab().setText(R.string.app_keep));
-        showHistory();
+        mBinding.tabs.addTab(mBinding.tabs.newTab().setText(R.string.app_history));
+        showKeep();
     }
 
     @Override
@@ -85,8 +85,8 @@ public class LibraryActivity extends BaseActivity implements HistoryAdapter.OnCl
         mBinding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) showHistory();
-                else showKeep();
+                if (tab.getPosition() == 0) showKeep();
+                else showHistory();
             }
 
             @Override

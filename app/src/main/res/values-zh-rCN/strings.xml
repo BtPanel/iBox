@@ -366,10 +366,10 @@
     <string name="setting_theme_mode">主题模式</string>
     <string name="setting_auto">自动</string>
     <string name="setting_custom">自定义</string>
-    <string name="setting_size">图片尺寸</string>
+    <string name="setting_size">海报尺寸</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_github_acceleration">GitHub 加速</string>
-    <string name="setting_github_accelerators">自定义加速网址</string>
+    <string name="setting_github_accelerators">加速地址</string>
     <string name="setting_github_accelerators_hint">每行一个加速前缀，例如 https://gh-proxy.com/
 留空则不启用加速。</string>
     <string name="setting_github_accelerators_default">未设置</string>
@@ -428,7 +428,7 @@
     <string name="setting_restore">恢复</string>
     <string name="setting_webdav">WebDAV 同步</string>
     <string name="webdav_setting_summary">在设备之间同步选定数据</string>
-    <string name="source_health_title">来源健康检查</string>
+    <string name="source_health_title">健康检查</string>
     <string name="source_health_setting_summary">检查配置、点播源和直播源</string>
     <string name="source_health_description">检查来源可用性，不会实际打开直播流。</string>
     <string name="source_health_network">当前网络</string>
@@ -576,12 +576,12 @@
     <string name="dialog_config_hint">请输入配置…</string>
     <string name="dialog_config_name">请输入名称…</string>
     <string name="dialog_config_url">请输入地址…</string>
-    <string name="repository_add_source_title">添加%1$s订阅</string>
-    <string name="repository_edit_source_title">编辑%1$s订阅</string>
-    <string name="repository_source_name">订阅名称</string>
-    <string name="repository_source_address">订阅地址</string>
-    <string name="repository_current">当前订阅</string>
-    <string name="repository_delete_title">删除订阅？</string>
+    <string name="repository_add_source_title">添加%1$s源</string>
+    <string name="repository_edit_source_title">编辑%1$s源</string>
+    <string name="repository_source_name">源名称</string>
+    <string name="repository_source_address">源地址</string>
+    <string name="repository_current">当前源</string>
+    <string name="repository_delete_title">删除源？</string>
 
     <!-- Error -->
     <string name="error_config_get">配置取得失败</string>

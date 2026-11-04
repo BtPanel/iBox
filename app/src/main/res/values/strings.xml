@@ -5,6 +5,9 @@
     <string name="version_label">v%1$s</string>
     <string name="exit_confirm">Press back again to exit</string>
 
+    <!-- Playback resume -->
+    <string name="nav_resume">Now playing</string>
+
     <!-- Live -->
     <string name="live_pass">Pass</string>
     <string name="live_refresh">Refresh</string>
@@ -367,10 +370,10 @@
     <string name="setting_theme_mode">Theme mode</string>
     <string name="setting_auto">Auto</string>
     <string name="setting_custom">Custom</string>
-    <string name="setting_size">Image size</string>
+    <string name="setting_size">Poster size</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_github_acceleration">GitHub acceleration</string>
-    <string name="setting_github_accelerators">Custom acceleration URLs</string>
+    <string name="setting_github_accelerators">Acceleration URLs</string>
     <string name="setting_github_accelerators_hint">One prefix per line, e.g. https://gh-proxy.com/
 Leave empty to disable acceleration.</string>
     <string name="setting_github_accelerators_default">Not set</string>
@@ -429,7 +432,7 @@ Leave empty to disable acceleration.</string>
     <string name="setting_restore">Restore</string>
     <string name="setting_webdav">WebDAV sync</string>
     <string name="webdav_setting_summary">Sync selected data between devices</string>
-    <string name="source_health_title">Source health check</string>
+    <string name="source_health_title">Health check</string>
     <string name="source_health_setting_summary">Check configuration, VOD and live sources</string>
     <string name="source_health_description">Checks source availability without opening a live stream.</string>
     <string name="source_health_network">Network</string>
@@ -577,12 +580,12 @@ Leave empty to disable acceleration.</string>
     <string name="dialog_config_hint">Please enter the config…</string>
     <string name="dialog_config_name">Please enter the name…</string>
     <string name="dialog_config_url">Please enter the url…</string>
-    <string name="repository_add_source_title">Add %1$s subscription</string>
-    <string name="repository_edit_source_title">Edit %1$s subscription</string>
-    <string name="repository_source_name">Subscription name</string>
-    <string name="repository_source_address">Subscription address</string>
-    <string name="repository_current">Current subscription</string>
-    <string name="repository_delete_title">Delete subscription?</string>
+    <string name="repository_add_source_title">Add %1$s source</string>
+    <string name="repository_edit_source_title">Edit %1$s source</string>
+    <string name="repository_source_name">Source name</string>
+    <string name="repository_source_address">Source address</string>
+    <string name="repository_current">Current source</string>
+    <string name="repository_delete_title">Delete source?</string>
 
     <!-- Error -->
     <string name="error_config_get">Configuration get failed</string>

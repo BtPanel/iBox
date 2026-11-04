@@ -3,10 +3,18 @@
     <color name="ibox_home_scrim">@color/ibox_surface_container</color>
     <!-- 与 ibox_surface_container 同色但全透明：顶部栏向壁纸过渡时避免插值出灰边 -->
     <color name="ibox_home_scrim_clear">#000F1412</color>
+    <!-- 顶部栏半透明起点：深色壁纸下避免浅色实底与壁纸硬切 -->
+    <color name="ibox_home_scrim_soft">#B30F1412</color>
     <color name="ibox_home_control_surface">#66080F0D</color>
     <color name="ibox_home_chrome_surface">#B317201E</color>
-    <color name="ibox_home_chrome_secondary">#AABAB5</color>
-    <color name="ibox_home_search_surface">#FF1B2421</color>
+    <color name="ibox_home_chrome_secondary">#C2D0CA</color>
+    <color name="ibox_home_search_surface">#B317201E</color>
     <color name="ibox_home_poster_scrim">#B3000000</color>
     <color name="ibox_wall_chrome_surface">#C617201E</color>
+    <!-- 悬浮导航毛玻璃：约 60% 不透明，内容从下方透出 -->
+    <color name="ibox_nav_glass_surface">#FF17201E</color>
+    <!-- 玻璃顶部高光（上亮下透明） -->
+    <color name="ibox_nav_glass_highlight">#33FFFFFF</color>
+    <color name="ibox_nav_glass_highlight_mid">#0DFFFFFF</color>
+    <color name="ibox_nav_glass_clear">#00FFFFFF</color>
 </resources>

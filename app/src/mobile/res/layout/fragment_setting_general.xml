@@ -30,7 +30,7 @@
             android:paddingStart="@dimen/ibox_content_padding_horizontal"
             android:paddingTop="@dimen/ibox_space_2"
             android:paddingEnd="@dimen/ibox_content_padding_horizontal"
-            android:paddingBottom="@dimen/ibox_space_6">
+            android:paddingBottom="@dimen/ibox_navigation_content_padding">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -71,6 +71,26 @@
                 <include
                     android:id="@+id/rowHideNavigation"
                     layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowFloatingNavigation"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowResumeButton"
+                    layout="@layout/view_setting_switch_row" />
 
                 <View
                     android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@drawable/bg_page_top_scrim"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -54,7 +54,7 @@
             android:paddingStart="10dp"
             android:paddingTop="4dp"
             android:paddingEnd="10dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="@dimen/ibox_navigation_content_padding"
             tools:listitem="@layout/adapter_vod" />
 
     </com.media.ibox.ui.custom.ProgressLayout>
@@ -63,6 +63,7 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ibox_navigation_height"
+        android:layout_marginTop="-76dp"
         layout="@layout/view_app_navigation" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

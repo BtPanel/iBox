@@ -149,7 +149,7 @@ public class Setting {
     }
 
     public static int getThemeMode() {
-        return Math.clamp(Prefers.getInt("theme_mode", THEME_DARK), THEME_SYSTEM, THEME_DARK);
+        return Math.clamp(Prefers.getInt("theme_mode", THEME_SYSTEM), THEME_SYSTEM, THEME_DARK);
     }
 
     public static void putThemeMode(int mode) {
@@ -233,6 +233,29 @@ public class Setting {
     public static void putHiddenNavigationItems(int items) {
         Prefers.put("hidden_navigation_items", items & NAVIGATION_HIDEABLE);
         Prefers.put("navigation_hidden", false);
+    }
+
+    /**
+     * 底部导航是否采用悬浮胶囊样式。关闭后回到传统全宽贴底样式。
+     */
+    public static boolean isFloatingNavigation() {
+        return Prefers.getBoolean("floating_navigation", true);
+    }
+
+    public static void putFloatingNavigation(boolean floating) {
+        Prefers.put("floating_navigation", floating);
+    }
+
+    /**
+     * 是否启用「悬浮返回播放」按钮。关闭后离开播放页即暂停（不后台续播），
+     * 且不显示悬浮返回按钮。
+     */
+    public static boolean isResumeButtonEnabled() {
+        return Prefers.getBoolean("resume_button_enabled", false);
+    }
+
+    public static void putResumeButtonEnabled(boolean enabled) {
+        Prefers.put("resume_button_enabled", enabled);
     }
 
     public static boolean isBootAutoStart() {

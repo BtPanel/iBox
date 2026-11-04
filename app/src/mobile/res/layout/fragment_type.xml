@@ -19,7 +19,7 @@
             android:paddingStart="@dimen/ibox_space_2"
             android:paddingTop="@dimen/ibox_space_2"
             android:paddingEnd="@dimen/ibox_space_2"
-            android:paddingBottom="@dimen/ibox_space_1"
+            android:paddingBottom="@dimen/ibox_navigation_content_padding"
             tools:listitem="@layout/adapter_vod_rect" />
 
     </com.media.ibox.ui.custom.ProgressLayout>

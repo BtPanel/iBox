@@ -31,7 +31,7 @@
             android:paddingStart="@dimen/ibox_content_padding_horizontal"
             android:paddingTop="@dimen/ibox_space_2"
             android:paddingEnd="@dimen/ibox_content_padding_horizontal"
-            android:paddingBottom="@dimen/ibox_space_6">
+            android:paddingBottom="@dimen/ibox_navigation_content_padding">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                         android:layout_height="40dp"
                         android:contentDescription="@string/repository_vod_title"
                         android:padding="10dp"
-                        android:src="@drawable/ic_msr_subscriptions"
+                        android:src="@drawable/ic_msr_rss_feed"
                         app:tint="@color/ibox_text_secondary" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -197,7 +197,7 @@
                         android:layout_height="40dp"
                         android:contentDescription="@string/repository_live_title"
                         android:padding="10dp"
-                        android:src="@drawable/ic_msr_subscriptions"
+                        android:src="@drawable/ic_msr_rss_feed"
                         app:tint="@color/ibox_text_secondary" />
 
                     <androidx.appcompat.widget.AppCompatImageView

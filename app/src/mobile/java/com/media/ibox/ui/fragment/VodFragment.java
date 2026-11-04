@@ -1,7 +1,6 @@
 package com.media.ibox.ui.fragment;
 
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -56,8 +53,8 @@ import com.media.ibox.ui.dialog.RepositoryDialog;
 import com.media.ibox.ui.dialog.SiteDialog;
 import com.media.ibox.utils.ImgUtil;
 import com.media.ibox.utils.DisplayText;
-import com.media.ibox.utils.FileUtil;
 import com.media.ibox.utils.Notify;
+import com.media.ibox.utils.ResUtil;
 import com.media.ibox.Product;
 import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.custom.IBoxAlertDialogBuilder;
@@ -110,6 +107,7 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
         showSourceProgress();
         setTitle();
         setLogo();
+        applyFabOffset();
         if (Setting.getHomeContent() != Setting.HOME_RECOMMEND) {
             setHomeContent();
         } else if (!VodConfig.get().isInitialized()) {
@@ -148,28 +146,12 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
 
     /**
      * 顶栏与壁纸的衔接。
-     * 有壁纸时顶栏整体用渐变过渡到壁纸，消除「顶栏纯色块 / 内容区壁纸」的横向硬边；
-     * 滚动折叠时分类栏按折叠比例补底，但顶部保留半透明，
-     * 让状态栏处的壁纸与分类栏之间不出现硬边，同时保证海报滑到下方时不压字。
-     * 未设壁纸时保持纯色实底，默认观感不变。
+     * 壁纸背景始终由 CustomWallView 渲染（默认壁纸为纯色 ibox_surface），
+     * 因此顶栏统一保持透明，让底部背景直接透出，避免浅色实底与下方分层。
      */
     private void setBarScrim() {
-        int barColor = ContextCompat.getColor(requireContext(), R.color.ibox_home_scrim);
-        boolean hasWall = Setting.getWall() > 0 || FileUtil.getWallCache().exists();
-        if (!hasWall) {
-            mBinding.appBar.setBackgroundColor(barColor);
-            mBinding.type.setBackgroundColor(barColor);
-            return;
-        }
-        GradientDrawable scrim = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, Color.TRANSPARENT});
-        mBinding.type.setBackground(scrim);
-        mBinding.appBar.addOnOffsetChangedListener((layout, offset) -> {
-            int range = layout.getTotalScrollRange();
-            float fade = range <= 0 ? 0f : Math.min(1f, Math.abs(offset) / (range * 0.45f));
-            int top = Math.round(FOLD_TOP_ALPHA * 255 * fade);
-            int bottom = Math.round(255 * fade);
-            scrim.setColors(new int[]{ColorUtils.setAlphaComponent(barColor, top), ColorUtils.setAlphaComponent(barColor, bottom)});
-        });
+        mBinding.appBar.setBackgroundColor(Color.TRANSPARENT);
+        mBinding.type.setBackgroundColor(Color.TRANSPARENT);
     }
 
     private void setRecyclerView() {
@@ -238,6 +220,19 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
         mBinding.top.setVisibility(View.INVISIBLE);
         if (mBinding.filter.getVisibility() == View.INVISIBLE) mBinding.filter.show();
         else if (mBinding.linkArea.getVisibility() == View.INVISIBLE) mBinding.linkArea.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 「悬浮底部导航」开启时胶囊悬浮覆盖在屏幕底部（16dp 底距 + 56dp 胶囊，合计约 72dp），
+     * 返回顶部/筛选 FAB 锚定在列表底部会被胶囊遮挡。用 translationY 整体上移 FAB 避让：
+     * CoordinatorLayout 的 anchor 定位不遵循普通 bottomMargin，故改用位移而非改 margin。
+     * 传统模式复位为 0。
+     */
+    private void applyFabOffset() {
+        if (mBinding == null) return;
+        int offset = Setting.isFloatingNavigation() ? ResUtil.dp2px(72) : 0;
+        mBinding.top.setTranslationY(-offset);
+        mBinding.filter.setTranslationY(-offset);
     }
 
     private boolean onLink(View view) {
@@ -416,6 +411,9 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
                 break;
             case CATEGORY:
                 if (Setting.getHomeContent() == Setting.HOME_RECOMMEND) getFragment().onRefresh();
+                break;
+            case NAVIGATION:
+                applyFabOffset();
                 break;
         }
     }

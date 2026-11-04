@@ -94,7 +94,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:padding="8dp"
-                android:src="@drawable/ic_msr_subscriptions"
+                android:src="@drawable/ic_msr_rss_feed"
                 app:tint="@color/ibox_text_primary" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -178,7 +178,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:padding="8dp"
-                android:src="@drawable/ic_msr_subscriptions"
+                android:src="@drawable/ic_msr_rss_feed"
                 app:tint="@color/ibox_text_primary" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

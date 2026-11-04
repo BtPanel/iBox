@@ -19,7 +19,7 @@
             android:layout_width="@dimen/ibox_icon_large"
             android:layout_height="@dimen/ibox_icon_large"
             android:contentDescription="@null"
-            android:src="@drawable/ic_msr_subscriptions"
+            android:src="@drawable/ic_msr_rss_feed"
             app:tint="?attr/colorPrimary" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -100,7 +100,7 @@
                 android:layout_height="44dp"
                 android:alpha="0.72"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_msr_subscriptions"
+                android:src="@drawable/ic_msr_rss_feed"
                 app:tint="@color/ibox_text_secondary" />
 
             <com.google.android.material.textview.MaterialTextView

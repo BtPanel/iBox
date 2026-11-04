@@ -29,7 +29,7 @@ import com.media.ibox.bean.Episode;
 public final class VodAutoNextPrompt {
 
     /** 倒计时秒数：到点自动播放下一集。 */
-    private static final int COUNTDOWN_SECONDS = 5;
+    private static final int COUNTDOWN_SECONDS = 3;
 
     private final Activity activity;
     private final Runnable confirm;

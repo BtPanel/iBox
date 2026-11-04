@@ -68,6 +68,12 @@ public class Product {
 
     public static void applyNavigationWidth(View view, Context context) {
         setFullWidth(view);
+        // 悬浮导航：FrameLayout 父容器时锚定底部，让内容延伸到导航后方
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params instanceof FrameLayout.LayoutParams frame) {
+            frame.gravity = Gravity.BOTTOM;
+            view.setLayoutParams(frame);
+        }
     }
 
     public static void bindDownloadNavigation(Activity activity, ViewGroup root) {

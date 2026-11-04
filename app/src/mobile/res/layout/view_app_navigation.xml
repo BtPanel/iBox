@@ -3,175 +3,190 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/ibox_navigation_height"
-    android:background="@drawable/bg_floating_navigation"
+    android:background="@android:color/transparent"
     android:elevation="0dp"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingStart="@dimen/ibox_space_2"
-    android:paddingEnd="@dimen/ibox_space_2">
+    android:paddingStart="@dimen/ibox_space_4"
+    android:paddingEnd="@dimen/ibox_space_4"
+    android:paddingTop="@dimen/ibox_space_1"
+    android:paddingBottom="@dimen/ibox_space_4">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/navHome"
-        android:layout_width="0dp"
+        android:id="@+id/navContainer"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/ibox_navigation_item_height"
-        android:layout_marginHorizontal="0dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
+        android:background="@drawable/bg_floating_navigation"
+        android:clipToOutline="true"
+        android:elevation="@dimen/ibox_navigation_elevation"
         android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/bg_app_navigation_item">
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/ibox_space_1"
+        android:paddingEnd="@dimen/ibox_space_1">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/ibox_icon_small"
-            android:layout_height="@dimen/ibox_icon_small"
-            android:duplicateParentState="true"
-            android:src="@drawable/ic_nav_home"
-            app:tint="@color/selector_app_navigation_icon" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ibox_space_1"
-            android:duplicateParentState="true"
-            android:fontFamily="sans-serif-medium"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_navigation_item_height"
+            android:layout_marginHorizontal="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_app_navigation_item"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:maxLines="2"
-            android:text="@string/nav_home"
-            android:textColor="@color/selector_app_navigation_text"
-            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/navLive"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/ibox_navigation_item_height"
-        android:layout_marginHorizontal="0dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/bg_app_navigation_item">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/ibox_icon_small"
+                android:layout_height="@dimen/ibox_icon_small"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_nav_home"
+                app:tint="@color/selector_app_navigation_icon" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/ibox_icon_small"
-            android:layout_height="@dimen/ibox_icon_small"
-            android:duplicateParentState="true"
-            android:src="@drawable/ic_nav_live"
-            app:tint="@color/selector_app_navigation_icon" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:duplicateParentState="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="@string/nav_home"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting"
+                android:textColor="@color/selector_app_navigation_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ibox_space_1"
-            android:duplicateParentState="true"
-            android:fontFamily="sans-serif-medium"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/navLive"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_navigation_item_height"
+            android:layout_marginHorizontal="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_app_navigation_item"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:maxLines="2"
-            android:text="@string/nav_live"
-            android:textColor="@color/selector_app_navigation_text"
-            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/navLibrary"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/ibox_navigation_item_height"
-        android:layout_marginHorizontal="0dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/bg_app_navigation_item">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/ibox_icon_small"
+                android:layout_height="@dimen/ibox_icon_small"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_nav_live"
+                app:tint="@color/selector_app_navigation_icon" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/ibox_icon_small"
-            android:layout_height="@dimen/ibox_icon_small"
-            android:duplicateParentState="true"
-            android:src="@drawable/ic_nav_library"
-            app:tint="@color/selector_app_navigation_icon" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:duplicateParentState="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="@string/nav_live"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting"
+                android:textColor="@color/selector_app_navigation_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ibox_space_1"
-            android:duplicateParentState="true"
-            android:fontFamily="sans-serif-medium"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/navLibrary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_navigation_item_height"
+            android:layout_marginHorizontal="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_app_navigation_item"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:maxLines="2"
-            android:text="@string/nav_library"
-            android:textColor="@color/selector_app_navigation_text"
-            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/navDownloads"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/ibox_navigation_item_height"
-        android:layout_marginHorizontal="0dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/bg_app_navigation_item">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/ibox_icon_small"
+                android:layout_height="@dimen/ibox_icon_small"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_nav_library"
+                app:tint="@color/selector_app_navigation_icon" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/ibox_icon_small"
-            android:layout_height="@dimen/ibox_icon_small"
-            android:duplicateParentState="true"
-            android:src="@drawable/ic_nav_download"
-            app:tint="@color/selector_app_navigation_icon" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:duplicateParentState="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="@string/nav_library"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting"
+                android:textColor="@color/selector_app_navigation_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ibox_space_1"
-            android:duplicateParentState="true"
-            android:fontFamily="sans-serif-medium"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/navDownloads"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_navigation_item_height"
+            android:layout_marginHorizontal="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_app_navigation_item"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:maxLines="2"
-            android:text="@string/download_short"
-            android:textColor="@color/selector_app_navigation_text"
-            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/navSettings"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/ibox_navigation_item_height"
-        android:layout_marginHorizontal="0dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/bg_app_navigation_item">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/ibox_icon_small"
+                android:layout_height="@dimen/ibox_icon_small"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_nav_download"
+                app:tint="@color/selector_app_navigation_icon" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/ibox_icon_small"
-            android:layout_height="@dimen/ibox_icon_small"
-            android:duplicateParentState="true"
-            android:src="@drawable/ic_nav_settings"
-            app:tint="@color/selector_app_navigation_icon" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:duplicateParentState="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="@string/download_short"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting"
+                android:textColor="@color/selector_app_navigation_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ibox_space_1"
-            android:duplicateParentState="true"
-            android:fontFamily="sans-serif-medium"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/navSettings"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ibox_navigation_item_height"
+            android:layout_marginHorizontal="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_app_navigation_item"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:maxLines="2"
-            android:text="@string/nav_setting"
-            android:textColor="@color/selector_app_navigation_text"
-            android:textAppearance="@style/TextAppearance.IBox.Supporting" />
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/ibox_icon_small"
+                android:layout_height="@dimen/ibox_icon_small"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_nav_settings"
+                app:tint="@color/selector_app_navigation_icon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_1"
+                android:duplicateParentState="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="@string/nav_setting"
+                android:textAppearance="@style/TextAppearance.IBox.Supporting"
+                android:textColor="@color/selector_app_navigation_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

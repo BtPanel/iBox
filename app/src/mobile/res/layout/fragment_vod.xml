@@ -76,7 +76,7 @@
                     android:contentDescription="@string/mine_subscription"
                     android:minWidth="@dimen/ibox_home_icon_button_size"
                     android:minHeight="@dimen/ibox_home_icon_button_size"
-                    android:src="@drawable/ic_msr_subscriptions"
+                    android:src="@drawable/ic_msr_rss_feed"
                     android:tooltipText="@string/mine_subscription"
                     app:tint="@color/ibox_home_chrome_secondary" />
 

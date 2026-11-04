@@ -21,6 +21,7 @@ import androidx.viewbinding.ViewBinding;
 import com.media.ibox.accessibility.AppAccessibility;
 import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.custom.CustomWallView;
+import com.media.ibox.ui.overlay.PlaybackResumeButton;
 import com.media.ibox.utils.ResUtil;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.DynamicColorsOptions;
@@ -50,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setBackCallback();
         initEvent();
         AppAccessibility.apply(this);
+        PlaybackResumeButton.attach(this);
     }
 
     @Override
@@ -150,9 +152,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PlaybackResumeButton.refresh(this);
+    }
+
+    @Override
     protected void onDestroy() {
         AppAccessibility.release(this);
         EventBus.getDefault().unregister(this);
+        PlaybackResumeButton.detach(this);
         super.onDestroy();
     }
 }

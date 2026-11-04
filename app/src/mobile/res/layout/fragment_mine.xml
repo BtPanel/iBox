@@ -66,7 +66,7 @@
                     android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical">
-                    <ImageView android:layout_width="@dimen/ibox_icon_large" android:layout_height="@dimen/ibox_icon_large" android:contentDescription="@null" android:src="@drawable/ic_msr_subscriptions" app:tint="?attr/colorPrimary" />
+                    <ImageView android:layout_width="@dimen/ibox_icon_large" android:layout_height="@dimen/ibox_icon_large" android:contentDescription="@null" android:src="@drawable/ic_msr_rss_feed" app:tint="?attr/colorPrimary" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ibox_space_2" android:text="@string/mine_subscription" android:textColor="@color/ibox_text_primary" android:textSize="@dimen/ibox_text_supporting" />
                 </LinearLayout>
 

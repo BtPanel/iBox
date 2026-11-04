@@ -543,16 +543,20 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     }
 
     private boolean shouldKeepServiceAlive() {
+        // 背景播放开启，或「悬浮返回播放」按钮开启（保留会话入口供返回续播）时保活。
         return FloatingPlaybackPolicy.shouldKeepServiceAlive(mService.hasMediaClient(),
                 mService.hasPlayerCallback(), mService.isFloatingWindowShowing(),
-                isOwner() && !PlayerSetting.isBackgroundOff());
+                isOwner() && (!PlayerSetting.isBackgroundOff() || Setting.isResumeButtonEnabled()));
     }
 
     private void keepServiceAlive(boolean playbackOwner) {
         if (mService.isFloatingWindowShowing()) return;
-        // 背景播放开启：退出页面后由前台服务继续播（通知栏可控），不清队列；
-        // 关闭：停掉播放并清队列，只保留会话入口。
-        if (playbackOwner && PlayerSetting.isBackgroundOff()) mService.suspend();
+        // 暂停并保留会话入口（悬浮返回按钮可续播）：
+        // 「后台播放」关闭，或「悬浮返回播放」开关开启（该开关语义 = 离开页面即暂停、靠按钮返回续播）时 suspend；
+        // 仅「后台播放」开启且「悬浮返回播放」关闭时，才继续后台播放。
+        if (playbackOwner && (PlayerSetting.isBackgroundOff() || Setting.isResumeButtonEnabled())) {
+            mService.suspend();
+        }
         mService.resetSessionActivity();
     }
 
@@ -740,8 +744,7 @@ public abstract class PlaybackActivity extends BaseActivity implements MediaCont
     protected void onStop() {
         super.onStop();
         boolean floatingWindowShowing = isFloatingWindowShowing();
-        if (FloatingPlaybackPolicy.shouldPauseOnStop(isOwner(),
-                PlayerSetting.isBackgroundOff(), floatingWindowShowing)) pausePlayback();
+        if (FloatingPlaybackPolicy.shouldPauseOnStop(isOwner(), floatingWindowShowing)) pausePlayback();
         if (!isInPictureInPictureMode()) detachPlayerView();
     }
 

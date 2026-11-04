@@ -62,6 +62,10 @@ public class RefreshEvent {
         EventBus.getDefault().post(new RefreshEvent(Type.VOD, vod));
     }
 
+    public static void navigation() {
+        EventBus.getDefault().post(new RefreshEvent(Type.NAVIGATION));
+    }
+
     private RefreshEvent(Type type) {
         this.type = type;
     }
@@ -89,6 +93,6 @@ public class RefreshEvent {
     }
 
     public enum Type {
-        HOME, HOME_MODE, CATEGORY, HISTORY, KEEP, SIZE, THEME, LIVE, DETAIL, PLAYER, SUBTITLE, DANMAKU, VOD
+        HOME, HOME_MODE, CATEGORY, HISTORY, KEEP, SIZE, THEME, LIVE, DETAIL, PLAYER, SUBTITLE, DANMAKU, VOD, NAVIGATION
     }
 }

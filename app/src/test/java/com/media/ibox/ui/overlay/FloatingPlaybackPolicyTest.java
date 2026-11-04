@@ -8,20 +8,14 @@ import static org.junit.Assert.assertTrue;
 public class FloatingPlaybackPolicyTest {
 
     @Test
-    public void backgroundOffPausesOnStopRegardlessOfFinishing() {
-        assertTrue(FloatingPlaybackPolicy.shouldPauseOnStop(true, true, false));
-    }
-
-    @Test
-    public void backgroundOnKeepsPlayingWhenLeavingPage() {
-        assertFalse(FloatingPlaybackPolicy.shouldPauseOnStop(true, false, false));
+    public void leavingPageAlwaysPausesRegardlessOfBackgroundSetting() {
+        assertTrue(FloatingPlaybackPolicy.shouldPauseOnStop(true, false));
     }
 
     @Test
     public void visibleFloatingWindowPreventsBackgroundPause() {
-        assertFalse(FloatingPlaybackPolicy.shouldPauseOnStop(true, true, true));
-        assertFalse(FloatingPlaybackPolicy.shouldPauseOnStop(true, false, true));
-        assertFalse(FloatingPlaybackPolicy.shouldPauseOnStop(false, true, false));
+        assertFalse(FloatingPlaybackPolicy.shouldPauseOnStop(true, true));
+        assertFalse(FloatingPlaybackPolicy.shouldPauseOnStop(false, false));
     }
 
     @Test

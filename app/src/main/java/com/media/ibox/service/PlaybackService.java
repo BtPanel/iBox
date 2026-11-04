@@ -39,6 +39,7 @@ import com.media.ibox.event.ConfigEvent;
 import com.media.ibox.player.PlayerManager;
 import com.media.ibox.player.PlaybackFailure;
 import com.media.ibox.player.media.PlaySpec;
+import com.media.ibox.setting.PlayerSetting;
 import com.media.ibox.setting.SubtitleStyleOverride;
 import com.media.ibox.server.Server;
 import com.media.ibox.ui.overlay.FloatingPlayerWindow;
@@ -221,7 +222,18 @@ public class PlaybackService extends MediaLibraryService implements MediaLibrary
     }
 
     private void tryShutdown() {
+        // 后台播放开启且有可播放媒体时，即使页面/客户端全部解绑也保活（前台服务继续播）。
+        if (shouldKeepBackgroundPlayback()) return;
         if (!hasNavigationCallback() && !hasMediaClient() && !isFloatingWindowShowing()) shutdown();
+    }
+
+    /**
+     * 是否应因「后台播放」保活服务：
+     * 后台播放开启，且当前有正在播放/暂停的媒体（点播或直播）。
+     */
+    private boolean shouldKeepBackgroundPlayback() {
+        return player != null && player.hasPlaySpec() && !player.isEmpty()
+                && !PlayerSetting.isBackgroundOff();
     }
 
     private void releaseBrowser() {
