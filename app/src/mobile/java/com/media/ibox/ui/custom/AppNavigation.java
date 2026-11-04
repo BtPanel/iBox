@@ -53,7 +53,7 @@ public class AppNavigation {
         navigation.setPadding(inset, topPad, inset, bottomPad);
         container.setBackgroundResource(floating ? R.drawable.bg_floating_navigation : R.drawable.bg_app_navigation_solid);
         container.setClipToOutline(floating);
-        container.setElevation(floating ? dp(activity, 6) : 0f);
+        container.setElevation(0f);
         // 悬浮模式：导航整体上移覆盖内容（负 margin）；传统模式：占位贴底、无负 margin
         ViewGroup.LayoutParams navLp = navigation.getLayoutParams();
         ViewGroup.LayoutParams containerLp = container.getLayoutParams();

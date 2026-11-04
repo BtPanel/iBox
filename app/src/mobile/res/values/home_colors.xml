@@ -17,4 +17,8 @@
     <color name="ibox_nav_glass_highlight">#66FFFFFF</color>
     <color name="ibox_nav_glass_highlight_mid">#1AFFFFFF</color>
     <color name="ibox_nav_glass_clear">#00FFFFFF</color>
+    <!-- 胶囊内部底部内阴影：从下往上的深色渐变，营造内陷立体感（不越出圆角） -->
+    <color name="ibox_nav_glass_inner_shadow_start">#14000000</color>
+    <color name="ibox_nav_glass_inner_shadow_mid">#08000000</color>
+    <color name="ibox_nav_glass_inner_shadow_end">#00000000</color>
 </resources>

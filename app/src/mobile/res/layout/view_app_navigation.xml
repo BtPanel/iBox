@@ -18,7 +18,7 @@
         android:layout_height="@dimen/ibox_navigation_item_height"
         android:background="@drawable/bg_floating_navigation"
         android:clipToOutline="true"
-        android:elevation="@dimen/ibox_navigation_elevation"
+        android:elevation="0dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingStart="@dimen/ibox_space_1"

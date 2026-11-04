@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 毛玻璃底色：更强的通透感，让背后内容透出 -->
+    <!-- 1. 毛玻璃底色：更强通透感，背后内容透出 -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/ibox_nav_glass_surface" />
@@ -8,7 +8,7 @@
         </shape>
     </item>
 
-    <!-- 顶部玻璃高光：模拟 iOS 毛玻璃的反光 -->
+    <!-- 2. 顶部内高光：模拟受光面，从上往下的白色渐变（增强立体感但不越界） -->
     <item>
         <shape android:shape="rectangle">
             <gradient
@@ -20,7 +20,19 @@
         </shape>
     </item>
 
-    <!-- 细描边 -->
+    <!-- 3. 底部内阴影：从下往上的深色渐变，模拟胶囊压在表面上的内陷感，严格约束在圆角内 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/ibox_nav_glass_inner_shadow_start"
+                android:centerColor="@color/ibox_nav_glass_inner_shadow_mid"
+                android:endColor="@color/ibox_nav_glass_inner_shadow_end" />
+            <corners android:radius="@dimen/ibox_radius_pill" />
+        </shape>
+    </item>
+
+    <!-- 4. 内描边：贴内边缘的细线，柔和分隔，不向外溢出 -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />
