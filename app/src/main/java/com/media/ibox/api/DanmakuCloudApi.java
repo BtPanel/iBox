@@ -36,12 +36,9 @@ public final class DanmakuCloudApi {
     private static final long SEARCH_TIMEOUT_MS = 6000;
     private static final String TAG = DanmakuCloudApi.class.getSimpleName();
     private static final List<Source> SOURCES = List.of(
-            new Source("ECS", "http://ecs.dysobo.cn:9321/87654321"),
-            new Source("阿里云", "http://47.107.188.112:6008/87654321"),
             new Source("量大", "http://38.207.186.41/87654321"),
             new Source("sym", "https://danmu1.sym9233.dpdns.org/87654321"),
-            new Source("7777735", "https://danmu.7777735.xyz/87654321"),
-            new Source("pizazz", "https://pizazz.us.ci/1314")
+            new Source("7777735", "https://danmu.7777735.xyz/87654321")
     );
     private static final AtomicInteger REQUEST_ID = new AtomicInteger();
 

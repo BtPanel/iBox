@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  设置首页：只做「入口」，不再把二十多个开关平铺在一页。
-  五类设置各自进二级页面，主页保持一屏以内可读完。
+  设置页：单页平铺，去掉二级菜单。
+  按分组标题区分，所有开关/选择项直接列在这一页，一屏内滚动可达。
+  「播放器」「弹幕」设置项较多，仍保留为独立页面入口。
 -->
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,6 +37,15 @@
             android:paddingEnd="@dimen/ibox_content_padding_horizontal"
             android:paddingBottom="@dimen/ibox_navigation_content_padding">
 
+            <!-- ============ 内容源 ============ -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ibox_space_1"
+                android:layout_marginBottom="@dimen/ibox_space_2"
+                android:text="@string/settings_section_sources"
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,8 +53,8 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/rowSource"
-                    layout="@layout/view_setting_row" />
+                    android:id="@+id/vod"
+                    layout="@layout/view_setting_source_row" />
 
                 <View
                     android:layout_width="match_parent"
@@ -53,8 +63,8 @@
                     android:background="@color/ibox_glass_divider" />
 
                 <include
-                    android:id="@+id/rowGeneral"
-                    layout="@layout/view_setting_row" />
+                    android:id="@+id/live"
+                    layout="@layout/view_setting_source_row" />
 
                 <View
                     android:layout_width="match_parent"
@@ -63,35 +73,326 @@
                     android:background="@color/ibox_glass_divider" />
 
                 <include
-                    android:id="@+id/rowAppearance"
-                    layout="@layout/view_setting_row" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/ibox_stroke_thin"
-                    android:layout_marginStart="52dp"
-                    android:background="@color/ibox_glass_divider" />
-
-                <include
-                    android:id="@+id/rowPlayback"
-                    layout="@layout/view_setting_row" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/ibox_stroke_thin"
-                    android:layout_marginStart="52dp"
-                    android:background="@color/ibox_glass_divider" />
-
-                <include
-                    android:id="@+id/rowData"
+                    android:id="@+id/rowWall"
                     layout="@layout/view_setting_row" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <!-- ============ 通用 ============ -->
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ibox_space_5"
+                android:layout_marginStart="@dimen/ibox_space_1"
+                android:layout_marginBottom="@dimen/ibox_space_2"
+                android:text="@string/settings_section_general"
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_group"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/rowIncognito"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowConfigNotice"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowRemoteAccess"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowHideNavigation"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowFloatingNavigation"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowResumeButton"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowBootAutoStart"
+                    layout="@layout/view_setting_row" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- ============ 外观 ============ -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_5"
+                android:layout_marginStart="@dimen/ibox_space_1"
+                android:layout_marginBottom="@dimen/ibox_space_2"
+                android:text="@string/settings_section_appearance"
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_group"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/rowThemeMode"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowLayoutMode"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowThemeColor"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowHomeContent"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowSize"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowAccessibility"
+                    layout="@layout/view_setting_row" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- ============ 播放与弹幕 ============ -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_5"
+                android:layout_marginStart="@dimen/ibox_space_1"
+                android:layout_marginBottom="@dimen/ibox_space_2"
+                android:text="@string/settings_section_playback"
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_group"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/rowPlayer"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowDanmaku"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowAutoFallbackLine"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowAutoFallbackSource"
+                    layout="@layout/view_setting_switch_row" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- ============ 网络与数据 ============ -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_5"
+                android:layout_marginStart="@dimen/ibox_space_1"
+                android:layout_marginBottom="@dimen/ibox_space_2"
+                android:text="@string/settings_section_data"
+                android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_group"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/rowGithubAcceleration"
+                    layout="@layout/view_setting_switch_row" />
+
+                <View
+                    android:id="@+id/dividerGithubAccelerators"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowGithubAccelerators"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowDoh"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowSearchThreads"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowSourceHealth"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowCache"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowWebdav"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowBackup"
+                    layout="@layout/view_setting_row" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ibox_stroke_thin"
+                    android:layout_marginStart="52dp"
+                    android:background="@color/ibox_glass_divider" />
+
+                <include
+                    android:id="@+id/rowRestore"
+                    layout="@layout/view_setting_row" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- ============ 关于 ============ -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ibox_space_5"
+                android:layout_marginStart="@dimen/ibox_space_1"
                 android:layout_marginBottom="@dimen/ibox_space_2"
                 android:text="@string/settings_section_about"
                 android:textAppearance="@style/TextAppearance.IBox.SectionLabel" />

@@ -39,16 +39,11 @@ import com.media.ibox.setting.Setting;
 import com.media.ibox.ui.base.BaseActivity;
 import com.media.ibox.ui.custom.AppNavigation;
 import com.media.ibox.ui.custom.FragmentStateManager;
-import com.media.ibox.ui.fragment.SettingAppearanceFragment;
 import com.media.ibox.ui.fragment.SettingDanmakuFragment;
-import com.media.ibox.ui.fragment.SettingDataFragment;
 import com.media.ibox.ui.fragment.SettingDecodeFragment;
 import com.media.ibox.ui.fragment.SettingFragment;
-import com.media.ibox.ui.fragment.SettingGeneralFragment;
-import com.media.ibox.ui.fragment.SettingPlaybackFragment;
 import com.media.ibox.ui.fragment.SettingPlayerFragment;
 import com.media.ibox.ui.fragment.SettingPreloadFragment;
-import com.media.ibox.ui.fragment.SettingSourceFragment;
 import com.media.ibox.ui.fragment.VodFragment;
 import com.media.ibox.utils.FileChooser;
 import com.media.ibox.utils.Notify;
@@ -73,11 +68,6 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
     public static final int PAGE_DANMAKU = 3;
     public static final int PAGE_PRELOAD = 4;
     public static final int PAGE_DECODE = 5;
-    public static final int PAGE_SOURCE = 6;
-    public static final int PAGE_GENERAL = 7;
-    public static final int PAGE_APPEARANCE = 8;
-    public static final int PAGE_PLAYBACK = 9;
-    public static final int PAGE_DATA = 10;
 
     private FragmentStateManager mManager;
     private ActivityHomeBinding mBinding;
@@ -184,11 +174,6 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
             case PAGE_DANMAKU -> SettingDanmakuFragment.newInstance();
             case PAGE_PRELOAD -> SettingPreloadFragment.newInstance();
             case PAGE_DECODE -> SettingDecodeFragment.newInstance();
-            case PAGE_SOURCE -> SettingSourceFragment.newInstance();
-            case PAGE_GENERAL -> SettingGeneralFragment.newInstance();
-            case PAGE_APPEARANCE -> SettingAppearanceFragment.newInstance();
-            case PAGE_PLAYBACK -> SettingPlaybackFragment.newInstance();
-            case PAGE_DATA -> SettingDataFragment.newInstance();
             default -> null;
         });
     }
@@ -359,9 +344,6 @@ public class HomeActivity extends BaseActivity implements DLNACastSession.Listen
         if (mManager.isVisible(PAGE_PRELOAD) || mManager.isVisible(PAGE_DECODE)) {
             change(PAGE_PLAYER);
         } else if (mManager.isVisible(PAGE_PLAYER) || mManager.isVisible(PAGE_DANMAKU)) {
-            change(PAGE_PLAYBACK);
-        } else if (mManager.isVisible(PAGE_SOURCE) || mManager.isVisible(PAGE_GENERAL) || mManager.isVisible(PAGE_APPEARANCE)
-                || mManager.isVisible(PAGE_PLAYBACK) || mManager.isVisible(PAGE_DATA)) {
             change(PAGE_SETTINGS);
         } else if (mManager.isVisible(PAGE_SETTINGS)) {
             change(PAGE_HOME);

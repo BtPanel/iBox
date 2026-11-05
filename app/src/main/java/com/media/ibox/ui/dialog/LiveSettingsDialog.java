@@ -163,12 +163,6 @@ public final class LiveSettingsDialog {
         }
 
         private void bind() {
-            if (!full) {
-                int height = Math.min(ResUtil.dp2px(360), ResUtil.getScreenHeight() * 3 / 5);
-                binding.categories.getLayoutParams().height = height;
-                binding.actions.getLayoutParams().height = height;
-                binding.details.getLayoutParams().height = height;
-            }
             binding.categories.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
             binding.actions.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
             binding.details.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
@@ -176,6 +170,15 @@ public final class LiveSettingsDialog {
             binding.actions.setAdapter(actionAdapter = new ActionAdapter(listener, this::onAction, this::onActionKey, full));
             binding.details.setAdapter(detailAdapter = new ActionAdapter(listener, this::onDetail, this::onDetailKey, full));
             binding.details.setVisibility(View.GONE);
+            if (!full) {
+                // 弹窗高度自适应内容：按分类项数精确计算，避免「下面很空」的大片留白。
+                int height = Math.max(0, categoryAdapter.getItemCount()) * ResUtil.dp2px(48);
+                int cap = ResUtil.getScreenHeight() * 3 / 5;
+                if (height > cap) height = cap;
+                binding.categories.getLayoutParams().height = height;
+                binding.actions.getLayoutParams().height = height;
+                binding.details.getLayoutParams().height = height;
+            }
             applyPanelOpacity();
             selectCategory(0, false);
             binding.categories.post(() -> {
@@ -695,7 +698,9 @@ public final class LiveSettingsDialog {
 
         @Override
         protected int getMaxHeight() {
-            return ResUtil.getScreenHeight() * 4 / 5;
+            // 返回 0 表示高度自适应内容（WRAP_CONTENT），
+            // 避免弹窗被固定到 80% 屏高而在底部留下大片空白。
+            return 0;
         }
 
         @Override
