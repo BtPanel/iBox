@@ -154,8 +154,7 @@
                 android:layout_weight="1"
                 android:maxLines="3"
                 android:ellipsize="middle"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="13sp" />
+                android:textAppearance="@style/TextAppearance.IBox.Supporting" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

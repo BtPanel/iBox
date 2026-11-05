@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/ibox_text_primary"
-        android:textSize="15sp" />
+        android:textSize="@dimen/ibox_text_item_title" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/summary"

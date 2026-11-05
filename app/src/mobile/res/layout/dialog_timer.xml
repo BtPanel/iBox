@@ -13,11 +13,8 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
         android:text="@string/play_timer"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.IBox.DialogTitle" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"

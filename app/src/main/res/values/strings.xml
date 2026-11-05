@@ -597,8 +597,8 @@ Leave empty to disable acceleration.</string>
     <string name="home_load_retry">Retry</string>
     <string name="home_source_empty">No VOD source has been added. Add a source to load movies and series.</string>
     <string name="home_source_add">Add VOD source</string>
-    <string name="error_play_next">It\'s the last episode!</string>
-    <string name="error_play_prev">It\'s the first episode!</string>
+    <string name="error_play_next">It\'s the last episode</string>
+    <string name="error_play_prev">It\'s the first episode</string>
     <string name="error_play_parse">Unable to parse url</string>
     <string name="error_play_drm">This device does not support the required DRM scheme</string>
     <string name="error_play_url">Unable to load url</string>

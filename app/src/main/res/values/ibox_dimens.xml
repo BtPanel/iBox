@@ -25,6 +25,8 @@
     <dimen name="ibox_touch_target">48dp</dimen>
     <dimen name="ibox_component_height_compact">40dp</dimen>
     <dimen name="ibox_component_height">48dp</dimen>
+    <!-- 紧凑控件高度：分段筛选组、紧凑按钮、搜索框、设置行等，介于标准 48dp 触摸目标与 40dp 紧凑组件之间 -->
+    <dimen name="ibox_control_height">44dp</dimen>
     <dimen name="ibox_episode_height">48dp</dimen>
     <dimen name="ibox_input_height">56dp</dimen>
     <dimen name="ibox_row_height">56dp</dimen>

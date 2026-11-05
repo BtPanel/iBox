@@ -17,9 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/danmaku_search"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.IBox.DialogTitle" />
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/current"
             android:layout_width="0dp"
@@ -44,7 +42,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/keyword"
             android:layout_width="0dp"
-            android:layout_height="44dp"
+            android:layout_height="@dimen/ibox_control_height"
             android:layout_weight="1"
             android:background="@drawable/shape_danmaku_search_keyword"
             android:hint="@string/search_keyword"
@@ -53,12 +51,12 @@
             android:maxLength="255"
             android:paddingHorizontal="14dp"
             android:singleLine="true"
-            android:textSize="15sp" />
+            android:textSize="@dimen/ibox_text_body" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/search"
             style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
+            android:layout_height="@dimen/ibox_control_height"
             android:layout_marginStart="8dp"
             android:minWidth="88dp"
             android:text="@string/danmaku_search_action"

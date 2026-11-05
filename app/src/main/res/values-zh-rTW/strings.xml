@@ -593,8 +593,8 @@
     <string name="home_load_retry">重試</string>
     <string name="home_source_empty">尚未新增點播來源，新增後即可載入電影和劇集</string>
     <string name="home_source_add">新增點播來源</string>
-    <string name="error_play_next">已经是最后一集了！</string>
-    <string name="error_play_prev">已经是第一集了！</string>
+    <string name="error_play_next">已经是最后一集了</string>
+    <string name="error_play_prev">已经是第一集了</string>
     <string name="error_play_parse">播放地址解析失败</string>
     <string name="error_play_drm">此设备不支持所需的 DRM scheme</string>
     <string name="error_play_url">播放地址加载失败</string>

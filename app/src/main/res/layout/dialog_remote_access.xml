@@ -133,14 +133,14 @@
                     android:id="@+id/regenerate"
                     style="@style/Widget.IBox.Button.Text"
                     android:layout_width="wrap_content"
-                    android:layout_height="44dp"
+                    android:layout_height="@dimen/ibox_control_height"
                     android:text="@string/remote_regenerate" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/disconnect"
                     style="@style/Widget.IBox.Button.Text"
                     android:layout_width="wrap_content"
-                    android:layout_height="44dp"
+                    android:layout_height="@dimen/ibox_control_height"
                     android:layout_marginStart="4dp"
                     android:text="@string/remote_disconnect_all" />
             </androidx.appcompat.widget.LinearLayoutCompat>
